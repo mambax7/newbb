@@ -47,7 +47,8 @@ class OnlineHandler
 
     /**
      * @param null|Forum $forum
-     * @param Topic|null       $forumtopic
+     * @param Topic|null $forumtopic
+     * @throws \Exception
      */
     public function init(Forum $forum = null, Topic $forumtopic = null): void
     {
