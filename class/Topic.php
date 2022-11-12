@@ -155,7 +155,7 @@ class Topic extends \XoopsObject
         if ($pollModuleHandler->getVar('version') >= 140) {
             /** @var \XoopsModules\Xoopspoll\PollHandler $pollHandler */
             $pollHandler = Xoopspoll\Helper::getInstance()->getHandler('Poll');
-            if (false !== $pollHandler->deleteAll(new \Criteria('poll_id', $poll_id, '='))) {
+            if ($pollHandler->deleteAll(new \Criteria('poll_id', $poll_id, '='))) {
                 /** @var \XoopsModules\XoopsPoll\OptionHandler $optionHandler */
                 $optionHandler = \XoopsModules\Xoopspoll\Helper::getInstance()->getHandler('Option');
                 $optionHandler->deleteAll(new \Criteria('poll_id', $poll_id, '='));

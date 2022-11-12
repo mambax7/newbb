@@ -187,7 +187,7 @@ Utility::cleanCache();
  */
 function return_bytes($sizeAsString, $b = false)
 {
-    if (false !== $b) {
+    if ($b) {
         $base   = log($sizeAsString) / log(1024);
         $suffix = ['', 'KB', 'MB', 'GB', 'TB'];
 
