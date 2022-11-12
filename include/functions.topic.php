@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -28,9 +28,9 @@ if (!defined('NEWBB_FUNCTIONS_TOPIC')) {
     }
 
     /**
-     * @param         $topicTitle
-     * @param null    $prefixName
-     * @param null    $prefixColor
+     * @param string      $topicTitle
+     * @param string|null $prefixName
+     * @param string|null $prefixColor
      * @return string
      */
     function getTopicTitle($topicTitle, $prefixName = null, $prefixColor = null)

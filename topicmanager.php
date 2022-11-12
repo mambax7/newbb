@@ -186,7 +186,7 @@ if (Request::getString('submit', '', 'POST')) {
             }
             $criteria_topic = new \Criteria('topic_id', $tid);
             $criteria       = new \CriteriaCompo($criteria_topic);
-            $criteria->add(new \Criteria('pid', 0));
+            $criteria->add(new \Criteria('pid', '0'));
             // irmtfan OR change to this for less query?:
             // $postHandler->updateAll("pid", $newtopicObject->getVar("topic_last_post_id"), $criteria, true);
             $postHandler->updateAll('pid', $topicHandler->getTopPostId($newtopic), $criteria, true);

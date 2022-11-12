@@ -3,7 +3,7 @@
 namespace XoopsModules\Newbb;
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -13,10 +13,10 @@ namespace XoopsModules\Newbb;
 class KarmaHandler
 {
     /**
-     * @param null $user
+     * @param \XoopsUser|null $user
      * @return int
      */
-    public function getUserKarma($user = null)
+    public function getUserKarma(\XoopsUser $user = null)
     {
         $user = $user ?? $GLOBALS['xoopsUser'];
 
@@ -25,10 +25,10 @@ class KarmaHandler
 
     /**
      * Placeholder for calculating user karma
-     * @param \XoopsUser $user
+     * @param \XoopsUser|null $user
      * @return int
      */
-    public function calculateUserKarma($user)
+    public function calculateUserKarma(\XoopsUser $user = null)
     {
         if (\is_object($user)) {
             $user_karma = $user->getVar('posts') * 50;

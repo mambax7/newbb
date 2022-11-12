@@ -18,13 +18,15 @@ use Xmf\Database\TableLoad;
 use Xmf\Request;
 use Xmf\Yaml;
 use XoopsModules\Newbb\{
-    Helper,
     Common\Configurator,
+    Helper,
     Utility
 };
+
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var Configurator $configurator */
+
 require \dirname(__DIR__, 3) . '/include/cp_header.php';
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -75,10 +77,13 @@ function loadSampleData(): void
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
+    $helper = Helper::getInstance();
     $utility      = new Utility();
     $configurator = new Configurator();
 
-    $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
+//    $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
+    $tables = $helper->getModule()
+                     ->getInfo('tables');
 
     $language = 'english/';
     if (is_dir(__DIR__ . '/' . $xoopsConfig['language'])) {
@@ -95,7 +100,7 @@ function loadSampleData(): void
     // load permissions
     $table     = 'group_permission';
     $tabledata = Yaml::readWrapped($language . $table . '.yml');
-    $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
+    $mid       = $helper->getModule()->getVar('mid');
     loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
     //  ---  COPY test folder files ---------------

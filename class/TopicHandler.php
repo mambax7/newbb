@@ -3,7 +3,7 @@
 namespace XoopsModules\Newbb;
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -462,7 +462,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      */
     public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
     {
-        $this->deleteAll(new \Criteria('topic_time', 0), true, true);
+        $this->deleteAll(new \Criteria('topic_time', '0'), true, true);
         parent::cleanOrphan($this->db->prefix('newbb_forums'), 'forum_id');
         parent::cleanOrphan($this->db->prefix('newbb_posts'), 'topic_id');
 
@@ -486,7 +486,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
         if (empty($expire)) {
             return false;
         }
-        $crit_expire = new \CriteriaCompo(new \Criteria('approved', 0, '<='));
+        $crit_expire = new \CriteriaCompo(new \Criteria('approved', '0', '<='));
         $crit_expire->add(new \Criteria('topic_time', \time() - (int)$expire, '<'));
 
         return $this->deleteAll($crit_expire, true/*, true*/);
@@ -512,7 +512,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
         $postHandler = Helper::getInstance()->getHandler('Post');
         $criteria    = new \CriteriaCompo();
         $criteria->add(new \Criteria('topic_id', (string)$object->getVar('topic_id')), 'AND');
-        $criteria->add(new \Criteria('approved', 1), 'AND');
+        $criteria->add(new \Criteria('approved', '1'), 'AND');
         $post_ids = $postHandler->getIds($criteria);
         if (empty($post_ids)) {
             return false;
@@ -581,7 +581,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
         }
         // if only one active poll module still we need to check!!!
         //if(count($pollDirs) === 1) return end($pollDirs);
-        $topicPollObjs = $this->getAll(new \Criteria('topic_haspoll', 1), ['topic_id', 'poll_id']);
+        $topicPollObjs = $this->getAll(new \Criteria('topic_haspoll', '1'), ['topic_id', 'poll_id']);
         if (empty($topicPollObjs)) {
             return true;
         } // no poll or no topic!!!

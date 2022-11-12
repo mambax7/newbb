@@ -154,7 +154,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
         $criteria_topic->setOrder('DESC');
         $criteria_topic->setLimit($this->items_per_forum);
         $criteria_sticky = new \CriteriaCompo(new \Criteria('forum_id', $forum_id));
-        $criteria_sticky->add(new \Criteria('topic_sticky', 1));
+        $criteria_sticky->add(new \Criteria('topic_sticky', '1'));
 
         if (empty($status)) {
             $items_id  = $itemHandler->getIds($criteria_topic);

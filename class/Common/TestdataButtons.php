@@ -22,8 +22,6 @@ namespace XoopsModules\Newbb\Common;
 use Xmf\Yaml;
 use XoopsModules\Newbb\Helper;
 
-/** @var Helper $helper */
-
 /**
  * Class SysUtility
  */
@@ -44,8 +42,9 @@ class TestdataButtons
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-        $helper              = Helper::getInstance();
-        $yamlFile            = $helper->path('/config/admin.yml');
+        /** @var Helper $helper */
+        $helper   = Helper::getInstance();
+        $yamlFile = $helper->path('/config/admin.yml');
         /** @var array $config */
         $config              = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
         $displaySampleButton = $config['displaySampleButton'];

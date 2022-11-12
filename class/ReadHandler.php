@@ -33,6 +33,10 @@ namespace XoopsModules\Newbb;
 class ReadHandler extends \XoopsPersistableObjectHandler
 {
     /**
+     * @var \XoopsMySQLDatabase $db
+     */
+    public $db;
+    /**
      * Object type.
      * <ul>
      *  <li>forum</li>
@@ -68,10 +72,10 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     public $mode;
 
     /**
-     * @param \XoopsDatabase     $db
-     * @param                    $type
+     * @param null|\XoopsMySQLDatabase $db
+     * @param                     $type
      */
-    public function __construct(\XoopsDatabase $db, $type)
+    public function __construct(\XoopsMySQLDatabase $db, $type)
     {
         $type = ('forum' === $type) ? 'forum' : 'topic';
         parent::__construct($db, 'newbb_reads_' . $type, Read::class . $type, 'read_id', 'post_id');
@@ -115,11 +119,11 @@ class ReadHandler extends \XoopsPersistableObjectHandler
         return true;
     }
 
-    // END irmtfan rephrase function to 1- add clearDuplicate and 2- dont clean when read_expire = 0
+    // END irmtfan rephrase function to 1- add clearDuplicate and 2- don't clean when read_expire = 0
 
     /**
-     * @param                  $read_item
-     * @param null             $uid
+     * @param int  $read_item
+     * @param int|null $uid
      * @return bool|mixed|null
      */
     public function getRead($read_item, $uid = null)
@@ -135,7 +139,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $item_id
+     * @param int $item_id
      * @return mixed
      */
     public function getReadCookie($item_id)
@@ -149,8 +153,8 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $read_item
-     * @param $uid
+     * @param int $read_item
+     * @param int $uid
      * @return bool|null
      */
     public function getReadDb($read_item, $uid)
@@ -163,7 +167,6 @@ class ReadHandler extends \XoopsPersistableObjectHandler
             }
         }
         $sql = 'SELECT post_id ' . ' FROM ' . $this->table . ' WHERE read_item = ' . (int)$read_item . '     AND uid = ' . (int)$uid;
-
         $result = $this->db->queryF($sql, 1);
         if (!$this->db->isResultSet($result)) {
             //                \trigger_error("Query Failed! SQL: $sql- Error: " . $this->db->error(), E_USER_ERROR);
@@ -176,9 +179,9 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param                  $read_item
-     * @param                  $post_id
-     * @param null             $uid
+     * @param int      $read_item
+     * @param int      $post_id
+     * @param int|null $uid
      * @return bool|mixed|void
      */
     public function setRead($read_item, $post_id, $uid = null)
@@ -195,10 +198,10 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $read_item
-     * @param $post_id
+     * @param int $read_item
+     * @param int $post_id
      */
-    public function setReadCookie($read_item, $post_id): void
+    public function setReadCookie($read_item, $post_id)
     {
         $cookie_name          = ('forum' === $this->type) ? 'LF' : 'LT';
         $lastview             = \newbbGetCookie($cookie_name, true);
@@ -207,9 +210,9 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $read_item
-     * @param $post_id
-     * @param $uid
+     * @param int $read_item
+     * @param int $post_id
+     * @param int $uid
      * @return bool|mixed
      */
     public function setReadDb($read_item, $post_id, $uid)
@@ -236,8 +239,8 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param             $items
-     * @param null        $uid
+     * @param array       $items
+     * @param string|null $uid
      * @return array|null
      */
     public function isReadItems($items, $uid = null)
@@ -257,7 +260,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $items
+     * @param array $items
      * @return array
      */
     public function isReadItemsCookie($items)
@@ -274,8 +277,8 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $items
-     * @param $uid
+     * @param array $items
+     * @param string $uid
      * @return array
      */
     public function isReadItemsDb($items, $uid)

@@ -63,7 +63,7 @@ if (Request::hasVar('submit', 'POST')) {
     $digest      = Request::getInt('digest', 0, 'POST');
     $lock        = Request::getInt('lock', 0, 'POST');
     $hot         = Request::getInt('hot', 0, 'POST');
-    $store       = Request::getInt('store', null, 'POST');
+    $store       = Request::getInt('store', 0, 'POST');
 
     $sql = 'SELECT t.topic_id FROM ' . $GLOBALS['xoopsDB']->prefix('newbb_topics') . ' t, ' . $GLOBALS['xoopsDB']->prefix('newbb_posts') . '  p
                     WHERE t.forum_id IN (' . $selected_forums . ')
@@ -117,7 +117,7 @@ if (Request::hasVar('submit', 'POST')) {
     // OKZ Now we have al posts id and topics id
     if ('' !== $post_list) {
         // COPY POSTS TO OTHER FORUM
-        if (null !== $store) {
+        if (0 < $store) {
             $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('newbb_posts') . " SET forum_id=$store WHERE topic_id IN ($topic_list)";
             if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
                 return _MD_NEWBB_ERROR;
@@ -166,8 +166,8 @@ if (Request::hasVar('submit', 'POST')) {
 
     $tform = new \XoopsThemeForm(_AM_NEWBB_PRUNE_RESULTS_TITLE, 'prune_results', xoops_getenv('SCRIPT_NAME'));
     $tform->addElement(new \XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_FORUMS, $selected_forums));
-    $tform->addElement(new \XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_TOPICS, $topics_number));
-    $tform->addElement(new \XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_POSTS, $posts_number));
+    $tform->addElement(new \XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_TOPICS, (string)$topics_number));
+    $tform->addElement(new \XoopsFormLabel(_AM_NEWBB_PRUNE_RESULTS_POSTS, (string)$posts_number));
     $tform->display();
 } else {
     $sform = new \XoopsThemeForm(_AM_NEWBB_PRUNE_TITLE, 'prune', xoops_getenv('SCRIPT_NAME'));
@@ -224,19 +224,19 @@ if (Request::hasVar('submit', 'POST')) {
 
     $sform->addElement(/*$checkbox*/ $forumEle); // irmtfan
 
-    $sticky_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_STICKY, 'sticky', 1);
-    $sticky_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $sticky_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $sticky_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_STICKY, 'sticky', '1');
+    $sticky_confirmation->addOption('1', _AM_NEWBB_PRUNE_YES);
+    $sticky_confirmation->addOption('0', _AM_NEWBB_PRUNE_NO);
     $sform->addElement($sticky_confirmation);
 
-    $digest_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_DIGEST, 'digest', 1);
-    $digest_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $digest_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $digest_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_DIGEST, 'digest', '1');
+    $digest_confirmation->addOption('1', _AM_NEWBB_PRUNE_YES);
+    $digest_confirmation->addOption('0', _AM_NEWBB_PRUNE_NO);
     $sform->addElement($digest_confirmation);
 
-    $lock_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_LOCK, 'lock', 0);
-    $lock_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $lock_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $lock_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_LOCK, 'lock', '0');
+    $lock_confirmation->addOption('1', _AM_NEWBB_PRUNE_YES);
+    $lock_confirmation->addOption('0', _AM_NEWBB_PRUNE_NO);
     $sform->addElement($lock_confirmation);
 
     $hot_confirmation = new \XoopsFormSelect(_AM_NEWBB_PRUNE_HOT, 'hot', null, 1, false);
@@ -255,9 +255,9 @@ if (Request::hasVar('submit', 'POST')) {
 
     $sform->addElement(/*$radiobox*/ $storeEle); // irmtfan
 
-    $archive_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_ARCHIVE, 'archive', 1);
-    $archive_confirmation->addOption(1, _AM_NEWBB_PRUNE_YES);
-    $archive_confirmation->addOption(0, _AM_NEWBB_PRUNE_NO);
+    $archive_confirmation = new \XoopsFormRadio(_AM_NEWBB_PRUNE_ARCHIVE, 'archive', '1');
+    $archive_confirmation->addOption('1', _AM_NEWBB_PRUNE_YES);
+    $archive_confirmation->addOption('0', _AM_NEWBB_PRUNE_NO);
     $sform->addElement($archive_confirmation);
 
     $buttonTray = new \XoopsFormElementTray('', '');

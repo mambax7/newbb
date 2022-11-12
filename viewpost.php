@@ -80,22 +80,22 @@ $join = null;
 // START irmtfan solve the status issues and specially status = new issue
 switch ($status) {
     case 'pending':
-        $criteria_count->add(new \Criteria('approved', 0)); // irmtfan add new \Criteria
-        $criteria_post->add(new \Criteria('p.approved', 0)); // irmtfan add new \Criteria
+        $criteria_count->add(new \Criteria('approved', '0')); // irmtfan add new \Criteria
+        $criteria_post->add(new \Criteria('p.approved', '0')); // irmtfan add new \Criteria
         break;
     case 'deleted':
-        $criteria_count->add(new \Criteria('approved', -1)); // irmtfan add new \Criteria
-        $criteria_post->add(new \Criteria('p.approved', -1)); // irmtfan add new \Criteria
+        $criteria_count->add(new \Criteria('approved', '-1')); // irmtfan add new \Criteria
+        $criteria_post->add(new \Criteria('p.approved', '-1')); // irmtfan add new \Criteria
         break;
     case 'new':
-        //$criteria_status_count = new \CriteriaCompo(new \Criteria("post_time", (int)($last_visit), ">"));// irmtfan commented and removed
-        //$criteria_status_post = new \CriteriaCompo(new \Criteria("p.post_time", (int)($last_visit), ">"));// irmtfan commented and removed
-        $criteria_count->add(new \Criteria('approved', 1)); // irmtfan uncomment
-        $criteria_post->add(new \Criteria('p.approved', 1)); // irmtfan uncomment
+        //$criteria_status_count = new \CriteriaCompo(new \Criteria("post_time", $last_visit, ">"));// irmtfan commented and removed
+        //$criteria_status_post = new \CriteriaCompo(new \Criteria("p.post_time", $last_visit, ">"));// irmtfan commented and removed
+        $criteria_count->add(new \Criteria('approved', '1')); // irmtfan uncomment
+        $criteria_post->add(new \Criteria('p.approved', '1')); // irmtfan uncomment
         // following is for 'unread' -- not finished -- irmtfan Now it is finished!
         if (empty($GLOBALS['xoopsModuleConfig']['read_mode'])) {
-            //$criteria_status_count->add(new \Criteria('approved', 1));// irmtfan commented and removed
-            //$criteria_status_post->add(new \Criteria('p.approved', 1));// irmtfan commented and removed
+            //$criteria_status_count->add(new \Criteria('approved', '1'));// irmtfan commented and removed
+            //$criteria_status_post->add(new \Criteria('p.approved', '1'));// irmtfan commented and removed
         } elseif (2 == $GLOBALS['xoopsModuleConfig']['read_mode']) {
             // START irmtfan use read_uid to find the unread posts when the user is logged in
             $read_uid = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
@@ -109,11 +109,11 @@ switch ($status) {
             }
 
             // END irmtfan use read_uid to find the unread posts when the user is logged in
-            //$criteria_status_post->add(new \Criteria("p.approved", 1)); // irmtfan commented and removed
+            //$criteria_status_post->add(new \Criteria("p.approved", '1')); // irmtfan commented and removed
             //$criteria_status_count =& $criteria_status_post;
         } elseif (1 == $GLOBALS['xoopsModuleConfig']['read_mode']) {
-            $criteria_count->add(new \Criteria('post_time', (int)$last_visit, '>')); // irmtfan add new \Criteria
-            $criteria_post->add(new \Criteria('p.post_time', (int)$last_visit, '>')); // irmtfan add new \Criteria
+            $criteria_count->add(new \Criteria('post_time', $last_visit, '>')); // irmtfan add new \Criteria
+            $criteria_post->add(new \Criteria('p.post_time', $last_visit, '>')); // irmtfan add new \Criteria
             // START irmtfan fix read_mode = 1 bugs - for all users (member and anon)
             $topics         = [];
             $topic_lastread = newbbGetCookie('LT', true);
@@ -129,13 +129,13 @@ switch ($status) {
                 $criteria_post->add(new \Criteria('p.topic_id', '(' . implode(',', $topics) . ')', 'NOT IN'));
             }
             // END irmtfan fix read_mode = 1 bugs - for all users (member and anon)
-            //$criteria_status_count->add(new \Criteria("approved", 1));// irmtfan commented and removed
-            //$criteria_status_post->add(new \Criteria("p.approved", 1));// irmtfan commented and removed
+            //$criteria_status_count->add(new \Criteria("approved", '1'));// irmtfan commented and removed
+            //$criteria_status_post->add(new \Criteria("p.approved", '1'));// irmtfan commented and removed
         }
         break;
     default:
-        $criteria_count->add(new \Criteria('approved', 1)); // irmtfan add new \Criteria
-        $criteria_post->add(new \Criteria('p.approved', 1)); // irmtfan add new \Criteria
+        $criteria_count->add(new \Criteria('approved', '1')); // irmtfan add new \Criteria
+        $criteria_post->add(new \Criteria('p.approved', '1')); // irmtfan add new \Criteria
         break;
 }
 //$criteria_count->add($criteria_status_count); // irmtfan commented and removed

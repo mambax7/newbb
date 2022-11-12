@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -22,12 +22,12 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
      * Sorry, we have to use the stupid solution unless there is an option in MyTextSanitizer:: htmlspecialchars();
      */
     /**
-     * @param $text
-     * @return array|string|string[]|null
+     * @param string $text
+     * @return array|string|null
      */
-    function newbbhtmlspecialchars($text)
+    function newbbhtmlspecialchars(string $text)
     {
-        return preg_replace(['/&amp;/i', '/&nbsp;/i'], ['&', '&amp;nbsp;'], htmlspecialchars((string)$text, ENT_QUOTES | ENT_HTML5));
+        return preg_replace(['/&amp;/i', '/&nbsp;/i'], ['&', '&amp;nbsp;'], htmlspecialchars($text, ENT_QUOTES | ENT_HTML5));
     }
 
     /**

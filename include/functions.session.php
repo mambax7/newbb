@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -84,13 +84,13 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
     /**
      * @param             $name
      * @param bool        $isArray
-     * @return array|null|string
+     * @return array|string
      */
     function newbbGetCookie($name, $isArray = false)
     {
         global $forumCookie;
         //        $value = !empty($_COOKIE[$forumCookie['prefix'] . $name]) ? $_COOKIE[$forumCookie['prefix'] . $name] : null;
-        $value = Request::getString($forumCookie['prefix'] . $name, null, 'COOKIE');
+        $value = Request::getString($forumCookie['prefix'] . $name, '', 'COOKIE');
 
         if ($isArray) {
             $_value = $value ? explode(',', $value) : [];

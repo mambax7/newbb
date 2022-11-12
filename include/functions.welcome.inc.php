@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -10,9 +10,11 @@
  */
 
 use Xmf\IPAddress;
-use XoopsModules\Newbb\Helper;
+use XoopsModules\Newbb\{
+    Helper,
+    PermissionHandler
+};
 
-/** @var Helper $helper */
 global $xoopsModule, $myts, $xoopsUser, $forumObject;
 
 if (!defined('XOOPS_ROOT_PATH') || !is_object($forumObject) || !is_object($GLOBALS['xoopsUser'])
@@ -52,7 +54,7 @@ if ($mod) {
     if (!defined('_PROFILE_MA_ALLABOUT')) {
         $mod->loadLanguage();
     }
-    /** var Newbb\PermissionHandler $permHandler */
+    /** var PermissionHandler $permHandler */
     $permHandler = Helper::getInstance()->getHandler('Permission');
     $show_ids    = $permHandler->getItemIds('profile_show', $groups, $mod->getVar('mid'));
     $visible_ids = $permHandler->getItemIds('profile_visible', $groups, $mod->getVar('mid'));

@@ -21,6 +21,7 @@ function newbb_tag_block_cloud_show($options)
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
     }
+    require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';
     $block_content = tag_block_cloud_show($options, 'newbb');
 
     return $block_content;
@@ -35,6 +36,7 @@ function newbb_tag_block_cloud_edit($options)
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
     }
+    require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';
     $form = tag_block_cloud_edit($options);
 
     return $form;
@@ -50,6 +52,7 @@ function newbb_tag_block_top_show($options)
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
     }
+    require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';
     $block_content = tag_block_top_show($options, 'newbb');
 
     return $block_content;
@@ -64,6 +67,7 @@ function newbb_tag_block_top_edit($options)
     if (!@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php')) {
         return null;
     }
+    require_once XOOPS_ROOT_PATH . '/modules/tag/blocks/block.php';
     $form = tag_block_top_edit($options);
 
     return $form;

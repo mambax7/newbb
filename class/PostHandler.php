@@ -329,7 +329,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
             if ($post->isTopic()) {
                 $criteria = new \CriteriaCompo(new \Criteria('topic_id', $post->getVar('topic_id')));
                 $criteria->add(new \Criteria('approved', 1));
-                $criteria->add(new \Criteria('pid', 0, '>'));
+                $criteria->add(new \Criteria('pid', '0', '>'));
                 if ($this->getPostCount($criteria) > 0) {
                     return false;
                 }
@@ -543,7 +543,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      */
     public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
     {
-        $this->deleteAll(new \Criteria('post_time', 0), true, true);
+        $this->deleteAll(new \Criteria('post_time', '0'), true, true);
         parent::cleanOrphan($this->db->prefix('newbb_topics'), 'topic_id');
         parent::cleanOrphan($this->db->prefix('newbb_posts_text'), 'post_id');
 
@@ -573,7 +573,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
         if (empty($expire)) {
             return false;
         }
-        $crit_expire = new \CriteriaCompo(new \Criteria('approved', 0, '<='));
+        $crit_expire = new \CriteriaCompo(new \Criteria('approved', '0', '<='));
         //if (!empty($expire)) {
         $crit_expire->add(new \Criteria('post_time', \time() - (int)$expire, '<'));
 

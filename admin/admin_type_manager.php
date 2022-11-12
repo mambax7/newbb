@@ -51,14 +51,15 @@ if (!in_array($op, $validOps, true)) {
 ///** @var Newbb\TypeHandler $typeHandler */
 //$typeHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Type');
 $cacheHelper = new Cache('newbb');
+$fm_options = [];
 
 switch ($op) {
     case 'save_type':
-        $type_names0 = $_POST['type_name'];
-        $type_names  = Request::getArray('type_name', null, 'POST');
+//        $type_names0 = $_POST['type_name'];
+        $type_names  = Request::getArray('type_name', [], 'POST');
         $type_del    = [];
         foreach (array_keys($type_names) as $key) {
-            if (Request::getBool('isnew', '', 'POST')) {
+            if (Request::getBool('isnew', false, 'POST')) {
                 $typeObject = $typeHandler->create();
             } elseif (!$typeObject = $typeHandler->get($key)) {
                 continue;

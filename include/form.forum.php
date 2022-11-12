@@ -62,7 +62,7 @@ $form_forum->addElement(new \XoopsFormSelectUser(_AM_NEWBB_MODERATOR, 'forum_mod
 // Permission tray
 $perm_tray     = new \XoopsFormElementTray(_AM_NEWBB_PERMISSIONS_TO_THIS_FORUM, '');
 $perm_checkbox = new \XoopsFormCheckBox('', 'perm_template', $forumObject->isNew());
-$perm_checkbox->addOption(1, _AM_NEWBB_PERM_TEMPLATEAPP);
+$perm_checkbox->addOption('1', _AM_NEWBB_PERM_TEMPLATEAPP);
 $perm_tray->addElement($perm_checkbox);
 $perm_tray->addElement(new \XoopsFormLabel('', '<a href="admin_permissions.php?action=template" rel="external" title="">' . _AM_NEWBB_PERM_TEMPLATE . '</a>'));
 $form_forum->addElement($perm_tray);

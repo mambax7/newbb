@@ -48,12 +48,13 @@ final class Blocksadmin
 
     /**
      * Blocksadmin constructor.
-     * @param \XoopsDatabase|null $db
+     * @param \XoopsMySQLDatabase|null $db
      * @param Helper              $helper
      */
-    public function __construct(?\XoopsDatabase $db, Helper $helper)
+    public function __construct(?\XoopsMySQLDatabase $db, Helper $helper)
     {
-        if (null === $db) {
+        /** @var \XoopsMySQLDatabase $db */
+        if (null == $db) {
             $db = \XoopsDatabaseFactory::getDatabaseConnection();
         }
         $this->db                 = $db;
@@ -582,9 +583,8 @@ final class Blocksadmin
 
     /**
      * @param array|null $block
-     * @return void
      */
-    public function render(?array $block = null): void
+    public function render(?array $block = null)
     {
         \xoops_load('XoopsFormLoader');
         \xoops_loadLanguage('common', $this->moduleDirNameUpper);

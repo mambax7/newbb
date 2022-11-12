@@ -20,8 +20,7 @@ use XoopsModules\Newbb\TopicHandler;
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 require_once \dirname(__DIR__) . '/include/functions.recon.php';
-$form = '';
-$form .= $adminObject->displayNavigation(basename(__FILE__));
+$form = $adminObject->displayNavigation(basename(__FILE__));
 
 //if (!empty($_GET['type'])) {
 $start = Request::getInt('start', 0, 'GET'); //(int)( @$_GET['start'] );
@@ -39,7 +38,7 @@ switch (Request::getString('type', '', 'GET')) {// @$_GET['type'])
         $limit = Request::getInt('limit', 1000, 'POST'); //empty($_GET['limit']) ? 1000 : (int)($_GET['limit']);
         // /** @var Newbb\TopicHandler $topicHandler */
         //        $topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
-        $criteria = new \Criteria('approved', 1);
+        $criteria = new \Criteria('approved', '1');
         if ($start >= ($count = $topicHandler->getCount($criteria))) {
             break;
         }

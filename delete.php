@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -10,17 +10,18 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Newbb\{
-    OnlineHandler,
-    Post,
-    StatsHandler
-};
-/** @var StatsHandler $statsHandler */
-/** @var OnlineHandler $onlineHandler */
-/** @var Post $postObject */
-/** @var ForumHandler $forumHandler */
-/** @var TopicHandler $topicHandler */
-/** @var PostHandler $postHandler */
+//use XoopsModules\Newbb\{
+//    OnlineHandler,
+//    Post,
+//    StatsHandler
+//};
+/** @var XoopsModules\Newbb\StatsHandler $statsHandler */
+/** @var XoopsModules\Newbb\OnlineHandler $onlineHandler */
+///** @var XoopsModules\Newbb\Post $postObject */
+/** @var XoopsModules\Newbb\ForumHandler $forumHandler */
+/** @var XoopsModules\Newbb\TopicHandler $topicHandler */
+/** @var XoopsModules\Newbb\PostHandler $postHandler */
+
 require_once __DIR__ . '/header.php';
 
 $ok = Request::getInt('ok', 0, 'POST');
@@ -38,11 +39,11 @@ foreach (['forum', 'topic_id', 'post_id', 'order', 'pid', 'act'] as $getint) {
 $viewmode = (Request::getString('viewmode', '', 'GET') && 'flat' !== Request::getString('viewmode', '', 'GET')) ? 'thread' : 'flat';
 $viewmode = $viewmode ?: (Request::getString('viewmode', '', 'POST') ?: 'flat');
 
-///** @var Newbb\ForumHandler $forumHandler */
+///** @var XoopsModules\Newbb\ForumHandler $forumHandler */
 //$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
-///** @var Newbb\TopicHandler $topicHandler */
+///** @var XoopsModules\Newbb\TopicHandler $topicHandler */
 //$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
-///** @var Newbb\PostHandler $postHandler */
+/** @var XoopsModules\Newbb\PostHandler $postHandler */
 //$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
 
 if (!empty($post_id)) {

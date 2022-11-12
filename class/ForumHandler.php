@@ -376,7 +376,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
                 $topic_excerpt = '';
             } else {
                 $topic_excerpt = \xoops_substr(\newbbHtml2text($myts->displayTarea($myrow['post_text'])), 0, $excerpt);
-                $topic_excerpt = \str_replace('[', '&#91;', \htmlspecialchars((string)$topic_excerpt, \ENT_QUOTES | \ENT_HTML5));
+                $topic_excerpt = \str_replace('[', '&#91;', \htmlspecialchars($topic_excerpt, \ENT_QUOTES | \ENT_HTML5));
             }
             // START irmtfan move here
 

@@ -4,8 +4,6 @@ namespace XoopsModules\Newbb;
 
 use Xmf\Module\Helper\Cache;
 
-/** @var Helper $helper */
-
 /**
  * Class Utility
  */
@@ -38,6 +36,7 @@ class Utility extends Common\SysUtility
      */
     public static function userIsAdmin()
     {
+        /** @var Helper $helper */
         $helper = Helper::getInstance();
 
         static $newbbIsAdmin;

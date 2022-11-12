@@ -3,7 +3,7 @@
 namespace XoopsModules\Newbb;
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -992,7 +992,7 @@ class TopicRenderer
                 $topic_excerpt = '';
             } else {
                 $topic_excerpt = \xoops_substr(\newbbHtml2text($myts->displayTarea($myrow['post_text'])), 0, $this->config['post_excerpt']);
-                $topic_excerpt = \str_replace('[', '&#91;', \htmlspecialchars((string)$topic_excerpt, \ENT_QUOTES | \ENT_HTML5));
+                $topic_excerpt = \str_replace('[', '&#91;', \htmlspecialchars($topic_excerpt, \ENT_QUOTES | \ENT_HTML5));
             }
 
             $topics[$myrow['topic_id']] = [

@@ -31,7 +31,7 @@ function b_sitemap_newbb()
     /* fetch top forums */
     $forums_top_id = [];
     if (!empty($forums_allowed)) {
-        $crit_top = new \CriteriaCompo(new \Criteria('parent_forum', 0));
+        $crit_top = new \CriteriaCompo(new \Criteria('parent_forum', '0'));
         //$crit_top->add(new \Criteria("cat_id", "(".implode(", ", array_keys($categories)).")", "IN"));
         $crit_top->add(new \Criteria('forum_id', '(' . implode(', ', $forums_allowed) . ')', 'IN'));
         $forums_top_id = $forumHandler->getIds($crit_top);

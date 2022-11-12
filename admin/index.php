@@ -38,8 +38,8 @@ $folder      = [$attach_path, $thumb_path];
 $adminObject = Admin::getInstance();
 
 /**
- * @param       $target
- * @param int   $mode
+ * @param string $target
+ * @param int    $mode
  * @return bool
  */
 function newbb_admin_mkdir($target, $mode = 0777)
@@ -51,7 +51,7 @@ function newbb_admin_mkdir($target, $mode = 0777)
 }
 
 /**
- * @param       $target
+ * @param string $target
  * @param int   $mode
  * @return bool
  */
@@ -136,7 +136,7 @@ $adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_IMAGEMAGICK . ' %s', array_key_ex
 $adminObject->addInfoBoxLine(sprintf('NetPBM' . ': %s', array_key_exists('netpbm', $imageLibs) ? _AM_NEWBB_AUTODETECTED . $imageLibs['netpbm'] : _AM_NEWBB_NOTAVAILABLE));
 $adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_GDLIB . ' %s', array_key_exists('gd', $imageLibs) ? _AM_NEWBB_AUTODETECTED . $imageLibs['gd'] : _AM_NEWBB_NOTAVAILABLE));
 $adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_UPLOAD . ' %s', $uploadlimit));
-$adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_INDEX_PDF_PAGE . '', ''));
+$adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_INDEX_PDF_PAGE . ' ', ''));
 
 $adminObject->addInfoBox(_AM_NEWBB_BOARDSUMMARY);
 $adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_TOTALTOPICS . ': %s', getTotalTopics()));
@@ -144,8 +144,8 @@ $adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_TOTALPOSTS . ': %s', getTotalPost
 $adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_TOTALVIEWS . ': %s', getTotalViews()));
 
 $adminObject->addInfoBox(_AM_NEWBB_REPORT);
-$adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_REPORT_PENDING . ': %s', $reportHandler->getCount(new \Criteria('report_result', 0))));
-$adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_REPORT_PROCESSED . ': %s', $reportHandler->getCount(new \Criteria('report_result', 1))));
+$adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_REPORT_PENDING . ': %s', $reportHandler->getCount(new \Criteria('report_result', '0'))));
+$adminObject->addInfoBoxLine(sprintf(_AM_NEWBB_REPORT_PROCESSED . ': %s', $reportHandler->getCount(new \Criteria('report_result', '1'))));
 
 $uploadFolders = $configurator->uploadFolders;
 foreach ($uploadFolders as $value) {
@@ -160,7 +160,7 @@ if ($helper->getConfig('displaySampleButton')) {
     TestdataButtons::loadButtonConfig($adminObject);
     $adminObject->displayButton('left', '');
 }
-$op = Request::getString('op', 0, 'GET');
+$op = Request::getString('op', '', 'GET');
 switch ($op) {
     case 'hide_buttons':
         TestdataButtons::hideButtons();

@@ -74,7 +74,7 @@ switch ($op) {
         if ($useravgrating > 0) {
             //            $useravgrating = $useravgrating / $uservotes;
             $useravgrating /= $uservotes;
-            $useravgrating = number_format($useravgrating, 2);
+            $useravgrating = number_format((float)$useravgrating, 2);
         }
 
         xoops_cp_header();
@@ -116,7 +116,7 @@ switch ($op) {
         <td class='head' align='center'>$ratingid</td>\n
         <td class='even' align='center'>$ratinguname</td>\n
         <td class='even' align='center' >$ratinghostname</td>\n
-        <td class='even' align='left'><a href='" . XOOPS_URL . '/modules/newbb/viewtopic.php?topic_id=' . $topic_id . "' target='topic'>" . htmlspecialchars((string)(isset($down_array['topic_title'])??''), ENT_QUOTES | ENT_HTML5) . "</a></td>\n
+        <td class='even' align='left'><a href='" . XOOPS_URL . '/modules/newbb/viewtopic.php?topic_id=' . $topic_id . "' target='topic'>" . htmlspecialchars(($down_array['topic_title']) ?? '', ENT_QUOTES | ENT_HTML5) . "</a></td>\n
         <td class='even' align='center'>$rating</td>\n
         <td class='even' align='center'>$formatted_date</td>\n
         <td class='even' align='center'><strong><a href='admin_votedata.php?op=delvotes&amp;topic_id=$topic_id&amp;rid=$ratingid'>" . newbbDisplayImage('p_delete', _DELETE) . "</a></strong></td>\n
@@ -126,7 +126,7 @@ switch ($op) {
         echo '</td></tr></table>';
         //Include page navigation
         require_once $GLOBALS['xoops']->path('class/pagenav.php');
-        $page    = ($votes > 10) ? _AM_NEWBB_INDEX_PAGE : '';
+        $page    = ($votes > 10) ? _AM_NEWBB_INDEX_PAGE : 0;
         $pagenav = new \XoopsPageNav($page, 20, $start, 'start');
         echo '<div align="right" style="padding: 8px;">' . $page . '' . $pagenav->renderImageNav(4) . '</div>';
         echo '<fieldset>';

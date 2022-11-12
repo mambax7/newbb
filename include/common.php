@@ -71,7 +71,7 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
 //                     <img src='" . NEWBB_AUTHOR_LOGOIMG . "' alt='XOOPS Project' ></a>";
 //
 
-//This is needed or it will not work in blocks.
+//This is needed, or it will not work in blocks.
 //global $newbbIsAdmin;
 
 // Load only if module is installed
@@ -82,45 +82,45 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
 
 //$db = \XoopsDatabaseFactory::getDatabaseConnection();
 
-/** @var Newbb\CategoryHandler $categoryHandler */
+/** @var XoopsModules\Newbb\CategoryHandler $categoryHandler */
 $categoryHandler = $helper->getHandler('Category');
-/** @var Newbb\DigestHandler $digestHandler */
+/** @var XoopsModules\Newbb\DigestHandler $digestHandler */
 $digestHandler = $helper->getHandler('Digest');
-/** @var Newbb\ForumHandler $forumHandler */
+/** @var XoopsModules\Newbb\ForumHandler $forumHandler */
 $forumHandler = $helper->getHandler('Forum');
-/** @var Newbb\IconHandler $iconHandler */
+/** @var XoopsModules\Newbb\IconHandler $iconHandler */
 $iconHandler = $helper->getHandler('Icon');
-/** @var Newbb\KarmaHandler $karmaHandler */
+/** @var XoopsModules\Newbb\KarmaHandler $karmaHandler */
 $karmaHandler = $helper->getHandler('Karma');
-/** @var Newbb\ModerateHandler $moderateHandler */
+/** @var XoopsModules\Newbb\ModerateHandler $moderateHandler */
 $moderateHandler = $helper->getHandler('Moderate');
-/** @var Newbb\OnlineHandler $onlineHandler */
+/** @var XoopsModules\Newbb\OnlineHandler $onlineHandler */
 $onlineHandler = $helper->getHandler('Online');
 /** var Newbb\PermissionHandler $permHandler */
 $permHandler = $helper->getHandler('Permission');
-/** @var Newbb\PostHandler $postHandler */
+/** @var XoopsModules\Newbb\PostHandler $postHandler */
 $postHandler = $helper->getHandler('Post');
-/** @var Newbb\RateHandler $rateHandler */
+/** @var XoopsModules\Newbb\RateHandler $rateHandler */
 $rateHandler = $helper->getHandler('Rate');
-/** @var Newbb\ReadHandler $readHandler */
+/** @var XoopsModules\Newbb\ReadHandler $readHandler */
 //$readHandler = $helper->getHandler('Read' . $type);
-/** @var Newbb\ReadforumHandler $ReadforumHandler */
+/** @var XoopsModules\Newbb\ReadforumHandler $ReadforumHandler */
 $ReadforumHandler = $helper->getHandler('Readforum');
-/** @var Newbb\ReadtopicHandler $readTopicHandler */
+/** @var XoopsModules\Newbb\ReadtopicHandler $readTopicHandler */
 $readTopicHandler = $helper->getHandler('Readtopic');
-/** @var Newbb\ReportHandler $reportHandler */
+/** @var XoopsModules\Newbb\ReportHandler $reportHandler */
 $reportHandler = $helper->getHandler('Report');
-/** @var Newbb\StatsHandler $statsHandler */
+/** @var XoopsModules\Newbb\StatsHandler $statsHandler */
 $statsHandler = $helper->getHandler('Stats');
-/** @var Newbb\TextHandler $textHandler */
+/** @var XoopsModules\Newbb\TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
-/** @var Newbb\TopicHandler $topicHandler */
+/** @var XoopsModules\Newbb\TopicHandler $topicHandler */
 $topicHandler = $helper->getHandler('Topic');
-/** @var Newbb\TypeHandler $typeHandler */
+/** @var XoopsModules\Newbb\TypeHandler $typeHandler */
 $typeHandler = $helper->getHandler('Type');
-/** @var Newbb\UserstatsHandler $userstatsHandler */
+/** @var XoopsModules\Newbb\UserstatsHandler $userstatsHandler */
 $userstatsHandler = $helper->getHandler('Userstats');
-/** @var Newbb\XmlrssHandler $xmlrssHandler */
+/** @var XoopsModules\Newbb\XmlrssHandler $xmlrssHandler */
 $xmlrssHandler = $helper->getHandler('Xmlrss');
 
 $pathIcon16 = Admin::iconUrl('', '16');
@@ -164,7 +164,7 @@ if (is_object($helper->getModule())) {
 
 xoops_loadLanguage('main', $moduleDirName);
 if (class_exists('D3LanguageManager')) {
-    require_once XOOPS_TRUST_PATH . "/libs/altsys/class/D3LanguageManager.class.php";
+    require_once XOOPS_TRUST_PATH . '/libs/altsys/class/D3LanguageManager.class.php';
     $langman = D3LanguageManager::getInstance();
     $langman->read('main.php', $moduleDirName);
 }

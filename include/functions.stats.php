@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -60,7 +60,7 @@ if (!defined('NEWBB_FUNCTIONS_STATS')) {
     function getTotalTopics($forum_id = '')
     {
         $topicHandler = Helper::getInstance()->getHandler('Topic');
-        $criteria     = new \CriteriaCompo(new \Criteria('approved', 0, '>'));
+        $criteria     = new \CriteriaCompo(new \Criteria('approved', '0', '>'));
         if ($forum_id) {
             $criteria->add(new \Criteria('forum_id', (int)$forum_id));
         }
@@ -80,7 +80,7 @@ if (!defined('NEWBB_FUNCTIONS_STATS')) {
     function getTotalPosts($id = 0, $type = 'all')
     {
         $postHandler = Helper::getInstance()->getHandler('Post');
-        $criteria    = new \CriteriaCompo(new \Criteria('approved', 0, '>'));
+        $criteria    = new \CriteriaCompo(new \Criteria('approved', '0', '>'));
         switch ($type) {
             case 'forum':
                 if ($id > 0) {

@@ -17,6 +17,9 @@ namespace XoopsModules\Newbb\Common;
  * @license     GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author      mamba <mambax7@gmail.com>
  */
+
+use Xmf\Module\Helper;
+
 trait VersionChecks
 {
     /**
@@ -94,7 +97,7 @@ trait VersionChecks
      *
      * @return string|array info about the latest module version, if newer
      */
-    public static function checkVerModule(\Xmf\Module\Helper $helper, ?string $source = 'github', ?string $default = 'master'): ?array
+    public static function checkVerModule(Helper $helper, ?string $source = 'github', ?string $default = 'master'): ?array
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);

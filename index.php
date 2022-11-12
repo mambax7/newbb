@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -98,7 +98,7 @@ $forums_allowed = $forumHandler->getIdsByPermission();
 $forums_top = [];
 
 if (!empty($forums_allowed)) {
-    $crit_top = new \CriteriaCompo(new \Criteria('parent_forum', 0));
+    $crit_top = new \CriteriaCompo(new \Criteria('parent_forum', '0'));
     $crit_top->add(new \Criteria('cat_id', '(' . implode(', ', array_keys($categories)) . ')', 'IN'));
     $crit_top->add(new \Criteria('forum_id', '(' . implode(', ', $forums_allowed) . ')', 'IN'));
     $forums_top = $forumHandler->getIds($crit_top);
@@ -151,7 +151,7 @@ if ($deleteposts > 0) {
 
 ///** @var Newbb\ReportHandler $reportHandler */
 //$reportHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Report');
-$reported = $reportHandler->getCount(new \Criteria('report_result', 0));
+$reported = $reportHandler->getCount(new \Criteria('report_result', '0'));
 $xoopsTpl->assign('reported_count', $reported);
 if ($reported > 0) {
     $xoopsTpl->assign('report_post', sprintf(_MD_NEWBB_SEEWAITREPORT, $reported));
