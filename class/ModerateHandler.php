@@ -33,7 +33,7 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
      *
      * @param int $expire Expiration time in UNIX, 0 for time()
      */
-    public function clearGarbage($expire = 0): void
+    public function clearGarbage(int $expire = 0): void
     {
         $expire = \time() - (int)$expire;
         $sql    = \sprintf('DELETE FROM `%s` WHERE mod_end < %u', $this->db->prefix('newbb_moderates'), $expire);
@@ -49,7 +49,7 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
      * @param int         $forum
      * @return bool true if IP is banned
      */
-    public function verifyUser($uid = -1, $ip = '', $forum = 0): bool
+    public function verifyUser(int $uid = -1, $ip = '', int $forum = 0): bool
     {
         \error_reporting(\E_ALL);
         // if user is admin do not suspend
@@ -107,7 +107,7 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
      * @param bool  $isUid
      * @return int
      */
-    public function getLatest($item, $isUid = true): int
+    public function getLatest($item, bool $isUid = true): int
     {
         $ips = [];
         if ($isUid) {

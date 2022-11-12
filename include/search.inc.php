@@ -43,9 +43,9 @@ function newbb_search(
     $limit,
     $offset,
     $userid,
-    $forums = 0,
+    int $forums = 0,
     $sortby = 0,
-    $searchin = 'both',
+    string $searchin = 'both',
     \CriteriaCompo $criteriaExtra = null
 ) {
     global $myts, $xoopsDB;

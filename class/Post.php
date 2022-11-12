@@ -142,7 +142,7 @@ class Post extends \XoopsObject
      * @param array|null $attachArray
      * @return bool
      */
-    public function deleteAttachment($attachArray = null): bool
+    public function deleteAttachment(array $attachArray = null): bool
     {
         $attachOld = $this->getAttachment();
         if (!\is_array($attachOld) || \count($attachOld) < 1) {
@@ -183,7 +183,7 @@ class Post extends \XoopsObject
      * @param int    $numDownload
      * @return bool
      */
-    public function setAttachment($name_saved = '', $nameDisplay = '', $mimetype = '', $numDownload = 0): bool
+    public function setAttachment(string $name_saved = '', string $nameDisplay = '', string $mimetype = '', int $numDownload = 0): bool
     {
         static $counter = 0;
         $this->attachmentArray = $this->getAttachment();
@@ -214,7 +214,7 @@ class Post extends \XoopsObject
      * @param bool $asSource
      * @return string
      */
-    public function displayAttachment($asSource = false): string
+    public function displayAttachment(bool $asSource = false): string
     {
         global $xoopsModule;
 
@@ -308,7 +308,7 @@ class Post extends \XoopsObject
      * @param string $post_editmsg
      * @return bool
      */
-    public function setPostEdit($poster_name = '', $post_editmsg = ''): bool
+    public function setPostEdit(string $poster_name = '', string $post_editmsg = ''): bool
     {
         $edit_user = '';
         if (empty($GLOBALS['xoopsModuleConfig']['recordedit_timelimit'])
@@ -449,7 +449,7 @@ class Post extends \XoopsObject
      * @param string $action_tag
      * @return bool
      */
-    public function checkTimelimit($action_tag = 'edit_timelimit'): bool
+    public function checkTimelimit(string $action_tag = 'edit_timelimit'): bool
     {
         $newbbConfig = \newbbLoadConfig();
         if (empty($newbbConfig['edit_timelimit'])) {
@@ -463,7 +463,7 @@ class Post extends \XoopsObject
      * @param int $uid
      * @return bool
      */
-    public function checkIdentity($uid = -1): bool
+    public function checkIdentity(int $uid = -1): bool
     {
         $uid = ($uid > -1) ? $uid : (\is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0);
         if ($this->getVar('uid') > 0) {

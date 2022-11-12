@@ -44,10 +44,10 @@ class OnlineHandler
     }
 
     /**
-     * @param null|Newbb\Forum $forum
-     * @param null|Topic       $forumtopic
+     * @param null|Forum $forum
+     * @param Topic|null       $forumtopic
      */
-    public function init($forum = null, $forumtopic = null): void
+    public function init(Forum $forum = null, Topic $forumtopic = null): void
     {
         if (\is_object($forum)) {
             $this->forum_id    = $forum->getVar('forum_id');
@@ -233,7 +233,7 @@ class OnlineHandler
      * @return bool   TRUE on success
      * @internal param string $timestamp
      */
-    public function write($uid, $uname, $time, $forum_id, $ip, $topic_id): bool
+    public function write(int $uid, string $uname, $time, string $forum_id, string $ip, $topic_id): bool
     {
         global $xoopsModule, $xoopsDB;
 
@@ -294,7 +294,7 @@ class OnlineHandler
      *
      * @param int $expire Expiration time in seconds
      */
-    public function gc($expire): void
+    public function gc(int $expire): void
     {
         global $xoopsModule;
         $sql = 'DELETE FROM ' . $this->db->prefix('newbb_online') . ' WHERE online_updated < ' . (\time() - (int)$expire);
@@ -311,7 +311,7 @@ class OnlineHandler
      * @param \CriteriaElement|null $criteria {@link \CriteriaElement}
      * @return array           Array of associative arrays of online information
      */
-    public function getAll($criteria = null): array
+    public function getAll(CriteriaElement $criteria = null): array
     {
         $ret   = [];
         $limit = $start = 0;

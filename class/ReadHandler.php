@@ -122,11 +122,11 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     // END irmtfan rephrase function to 1- add clearDuplicate and 2- don't clean when read_expire = 0
 
     /**
-     * @param int  $read_item
+     * @param int      $read_item
      * @param int|null $uid
      * @return bool|mixed|null
      */
-    public function getRead($read_item, $uid = null)
+    public function getRead(int $read_item, int $uid = null)
     {
         if (empty($this->mode)) {
             return null;
@@ -142,7 +142,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param int $item_id
      * @return mixed
      */
-    public function getReadCookie($item_id)
+    public function getReadCookie(int $item_id)
     {
         $cookie_name = ('forum' === $this->type) ? 'LF' : 'LT';
         $cookie_var  = $item_id;
@@ -157,7 +157,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param int $uid
      * @return bool|null
      */
-    public function getReadDb($read_item, $uid): ?bool
+    public function getReadDb(int $read_item, int $uid): ?bool
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {
@@ -184,7 +184,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param int|null $uid
      * @return bool|mixed|void
      */
-    public function setRead($read_item, $post_id, $uid = null)
+    public function setRead(int $read_item, int $post_id, int $uid = null)
     {
         if (empty($this->mode)) {
             return true;
@@ -201,7 +201,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param int $read_item
      * @param int $post_id
      */
-    public function setReadCookie($read_item, $post_id): void
+    public function setReadCookie(int $read_item, int $post_id): void
     {
         $cookie_name          = ('forum' === $this->type) ? 'LF' : 'LT';
         $lastview             = \newbbGetCookie($cookie_name, true);
@@ -215,7 +215,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param int $uid
      * @return bool|mixed
      */
-    public function setReadDb($read_item, $post_id, $uid)
+    public function setReadDb(int $read_item, int $post_id, int $uid)
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {
@@ -243,7 +243,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param string|null $uid
      * @return array|null
      */
-    public function isReadItems($items, $uid = null): ?array
+    public function isReadItems(array $items, string $uid = null): ?array
     {
         $ret = null;
         if (empty($this->mode)) {
@@ -263,7 +263,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param array $items
      * @return array
      */
-    public function isReadItemsCookie($items): array
+    public function isReadItemsCookie(array $items): array
     {
         $cookie_name = ('forum' === $this->type) ? 'LF' : 'LT';
         $cookie_vars = \newbbGetCookie($cookie_name, true);
@@ -277,11 +277,11 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param array $items
+     * @param array  $items
      * @param string $uid
      * @return array
      */
-    public function isReadItemsDb($items, $uid): array
+    public function isReadItemsDb(array $items, string $uid): array
     {
         $ret = [];
         if (empty($items)) {

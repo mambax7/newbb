@@ -71,7 +71,7 @@ class TypeHandler extends \XoopsPersistableObjectHandler
      * @param array $types
      * @return bool
      */
-    public function updateByForum($forum_id, $types): bool
+    public function updateByForum(int $forum_id, array $types): bool
     {
         $forum_id = (int)$forum_id;
         if (empty($forum_id)) {

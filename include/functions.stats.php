@@ -42,7 +42,7 @@ if (!defined('NEWBB_FUNCTIONS_STATS')) {
      * @param int    $increment
      * @return bool
      */
-    function newbbUpdateStats($id, $type, $increment = 1)
+    function newbbUpdateStats($id, $type, int $increment = 1)
     {
         /** @var StatsHandler $statsHandler */
         $statsHandler = Helper::getInstance()->getHandler('Stats');
@@ -57,7 +57,7 @@ if (!defined('NEWBB_FUNCTIONS_STATS')) {
      * @param string $forum_id
      * @return int
      */
-    function getTotalTopics($forum_id = '')
+    function getTotalTopics(string $forum_id = '')
     {
         $topicHandler = Helper::getInstance()->getHandler('Topic');
         $criteria     = new \CriteriaCompo(new \Criteria('approved', '0', '>'));
@@ -77,7 +77,7 @@ if (!defined('NEWBB_FUNCTIONS_STATS')) {
      * @param string $type
      * @return int
      */
-    function getTotalPosts($id = 0, $type = 'all')
+    function getTotalPosts(int $id = 0, string $type = 'all')
     {
         $postHandler = Helper::getInstance()->getHandler('Post');
         $criteria    = new \CriteriaCompo(new \Criteria('approved', '0', '>'));

@@ -73,7 +73,7 @@ class Xmlrss
      * @param int|string  $pubdate
      * @return bool
      */
-    public function addItem($title, $link, $description = '', $label = '', $pubdate = 0): bool
+    public function addItem($title, $link, string $description = '', string $label = '', $pubdate = 0): bool
     {
         if (\count($this->items) < $this->max_items) {
             if (!empty($label)) {
@@ -104,7 +104,7 @@ class Xmlrss
      * @param int           $trim
      * @return string
      */
-    public function cleanup($text, $trim = 0): string
+    public function cleanup($text, int $trim = 0): string
     {
         if ('utf-8' === \mb_strtolower($this->xml_encoding) && \strncasecmp(_CHARSET, $this->xml_encoding, 5)) {
             $text = \XoopsLocal::convert_encoding($text, 'utf-8');

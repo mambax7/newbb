@@ -18,7 +18,7 @@ if (!defined('NEWBB_FUNCTIONS_RPC')) {
      * @param int    $error
      * @param string $error_message
      */
-    function newbbTrackbackResponse($error = 0, $error_message = ''): void
+    function newbbTrackbackResponse(int $error = 0, string $error_message = ''): void
     {
         $moduleConfig = newbbLoadConfig();
 

@@ -213,7 +213,7 @@ class User
      * @param \XoopsUser $user
      * @return array
      */
-    public function getInfo($user): array
+    public function getInfo(\XoopsUser $user): array
     {
         global $myts;
         static $name_anonymous;

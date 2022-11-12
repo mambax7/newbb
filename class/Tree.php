@@ -48,7 +48,7 @@ class Tree extends XoopsTree
     /**
      * @param string $val
      */
-    public function setPrefix($val = ''): void
+    public function setPrefix(string $val = ''): void
     {
         $this->prefix    = $val;
         $this->increment = $val;
@@ -58,7 +58,7 @@ class Tree extends XoopsTree
      * @param        $sel_id
      * @param string $order
      */
-    public function getAllPostArray($sel_id, $order = ''): void
+    public function getAllPostArray($sel_id, string $order = ''): void
     {
         $this->postArray = $this->getAllChild($sel_id, $order);
     }
@@ -79,7 +79,7 @@ class Tree extends XoopsTree
      * @param string $prefix
      * @return bool
      */
-    public function getPostTree(&$postTree_array, $pid = 0, $prefix = '&nbsp;&nbsp;'): bool
+    public function getPostTree(&$postTree_array, int $pid = 0, string $prefix = '&nbsp;&nbsp;'): bool
     {
         if (!\is_array($postTree_array)) {
             $postTree_array = [];

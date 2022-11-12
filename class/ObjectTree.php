@@ -42,13 +42,13 @@ if (!\class_exists('ObjectTree')) {
          * @param array      $ret           (reference to a string when called from outside) Result from previous recursions
          * @param string     $prefix_orig   String to indent items at deeper levels
          * @param string     $prefix_curr   String to indent the current item
-         * @param null|array $tags
+         * @param array|null $tags
          * @internal  param string $fieldName Name of the member variable from the
          *                                  node objects that should be used as the title for the options.
          * @internal  param string $selected Value to display as selected
          * @access    private
          */
-        private function makeTreeItems($key, &$ret, $prefix_orig, $prefix_curr = '', $tags = null): void
+        private function makeTreeItems(int $key, array &$ret, string $prefix_orig, string $prefix_curr = '', array $tags = null): void
         {
             if ($key > 0) {
                 if (\count($tags) > 0) {
@@ -81,7 +81,7 @@ if (!\class_exists('ObjectTree')) {
          * @internal param string $selected Value to display as selected
          * @internal param bool $addEmptyOption Set TRUE to add an empty option with value "0" at the top of the hierarchy
          */
-        public function &makeTree($prefix = '-', $key = 0, $tags = null): array
+        public function &makeTree(string $prefix = '-', int $key = 0, $tags = null): array
         {
             $ret = [];
             $this->makeTreeItems($key, $ret, $prefix, '', $tags);
@@ -101,7 +101,7 @@ if (!\class_exists('ObjectTree')) {
          * @param string $prefix_curr   String to indent the current item
          * @access    private
          */
-        public function _makeSelBoxOptions($fieldName, $selected, $key, &$ret, $prefix_orig, $prefix_curr = ''): void
+        public function _makeSelBoxOptions(string $fieldName, string $selected, int $key, string &$ret, string $prefix_orig, string $prefix_curr = ''): void
         {
             if ($key > 0) {
                 $value = $this->tree[$key]['obj']->getVar($this->myId);
@@ -164,7 +164,7 @@ if (!\class_exists('ObjectTree')) {
          * @param int    $depth level of subcategories
          * @internal param array $tags fields to be used
          */
-        public function getAllChildObject($key, &$ret, $depth = 0): void
+        public function getAllChildObject(string $key, array &$ret, int $depth = 0): void
         {
             if (0 == --$depth) {
                 return;
@@ -188,7 +188,7 @@ if (!\class_exists('ObjectTree')) {
          * @return array
          * @internal param array $tags fields to be used
          */
-        public function &makeObjectTree($key = 0, $depth = 0): array
+        public function &makeObjectTree($key = 0, int $depth = 0): array
         {
             $ret = [];
             if ($depth > 0) {
@@ -207,7 +207,7 @@ if (!\class_exists('ObjectTree')) {
          * @param array  $tags  fields to be used
          * @param int    $depth level of subcategories
          */
-        public function getAllChildArray($key, &$ret, array $tags = [], $depth = 0): void
+        public function getAllChildArray(string $key, array &$ret, array $tags = [], int $depth = 0): void
         {
             if (0 == --$depth) {
                 return;
@@ -234,11 +234,11 @@ if (!\class_exists('ObjectTree')) {
          * Make a tree for the array
          *
          * @param int|string $key   top key of the tree
-         * @param array      $tags  fields to be used
+         * @param array|null $tags  fields to be used
          * @param int        $depth level of subcategories
          * @return array
          */
-        public function &makeArrayTree($key = 0, $tags = null, $depth = 0): array
+        public function &makeArrayTree($key = 0, array $tags = null, int $depth = 0): array
         {
             $ret = [];
             if ($depth > 0) {
@@ -257,7 +257,7 @@ if (!\class_exists('ObjectTree')) {
          * @param int    $uplevel (empty when called from outside) level of recursion
          * @return array  Array of parent nodes.
          */
-        public function &myGetParentForums($key, array $ret = [], $uplevel = 0): array
+        public function &myGetParentForums(string $key, array $ret = [], int $uplevel = 0): array
         {
             if (isset($this->tree[$key]['parent'], $this->tree[$this->tree[$key]['parent']]['obj'])) {
                 $ret[$uplevel] = $this->tree[$this->tree[$key]['parent']]['obj'];
@@ -278,7 +278,7 @@ if (!\class_exists('ObjectTree')) {
          * @param bool   $reverse
          * @return array
          */
-        public function &getParentForums($key, $reverse = true): array
+        public function &getParentForums($key, bool $reverse = true): array
         {
             $ret  = [];
             $pids = [];

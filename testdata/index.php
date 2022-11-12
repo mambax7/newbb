@@ -173,7 +173,7 @@ function exportSchema(): void
  * @param        $replace
  * @return int number of rows inserted
  */
-function loadTableFromArrayWithReplace($table, $data, $search, $replace)
+function loadTableFromArrayWithReplace(string $table, array $data, string $search, $replace)
 {
     /** @var \XoopsMySQLDatabase $db */
     $db = \XoopsDatabaseFactory::getDatabaseConnection();

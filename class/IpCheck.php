@@ -61,7 +61,7 @@ class IpCheck
      *
      * @return string A if IPv4, AAAA if IPv6 or 0 if invalid
      */
-    public function isValidIpAddress($ip)
+    public function isValidIpAddress(string $ip)
     {
         $value = 0;
         if (\filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {

@@ -30,7 +30,7 @@ use XoopsModules\Newbb\{
  * @param bool $linked
  * @return array
  */
-function newbbGetUnameFromIds($uid, $usereal = 0, $linked = false)
+function newbbGetUnameFromIds(int $uid, int $usereal = 0, bool $linked = false)
 {
     xoops_load('xoopsuserutility');
     $ids = \XoopsUserUtility::getUnameFromIds($uid, $usereal, $linked);
@@ -44,7 +44,7 @@ function newbbGetUnameFromIds($uid, $usereal = 0, $linked = false)
  * @param bool $linked
  * @return string
  */
-function newbbGetUnameFromId($uid, $usereal = 0, $linked = false)
+function newbbGetUnameFromId(int $uid, int $usereal = 0, bool $linked = false)
 {
     xoops_load('xoopsuserutility');
 
@@ -58,7 +58,7 @@ function newbbGetUnameFromId($uid, $usereal = 0, $linked = false)
  * @param int                         $mid
  * @return bool
  */
-function newbbIsAdministrator($user = -1, $mid = 0)
+function newbbIsAdministrator($user = -1, int $mid = 0)
 {
     global $xoopsModule;
 
@@ -215,10 +215,10 @@ function newbbIsModuleAdministrators(array $uid = [])
 /* use hardcoded DB query to save queries */
 /**
  * @param array $uid
- * @param int $mid
+ * @param int   $mid
  * @return array
  */
-function newbbIsForumModerators(array $uid = [], $mid = 0)
+function newbbIsForumModerators(array $uid = [], int $mid = 0)
 {
     $forum_moderators = [];
 

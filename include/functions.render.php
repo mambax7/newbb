@@ -39,7 +39,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
      * @param int   $br
      * @return mixed
      */
-    function &newbbDisplayTarea(&$text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1)
+    function &newbbDisplayTarea(&$text, int $html = 0, int $smiley = 1, int $xcode = 1, int $image = 1, int $br = 1)
     {
         global $myts;
 
@@ -93,7 +93,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
      * @return string
      * @internal param string $image image/button name, without extension
      */
-    function newbbGetButton($link, $button, $alt = '', $asImage = true, $extra = "class='forum_button'")
+    function newbbGetButton($link, $button, string $alt = '', bool $asImage = true, string $extra = "class='forum_button'")
     {
         $button = "<input type='button' name='{$button}' {$extra} value='{$alt}' onclick='window.location.href={$link}' >";
         if (empty($asImage)) {
@@ -112,7 +112,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
      * @param string $extra   extra attribute for the image
      * @return mixed
      */
-    function newbbDisplayImage($image, $alt = '', $display = true, $extra = "class='forum_icon'")
+    function newbbDisplayImage(string $image, string $alt = '', bool $display = true, string $extra = "class='forum_icon'")
     {
         $iconHandler = newbbGetIconHandler();
         // START hacked by irmtfan

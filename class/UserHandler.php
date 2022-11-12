@@ -34,7 +34,7 @@ class UserHandler
      * @param bool $enableGroup
      * @param bool $enableOnline
      */
-    public function __construct($enableGroup = true, $enableOnline = true)
+    public function __construct(bool $enableGroup = true, bool $enableOnline = true)
     {
         $this->enableGroup  = $enableGroup;
         $this->enableOnline = $enableOnline;

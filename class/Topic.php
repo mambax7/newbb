@@ -100,10 +100,10 @@ class Topic extends \XoopsObject
     /**
      * Load functions needed for old xoopspoll (older than version 1.4 by zyspec) and umfrage modules
      *
-     * @param string $pollModule dirname of the poll module
+     * @param string|null $pollModule dirname of the poll module
      * @return string|false = the name of the old poll class eg: "XoopsPoll" | "Umfrage"
      */
-    public function loadOldPoll($pollModule = null)
+    public function loadOldPoll(string $pollModule = null)
     {
         static $classPoll = false;
         if ($classPoll && null === $pollModule) {
@@ -139,7 +139,7 @@ class Topic extends \XoopsObject
      * @param int $poll_id
      * @return bool
      */
-    public function deletePoll($poll_id): bool
+    public function deletePoll(int $poll_id): bool
     {
         if (empty($poll_id)) {
             return false;
@@ -188,11 +188,11 @@ class Topic extends \XoopsObject
     /**
      * get a poll object from a poll module.
      * note: can be used to find if a poll exist in a module
-     * @param int    $poll_id
-     * @param string $pollModule dirname of the poll module
+     * @param int         $poll_id
+     * @param string|null $pollModule dirname of the poll module
      * @return bool|\XoopsObject poll
      */
-    public function getPoll($poll_id, $pollModule = null)
+    public function getPoll(int $poll_id, string $pollModule = null)
     {
         if (empty($poll_id)) {
             return false;

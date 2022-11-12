@@ -37,9 +37,9 @@ class PermissionHandler extends \XoopsGroupPermHandler
 
     /**
      * @param \XoopsDatabase|null $db
-     * @param Helper|null $helper
+     * @param Helper|null         $helper
      */
-    public function __construct(\XoopsDatabase $db = null, $helper = null)
+    public function __construct(\XoopsDatabase $db = null, Helper $helper = null)
     {
         $this->cacheHelper = new Cache('newbb');
         if (null === $helper) {
@@ -70,7 +70,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param bool $fullname
      * @return mixed
      */
-    public function getValidForumPerms($fullname = false)
+    public function getValidForumPerms(bool $fullname = false)
     {
         $handler = $this->loadHandler('Forum');
 
@@ -83,7 +83,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param bool $isAdmin
      * @return mixed
      */
-    public function getPermissionTable($forum = 0, $topic_locked = false, $isAdmin = false)
+    public function getPermissionTable(int $forum = 0, bool $topic_locked = false, bool $isAdmin = false)
     {
         $handler = $this->loadHandler('Forum');
         $perm    = $handler->getPermissionTable($forum, $topic_locked, $isAdmin);
@@ -134,7 +134,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param int     $id
      * @return bool
      */
-    public function getPermission($type, $gperm_name = 'access', $id = 0): bool
+    public function getPermission($type, string $gperm_name = 'access', int $id = 0): bool
     {
         global $xoopsModule;
         $ret = false;
@@ -161,7 +161,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param string $perm_name
      * @return array
      */
-    public function &getCategories($perm_name = 'access'): array
+    public function &getCategories(string $perm_name = 'access'): array
     {
         $ret = $this->getAllowedItems('category', "category_{$perm_name}");
 
@@ -172,7 +172,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param string $perm_name
      * @return array
      */
-    public function getForums($perm_name = 'access'): array
+    public function getForums(string $perm_name = 'access'): array
     {
         $ret = $this->getAllowedItems('forum', "forum_{$perm_name}");
 
@@ -218,7 +218,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param int    $id
      * @return array
      */
-    public function getGroups($gperm_name, $id = 0): array
+    public function getGroups($gperm_name, int $id = 0): array
     {
         $_cachedPerms = $this->loadPermData($gperm_name);
         $groups       = empty($_cachedPerms[$id]) ? [] : \array_unique($_cachedPerms[$id]);
@@ -231,7 +231,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param string $perm_name
      * @return array
      */
-    public function createPermData($perm_name = 'forum_all'): array
+    public function createPermData(string $perm_name = 'forum_all'): array
     {
         global $xoopsModule;
         /** @var \XoopsModuleHandler $moduleHandler */
@@ -287,7 +287,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param string $perm_name
      * @return array|mixed|null
      */
-    public function &loadPermData($perm_name = 'forum_access')
+    public function &loadPermData(string $perm_name = 'forum_access')
     {
         if (!$perms = $this->cacheHelper->read("permission_{$perm_name}")) {
             $perms = $this->createPermData($perm_name);
@@ -335,7 +335,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      *
      * @return bool TRUE if permission is enabled
      */
-    public function myCheckRight($gperm_name, $gperm_itemid, $gperm_groupid, $gperm_modid = 1): bool
+    public function myCheckRight(string $gperm_name, int $gperm_itemid, $gperm_groupid, int $gperm_modid = 1): bool
     {
         $ret      = false;
         $criteria = new \CriteriaCompo(new \Criteria('gperm_modid', $gperm_modid));
@@ -404,7 +404,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param int    $mid
      * @return mixed
      */
-    public function applyTemplate($forum, $mid = 0)
+    public function applyTemplate($forum, int $mid = 0)
     {
         $this->cacheHelper->delete('permission_forum');
         $handler = $this->loadHandler('Forum');

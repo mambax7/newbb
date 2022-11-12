@@ -74,7 +74,7 @@ class Uploader extends \XoopsMediaUploader
      *
      * @param string $value
      */
-    public function setImageSizeCheck($value): void
+    public function setImageSizeCheck(string $value): void
     {
     }
 
@@ -84,7 +84,7 @@ class Uploader extends \XoopsMediaUploader
      *
      * @param string $value
      */
-    public function setFileSizeCheck($value): void
+    public function setFileSizeCheck(string $value): void
     {
     }
 

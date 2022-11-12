@@ -287,7 +287,7 @@ function forum_seo_post($_cat_id)
  * @param bool   $withExt
  * @return array|string|string[]|null
  */
-function forum_seo_title($title = '', $withExt = true)
+function forum_seo_title(string $title = '', bool $withExt = true)
 {
     /**
      * if XOOPS ML is present, let's sanitize the title with the current language

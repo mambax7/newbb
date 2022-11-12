@@ -44,7 +44,7 @@ class Digest extends \XoopsObject
      * @param        $author
      * @param string $summary
      */
-    public function addItem($title, $link, $author, $summary = ''): void
+    public function addItem($title, $link, $author, string $summary = ''): void
     {
         $title  = $this->cleanup($title);
         $author = $this->cleanup($author);
@@ -75,7 +75,7 @@ class Digest extends \XoopsObject
      * @param bool $isHtml
      * @return bool
      */
-    public function buildContent($isSummary = true, $isHtml = false): bool
+    public function buildContent(bool $isSummary = true, bool $isHtml = false): bool
     {
         $digest_count = \count($this->items);
         $content      = '';

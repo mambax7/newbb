@@ -84,7 +84,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool  $force
      * @return bool
      */
-    public function approve($object, $force = false): bool
+    public function approve($object, bool $force = false): bool
     {
         $topic_id = $object->getVar('topic_id');
         if ($force) {
@@ -126,7 +126,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      *                          </ul>
      * @return mixed|null|\XoopsObject
      */
-    public function &getByMove($topic_id, $action, $forum_id = 0)
+    public function &getByMove(int $topic_id, int $action, int $forum_id = 0)
     {
         $topic = null;
         if (!empty($action)) {
@@ -173,7 +173,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param string $type
      * @return int
      */
-    public function getPostCount($topic, $type = ''): int
+    public function getPostCount(Topic $topic, string $type = ''): int
     {
         switch ($type) {
             case 'pending':
@@ -271,7 +271,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param string  $type
      * @return array
      */
-    public function &getAllPosts($topic, $order = 'ASC', $perpage = 10, &$start = 0, $post_id = 0, $type = ''): array
+    public function &getAllPosts($topic, string $order = 'ASC', int $perpage = 10, int &$start = 0, int $post_id = 0, string $type = ''): array
     {
         $ret     = [];
         $perpage = ((int)$perpage > 0) ? (int)$perpage : (empty($GLOBALS['xoopsModuleConfig']['posts_per_page']) ? 10 : $GLOBALS['xoopsModuleConfig']['posts_per_page']);
@@ -329,7 +329,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param int    $pid
      * @return mixed
      */
-    public function &getPostTree($postArray, $pid = 0)
+    public function &getPostTree($postArray, int $pid = 0)
     {
         //        require_once $GLOBALS['xoops']->path('modules/newbb/class/Tree.php');
         $NewBBTree = new Tree('newbb_posts');
@@ -377,7 +377,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool   $isApproved
      * @return array
      */
-    public function getAllPosters($topic, $isApproved = true): array
+    public function getAllPosters($topic, bool $isApproved = true): array
     {
         $ret = [];
         $sql = 'SELECT DISTINCT uid FROM ' . $this->db->prefix('newbb_posts') . '  WHERE topic_id=' . $topic->getVar('topic_id') . ' AND uid>0';
@@ -430,7 +430,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param string      $type
      * @return bool
      */
-    public function getPermission($forum, $topic_locked = 0, $type = 'view'): bool
+    public function getPermission(Forum $forum, int $topic_locked = 0, string $type = 'view'): bool
     {
         static $_cachedTopicPerms;
         require_once \dirname(__DIR__) . '/include/functions.user.php';
@@ -477,7 +477,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param int $expire time limit for expiration
      * @return bool true on success
      */
-    public function cleanExpires($expire = 0): bool
+    public function cleanExpires(int $expire = 0): bool
     {
         // irmtfan if 0 no cleanup look include/plugin.php
         if (!\func_num_args()) {
@@ -501,7 +501,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool                         $force
      * @return bool
      */
-    public function synchronization($object = null, $force = true)
+    public function synchronization($object = null, bool $force = true)
     {
         if (!\is_object($object)) {
             $object = $this->get((int)$object);

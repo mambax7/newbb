@@ -42,7 +42,7 @@ $adminObject = Admin::getInstance();
  * @param int    $mode
  * @return bool
  */
-function newbb_admin_mkdir($target, $mode = 0777)
+function newbb_admin_mkdir(string $target, int $mode = 0777)
 {
     $target = str_replace('..', '', $target);
 
@@ -52,10 +52,10 @@ function newbb_admin_mkdir($target, $mode = 0777)
 
 /**
  * @param string $target
- * @param int   $mode
+ * @param int    $mode
  * @return bool
  */
-function newbb_admin_chmod($target, $mode = 0777)
+function newbb_admin_chmod(string $target, int $mode = 0777)
 {
     $target = str_replace('..', '', $target);
 
@@ -185,7 +185,7 @@ Utility::cleanCache();
  * @param bool        $b
  * @return int|string
  */
-function return_bytes($sizeAsString, $b = false)
+function return_bytes($sizeAsString, bool $b = false)
 {
     if ($b) {
         $base   = log($sizeAsString) / log(1024);

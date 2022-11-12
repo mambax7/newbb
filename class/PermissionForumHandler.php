@@ -45,7 +45,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param bool $fullname
      * @return array
      */
-    public function getValidPerms($fullname = false): array
+    public function getValidPerms(bool $fullname = false): array
     {
         static $validPerms = [];
         if (isset($validPerms[(int)$fullname])) {
@@ -67,7 +67,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param int    $id
      * @return array
      */
-    public function getValidItems($mid, $id = 0): array
+    public function getValidItems($mid, int $id = 0): array
     {
         static $suspension = [];
         $full_items = [];
@@ -162,12 +162,12 @@ class PermissionForumHandler extends PermissionHandler
     }
 
     /**
-     * @param Forum|int $forum
-     * @param bool      $topic_locked
-     * @param bool      $isAdmin
+     * @param int  $forum
+     * @param bool $topic_locked
+     * @param bool $isAdmin
      * @return array
      */
-    public function getPermissionTable($forum = 0, $topic_locked = false, $isAdmin = false)
+    public function getPermissionTable(int $forum = 0, bool $topic_locked = false, bool $isAdmin = false)
     {
         $perm = [];
 
@@ -221,7 +221,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param int   $mid
      * @return bool
      */
-    public function applyTemplate($forum, $mid = 0)
+    public function applyTemplate($forum, int $mid = 0)
     {
         if (!$perm_template = $this->getTemplate()) {
             return false;

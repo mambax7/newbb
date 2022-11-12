@@ -78,7 +78,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param string $perm
      * @return mixed
      */
-    public function getIdsByPermission($perm = 'access')
+    public function getIdsByPermission(string $perm = 'access')
     {
         /** var Newbb\PermissionHandler $permHandler */
         $permHandler = Helper::getInstance()->getHandler('Permission');
@@ -93,7 +93,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param bool      $asObject
      * @return array
      */
-    public function &getByPermission($cat = 0, $permission = 'access', $tags = null, $asObject = true): array
+    public function &getByPermission($cat = 0, string $permission = 'access', $tags = null, bool $asObject = true): array
     {
         $_cachedForums = [];
         if (!$valid_ids = $this->getIdsByPermission($permission)) {
@@ -120,7 +120,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param null   $tags
      * @return array
      */
-    public function getForumsByCategory($categoryid = 0, $permission = '', $asObject = true, $tags = null): array
+    public function getForumsByCategory(int $categoryid = 0, string $permission = '', bool $asObject = true, $tags = null): array
     {
         $forums = $this->getByPermission($categoryid, $permission, $tags);
         if ($asObject) {
@@ -592,7 +592,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param bool    $checkCategory
      * @return bool
      */
-    public function getPermission($forum, $type = 'access', $checkCategory = true): bool
+    public function getPermission($forum, string $type = 'access', bool $checkCategory = true): bool
     {
         global $xoopsModule;
         static $_cachedPerms;
@@ -687,7 +687,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      */
     // START irmtfan rewrite forum cleanOrphan function. add parent_forum and cat_id orphan check
     //    public function cleanOrphan(array $forum_ids = [])
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '', $forum_ids = [])
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '', array $forum_ids = [])
     {
         // check parent_forum orphan forums
         if (empty($forum_ids)) {
@@ -851,7 +851,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param int    $count_subforum
      * @return array
      */
-    public function &display($forums, $length_title_index = 30, $count_subforum = 1): array
+    public function &display($forums, int $length_title_index = 30, int $count_subforum = 1): array
     {
         global $myts;
 
@@ -986,7 +986,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param string|array|null $tags       variables to fetch
      * @return array  associative array of category IDs and sanitized titles
      */
-    public function &getTree($cat_id = 0, $pid = 0, $permission = 'access', $prefix = '--', $tags = null): array
+    public function &getTree(int $cat_id = 0, int $pid = 0, string $permission = 'access', string $prefix = '--', $tags = null): array
     {
         $pid         = (int)$pid;
         $perm_string = $permission;
@@ -1022,7 +1022,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param int               $depth      level of subcategories
      * @return array   associative array of category IDs and sanitized titles
      */
-    public function &getArrayTree($cat_id = 0, $pid = 0, $permission = 'access', $tags = null, $depth = 0): array
+    public function &getArrayTree(int $cat_id = 0, int $pid = 0, string $permission = 'access', $tags = null, int $depth = 0): array
     {
         $pid         = (int)$pid;
         $perm_string = $permission;
@@ -1080,7 +1080,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param bool           $parse_cats
      * @return array|mixed
      */
-    public function getIdsByValues($values = 0, $permission = 'access', $parse_cats = true)
+    public function getIdsByValues($values = 0, string $permission = 'access', bool $parse_cats = true)
     {
         // Get all valid forums with this permission
         $validForums = $this->getIdsByPermission($permission);

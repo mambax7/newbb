@@ -54,7 +54,7 @@ class SysUtility
      *
      * @return string Trimmed string.
      */
-    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true): string
+    public static function truncateHtml(string $text, int $length = 100, string $ending = '...', bool $exact = false, bool $considerHtml = true): string
     {
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
@@ -146,11 +146,11 @@ class SysUtility
     }
 
     /**
-     * @param \Xmf\Module\Helper $helper
-     * @param array|null         $options
+     * @param \Xmf\Module\Helper|null $helper
+     * @param array|null              $options
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
-    public static function getEditor($helper = null, $options = null)
+    public static function getEditor(\Xmf\Module\Helper $helper = null, array $options = null)
     {
         /** @var Helper $helper */
         if (null === $options) {
@@ -231,7 +231,7 @@ class SysUtility
      *
      * @return int|string|false
      */
-    public static function cloneRecord($tableName, $id_field, $id): bool
+    public static function cloneRecord($tableName, string $id_field, int $id): bool
     {
         $new_id = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
@@ -278,7 +278,7 @@ class SysUtility
      *
      * @param string $folder Le chemin complet du répertoire à vérifier
      */
-    public static function prepareFolder($folder): void
+    public static function prepareFolder(string $folder): void
     {
         try {
             if (!@\mkdir($folder) && !\is_dir($folder)) {

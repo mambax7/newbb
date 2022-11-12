@@ -27,13 +27,13 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
     define('NEWBB_FUNCTIONS_FORUM', 1);
 
     /**
-     * @param null|array $value             selected forum id
+     * @param array|null $value             selected forum id
      * @param string     $permission        permission (access, all, etc.)
      * @param bool       $categoryDelimiter show delimiter between categories
      * @param bool       $see
      * @return string
      */
-    function newbbForumSelectBox($value = null, $permission = 'access', $categoryDelimiter = true, $see = false)
+    function newbbForumSelectBox(array $value = null, string $permission = 'access', bool $categoryDelimiter = true, bool $see = false)
     {
         global $xoopsUser;
         $categoryHandler = Helper::getInstance()->getHandler('Category');
@@ -91,7 +91,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
      * @param int $forum_id
      * @return string
      */
-    function newbbMakeJumpbox($forum_id = 0)
+    function newbbMakeJumpbox(int $forum_id = 0)
     {
         $box = '<form name="forum_jumpbox" method="get" action="' . XOOPS_URL . '/modules/newbb/viewforum.php" onsubmit="javascript: if (document.forum_jumpbox.forum.value &lt; 1) {return false;}">';
         $box .= '<select class="select" name="forum" onchange="if (this.options[this.selectedIndex].value >0) { document.forms.forum_jumpbox.submit();}">';
@@ -115,7 +115,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
      * @param bool $refresh
      * @return array
      */
-    function newbbGetSubForum($pid = 0, $refresh = false)
+    function newbbGetSubForum(int $pid = 0, bool $refresh = false)
     {
         static $list;
         if (null === $list) {
@@ -165,7 +165,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
      * @param bool $refresh
      * @return array|mixed|null
      */
-    function newbbGetParentForum($forum_id = 0, $refresh = false)
+    function newbbGetParentForum(int $forum_id = 0, bool $refresh = false)
     {
         static $list = null;
 

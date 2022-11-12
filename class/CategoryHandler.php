@@ -30,7 +30,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param string $perm
      * @return mixed
      */
-    public function getIdsByPermission($perm = 'access')
+    public function getIdsByPermission(string $perm = 'access')
     {
         /** var Newbb\PermissionHandler $permHandler */
         $permHandler = Helper::getInstance()->getHandler('Permission');
@@ -44,7 +44,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param bool   $asObject
      * @return array
      */
-    public function &getByPermission($permission = 'access', $tags = null, $asObject = true): array
+    public function &getByPermission(string $permission = 'access', $tags = null, bool $asObject = true): array
     {
         $categories = [];
         if (!$valid_ids = $this->getIdsByPermission($permission)) {
@@ -111,7 +111,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    public function getPermission($category, $perm = 'access'): bool
+    public function getPermission($category, string $perm = 'access'): bool
     {
         if ($GLOBALS['xoopsUserIsAdmin'] && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
             return true;

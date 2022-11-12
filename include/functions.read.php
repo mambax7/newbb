@@ -56,7 +56,7 @@ if (!defined('NEWBB_FUNCTIONS_READ')) {
      * @param null $uid
      * @return mixed
      */
-    function newbbSetReadforum($status = 0, $uid = null)
+    function newbbSetReadforum(int $status = 0, $uid = null)
     {
         /** @var ReadHandler $readforumHandler */
         $readforumHandler = Helper::getInstance()->getHandler('Readforum');
@@ -70,7 +70,7 @@ if (!defined('NEWBB_FUNCTIONS_READ')) {
      * @param null $uid
      * @return mixed
      */
-    function newbbSetReadTopic($status = 0, $forum_id = 0, $uid = null)
+    function newbbSetReadTopic(int $status = 0, int $forum_id = 0, $uid = null)
     {
         /** @var ReadHandler $readTopicHandler */
         $readTopicHandler = Helper::getInstance()->getHandler('Readtopic');

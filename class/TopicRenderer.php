@@ -147,7 +147,7 @@ class TopicRenderer
     /**
      * @param string $hash request hash, i.e. get, post
      */
-    public function setVarsFromRequest($hash = 'get'): void
+    public function setVarsFromRequest(string $hash = 'get'): void
     {
         $this->init();
 

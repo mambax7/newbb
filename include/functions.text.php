@@ -25,14 +25,14 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
      * @return string
      */
     function newbb_selectText(
-        $text,
-        $queryarray,
-        $selectstartlag = 100,
-        $selectlength = 200,
-        $striptags = true,
-        $excludetags = '<br>',
-        $start_trimmarker = '[...]',
-        $end_trimmarker = '[...]'
+        string $text,
+               $queryarray,
+        int    $selectstartlag = 100,
+        int    $selectlength = 200,
+        bool   $striptags = true,
+        string $excludetags = '<br>',
+        string $start_trimmarker = '[...]',
+        string $end_trimmarker = '[...]'
     ) {
         $sanitized_text       = $striptags ? strip_tags($text, $excludetags) : $text;
         $queryarray           = newbb_str2array($queryarray);
@@ -75,7 +75,7 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
      * @param array|string $queryarray
      * @return string
      */
-    function newbb_highlightText($text, $queryarray)
+    function newbb_highlightText(string $text, $queryarray)
     {
         if (empty($GLOBALS['xoopsModuleConfig']['highlight_search_enable'])) {
             return $text;
@@ -98,7 +98,7 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
      * @param int    $i
      * @return string
      */
-    function newbb_highlighter($query, $i)
+    function newbb_highlighter(string $query, int $i)
     {
         return '<span class="newbb_highlight term' . $i . '">' . $query . '</span>';
     }

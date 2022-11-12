@@ -66,7 +66,7 @@ class StatsHandler
      * @param int   $increment
      * @return bool
      */
-    public function update($id, $type, $increment = 1): ?bool
+    public function update($id, $type, int $increment = 1): ?bool
     {
         $id        = (int)$id;
         $increment = (int)$increment;

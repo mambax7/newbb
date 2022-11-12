@@ -35,7 +35,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
      * @param bool $isForced
      * @return int
      */
-    public function process($isForced = false): int
+    public function process(bool $isForced = false): int
     {
         $this->getLastDigest();
         if (!$isForced) {
@@ -78,11 +78,11 @@ class DigestHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param        $start
-     * @param int    $perpage
+     * @param int $start
+     * @param int $perpage
      * @return array
      */
-    public function getAllDigests($start = 0, $perpage = 5): array
+    public function getAllDigests(int $start = 0, int $perpage = 5): array
     {
         //        if (empty($start)) {
         //            $start = 0;

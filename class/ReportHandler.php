@@ -53,7 +53,7 @@ class ReportHandler extends \XoopsPersistableObjectHandler
      * @param int       $reportId
      * @return array
      */
-    public function getAllReports($forums = 0, $order = 'ASC', $perpage = 0, &$start = 0, $report_result = 0, $reportId = 0): array
+    public function getAllReports($forums = 0, string $order = 'ASC', int $perpage = 0, int &$start = 0, int $report_result = 0, int $reportId = 0): array
     {
         $forumCriteria = '';
         $row           = [];

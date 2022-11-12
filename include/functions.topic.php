@@ -33,7 +33,7 @@ if (!defined('NEWBB_FUNCTIONS_TOPIC')) {
      * @param string|null $prefixColor
      * @return string
      */
-    function getTopicTitle($topicTitle, $prefixName = null, $prefixColor = null)
+    function getTopicTitle(string $topicTitle, string $prefixName = null, string $prefixColor = null)
     {
         if (empty($prefixName)) {
             return $topicTitle;

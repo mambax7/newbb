@@ -86,7 +86,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
      * @param null $uid
      * @return bool
      */
-    public function setReadItems($status = 0, $forum_id = 0, $uid = null): bool
+    public function setReadItems(int $status = 0, int $forum_id = 0, $uid = null): bool
     {
         if (empty($this->mode)) {
             return true;

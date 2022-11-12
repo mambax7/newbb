@@ -84,7 +84,7 @@ class IconHandler
      * @return mixed
      */
     // START irmtfan - improve to get other "end dirnames" like "css" and "js" - change images with $endDir
-    public function getPath($type, $dirname = 'newbb', $default = '', $endDir = 'images')
+    public function getPath($type, string $dirname = 'newbb', string $default = '', string $endDir = 'images')
     {
         static $paths;
         if (isset($paths[$endDir . '/' . $type])) {
@@ -124,8 +124,8 @@ class IconHandler
      */
     public function init(
         /*$set = "default", */
-        $language = 'english',
-        $dirname = 'newbb'
+        string $language = 'english',
+        string $dirname = 'newbb'
     ): void {
         $this->forumImage = require_once $GLOBALS['xoops']->path("modules/{$dirname}/include/images.php");
 
@@ -138,7 +138,7 @@ class IconHandler
      * @param string $alt
      * @param string $extra
      */
-    public function setImage($image, $alt = '', $extra = ''): void
+    public function setImage($image, string $alt = '', string $extra = ''): void
     {
         if (!isset($this->images[$image])) {
             $imageSource = $this->getImageSource($image);
@@ -163,7 +163,7 @@ class IconHandler
      * @param string  $extra
      * @return mixed
      */
-    public function getImage($image, $alt = '', $extra = '')
+    public function getImage($image, string $alt = '', string $extra = '')
     {
         $this->setImage($image, $alt, $extra);
 
@@ -176,7 +176,7 @@ class IconHandler
      * @param string  $extra
      * @return string
      */
-    public function assignImage($image, $alt = '', $extra = ''): string
+    public function assignImage($image, string $alt = '', string $extra = ''): string
     {
         $this->setImage($image, $alt, $extra);
         // START hacked by irmtfan - improve function to CSS3 buttons - add alt and title attributes - use span instead of button to support IE7&8
