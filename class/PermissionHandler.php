@@ -32,7 +32,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
     /** @var array|null */
     private array $_handler;
     
-    /** @var Helper */
+    /** @var Helper $helper */
     private ?Helper $helper;
 
     /**
