@@ -129,9 +129,7 @@ $displayText['p_delete'] = $displayText['p_reply'] = $displayText['p_quote'] = $
 
     //$displayText['new_subforum'] =
 
-$displayText['p_bann'] =
-
-    true;
+$displayText['p_bann'] = true;
 
 for ($i = 1; $i <= 5; ++$i) {
     //$displayText['rate'.$i] = true;
