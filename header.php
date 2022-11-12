@@ -49,7 +49,7 @@ if (!empty($GLOBALS['xoopsModuleConfig']['do_rewrite'])) {
     if (!empty($GLOBALS['xoopsModuleConfig']['do_rewrite']) && (!isset($_POST) || count($_POST) <= 0)
         && (false === mb_strpos(getenv('REQUEST_URI'), '.html'))) {
         $redir = false;
-        if (true === mb_strpos(getenv('REQUEST_URI'), 'mark_read=') || true === mb_strpos(getenv('REQUEST_URI'), 'mark=')) {
+        if (is_int(mb_strpos(getenv('REQUEST_URI')), 'mark_read=') || is_int(mb_strpos(getenv('REQUEST_URI')), 'mark=')) {
             // Mark Forums
         } elseif (in_array(basename(getenv('SCRIPT_NAME')), $toseo_url, true)) {
             //rewrite only for files
