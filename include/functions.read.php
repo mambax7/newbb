@@ -84,7 +84,7 @@ if (!defined('NEWBB_FUNCTIONS_READ')) {
      * @param null   $uid
      * @return array|null
      */
-    function newbbIsRead($type, $items, $uid = null)
+    function newbbIsRead($type, $items, $uid = null): ?array
     {
         /** @var ReadHandler $readHandler */
         $readHandler = Helper::getInstance()->getHandler('Read' . $type);
