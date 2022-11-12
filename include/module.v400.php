@@ -108,17 +108,17 @@ function xoops_module_update_newbb_v400(XoopsModule $module)
         $table_topic = $GLOBALS['xoopsDB']->prefix('bb_topics');
         $sql    = '    SELECT topic_id, topic_tags' . "    FROM {$table_topic}";
         $result = $GLOBALS['xoopsDB']->query($sql);
-        if (!$GLOBALS['xoopsDB']->isResultSet($result)) {
-            xoops_error($GLOBALS['xoopsDB']->error());
-            //            \trigger_error("Query Failed! SQL: $sql- Error: " . $xoopsDB->error(), E_USER_ERROR);
-
-        } else {
+        if ($GLOBALS['xoopsDB']->isResultSet($result)) {
             while (false !== ($myrow = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 if (empty($myrow['topic_tags'])) {
                     continue;
                 }
                 $tagHandler->updateByItem($myrow['topic_tags'], $myrow['topic_id'], $module->getVar('mid'));
             }
+        } else {
+            xoops_error($GLOBALS['xoopsDB']->error());
+            //            \trigger_error("Query Failed! SQL: $sql- Error: " . $xoopsDB->error(), E_USER_ERROR);
+
         }
     }
 

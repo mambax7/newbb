@@ -76,7 +76,9 @@ if ($pollModuleHandler->getVar('version') >= 201) {
             if ($pollObject->isAllowedToVote()) {
                 $thisVoter     = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : null;
                 $votedThisPoll = $xpLogHandler->hasVoted($poll_id, xoops_getenv('REMOTE_ADDR'), $thisVoter);
-                if (!$votedThisPoll) {
+                if ($votedThisPoll) {
+                    $msg = constant('_MD_' . \mb_strtoupper($GLOBALS['xoopsModuleConfig']['poll_module']) . '_ALREADYVOTED');
+                } else {
                     /* user that hasn't voted before in this poll or module preferences allow it */
                     $voteTime = time();
                     if ($pollObject->vote($optionId, xoops_getenv('REMOTE_ADDR'), $voteTime)) {
@@ -89,8 +91,6 @@ if ($pollModuleHandler->getVar('version') >= 201) {
                         /* there was a problem registering the vote */
                         redirect_header($GLOBALS['xoops']->buildUrl('index.php', ['poll_id' => $poll_id]), Constants::REDIRECT_DELAY_MEDIUM, constant('_MD_' . \mb_strtoupper($GLOBALS['xoopsModuleConfig']['poll_module']) . '_VOTE_ERROR'));
                     }
-                } else {
-                    $msg = constant('_MD_' . \mb_strtoupper($GLOBALS['xoopsModuleConfig']['poll_module']) . '_ALREADYVOTED');
                 }
                 /* set anon user vote (and the time they voted) */
                 if (!is_object($GLOBALS['xoopsUser'])) {
