@@ -91,7 +91,7 @@ if (is_object($pollModuleHandler) && $pollModuleHandler->getVar('isactive')) {
     if ($pollModuleHandler->getVar('version') >= 201) {
         /** @var \XoopsModules\Xoopspoll\PollHandler $xpPollHandler */
         $xpPollHandler = $pollHelper->getHandler('Poll');
-        /** @var \XoopsModules\XoopsPoll $pollObject */
+        /** @var \XoopsModules\Xoopspoll\Poll $pollObject */
         $pollObject = $xpPollHandler->get($poll_id); // will create poll if poll_id = 0 exist
     } elseif ($pollModuleHandler->getVar('version') >= 140) {
         xoops_load('constants', $GLOBALS['xoopsModuleConfig']['poll_module']);

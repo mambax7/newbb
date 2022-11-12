@@ -169,8 +169,11 @@ $user_karma = $karmaHandler->getUserKarma();
 
 $posts_context = [];
 //$posts_contextObject = $postHandler->getByLimit($topic_id, 5); //mb
-$posts_contextObject = $postHandler->getByLimit(5, 0, null, null, true, $topic_id, 1);
-foreach ($posts_contextObject as $post_contextObject) {
+
+/** @var array $posts_contextObjects */
+$posts_contextObjects = $postHandler->getByLimit(5, 0, null, null, true, $topic_id, 1);
+/** @var Post $posts_contextObject */
+foreach ($posts_contextObjects as $post_contextObject) {
     // Sorry, in order to save queries, we have to hide the non-open post_text even if you have replied or have adequate karma, even an admin.
     if ($GLOBALS['xoopsModuleConfig']['enable_karma'] && $post_contextObject->getVar('post_karma') > 0) {
         $p_message = sprintf(_MD_NEWBB_KARMA_REQUIREMENT, '***', $post_contextObject->getVar('post_karma')) . '</div>';

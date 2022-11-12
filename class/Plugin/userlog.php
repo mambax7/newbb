@@ -13,7 +13,10 @@ namespace XoopsModules\Newbb\Plugin;
 */
 
 use Xmf\Request;
-use XoopsModules\Newbb\Helper;
+use XoopsModules\Newbb\{
+    Helper,
+    TopicHandler
+};
 use XoopsModules\Userlog;
 
 /** @var Helper $helper */
@@ -65,7 +68,7 @@ class Userlog extends Userlog\Plugin\PluginAbstract implements Userlog\Plugin\Pl
 
         switch ($subscribe_from) {
             case 'viewtopic.php':
-                /** @var Newbb\TopicHandler $topicHandler */ $topicHandler = Helper::getInstance()->getHandler('Topic');
+                /** @var TopicHandler $topicHandler */ $topicHandler = Helper::getInstance()->getHandler('Topic');
                 $post_id                                                   = Request::getInt('post_id', 0); // !empty($_REQUEST["post_id"]) ? (int)($_REQUEST["post_id"]) : 0;
                 $move                                                      = \mb_strtolower(Request::getString('move', '', 'GET')); // isset($_GET['move'])? strtolower($_GET['move']) : '';
                 $topic_id                                                  = Request::getInt('topic_id', 0); // !empty($_REQUEST["topic_id"]) ? (int)($_REQUEST["topic_id"]) : 0;

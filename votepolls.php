@@ -12,10 +12,16 @@
 //  ------------------------------------------------------------------------ //
 
 use Xmf\Request;
-use XoopsModules\Newbb;
-use XoopsModules\Xoopspoll;
-use XoopsModules\Xoopspoll\Constants;
-use XoopsModules\Xoopspoll\Utility;
+use XoopsModules\Newbb\{
+    Topic
+};
+use XoopsModules\Xoopspoll\{
+    Constants,
+    LogHandler,
+    Poll,
+    PollHandler,
+    Utility
+};
 
 require_once __DIR__ . '/header.php';
 $poll_id  = Request::getInt('poll_id', Request::getInt('poll_id', 0, 'POST'), 'GET');
@@ -23,6 +29,7 @@ $topic_id = Request::getInt('topic_id', Request::getInt('topic_id', 0, 'POST'), 
 $forum    = Request::getInt('forum', Request::getInt('forum', 0, 'POST'), 'GET');
 
 //$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
+/** @var Topic $topicObject */
 $topicObject = $topicHandler->get($topic_id);
 if (!$topicHandler->getPermission($topicObject->getVar('forum_id'), $topicObject->getVar('topic_status'), 'vote')) {
     redirect_header(Request::getString('HTTP_REFERER', '', 'SERVER'), 2, _NOPERM);

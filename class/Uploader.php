@@ -25,6 +25,7 @@ class Uploader extends \XoopsMediaUploader
      * @param mixed $maxWidth
      * @param mixed $maxHeight
      */
+    private string $ext;
 
     /**
      * Constructor
