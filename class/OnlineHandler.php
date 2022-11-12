@@ -79,7 +79,7 @@ class OnlineHandler
 
         // set gc probabillity to 10% for now..
         if (\random_int(1, 100) < 60) {
-            $this->gc(150);
+            $this->garbageCollection(150);
         }
         if (\is_object($GLOBALS['xoopsUser'])) {
             $uid   = $GLOBALS['xoopsUser']->getVar('uid');
@@ -297,7 +297,7 @@ class OnlineHandler
      *
      * @param int $expire Expiration time in seconds
      */
-    public function gc(int $expire): void
+    public function garbageCollection(int $expire): void
     {
         global $xoopsModule;
         $sql = 'DELETE FROM ' . $this->db->prefix('newbb_online') . ' WHERE online_updated < ' . (\time() - (int)$expire);
