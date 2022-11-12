@@ -358,7 +358,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param bool         $force
      * @return bool
      */
-    public function delete(\XoopsObject $object, bool $force = false): bool
+    public function delete(\XoopsObject $object, $force = false): bool
     {
         global $xoopsModule;
 
