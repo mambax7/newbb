@@ -25,7 +25,7 @@ use XoopsModules\Newbb;
  */
 class Migrate extends \Xmf\Database\Migrate
 {
-    private $renameTables;
+    private array $renameTables;
 
     /**
      * Migrate constructor.

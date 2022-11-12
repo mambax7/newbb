@@ -32,7 +32,7 @@ class Forum extends \XoopsObject
     public int $attach_maxkb;
     public string $attach_ext;
     public int $forum_order;
-    public $dohtml;
+    public int $dohtml;
 
     public function __construct()
     {

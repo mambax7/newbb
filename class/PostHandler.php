@@ -320,7 +320,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param bool $force
      * @return bool
      */
-    public function myDelete(Post $post, $isDeleteOne = true, bool $force = false): bool
+    public function myDelete(Post $post, bool $isDeleteOne = true, bool $force = false): bool
     {
         if (!\is_object($post) || 0 == $post->getVar('post_id')) {
             return false;
