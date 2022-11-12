@@ -58,12 +58,13 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $category
+     * @param \XoopsObject $object Category
      * @param bool $force
      * @return mixed
      */
-    public function insert(\XoopsObject $category, $force = true)
+    public function insert(\XoopsObject $object, $force = true)
     {
+        $category = $object;
         $className = Category::class;
         if (!($category instanceof $className)) {
             return false;
@@ -77,13 +78,14 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $category
+     * @param \XoopsObject $object Category
      * @param bool $force
      * @return bool|mixed
-     * @internal param Category $category
+     * @internal param Category $object
      */
-    public function delete(\XoopsObject $category, $force = false)//delete(Category $category)
+    public function delete(\XoopsObject $object, $force = false)//delete(Category $object)
     {
+        $category = $object;
         $className = Category::class;
         if (!($category instanceof $className)) {
             return false;

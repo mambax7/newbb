@@ -82,7 +82,7 @@ if (!defined('NEWBB_FUNCTIONS_READ')) {
      * @param        $type
      * @param        $items
      * @param null   $uid
-     * @return mixed
+     * @return array|null
      */
     function newbbIsRead($type, $items, $uid = null)
     {

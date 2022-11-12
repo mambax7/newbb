@@ -34,13 +34,13 @@ class ForumHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $object
+     * @param \XoopsObject $object Forum
      * @param bool $force
      * @return bool|int
-     * @internal param \XoopsObject $forum
      */
-    public function insert(\XoopsObject $object, $force = true) //insert($forum)
+    public function insert(\XoopsObject $object, $force = true) //insert($object)
     {
+
         $forum = $object;
         if (!parent::insert($forum, true)) {
             return false;
@@ -54,13 +54,14 @@ class ForumHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $forum
+     * @param \XoopsObject $object Forum
      * @param bool $force
      * @return bool
      */
-    public function delete(\XoopsObject $forum, $force = false) //delete(&$forum)
+    public function delete(\XoopsObject $object, $force = false) //delete(&$object)
     {
         global $xoopsModule;
+        $forum = $object;
         // RMV-NOTIFY
         \xoops_notification_deletebyitem($xoopsModule->getVar('mid'), 'forum', $forum->getVar('forum_id'));
         // Get list of all topics in forum, to delete them too

@@ -36,7 +36,6 @@ class Utility extends Common\SysUtility
      */
     public static function userIsAdmin()
     {
-        /** @var Helper $helper */
         $helper = Helper::getInstance();
 
         static $newbbIsAdmin;

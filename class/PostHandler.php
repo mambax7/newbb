@@ -36,10 +36,10 @@ class PostHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param mixed $id
-     * @param null  $var
+     * @param array $fields fields to fetch
      * @return null|\XoopsObject
      */
-    public function get($id = null, $var = null) //get($id)
+    public function get($id = null,  $fields = null) //get($id)
     {
         $id    = (int)$id;
         $post  = null;
@@ -190,12 +190,13 @@ class PostHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $post
+     * @param \XoopsObject $object Post Object
      * @param bool $force
      * @return bool
      */
-    public function insert(\XoopsObject $post, $force = true) //insert(&$post, $force = true)
+    public function insert(\XoopsObject $object, $force = true) //insert(&$object, $force = true)
     {
+        $post = $object;
         $topicObject = null;
         // Set the post time
         // The time should be "publish" time. To be adjusted later
@@ -253,18 +254,18 @@ class PostHandler extends \XoopsPersistableObjectHandler
             }
             $post->destroyVars($post_text_vars);
 
-            //            if (!$post_id = parent::insert($post, $force)) {
+            //            if (!$postId = parent::insert($post, $force)) {
             //                return false;
             //            }
 
-            if (!$post_id = parent::insert($post, $force)) {
+            if (!$postId = parent::insert($post, $force)) {
                 return false;
             }
             $post->unsetNew();
 
-            $textObject->setVar('post_id', $post_id);
+            $textObject->setVar('post_id', $postId);
             if (!$textHandler->insert($textObject, $force)) {
-                $this->delete($post);
+                $this->myDelete($post);
                 $post->setErrors('post text insert error');
 
                 //xoops_error($textObject->getErrors());
@@ -273,7 +274,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
             if ($post->getVar('approved') > 0) {
                 $this->approve($post, true);
             }
-            $post->setVar('post_id', $post_id);
+            $post->setVar('post_id', $postId);
         } else {
             if ($post->isTopic()) {
                 if ($post->getVar('subject') !== $topicObject->getVar('topic_title')) {
@@ -296,7 +297,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
                 $textObject->vars[$key] = $post->vars[$key];
             }
             $post->destroyVars($post_text_vars);
-            if (!$post_id = parent::insert($post, $force)) {
+            if (!$postId = parent::insert($post, $force)) {
                 //xoops_error($post->getErrors());
                 return false;
             }
@@ -314,12 +315,12 @@ class PostHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject|Post $post
-     * @param bool              $isDeleteOne
-     * @param bool              $force
+     * @param Post $post Post Object
+     * @param bool $isDeleteOne
+     * @param bool $force
      * @return bool
      */
-    public function delete(\XoopsObject $post, $isDeleteOne = true, $force = false)
+    public function myDelete(Post $post, $isDeleteOne = true, $force = false)
     {
         if (!\is_object($post) || 0 == $post->getVar('post_id')) {
             return false;
@@ -335,7 +336,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
                 }
             }
 
-            return $this->myDelete($post, $force);
+            return $this->delete($post, $force);
         }
         require_once $GLOBALS['xoops']->path('class/xoopstree.php');
         $mytree = new Tree($this->db->prefix('newbb_posts'), 'post_id', 'pid');
@@ -344,22 +345,24 @@ class PostHandler extends \XoopsPersistableObjectHandler
         for ($i = \count($arr) - 1; $i >= 0; $i--) {
             $childpost = $this->create(false);
             $childpost->assignVars($arr[$i]);
-            $this->myDelete($childpost, $force);
+            $this->delete($childpost, $force);
             unset($childpost);
         }
-        $this->myDelete($post, $force);
+        $this->delete($post, $force);
 
         return true;
     }
 
     /**
-     * @param Post|\XoopsObject $post
-     * @param bool              $force
+     * @param \XoopsObject $object
+     * @param bool         $force
      * @return bool
      */
-    public function myDelete(Post $post, $force = false)
+    public function delete(\XoopsObject $object, $force = false)
     {
         global $xoopsModule;
+
+        $post = $object;
 
         if (!\is_object($post) || 0 == $post->getVar('post_id')) {
             return false;

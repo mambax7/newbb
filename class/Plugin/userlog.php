@@ -27,7 +27,7 @@ use XoopsModules\Userlog;
  * @author          irmtfan (irmtfan@yahoo.com)
  * @author          XOOPS Project <www.xoops.org> <www.xoops.ir>
  */
-class userlog extends Userlog\Plugin\PluginAbstract implements Userlog\Plugin\PluginInterface
+class Userlog extends Userlog\Plugin\PluginAbstract implements Userlog\Plugin\PluginInterface
 {
     /**
      * @param string $subscribe_from Name of the script

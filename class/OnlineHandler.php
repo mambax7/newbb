@@ -67,6 +67,9 @@ class OnlineHandler
         $this->update();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update(): void
     {
         global $xoopsModule;
@@ -97,7 +100,7 @@ class OnlineHandler
     }
 
     /**
-     * @param $xoopsTpl
+     * @param \Smarty $xoopsTpl
      */
     public function render(Smarty $xoopsTpl): void
     {

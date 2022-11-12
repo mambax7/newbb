@@ -145,12 +145,13 @@ class DigestHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $digest
+     * @param \XoopsObject $object Digest
      * @param bool $force flag to force the query execution despite security settings
      * @return mixed       object ID or false
      */
-    public function insert(\XoopsObject $digest, $force = true)
+    public function insert(\XoopsObject $object, $force = true)
     {
+        $digest = $object;
         $digest->setVar('digest_time', \time());
 
         return parent::insert($digest, $force);
@@ -174,12 +175,13 @@ class DigestHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $digest
+     * @param \XoopsObject $object Digest
      * @param bool $force (ignored)
      * @return bool        FALSE if failed.
      */
-    public function delete(\XoopsObject $digest, $force = false)
+    public function delete(\XoopsObject $object, $force = false)
     {
+        $digest = $object;
         $digest_id = $digest->getVar('digest_id');
 
         if (!isset($this->last_digest)) {

@@ -152,7 +152,7 @@ switch ($op) {
             }
             $topics[$postObject->getVar('topic_id')] = 1;
             $forums[$postObject->getVar('forum_id')] = 1;
-            $postHandler->delete($postObject, true);
+            $postHandler->myDelete($postObject, true);
             unset($postObject);
         }
         foreach (array_keys($topics) as $topic) {

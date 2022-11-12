@@ -32,7 +32,7 @@ class XmlrssHandler
     }
 
     /**
-     * @param $rss
+     * @param \XoopsModules\Newbb\Xmlrss $rss
      * @return array
      */
     public function get(Xmlrss $rss)

@@ -42,7 +42,6 @@ class TestdataButtons
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-        /** @var Helper $helper */
         $helper   = Helper::getInstance();
         $yamlFile = $helper->path('/config/admin.yml');
         /** @var array $config */

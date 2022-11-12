@@ -119,7 +119,7 @@ if ($ok) {
                 $xoopsMailer->send();
             }
         }
-        $postHandler->delete($postObject, $isDeleteOne);
+        $postHandler->myDelete($postObject, $isDeleteOne);
         $forumHandler->synchronization($forum);
         $topicHandler->synchronization($topic_id);
         //        $statsHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Stats');

@@ -185,8 +185,8 @@ class SysUtility
     }
 
     /**
-     * @param $fieldname
-     * @param $table
+     * @param string $fieldname
+     * @param string $table
      *
      * @return bool
      */
@@ -229,7 +229,7 @@ class SysUtility
      * @param string       $id_field
      * @param int          $id
      *
-     * @return false
+     * @return int|string|false
      */
     public static function cloneRecord($tableName, $id_field, $id)
     {

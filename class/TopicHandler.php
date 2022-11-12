@@ -60,22 +60,23 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $object, $force = true)
     {
-        if (!$object->getVar('topic_time')) {
-            $object->setVar('topic_time', \time());
+        $topic = $object;
+        if (!$topic->getVar('topic_time')) {
+            $topic->setVar('topic_time', \time());
         }
-        if (!parent::insert($object, $force) || !$object->getVar('approved')) {
-            return $object->getVar('topic_id');
+        if (!parent::insert($topic, $force) || !$topic->getVar('approved')) {
+            return $topic->getVar('topic_id');
         }
 
         $newbbConfig = \newbbLoadConfig();
         if (!empty($newbbConfig['do_tag']) && \class_exists('XoopsModules\Tag\FormTag')) {
             $tagHandler = Tag\Helper::getInstance()->getHandler('Tag');
             if ($tagHandler) {
-                $tagHandler->updateByItem($object->getVar('topic_tags', 'n'), $object->getVar('topic_id'), 'newbb');
+                $tagHandler->updateByItem($topic->getVar('topic_tags', 'n'), $topic->getVar('topic_id'), 'newbb');
             }
         }
 
-        return $object->getVar('topic_id');
+        return $topic->getVar('topic_id');
     }
 
     /**
@@ -394,25 +395,26 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param Topic|\XoopsObject $topic
+     * @param \XoopsObject $object Topic
      * @param bool               $force
      * @return bool
      */
-    public function delete(\XoopsObject $topic, $force = true)
+    public function delete(\XoopsObject $object, $force = true)
     {
-        $topic_id = \is_object($topic) ? $topic->getVar('topic_id') : (int)$topic;
-        if (empty($topic_id)) {
+        $topic = $object;
+        $topicId = \is_object($topic) ? $topic->getVar('topic_id') : (int)$topic;
+        if (empty($topicId)) {
             return false;
         }
-        $postObject = $this->getTopPost($topic_id);
+        $postObject = $this->getTopPost($topicId);
         /** @var Newbb\PostHandler $postHandler */
         $postHandler = Helper::getInstance()->getHandler('Post');
-        $postHandler->delete($postObject, false, $force);
+        $postHandler->myDelete($postObject, false, $force);
 
         $newbbConfig = \newbbLoadConfig();
         /** @var \XoopsModules\Tag\TagHandler $tagHandler */
         if (!empty($newbbConfig['do_tag']) && \class_exists('TagFormTag') && $tagHandler = Tag\Helper::getInstance()->getHandler('Tag')) { //@xoops_getModuleHandler('tag', 'tag', true)) {
-            $tagHandler->updateByItem([], $topic_id, 'newbb');
+            $tagHandler->updateByItem([], $topicId, 'newbb');
         }
 
         return true;
