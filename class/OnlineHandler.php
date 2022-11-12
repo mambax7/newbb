@@ -162,7 +162,7 @@ class OnlineHandler
     /**
      * Deprecated
      */
-    public function showOnline()
+    public function showOnline(): array
     {
         require_once \dirname(__DIR__) . '/include/functions.render.php';
         require_once \dirname(__DIR__) . '/include/functions.user.php';
@@ -233,7 +233,7 @@ class OnlineHandler
      * @return bool   TRUE on success
      * @internal param string $timestamp
      */
-    public function write($uid, $uname, $time, $forum_id, $ip, $topic_id)
+    public function write($uid, $uname, $time, $forum_id, $ip, $topic_id): bool
     {
         global $xoopsModule, $xoopsDB;
 
@@ -311,7 +311,7 @@ class OnlineHandler
      * @param \CriteriaElement|null $criteria {@link \CriteriaElement}
      * @return array           Array of associative arrays of online information
      */
-    public function getAll($criteria = null)
+    public function getAll($criteria = null): array
     {
         $ret   = [];
         $limit = $start = 0;
@@ -340,7 +340,7 @@ class OnlineHandler
      * @param $uids
      * @return array
      */
-    public function checkStatus($uids)
+    public function checkStatus($uids): array
     {
         $online_users = [];
         $ret          = [];
@@ -376,7 +376,7 @@ class OnlineHandler
      * @param \CriteriaElement|\CriteriaCompo|null $criteria {@link CriteriaElement}
      * @return bool
      */
-    public function getCount($criteria = null)
+    public function getCount($criteria = null): bool
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('newbb_online');
         if (($criteria instanceof \CriteriaCompo || $criteria instanceof \Criteria)) {

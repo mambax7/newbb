@@ -69,7 +69,7 @@ class TopicRenderer
      * Access the only instance of this class
      * @return TopicRenderer
      */
-    public static function getInstance()
+    public static function getInstance(): TopicRenderer
     {
         static $instance;
         if (null === $instance) {
@@ -409,7 +409,7 @@ class TopicRenderer
     /**
      * @return bool
      */
-    public function parseVars()
+    public function parseVars(): bool
     {
         static $parsed;
         // irmtfan - force to parse vars (run against static vars)
@@ -445,7 +445,7 @@ class TopicRenderer
      * @param null $var
      * @return array|null
      */
-    public function getSort($header = null, $var = null)
+    public function getSort($header = null, $var = null): ?array
     {
         $headers = [
             'topic'           => [
@@ -552,7 +552,7 @@ class TopicRenderer
      * @param null $header
      * @return array
      */
-    public function getHeader($header = null)
+    public function getHeader($header = null): array
     {
         $headersSort = $this->getSort('', 'title');
         // additional headers - important: those cannot be in sort anyway
@@ -575,7 +575,7 @@ class TopicRenderer
      * @param null $status
      * @return array
      */
-    public function getStatus($type = null, $status = null)
+    public function getStatus($type = null, $status = null): array
     {
         $links       = [
             //""            => "", /* irmtfan remove empty array */
@@ -739,7 +739,7 @@ class TopicRenderer
      * @param \Smarty $xoopsTpl
      * @return bool
      */
-    public function buildTypes(\Smarty $xoopsTpl)
+    public function buildTypes(\Smarty $xoopsTpl): ?bool
     {
         $status = [];
         if (!$types = $this->getTypes()) {
@@ -766,7 +766,7 @@ class TopicRenderer
      * @param \Smarty $xoopsTpl
      * @return bool
      */
-    public function buildCurrent(\Smarty $xoopsTpl)
+    public function buildCurrent(\Smarty $xoopsTpl): ?bool
     {
         if (empty($this->vars['status']) && !$this->is_multiple) {
             return true;
@@ -820,7 +820,7 @@ class TopicRenderer
     /**
      * @return int
      */
-    public function getCount()
+    public function getCount(): int
     {
         if ($this->noperm) {
             return 0;
@@ -1132,7 +1132,7 @@ class TopicRenderer
      * @param null   $keys
      * @return array
      */
-    public function getFromKeys($array, $keys = null)
+    public function getFromKeys($array, $keys = null): array
     {
         if (empty($keys)) {
             return $array;

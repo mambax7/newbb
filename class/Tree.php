@@ -79,7 +79,7 @@ class Tree extends XoopsTree
      * @param string $prefix
      * @return bool
      */
-    public function getPostTree(&$postTree_array, $pid = 0, $prefix = '&nbsp;&nbsp;')
+    public function getPostTree(&$postTree_array, $pid = 0, $prefix = '&nbsp;&nbsp;'): bool
     {
         if (!\is_array($postTree_array)) {
             $postTree_array = [];

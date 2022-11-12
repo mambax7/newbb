@@ -29,7 +29,7 @@ class UserstatsHandler extends \XoopsPersistableObjectHandler
      * @param null $db
      * @return UserstatsHandler
      */
-    public static function getInstance($db = null)
+    public static function getInstance($db = null): UserstatsHandler
     {
         static $instance;
         if (null === $instance) {
@@ -74,7 +74,7 @@ class UserstatsHandler extends \XoopsPersistableObjectHandler
      * @param $id
      * @return null|array
      */
-    public function getStats($id)
+    public function getStats($id): ?array
     {
         if (empty($id)) {
             return null;

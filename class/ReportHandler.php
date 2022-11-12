@@ -29,7 +29,7 @@ class ReportHandler extends \XoopsPersistableObjectHandler
      * @param $posts
      * @return array
      */
-    public function getByPost($posts)
+    public function getByPost($posts): array
     {
         $ret = [];
         if (!$posts) {
@@ -53,7 +53,7 @@ class ReportHandler extends \XoopsPersistableObjectHandler
      * @param int       $reportId
      * @return array
      */
-    public function getAllReports($forums = 0, $order = 'ASC', $perpage = 0, &$start = 0, $report_result = 0, $reportId = 0)
+    public function getAllReports($forums = 0, $order = 'ASC', $perpage = 0, &$start = 0, $report_result = 0, $reportId = 0): array
     {
         $forumCriteria = '';
         $row           = [];

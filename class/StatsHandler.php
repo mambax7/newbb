@@ -50,7 +50,7 @@ class StatsHandler
      * @param null|\XoopsDatabase $db
      * @return StatsHandler
      */
-    public static function getInstance(\XoopsDatabase $db = null)
+    public static function getInstance(\XoopsDatabase $db = null): StatsHandler
     {
         static $instance;
         if (null === $instance) {
@@ -66,7 +66,7 @@ class StatsHandler
      * @param int   $increment
      * @return bool
      */
-    public function update($id, $type, $increment = 1)
+    public function update($id, $type, $increment = 1): ?bool
     {
         $id        = (int)$id;
         $increment = (int)$increment;
@@ -132,7 +132,7 @@ class StatsHandler
      * @param array $periods time period: 1 - all time; 2 - today; 3 - this week; 4 - this month; empty - all
      * @return array
      */
-    public function getStats(array $ids = [], array $types = [], array $periods = [])
+    public function getStats(array $ids = [], array $types = [], array $periods = []): array
     {
         $ret = [];
 

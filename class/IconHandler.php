@@ -65,7 +65,7 @@ class IconHandler
      * Access the only instance of this class
      * @return IconHandler
      */
-    public static function getInstance()
+    public static function getInstance(): IconHandler
     {
         static $instance;
         if (null === $instance) {
@@ -152,7 +152,7 @@ class IconHandler
      * @param $image
      * @return string
      */
-    public function getImageSource($image)
+    public function getImageSource($image): string
     {
         return $this->forumImage[$this->forumImage[$image]] . $this->prefix . $image . $this->postfix;
     }
@@ -176,7 +176,7 @@ class IconHandler
      * @param string  $extra
      * @return string
      */
-    public function assignImage($image, $alt = '', $extra = '')
+    public function assignImage($image, $alt = '', $extra = ''): string
     {
         $this->setImage($image, $alt, $extra);
         // START hacked by irmtfan - improve function to CSS3 buttons - add alt and title attributes - use span instead of button to support IE7&8
@@ -203,7 +203,7 @@ class IconHandler
     /**
      * @return int
      */
-    public function render()
+    public function render(): int
     {
         //$this->template->assign_by_ref("image", $this->images);
         $this->template->assign($this->images);

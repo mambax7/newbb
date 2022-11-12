@@ -86,7 +86,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
      * @param null $uid
      * @return bool
      */
-    public function setReadItems($status = 0, $forum_id = 0, $uid = null)
+    public function setReadItems($status = 0, $forum_id = 0, $uid = null): bool
     {
         if (empty($this->mode)) {
             return true;
@@ -104,7 +104,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
      * @param $forum_id
      * @return bool
      */
-    public function setReadItemsCookie($status, $forum_id)
+    public function setReadItemsCookie($status, $forum_id): bool
     {
         $cookie_name = 'LT';
         $cookie_vars = \newbbGetCookie($cookie_name, true);
@@ -137,7 +137,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
      * @param $uid
      * @return bool
      */
-    public function setReadItemsDb($status, $forum_id, $uid)
+    public function setReadItemsDb($status, $forum_id, $uid): bool
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {

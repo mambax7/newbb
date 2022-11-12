@@ -105,7 +105,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param Post $post
      * @return array
      */
-    public function getPostForPDF($post)
+    public function getPostForPDF($post): array
     {
         return $post->getPostBody(true);
     }
@@ -114,7 +114,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param Post $post
      * @return array
      */
-    public function getPostForPrint($post)
+    public function getPostForPrint($post): array
     {
         return $post->getPostBody();
     }
@@ -124,7 +124,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param bool     $force
      * @return bool
      */
-    public function approve(&$post, $force = false)
+    public function approve(&$post, $force = false): bool
     {
         if (empty($post)) {
             return false;
@@ -358,7 +358,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param bool         $force
      * @return bool
      */
-    public function delete(\XoopsObject $object, $force = false)
+    public function delete(\XoopsObject $object, $force = false): bool
     {
         global $xoopsModule;
 
@@ -464,7 +464,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param null                                 $join
      * @return int|null
      */
-    public function getPostCount($criteria = null, $join = null)
+    public function getPostCount($criteria = null, $join = null): ?int
     {
         // if not join get the count from XOOPS/class/model/stats as before
         if (empty($join)) {
@@ -501,7 +501,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param null                                 $join
      * @return array
      */
-    public function getPostsByLimit($criteria = null, $limit = 1, $start = 0, $join = null)
+    public function getPostsByLimit($criteria = null, $limit = 1, $start = 0, $join = null): array
     {
         $ret = [];
         $sql = 'SELECT p.*, t.* ' . ' FROM ' . $this->db->prefix('newbb_posts') . ' AS p' . ' LEFT JOIN ' . $this->db->prefix('newbb_posts_text') . ' AS t ON t.post_id = p.post_id';
@@ -565,7 +565,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param int $expire time limit for expiration
      * @return bool true on success
      */
-    public function cleanExpires($expire = 0)
+    public function cleanExpires($expire = 0): bool
     {
         // irmtfan if 0 no cleanup look include/plugin.php
         if (!\func_num_args()) {

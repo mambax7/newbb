@@ -34,7 +34,7 @@ class Utility extends Common\SysUtility
      *
      * @return bool
      */
-    public static function userIsAdmin()
+    public static function userIsAdmin(): bool
     {
         $helper = Helper::getInstance();
 

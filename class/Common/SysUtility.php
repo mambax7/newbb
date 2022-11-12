@@ -54,7 +54,7 @@ class SysUtility
      *
      * @return string Trimmed string.
      */
-    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
+    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true): string
     {
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
@@ -231,7 +231,7 @@ class SysUtility
      *
      * @return int|string|false
      */
-    public static function cloneRecord($tableName, $id_field, $id)
+    public static function cloneRecord($tableName, $id_field, $id): bool
     {
         $new_id = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);

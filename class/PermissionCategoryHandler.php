@@ -35,7 +35,7 @@ class PermissionCategoryHandler extends Newbb\PermissionHandler
      * @param int    $id
      * @return array
      */
-    public function getValidItems($mid, $id = 0)
+    public function getValidItems($mid, $id = 0): array
     {
         $full_items = [];
         if (empty($mid)) {

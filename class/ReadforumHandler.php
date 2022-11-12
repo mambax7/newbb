@@ -62,7 +62,7 @@ class ReadforumHandler extends Newbb\ReadHandler
      * @param null $uid
      * @return bool
      */
-    public function setReadItems($status = 0, $uid = null)
+    public function setReadItems($status = 0, $uid = null): bool
     {
         if (empty($this->mode)) {
             return true;
@@ -80,7 +80,7 @@ class ReadforumHandler extends Newbb\ReadHandler
      * @param array|null $items
      * @return bool
      */
-    public function setReadItemsCookie($status, $items = null)
+    public function setReadItemsCookie($status, $items = null): bool
     {
         $cookie_name = 'LF';
         $items       = [];
@@ -102,7 +102,7 @@ class ReadforumHandler extends Newbb\ReadHandler
      * @param $uid
      * @return bool
      */
-    public function setReadItemsDb($status, $uid)
+    public function setReadItemsDb($status, $uid): bool
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {

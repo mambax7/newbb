@@ -157,7 +157,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param int $uid
      * @return bool|null
      */
-    public function getReadDb($read_item, $uid)
+    public function getReadDb($read_item, $uid): ?bool
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {
@@ -201,7 +201,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param int $read_item
      * @param int $post_id
      */
-    public function setReadCookie($read_item, $post_id)
+    public function setReadCookie($read_item, $post_id): void
     {
         $cookie_name          = ('forum' === $this->type) ? 'LF' : 'LT';
         $lastview             = \newbbGetCookie($cookie_name, true);
@@ -243,7 +243,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param string|null $uid
      * @return array|null
      */
-    public function isReadItems($items, $uid = null)
+    public function isReadItems($items, $uid = null): ?array
     {
         $ret = null;
         if (empty($this->mode)) {
@@ -263,7 +263,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param array $items
      * @return array
      */
-    public function isReadItemsCookie($items)
+    public function isReadItemsCookie($items): array
     {
         $cookie_name = ('forum' === $this->type) ? 'LF' : 'LT';
         $cookie_vars = \newbbGetCookie($cookie_name, true);
@@ -281,7 +281,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * @param string $uid
      * @return array
      */
-    public function isReadItemsDb($items, $uid)
+    public function isReadItemsDb($items, $uid): array
     {
         $ret = [];
         if (empty($items)) {
@@ -318,7 +318,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     /**
      * @return bool
      */
-    public function clearDuplicate()
+    public function clearDuplicate(): bool
     {
         /**
          * This is needed for the following query GROUP BY clauses to work in MySQL 5.7.

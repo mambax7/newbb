@@ -109,7 +109,7 @@ class Post extends \XoopsObject
      * @param $attachKey
      * @return bool
      */
-    public function incrementDownload($attachKey)
+    public function incrementDownload($attachKey): bool
     {
         if (!$attachKey) {
             return false;
@@ -122,7 +122,7 @@ class Post extends \XoopsObject
     /**
      * @return bool
      */
-    public function saveAttachment()
+    public function saveAttachment(): bool
     {
         $attachmentSave = '';
         if ($this->attachmentArray && \is_array($this->attachmentArray)) {
@@ -142,7 +142,7 @@ class Post extends \XoopsObject
      * @param array|null $attachArray
      * @return bool
      */
-    public function deleteAttachment($attachArray = null)
+    public function deleteAttachment($attachArray = null): bool
     {
         $attachOld = $this->getAttachment();
         if (!\is_array($attachOld) || \count($attachOld) < 1) {
@@ -183,7 +183,7 @@ class Post extends \XoopsObject
      * @param int    $numDownload
      * @return bool
      */
-    public function setAttachment($name_saved = '', $nameDisplay = '', $mimetype = '', $numDownload = 0)
+    public function setAttachment($name_saved = '', $nameDisplay = '', $mimetype = '', $numDownload = 0): bool
     {
         static $counter = 0;
         $this->attachmentArray = $this->getAttachment();
@@ -214,7 +214,7 @@ class Post extends \XoopsObject
      * @param bool $asSource
      * @return string
      */
-    public function displayAttachment($asSource = false)
+    public function displayAttachment($asSource = false): string
     {
         global $xoopsModule;
 
@@ -308,7 +308,7 @@ class Post extends \XoopsObject
      * @param string $post_editmsg
      * @return bool
      */
-    public function setPostEdit($poster_name = '', $post_editmsg = '')
+    public function setPostEdit($poster_name = '', $post_editmsg = ''): bool
     {
         $edit_user = '';
         if (empty($GLOBALS['xoopsModuleConfig']['recordedit_timelimit'])
@@ -391,7 +391,7 @@ class Post extends \XoopsObject
     /**
      * @return array
      */
-    public function &getPostBody()
+    public function &getPostBody(): array
     {
         global $viewtopic_users;
         $newbbConfig = \newbbLoadConfig();
@@ -440,7 +440,7 @@ class Post extends \XoopsObject
     /**
      * @return bool
      */
-    public function isTopic()
+    public function isTopic(): bool
     {
         return !$this->getVar('pid');
     }
@@ -449,7 +449,7 @@ class Post extends \XoopsObject
      * @param string $action_tag
      * @return bool
      */
-    public function checkTimelimit($action_tag = 'edit_timelimit')
+    public function checkTimelimit($action_tag = 'edit_timelimit'): bool
     {
         $newbbConfig = \newbbLoadConfig();
         if (empty($newbbConfig['edit_timelimit'])) {
@@ -463,7 +463,7 @@ class Post extends \XoopsObject
      * @param int $uid
      * @return bool
      */
-    public function checkIdentity($uid = -1)
+    public function checkIdentity($uid = -1): bool
     {
         $uid = ($uid > -1) ? $uid : (\is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0);
         if ($this->getVar('uid') > 0) {
@@ -485,7 +485,7 @@ class Post extends \XoopsObject
      * @param $isAdmin
      * @return array
      */
-    public function showPost($isAdmin)
+    public function showPost($isAdmin): array
     {
         global $xoopsModule, $myts;
         global $forumUrl, $forumImage, $forumObject, $online, $viewmode;

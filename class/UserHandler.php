@@ -105,7 +105,7 @@ class UserHandler
     /**
      * @return array
      */
-    public function getUsers()
+    public function getUsers(): array
     {
         $this->loadUserInfo();
         $this->loadUserOnline();

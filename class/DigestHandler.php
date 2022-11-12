@@ -35,7 +35,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
      * @param bool $isForced
      * @return int
      */
-    public function process($isForced = false)
+    public function process($isForced = false): int
     {
         $this->getLastDigest();
         if (!$isForced) {
@@ -65,7 +65,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
      * @param \XoopsObject $digest
      * @return bool
      */
-    public function notify(\XoopsObject $digest)
+    public function notify(\XoopsObject $digest): bool
     {
         //$content                = $digest->getVar('digest_content');
         /** @var \XoopsNotificationHandler $notificationHandler */
@@ -82,7 +82,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
      * @param int    $perpage
      * @return array
      */
-    public function getAllDigests($start = 0, $perpage = 5)
+    public function getAllDigests($start = 0, $perpage = 5): array
     {
         //        if (empty($start)) {
         //            $start = 0;
@@ -104,7 +104,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
     /**
      * @return int
      */
-    public function getDigestCount()
+    public function getDigestCount(): int
     {
         $sql    = 'SELECT COUNT(*) AS count FROM ' . $this->db->prefix('newbb_digest');
         $result = $this->db->query($sql);
@@ -198,7 +198,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
      * @param Digest $digest
      * @return bool
      */
-    public function buildDigest(Digest $digest)
+    public function buildDigest(Digest $digest): bool
     {
         global $xoopsModule;
 

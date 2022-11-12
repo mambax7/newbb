@@ -24,7 +24,7 @@ class XmlrssHandler
     /**
      * @return Xmlrss
      */
-    public function create()
+    public function create(): Xmlrss
     {
         $xmlrss = new Xmlrss();
 
@@ -35,7 +35,7 @@ class XmlrssHandler
      * @param \XoopsModules\Newbb\Xmlrss $rss
      * @return array
      */
-    public function get(Xmlrss $rss)
+    public function get(Xmlrss $rss): array
     {
         $rss_array                      = [];
         $rss_array['xml_version']       = $rss->xml_version;

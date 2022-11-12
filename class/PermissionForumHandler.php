@@ -45,7 +45,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param bool $fullname
      * @return array
      */
-    public function getValidPerms($fullname = false)
+    public function getValidPerms($fullname = false): array
     {
         static $validPerms = [];
         if (isset($validPerms[(int)$fullname])) {
@@ -67,7 +67,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param int    $id
      * @return array
      */
-    public function getValidItems($mid, $id = 0)
+    public function getValidItems($mid, $id = 0): array
     {
         static $suspension = [];
         $full_items = [];

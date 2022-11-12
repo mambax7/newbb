@@ -49,7 +49,7 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
      * @param int         $forum
      * @return bool true if IP is banned
      */
-    public function verifyUser($uid = -1, $ip = '', $forum = 0)
+    public function verifyUser($uid = -1, $ip = '', $forum = 0): bool
     {
         \error_reporting(\E_ALL);
         // if user is admin do not suspend
@@ -107,7 +107,7 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
      * @param bool  $isUid
      * @return int
      */
-    public function getLatest($item, $isUid = true)
+    public function getLatest($item, $isUid = true): int
     {
         $ips = [];
         if ($isUid) {

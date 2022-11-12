@@ -44,7 +44,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param bool   $asObject
      * @return array
      */
-    public function &getByPermission($permission = 'access', $tags = null, $asObject = true)
+    public function &getByPermission($permission = 'access', $tags = null, $asObject = true): array
     {
         $categories = [];
         if (!$valid_ids = $this->getIdsByPermission($permission)) {
@@ -111,7 +111,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    public function getPermission($category, $perm = 'access')
+    public function getPermission($category, $perm = 'access'): bool
     {
         if ($GLOBALS['xoopsUserIsAdmin'] && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
             return true;

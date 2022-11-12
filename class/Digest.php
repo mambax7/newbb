@@ -58,7 +58,7 @@ class Digest extends \XoopsObject
      * @param $text
      * @return string
      */
-    public function cleanup($text)
+    public function cleanup($text): string
     {
         global $myts;
 
@@ -75,7 +75,7 @@ class Digest extends \XoopsObject
      * @param bool $isHtml
      * @return bool
      */
-    public function buildContent($isSummary = true, $isHtml = false)
+    public function buildContent($isSummary = true, $isHtml = false): bool
     {
         $digest_count = \count($this->items);
         $content      = '';

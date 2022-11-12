@@ -134,7 +134,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param int     $id
      * @return bool
      */
-    public function getPermission($type, $gperm_name = 'access', $id = 0)
+    public function getPermission($type, $gperm_name = 'access', $id = 0): bool
     {
         global $xoopsModule;
         $ret = false;
@@ -161,7 +161,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param string $perm_name
      * @return array
      */
-    public function &getCategories($perm_name = 'access')
+    public function &getCategories($perm_name = 'access'): array
     {
         $ret = $this->getAllowedItems('category', "category_{$perm_name}");
 
@@ -172,7 +172,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param string $perm_name
      * @return array
      */
-    public function getForums($perm_name = 'access')
+    public function getForums($perm_name = 'access'): array
     {
         $ret = $this->getAllowedItems('forum', "forum_{$perm_name}");
 
@@ -184,7 +184,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param $perm_name
      * @return array
      */
-    public function getAllowedItems($type, $perm_name)
+    public function getAllowedItems($type, $perm_name): array
     {
         $ret = [];
 
@@ -218,7 +218,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param int    $id
      * @return array
      */
-    public function getGroups($gperm_name, $id = 0)
+    public function getGroups($gperm_name, $id = 0): array
     {
         $_cachedPerms = $this->loadPermData($gperm_name);
         $groups       = empty($_cachedPerms[$id]) ? [] : \array_unique($_cachedPerms[$id]);
@@ -231,7 +231,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param string $perm_name
      * @return array
      */
-    public function createPermData($perm_name = 'forum_all')
+    public function createPermData($perm_name = 'forum_all'): array
     {
         global $xoopsModule;
         /** @var \XoopsModuleHandler $moduleHandler */
@@ -303,7 +303,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param null  $mid
      * @return bool
      */
-    public function validateRight($perm, $itemid, $groupid, $mid = null)
+    public function validateRight($perm, $itemid, $groupid, $mid = null): bool
     {
         if (empty($mid)) {
             if (\is_object($GLOBALS['xoopsModule']) && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
@@ -335,7 +335,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      *
      * @return bool TRUE if permission is enabled
      */
-    public function myCheckRight($gperm_name, $gperm_itemid, $gperm_groupid, $gperm_modid = 1)
+    public function myCheckRight($gperm_name, $gperm_itemid, $gperm_groupid, $gperm_modid = 1): bool
     {
         $ret      = false;
         $criteria = new \CriteriaCompo(new \Criteria('gperm_modid', $gperm_modid));
@@ -367,7 +367,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
      * @param null  $mid
      * @return bool
      */
-    public function deleteRight($perm, $itemid, $groupid, $mid = null)
+    public function deleteRight($perm, $itemid, $groupid, $mid = null): bool
     {
         $this->cacheHelper->delete('permission');
         if (null === $mid) {

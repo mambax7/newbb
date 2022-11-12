@@ -93,7 +93,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param bool      $asObject
      * @return array
      */
-    public function &getByPermission($cat = 0, $permission = 'access', $tags = null, $asObject = true)
+    public function &getByPermission($cat = 0, $permission = 'access', $tags = null, $asObject = true): array
     {
         $_cachedForums = [];
         if (!$valid_ids = $this->getIdsByPermission($permission)) {
@@ -120,7 +120,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param null   $tags
      * @return array
      */
-    public function getForumsByCategory($categoryid = 0, $permission = '', $asObject = true, $tags = null)
+    public function getForumsByCategory($categoryid = 0, $permission = '', $asObject = true, $tags = null): array
     {
         $forums = $this->getByPermission($categoryid, $permission, $tags);
         if ($asObject) {
@@ -162,7 +162,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param null   $criteria
      * @return array
      */
-    public function getAllTopics($forum, $criteria = null)
+    public function getAllTopics($forum, $criteria = null): array
     {
         global $myts, $viewAllForums, $xoopsUser;
         $startdate = '';
@@ -502,7 +502,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param $type
      * @return null|int
      */
-    public function getTopicCount($forum, $startdate, $type)
+    public function getTopicCount($forum, $startdate, $type): ?int
     {
         require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.session.php');
 
@@ -592,7 +592,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param bool    $checkCategory
      * @return bool
      */
-    public function getPermission($forum, $type = 'access', $checkCategory = true)
+    public function getPermission($forum, $type = 'access', $checkCategory = true): bool
     {
         global $xoopsModule;
         static $_cachedPerms;
@@ -785,7 +785,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param null $passedSubForums
      * @return array
      */
-    public function getSubforumStats($passedSubForums = null)
+    public function getSubforumStats($passedSubForums = null): array
     {
         $stats = [];
 
@@ -851,7 +851,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param int    $count_subforum
      * @return array
      */
-    public function &display($forums, $length_title_index = 30, $count_subforum = 1)
+    public function &display($forums, $length_title_index = 30, $count_subforum = 1): array
     {
         global $myts;
 
@@ -986,7 +986,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param string|array|null $tags       variables to fetch
      * @return array  associative array of category IDs and sanitized titles
      */
-    public function &getTree($cat_id = 0, $pid = 0, $permission = 'access', $prefix = '--', $tags = null)
+    public function &getTree($cat_id = 0, $pid = 0, $permission = 'access', $prefix = '--', $tags = null): array
     {
         $pid         = (int)$pid;
         $perm_string = $permission;
@@ -1022,7 +1022,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param int               $depth      level of subcategories
      * @return array   associative array of category IDs and sanitized titles
      */
-    public function &getArrayTree($cat_id = 0, $pid = 0, $permission = 'access', $tags = null, $depth = 0)
+    public function &getArrayTree($cat_id = 0, $pid = 0, $permission = 'access', $tags = null, $depth = 0): array
     {
         $pid         = (int)$pid;
         $perm_string = $permission;
@@ -1050,7 +1050,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param $object
      * @return array|null
      */
-    public function &getParents($object)
+    public function &getParents($object): ?array
     {
         $ret = null;
         if (!$object->getVar('forum_id')) {

@@ -81,7 +81,7 @@ if (!\class_exists('ObjectTree')) {
          * @internal param string $selected Value to display as selected
          * @internal param bool $addEmptyOption Set TRUE to add an empty option with value "0" at the top of the hierarchy
          */
-        public function &makeTree($prefix = '-', $key = 0, $tags = null)
+        public function &makeTree($prefix = '-', $key = 0, $tags = null): array
         {
             $ret = [];
             $this->makeTreeItems($key, $ret, $prefix, '', $tags);
@@ -188,7 +188,7 @@ if (!\class_exists('ObjectTree')) {
          * @return array
          * @internal param array $tags fields to be used
          */
-        public function &makeObjectTree($key = 0, $depth = 0)
+        public function &makeObjectTree($key = 0, $depth = 0): array
         {
             $ret = [];
             if ($depth > 0) {
@@ -238,7 +238,7 @@ if (!\class_exists('ObjectTree')) {
          * @param int        $depth level of subcategories
          * @return array
          */
-        public function &makeArrayTree($key = 0, $tags = null, $depth = 0)
+        public function &makeArrayTree($key = 0, $tags = null, $depth = 0): array
         {
             $ret = [];
             if ($depth > 0) {
@@ -257,7 +257,7 @@ if (!\class_exists('ObjectTree')) {
          * @param int    $uplevel (empty when called from outside) level of recursion
          * @return array  Array of parent nodes.
          */
-        public function &myGetParentForums($key, array $ret = [], $uplevel = 0)
+        public function &myGetParentForums($key, array $ret = [], $uplevel = 0): array
         {
             if (isset($this->tree[$key]['parent'], $this->tree[$this->tree[$key]['parent']]['obj'])) {
                 $ret[$uplevel] = $this->tree[$this->tree[$key]['parent']]['obj'];
@@ -278,7 +278,7 @@ if (!\class_exists('ObjectTree')) {
          * @param bool   $reverse
          * @return array
          */
-        public function &getParentForums($key, $reverse = true)
+        public function &getParentForums($key, $reverse = true): array
         {
             $ret  = [];
             $pids = [];

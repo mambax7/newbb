@@ -139,7 +139,7 @@ class Topic extends \XoopsObject
      * @param int $poll_id
      * @return bool
      */
-    public function deletePoll($poll_id)
+    public function deletePoll($poll_id): bool
     {
         if (empty($poll_id)) {
             return false;

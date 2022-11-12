@@ -33,7 +33,7 @@ class TypeHandler extends \XoopsPersistableObjectHandler
      * @param mixed $forums single forum ID or an array of forum IDs
      * @return array associative array of types (name, color, order)
      */
-    public function getByForum($forums = null)
+    public function getByForum($forums = null): array
     {
         $ret = [];
 
@@ -71,7 +71,7 @@ class TypeHandler extends \XoopsPersistableObjectHandler
      * @param array $types
      * @return bool
      */
-    public function updateByForum($forum_id, $types)
+    public function updateByForum($forum_id, $types): bool
     {
         $forum_id = (int)$forum_id;
         if (empty($forum_id)) {

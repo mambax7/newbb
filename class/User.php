@@ -103,7 +103,7 @@ class User
     /**
      * @return array
      */
-    public function getUserbar()
+    public function getUserbar(): array
     {
         global $isAdmin;
 
@@ -172,7 +172,7 @@ class User
     /**
      * @return string
      */
-    public function getLevel()
+    public function getLevel(): string
     {
         global $forumUrl;
 
@@ -213,7 +213,7 @@ class User
      * @param \XoopsUser $user
      * @return array
      */
-    public function getInfo($user)
+    public function getInfo($user): array
     {
         global $myts;
         static $name_anonymous;

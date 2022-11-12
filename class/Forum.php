@@ -56,7 +56,7 @@ class Forum extends \XoopsObject
     /**
      * @return string
      */
-    public function dispForumModerators()
+    public function dispForumModerators(): string
     {
         $ret = '';
         if (!$valid_moderators = $this->getVar('forum_moderator')) {

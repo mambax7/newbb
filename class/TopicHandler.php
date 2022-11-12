@@ -84,7 +84,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool  $force
      * @return bool
      */
-    public function approve($object, $force = false)
+    public function approve($object, $force = false): bool
     {
         $topic_id = $object->getVar('topic_id');
         if ($force) {
@@ -151,7 +151,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param $post_id
      * @return null|\XoopsObject
      */
-    public function &getByPost($post_id)
+    public function &getByPost($post_id): ?\XoopsObject
     {
         $topic  = null;
         $sql    = 'SELECT t.* FROM ' . $this->db->prefix('newbb_topics') . ' t, ' . $this->db->prefix('newbb_posts') . ' p
@@ -173,7 +173,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param string $type
      * @return int
      */
-    public function getPostCount($topic, $type = '')
+    public function getPostCount($topic, $type = ''): int
     {
         switch ($type) {
             case 'pending':
@@ -199,7 +199,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param $topic_id
      * @return null|Newbb\Post
      */
-    public function &getTopPost($topic_id)
+    public function &getTopPost($topic_id): ?Post
     {
         $post = null;
         $sql  = 'SELECT p.*, t.* FROM ' . $this->db->prefix('newbb_posts') . ' p,
@@ -227,7 +227,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param $topic_id
      * @return bool
      */
-    public function getTopPostId($topic_id)
+    public function getTopPostId($topic_id): bool
     {
         $sql    = 'SELECT MIN(post_id) AS post_id FROM ' . $this->db->prefix('newbb_posts') . ' WHERE topic_id = ' . $topic_id . ' AND pid = 0';
         $result = $this->db->query($sql);
@@ -271,7 +271,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param string  $type
      * @return array
      */
-    public function &getAllPosts($topic, $order = 'ASC', $perpage = 10, &$start = 0, $post_id = 0, $type = '')
+    public function &getAllPosts($topic, $order = 'ASC', $perpage = 10, &$start = 0, $post_id = 0, $type = ''): array
     {
         $ret     = [];
         $perpage = ((int)$perpage > 0) ? (int)$perpage : (empty($GLOBALS['xoopsModuleConfig']['posts_per_page']) ? 10 : $GLOBALS['xoopsModuleConfig']['posts_per_page']);
@@ -377,7 +377,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool   $isApproved
      * @return array
      */
-    public function getAllPosters($topic, $isApproved = true)
+    public function getAllPosters($topic, $isApproved = true): array
     {
         $ret = [];
         $sql = 'SELECT DISTINCT uid FROM ' . $this->db->prefix('newbb_posts') . '  WHERE topic_id=' . $topic->getVar('topic_id') . ' AND uid>0';
@@ -430,7 +430,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param string      $type
      * @return bool
      */
-    public function getPermission($forum, $topic_locked = 0, $type = 'view')
+    public function getPermission($forum, $topic_locked = 0, $type = 'view'): bool
     {
         static $_cachedTopicPerms;
         require_once \dirname(__DIR__) . '/include/functions.user.php';
@@ -477,7 +477,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param int $expire time limit for expiration
      * @return bool true on success
      */
-    public function cleanExpires($expire = 0)
+    public function cleanExpires($expire = 0): bool
     {
         // irmtfan if 0 no cleanup look include/plugin.php
         if (!\func_num_args()) {
@@ -546,7 +546,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * get all active poll modules in the current xoops installtion.
      * @return array $pollDirs = array($dirname1=>$dirname1, $dirname2=>$dirname2, ...) dirnames of all active poll modules
      */
-    public function getActivePolls()
+    public function getActivePolls(): array
     {
         $pollDirs = [];
         $allDirs  = \xoops_getActiveModules();
