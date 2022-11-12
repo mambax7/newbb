@@ -49,7 +49,7 @@ if (!defined('NEWBB_FUNCTIONS_TIME')) {
         //$select_array = explode(',', $newbbConfig['since_options']);
         //$select_array = array_map('trim', $select_array);
         // irmtfan - if the array is empty do not show selection box
-        if (!(bool)$select_array) {
+        if (!$select_array) {
             $since = $newbbConfig['since_default'];
             switch ($since) {
                 case 0:

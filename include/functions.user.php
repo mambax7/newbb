@@ -181,7 +181,7 @@ function newbbIsModuleAdministrators(array $uid = []): array
     $xoopsGroupPermHandler = xoops_getHandler('groupperm');
     $xoopsGroupPermTable   = $xoopsGroupPermHandler->table;
 
-    if (!(bool)$uid) {
+    if (!$uid) {
         return $module_administrators;
     }
     $mid = $xoopsModule->getVar('mid');
