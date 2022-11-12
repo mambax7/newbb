@@ -77,7 +77,7 @@ exit();
  * @param $value
  * @return string
  */
-function checker(&$value)
+function checker(&$value): string
 {
     // keine Tags erlaubt
     $value = strip_tags($value);

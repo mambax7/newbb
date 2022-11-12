@@ -23,7 +23,7 @@ if (!defined('NEWBB_NOTIFY_ITEMINFO')) {
      * @param $item_id
      * @return array
      */
-    function newbb_notify_iteminfo($category, $item_id)
+    function newbb_notify_iteminfo($category, $item_id): array
     {
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');

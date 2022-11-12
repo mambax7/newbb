@@ -19,7 +19,7 @@ use XoopsModules\Newbb\{
 /**
  * @return array
  */
-function b_sitemap_newbb()
+function b_sitemap_newbb(): array
 {
     global $sitemap_configs;
     $sitemap = [];

@@ -22,7 +22,7 @@ if (!defined('NEWBB_FUNCTIONS_TOPIC')) {
      * @param null    $prefixColor
      * @return string
      */
-    function newbbGetTopicTitle($topicTitle, $prefixName = null, $prefixColor = null)
+    function newbbGetTopicTitle($topicTitle, $prefixName = null, $prefixColor = null): string
     {
         return getTopicTitle($topicTitle, $prefixName = null, $prefixColor = null);
     }
@@ -33,7 +33,7 @@ if (!defined('NEWBB_FUNCTIONS_TOPIC')) {
      * @param string|null $prefixColor
      * @return string
      */
-    function getTopicTitle(string $topicTitle, string $prefixName = null, string $prefixColor = null)
+    function getTopicTitle(string $topicTitle, string $prefixName = null, string $prefixColor = null): string
     {
         if (empty($prefixName)) {
             return $topicTitle;

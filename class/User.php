@@ -17,7 +17,7 @@ namespace XoopsModules\Newbb;
  * @param $RPGDIFF
  * @return array
  */
-function newbb_calculateLevel($RPG, $RPGDIFF)
+function newbb_calculateLevel($RPG, $RPGDIFF): array
 {
     //$RPG = $user->getVar('posts');
     //$RPGDIFF = $user->getVar('user_regdate');

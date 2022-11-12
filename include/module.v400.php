@@ -11,7 +11,7 @@
 
 use XoopsModules\Tag;
 
-function xoops_module_update_newbb_v400(XoopsModule $module)
+function xoops_module_update_newbb_v400(XoopsModule $module): bool
 {
     $statsHandler = xoops_getModuleHandler('stats', 'newbb');
 

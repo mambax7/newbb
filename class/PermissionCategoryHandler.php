@@ -51,7 +51,7 @@ class PermissionCategoryHandler extends Newbb\PermissionHandler
      * @param $cat_id
      * @return bool
      */
-    public function deleteByCategory($cat_id)
+    public function deleteByCategory($cat_id): bool
     {
         $cat_id = (int)$cat_id;
         if (empty($cat_id)) {
@@ -71,7 +71,7 @@ class PermissionCategoryHandler extends Newbb\PermissionHandler
      * @param array  $groups
      * @return bool
      */
-    public function setCategoryPermission($category, array $groups = [])
+    public function setCategoryPermission($category, array $groups = []): bool
     {
         if (\is_object($GLOBALS['xoopsModule']) && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
             $mid = $GLOBALS['xoopsModule']->getVar('mid');

@@ -143,7 +143,7 @@ class TypeHandler extends \XoopsPersistableObjectHandler
      * @param bool              $force  flag to force the query execution despite security settings
      * @return bool
      */
-    public function delete(\XoopsObject $object, $force = true)
+    public function delete(\XoopsObject $object, $force = true): bool
     {
         if (!\is_object($object) || !$object->getVar($this->keyName)) {
             return false;
@@ -177,7 +177,7 @@ class TypeHandler extends \XoopsPersistableObjectHandler
      * @param string $field_object
      * @return bool   true on success
      */
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = ''): bool //cleanOrphan()
     {
         /* clear forum-type links */
         $sql = 'DELETE FROM ' . $this->db->prefix('newbb_type_forum') . " WHERE ({$this->keyName} NOT IN ( SELECT DISTINCT {$this->keyName} FROM {$this->table}) )";

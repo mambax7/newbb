@@ -179,7 +179,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
      * @param bool $force (ignored)
      * @return bool        FALSE if failed.
      */
-    public function delete(\XoopsObject $object, $force = false)
+    public function delete(\XoopsObject $object, $force = false): bool
     {
         $digest = $object;
         $digest_id = $digest->getVar('digest_id');

@@ -41,7 +41,7 @@ function seo_urls($s)
  * @param $matches
  * @return string
  */
-function replace_links($matches)
+function replace_links($matches): string
 {
     switch ($matches[5]) {
         case 'index.php':

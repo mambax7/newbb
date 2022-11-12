@@ -39,7 +39,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param array $fields fields to fetch
      * @return null|\XoopsObject
      */
-    public function get($id = null,  $fields = null) //get($id)
+    public function get($id = null,  $fields = null): ?\XoopsObject //get($id)
     {
         $id    = (int)$id;
         $post  = null;
@@ -74,7 +74,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
         $asObject = true,
         int $topic_id = 0,
         int $approved = 1
-    ) {
+    ): array {
         $sql    = 'SELECT p.*, t.*, tp.topic_status FROM '
                   . $this->db->prefix('newbb_posts')
                   . ' p LEFT JOIN '
@@ -194,7 +194,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param bool $force
      * @return bool
      */
-    public function insert(\XoopsObject $object, $force = true) //insert(&$object, $force = true)
+    public function insert(\XoopsObject $object, $force = true): bool //insert(&$object, $force = true)
     {
         $post = $object;
         $topicObject = null;
@@ -320,7 +320,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param bool $force
      * @return bool
      */
-    public function myDelete(Post $post, $isDeleteOne = true, bool $force = false)
+    public function myDelete(Post $post, $isDeleteOne = true, bool $force = false): bool
     {
         if (!\is_object($post) || 0 == $post->getVar('post_id')) {
             return false;
@@ -530,7 +530,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
     /**
      * @return bool
      */
-    public function synchronization()
+    public function synchronization(): bool
     {
         //$this->cleanOrphan();
         return true;
@@ -544,7 +544,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param string $field_object
      * @return bool   true on success
      */
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = ''): bool //cleanOrphan()
     {
         $this->deleteAll(new \Criteria('post_time', '0'), true, true);
         parent::cleanOrphan($this->db->prefix('newbb_topics'), 'topic_id');

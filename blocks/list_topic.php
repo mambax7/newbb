@@ -54,7 +54,7 @@ require_once \dirname(__DIR__) . '/include/functions.user.php';
  * @param $options
  * @return array
  */
-function newbb_list_topic_show($options)
+function newbb_list_topic_show($options): array
 {
     $newbbConfig = newbbLoadConfig(); // load all newbb configs
 
@@ -105,7 +105,7 @@ function newbb_list_topic_show($options)
  * @param $options
  * @return string
  */
-function newbb_list_topic_edit($options)
+function newbb_list_topic_edit($options): string
 {
     // require_once $GLOBALS['xoops']->path('class/blockform.php'); //reserve for 2.6
     xoops_load('XoopsFormLoader');

@@ -33,7 +33,7 @@
  * @param \XoopsObject $module
  * @return bool
  */
-function xoops_module_update_newbb_v100(XoopsObject $module)
+function xoops_module_update_newbb_v100(XoopsObject $module): bool
 {
     $result = $GLOBALS['xoopsDB']->queryF(
         'CREATE TABLE ' . $GLOBALS['xoopsDB']->prefix('bb_archive') . "(

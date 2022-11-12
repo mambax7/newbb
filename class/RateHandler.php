@@ -48,7 +48,7 @@ class RateHandler extends \XoopsPersistableObjectHandler
      * @param string $field_object
      * @return bool   true on success
      */
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = ''): bool //cleanOrphan()
     {
         return parent::cleanOrphan($this->db->prefix('newbb_topics'), 'topic_id');
     }

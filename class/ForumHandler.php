@@ -58,7 +58,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * @param bool $force
      * @return bool
      */
-    public function delete(\XoopsObject $object, $force = false) //delete(&$object)
+    public function delete(\XoopsObject $object, $force = false): bool //delete(&$object)
     {
         global $xoopsModule;
         $forum = $object;
@@ -687,7 +687,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      */
     // START irmtfan rewrite forum cleanOrphan function. add parent_forum and cat_id orphan check
     //    public function cleanOrphan(array $forum_ids = [])
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '', array $forum_ids = [])
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '', array $forum_ids = []): bool
     {
         // check parent_forum orphan forums
         if (empty($forum_ids)) {

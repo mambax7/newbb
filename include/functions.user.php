@@ -30,7 +30,7 @@ use XoopsModules\Newbb\{
  * @param bool $linked
  * @return array
  */
-function newbbGetUnameFromIds(int $uid, int $usereal = 0, bool $linked = false)
+function newbbGetUnameFromIds(int $uid, int $usereal = 0, bool $linked = false): array
 {
     xoops_load('xoopsuserutility');
     $ids = \XoopsUserUtility::getUnameFromIds($uid, $usereal, $linked);
@@ -44,7 +44,7 @@ function newbbGetUnameFromIds(int $uid, int $usereal = 0, bool $linked = false)
  * @param bool $linked
  * @return string
  */
-function newbbGetUnameFromId(int $uid, int $usereal = 0, bool $linked = false)
+function newbbGetUnameFromId(int $uid, int $usereal = 0, bool $linked = false): string
 {
     xoops_load('xoopsuserutility');
 
@@ -58,7 +58,7 @@ function newbbGetUnameFromId(int $uid, int $usereal = 0, bool $linked = false)
  * @param int                         $mid
  * @return bool
  */
-function newbbIsAdministrator($user = -1, int $mid = 0)
+function newbbIsAdministrator($user = -1, int $mid = 0): bool
 {
     global $xoopsModule;
 
@@ -104,7 +104,7 @@ function newbbIsAdministrator($user = -1, int $mid = 0)
  * @param int|array |string|\XoopsUser $user
  * @return bool
  */
-function newbbIsModerator(&$forum, $user = -1)
+function newbbIsModerator(&$forum, $user = -1): bool
 {
     if (!is_object($forum)) {
         $forum_id = (int)$forum;
@@ -132,7 +132,7 @@ function newbbIsModerator(&$forum, $user = -1)
  * @param Forum|int $forum
  * @return bool
  */
-function newbbIsAdmin($forum = 0)
+function newbbIsAdmin($forum = 0): bool
 {
     global $xoopsModule;
     static $_cachedModerators;
@@ -166,7 +166,7 @@ function newbbIsAdmin($forum = 0)
  * @param array $uid
  * @return array
  */
-function newbbIsModuleAdministrators(array $uid = [])
+function newbbIsModuleAdministrators(array $uid = []): array
 {
     global $xoopsModule;
     $module_administrators = [];
@@ -218,7 +218,7 @@ function newbbIsModuleAdministrators(array $uid = [])
  * @param int   $mid
  * @return array
  */
-function newbbIsForumModerators(array $uid = [], int $mid = 0)
+function newbbIsForumModerators(array $uid = [], int $mid = 0): array
 {
     $forum_moderators = [];
 

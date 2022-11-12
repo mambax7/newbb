@@ -35,7 +35,7 @@ require_once \dirname(__DIR__) . '/preloads/autoloader.php';
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_newbb(\XoopsModule $module)
+function xoops_module_pre_update_newbb(\XoopsModule $module): bool
 {
     $moduleDirName = \basename(\dirname(__DIR__));
 
@@ -58,7 +58,7 @@ function xoops_module_pre_update_newbb(\XoopsModule $module)
  *
  * @return bool true if update successful, false if not
  */
-function xoops_module_update_newbb(\XoopsModule $module, $previousVersion = null)
+function xoops_module_update_newbb(\XoopsModule $module, $previousVersion = null): bool
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);

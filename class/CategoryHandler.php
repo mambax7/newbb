@@ -152,7 +152,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @param mixed $object
      * @return bool
      */
-    public function synchronization($object = null)
+    public function synchronization($object = null): bool
     {
         return true;
     }

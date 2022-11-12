@@ -23,7 +23,7 @@ use XoopsModules\Newbb\{
  *
  * @return bool true if ready to uninstall, false if not
  */
-function xoops_module_pre_uninstall_newbb(\XoopsModule $module)
+function xoops_module_pre_uninstall_newbb(\XoopsModule $module): bool
 {
     // Do some synchronization
     return true;
@@ -35,7 +35,7 @@ function xoops_module_pre_uninstall_newbb(\XoopsModule $module)
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_newbb(\XoopsModule $module)
+function xoops_module_uninstall_newbb(\XoopsModule $module): bool
 {
     //    return true;
 

@@ -42,7 +42,7 @@ $adminObject = Admin::getInstance();
  * @param int    $mode
  * @return bool
  */
-function newbb_admin_mkdir(string $target, int $mode = 0777)
+function newbb_admin_mkdir(string $target, int $mode = 0777): bool
 {
     $target = str_replace('..', '', $target);
 
@@ -55,7 +55,7 @@ function newbb_admin_mkdir(string $target, int $mode = 0777)
  * @param int    $mode
  * @return bool
  */
-function newbb_admin_chmod(string $target, int $mode = 0777)
+function newbb_admin_chmod(string $target, int $mode = 0777): bool
 {
     $target = str_replace('..', '', $target);
 
@@ -65,7 +65,7 @@ function newbb_admin_chmod(string $target, int $mode = 0777)
 /**
  * @return array
  */
-function newbb_getImageLibs()
+function newbb_getImageLibs(): array
 {
     $imageLibs = [];
     //    unset($output, $status);

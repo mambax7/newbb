@@ -31,7 +31,7 @@ function newbb_tag_block_cloud_show($options)
  * @param $options
  * @return null|string
  */
-function newbb_tag_block_cloud_edit($options)
+function newbb_tag_block_cloud_edit($options): ?string
 {
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
@@ -62,7 +62,7 @@ function newbb_tag_block_top_show($options)
  * @param $options
  * @return null|string
  */
-function newbb_tag_block_top_edit($options)
+function newbb_tag_block_top_edit($options): ?string
 {
     if (!@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php')) {
         return null;

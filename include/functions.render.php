@@ -75,7 +75,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
      * @param $document
      * @return string
      */
-    function newbbHtml2text($document)
+    function newbbHtml2text($document): string
     {
         $text = strip_tags($document);
 
@@ -93,7 +93,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
      * @return string
      * @internal param string $image image/button name, without extension
      */
-    function newbbGetButton($link, $button, string $alt = '', bool $asImage = true, string $extra = "class='forum_button'")
+    function newbbGetButton($link, $button, string $alt = '', bool $asImage = true, string $extra = "class='forum_button'"): string
     {
         $button = "<input type='button' name='{$button}' {$extra} value='{$alt}' onclick='window.location.href={$link}' >";
         if (empty($asImage)) {
@@ -139,7 +139,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
     /**
      * @return IconHandler
      */
-    function newbbGetIconHandler()
+    function newbbGetIconHandler(): IconHandler
     {
         global $xoTheme;
         static $iconHandler;

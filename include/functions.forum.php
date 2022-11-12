@@ -33,7 +33,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
      * @param bool       $see
      * @return string
      */
-    function newbbForumSelectBox(array $value = null, string $permission = 'access', bool $categoryDelimiter = true, bool $see = false)
+    function newbbForumSelectBox(array $value = null, string $permission = 'access', bool $categoryDelimiter = true, bool $see = false): string
     {
         global $xoopsUser;
         $categoryHandler = Helper::getInstance()->getHandler('Category');
@@ -91,7 +91,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
      * @param int $forum_id
      * @return string
      */
-    function newbbMakeJumpbox(int $forum_id = 0)
+    function newbbMakeJumpbox(int $forum_id = 0): string
     {
         $box = '<form name="forum_jumpbox" method="get" action="' . XOOPS_URL . '/modules/newbb/viewforum.php" onsubmit="javascript: if (document.forum_jumpbox.forum.value &lt; 1) {return false;}">';
         $box .= '<select class="select" name="forum" onchange="if (this.options[this.selectedIndex].value >0) { document.forms.forum_jumpbox.submit();}">';
@@ -115,7 +115,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
      * @param bool $refresh
      * @return array
      */
-    function newbbGetSubForum(int $pid = 0, bool $refresh = false)
+    function newbbGetSubForum(int $pid = 0, bool $refresh = false): array
     {
         static $list;
         if (null === $list) {
@@ -136,7 +136,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
     /**
      * @return array
      */
-    function newbbCreateSubForumList()
+    function newbbCreateSubForumList(): array
     {
         $forumHandler = Helper::getInstance()->getHandler('Forum');
         $criteria     = new \CriteriaCompo(null, 1);
@@ -186,7 +186,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
     /**
      * @return array
      */
-    function newbbCreateParentForumList()
+    function newbbCreateParentForumList(): array
     {
         $forumHandler = Helper::getInstance()->getHandler('Forum');
         $criteria     = new \Criteria('forum_id');

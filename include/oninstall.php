@@ -31,7 +31,7 @@ use XoopsModules\Newbb\{
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_install_newbb(\XoopsModule $module)
+function xoops_module_pre_install_newbb(\XoopsModule $module): bool
 {
     require_once \dirname(__DIR__) . '/preloads/autoloader.php';
     $utility      = new Utility();
@@ -54,7 +54,7 @@ function xoops_module_pre_install_newbb(\XoopsModule $module)
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_newbb(\XoopsModule $module)
+function xoops_module_install_newbb(\XoopsModule $module): bool
 {
     require_once \dirname(__DIR__, 3) . '/mainfile.php';
 

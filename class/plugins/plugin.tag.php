@@ -28,7 +28,7 @@ use XoopsModules\Tag;
  * @param mixed $items
  * @return bool
  */
-function newbb_tag_iteminfo(&$items)
+function newbb_tag_iteminfo(&$items): bool
 {
     if (!\is_array($items) || 0 === \count($items)) {
         return false;

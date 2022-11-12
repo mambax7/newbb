@@ -47,7 +47,7 @@ function newbb_search(
     $sortby = 0,
     string $searchin = 'both',
     \CriteriaCompo $criteriaExtra = null
-) {
+): array {
     global $myts, $xoopsDB;
     // irmtfan - in XOOPSCORE/search.php $GLOBALS['xoopsModuleConfig'] is not set
     if (!isset($GLOBALS['xoopsModuleConfig'])) {

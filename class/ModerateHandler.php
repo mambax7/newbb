@@ -138,7 +138,7 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
      * @param string $field_object
      * @return bool   true on success
      */
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = ''): bool //cleanOrphan()
     {
         $sql = 'DELETE FROM ' . $this->table . ' WHERE (forum_id >0 AND forum_id NOT IN ( SELECT DISTINCT forum_id FROM ' . $this->db->prefix('newbb_forums') . ') )';
         if (!$result = $this->db->queryF($sql)) {

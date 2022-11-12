@@ -33,7 +33,7 @@
  * @param XoopsModule $module
  * @return bool
  */
-function xoops_module_update_newbb_v220(XoopsModule $module)
+function xoops_module_update_newbb_v220(XoopsModule $module): bool
 {
     $perms = ['post', 'view', 'reply', 'edit', 'delete', 'addpoll', 'vote', 'attach', 'noapprove'];
     foreach ($perms as $perm) {

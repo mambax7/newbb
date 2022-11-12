@@ -167,7 +167,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param bool $isAdmin
      * @return array
      */
-    public function getPermissionTable(int $forum = 0, bool $topic_locked = false, bool $isAdmin = false)
+    public function getPermissionTable(int $forum = 0, bool $topic_locked = false, bool $isAdmin = false): array
     {
         $perm = [];
 
@@ -200,7 +200,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param $forum_id
      * @return bool
      */
-    public function deleteByForum($forum_id)
+    public function deleteByForum($forum_id): bool
     {
         $forum_id = (int)$forum_id;
         if (empty($forum_id)) {
@@ -221,7 +221,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param int   $mid
      * @return bool
      */
-    public function applyTemplate($forum, int $mid = 0)
+    public function applyTemplate($forum, int $mid = 0): bool
     {
         if (!$perm_template = $this->getTemplate()) {
             return false;

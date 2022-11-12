@@ -39,7 +39,7 @@ require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
  * @param null        $oldversion
  * @return bool
  */
-function xoops_module_update_newbb(\XoopsModule $module, $oldversion = null)
+function xoops_module_update_newbb(\XoopsModule $module, $oldversion = null): bool
 {
     $cacheHelper = new Cache('newbb');
     $cacheHelper->delete('config');
@@ -87,7 +87,7 @@ function xoops_module_update_newbb(\XoopsModule $module, $oldversion = null)
  * @param XoopsModule $module
  * @return bool
  */
-function xoops_module_pre_update_newbb(\XoopsModule $module)
+function xoops_module_pre_update_newbb(\XoopsModule $module): bool
 {
     //    XoopsLoad::load('migrate', 'newbb');
     $configurator = new Configurator();
@@ -102,7 +102,7 @@ function xoops_module_pre_update_newbb(\XoopsModule $module)
  * @param XoopsModule $module
  * @return bool
  */
-function xoops_module_pre_install_newbb(\XoopsModule $module)
+function xoops_module_pre_install_newbb(\XoopsModule $module): bool
 {
     $mod_tables = &$module->getInfo('tables');
     foreach ($mod_tables as $table) {
@@ -116,7 +116,7 @@ function xoops_module_pre_install_newbb(\XoopsModule $module)
  * @param XoopsModule $module
  * @return bool
  */
-function xoops_module_install_newbb(\XoopsModule $module)
+function xoops_module_install_newbb(\XoopsModule $module): bool
 {
     /* Create a test category */
     $categoryHandler = Helper::getInstance()->getHandler('Category');

@@ -37,7 +37,7 @@ define('NEWBB_BLOCK_DEFINED', true);
  * @param $var
  * @return bool
  */
-function b_newbb_array_filter($var)
+function b_newbb_array_filter($var): bool
 {
     return $var > 0;
 }
@@ -390,7 +390,7 @@ function b_newbb_topic_show($options)
  * @param $options
  * @return array
  */
-function b_newbb_post_show($options)
+function b_newbb_post_show($options): array
 {
     global $accessForums;
     global $newbbConfig;
@@ -651,7 +651,7 @@ function b_newbb_author_show($options)
  * @param $options
  * @return string
  */
-function b_newbb_edit($options)
+function b_newbb_edit($options): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
 
@@ -711,7 +711,7 @@ function b_newbb_edit($options)
  * @param $options
  * @return string
  */
-function b_newbb_topic_edit($options)
+function b_newbb_topic_edit($options): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $form = _MB_NEWBB_CRITERIA . "<select name='options[0]'>";
@@ -791,7 +791,7 @@ function b_newbb_topic_edit($options)
  * @param $options
  * @return string
  */
-function b_newbb_post_edit($options)
+function b_newbb_post_edit($options): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $form = _MB_NEWBB_CRITERIA . "<select name='options[0]'>";
@@ -855,7 +855,7 @@ function b_newbb_post_edit($options)
  * @param $options
  * @return string
  */
-function b_newbb_author_edit($options)
+function b_newbb_author_edit($options): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $form = _MB_NEWBB_CRITERIA . "<select name='options[0]'>";
@@ -923,7 +923,7 @@ function b_newbb_author_edit($options)
  * @param $options
  * @return bool
  */
-function b_newbb_custom($options)
+function b_newbb_custom($options): bool
 {
     // if no newbb module block set, we have to include the language file
     xoops_loadLanguage('blocks', 'newbb');
@@ -943,7 +943,7 @@ function b_newbb_custom($options)
  * @param $options
  * @return bool
  */
-function b_newbb_custom_topic($options)
+function b_newbb_custom_topic($options): bool
 {
     $helper = Helper::getInstance();
     // if no newbb module block set, we have to include the language file
@@ -964,7 +964,7 @@ function b_newbb_custom_topic($options)
  * @param $options
  * @return bool
  */
-function b_newbb_custom_post($options)
+function b_newbb_custom_post($options): bool
 {
     $helper = Helper::getInstance();
     // if no newbb module block set, we have to include the language file
@@ -985,7 +985,7 @@ function b_newbb_custom_post($options)
  * @param $options
  * @return bool
  */
-function b_newbb_custom_author($options)
+function b_newbb_custom_author($options): bool
 {
     $helper = Helper::getInstance();
     // if no newbb module block set, we have to include the language file

@@ -40,7 +40,7 @@ class GroupPermForm extends \XoopsGroupPermForm
     /**
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         // load all child ids for javascript codes
         foreach (\array_keys($this->_itemTree) as $item_id) {

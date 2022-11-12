@@ -399,7 +399,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool               $force
      * @return bool
      */
-    public function delete(\XoopsObject $object, $force = true)
+    public function delete(\XoopsObject $object, $force = true): bool
     {
         $topic = $object;
         $topicId = \is_object($topic) ? $topic->getVar('topic_id') : (int)$topic;
@@ -462,7 +462,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param string $field_object
      * @return bool   true on success
      */
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = ''): bool //cleanOrphan()
     {
         $this->deleteAll(new \Criteria('topic_time', '0'), true, true);
         parent::cleanOrphan($this->db->prefix('newbb_forums'), 'forum_id');
@@ -501,7 +501,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool                         $force
      * @return bool
      */
-    public function synchronization($object = null, bool $force = true)
+    public function synchronization($object = null, bool $force = true): bool
     {
         if (!\is_object($object)) {
             $object = $this->get((int)$object);

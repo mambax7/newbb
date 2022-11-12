@@ -44,7 +44,7 @@ class UserstatsHandler extends \XoopsPersistableObjectHandler
      * @param null  $fields
      * @return null|\XoopsObject
      */
-    public function get($id = null, $fields = null) //get($id)
+    public function get($id = null, $fields = null): ?\XoopsObject //get($id)
     {
         $object = null;
         if (!$id = (int)$id) {

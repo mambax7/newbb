@@ -92,7 +92,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      * Delete all expired and duplicated records
      */
     // START irmtfan rephrase function to 1- add clearDuplicate and 2- dont clean when read_expire = 0
-    public function clearGarbage()
+    public function clearGarbage(): bool
     {
         // irmtfan clear duplicaed rows
         if (!$result = $this->clearDuplicate()) {

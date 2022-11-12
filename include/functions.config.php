@@ -23,7 +23,7 @@ if (!defined('NEWBB_FUNCTIONS_CONFIG')) {
      * @internal param string $category
      * @internal param string $dirname
      */
-    function newbbLoadConfig()
+    function newbbLoadConfig(): ?array
     {
         require_once \dirname(__DIR__) . '/preloads/autoloader.php';
         //        require_once \dirname(__DIR__) . '/class/Helper.php';

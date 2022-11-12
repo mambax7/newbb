@@ -50,7 +50,7 @@ class ReadforumHandler extends Newbb\ReadHandler
      * @param string $field_object
      * @return bool   true on success
      */
-    public function cleanOrphan($table_link = '', $field_link = '', $field_object = '') //cleanOrphan()
+    public function cleanOrphan($table_link = '', $field_link = '', $field_object = ''): bool //cleanOrphan()
     {
         parent::cleanOrphan($this->db->prefix('newbb_posts'), 'post_id');
 
