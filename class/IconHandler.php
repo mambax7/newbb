@@ -36,23 +36,23 @@ class IconHandler
     /**
      * reference to XOOPS template
      */
-    public $template;
+    public string $template;
     /**
      * image set
      */
-    private $forumImage = [];
+    private array $forumImage = [];
     /**
      * prefix
      */
-    private $prefix = '';
+    private string $prefix = '';
     /**
      * postfix, including extension
      */
-    private $postfix = '.png';
+    private string $postfix = '.png';
     /**
      * images to be assigned to template
      */
-    private $images = [];
+    private array $images = [];
 
     /**
      * Constructor

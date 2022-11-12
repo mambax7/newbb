@@ -40,7 +40,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
      *
      * @var int
      */
-    private $items_per_forum;
+    private int $items_per_forum;
 
     /**
      * @param \XoopsDatabase|null $db

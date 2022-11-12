@@ -45,7 +45,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
      *
      * @var string
      */
-    public $type;
+    public string $type;
     /**
      * seconds records will persist.
      * assigned from $GLOBALS['xoopsModuleConfig']["read_expire"]

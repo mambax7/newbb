@@ -10,11 +10,11 @@ namespace XoopsModules\Newbb;
 class IpCheck
 {
     /** @var string|null */
-    private $ipin;
+    private string $ipin;
     /** @var string|null */
-    private $ipout;
+    private string $ipout;
     /** @var int|null */
-    private $ipver;
+    private int $ipver;
     // Return IP type.  4 for IPv4, 6 for IPv6, 0 for bad IP.
 
     /**

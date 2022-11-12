@@ -44,7 +44,7 @@ final class Blocksadmin
     /**
      * @var string
      */
-    public $moduleDirNameUpper;
+    public string $moduleDirNameUpper;
 
     /**
      * Blocksadmin constructor.

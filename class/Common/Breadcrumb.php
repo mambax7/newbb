@@ -32,9 +32,9 @@ namespace XoopsModules\Newbb\Common;
 class Breadcrumb
 {
     /** @var string */
-    private $dirname;
+    private string $dirname;
     /** @var array */
-    private $bread = [];
+    private array $bread = [];
 
     public function __construct()
     {

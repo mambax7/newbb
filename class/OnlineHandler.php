@@ -26,11 +26,11 @@ require_once \dirname(__DIR__) . '/include/functions.config.php';
  */
 class OnlineHandler
 {
-    public $db;
-    public $forum_id;
-    public $forumObject;
-    public $topic_id;
-    public $user_ids = [];
+    public ?XoopsDatabase $db;
+    public int            $forum_id;
+    public Forum          $forumObject;
+    public int            $topic_id;
+    public array          $user_ids = [];
 
     /**
      * OnlineHandler constructor.

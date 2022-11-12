@@ -28,8 +28,8 @@ namespace XoopsModules\Newbb;
 class StatsHandler
 {
     public $db;
-    public $table;
-    public $param = [
+    public string $table;
+    public array $param = [
         'type'   => ['topic', 'post', 'digest', 'view'],
         'period' => ['total', 'day', 'week', 'month'],
     ];

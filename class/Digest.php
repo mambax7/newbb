@@ -12,12 +12,12 @@ namespace XoopsModules\Newbb;
  */
 class Digest extends \XoopsObject
 {
-    public $digest_id;
-    public $digest_time;
-    public $digest_content;
-    public $items;
-    public $isHtml    = false;
-    public $isSummary = true;
+    public int    $digest_id;
+    public int    $digest_time;
+    public string $digest_content;
+    public array  $items;
+    public bool   $isHtml    = false;
+    public bool   $isSummary = true;
 
     public function __construct()
     {

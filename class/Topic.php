@@ -21,26 +21,26 @@ use XoopsModules\Xoopspoll;
  */
 class Topic extends \XoopsObject
 {
-    public $topic_id;
-    public $topic_title;
-    public $topic_poster;
-    public $topic_time;
-    public $topic_views;
-    public $topic_replies;
-    public $topic_last_post_id;
-    public $forum_id;
-    public $topic_status;
-    public $type_id;
-    public $topic_sticky;
-    public $topic_digest;
-    public $digest_time;
-    public $approved;
-    public $poster_name;
-    public $rating;
-    public $votes;
-    public $topic_haspoll;
-    public $poll_id;
-    public $topic_tags;
+    public int    $topic_id;
+    public string $topic_title;
+    public int    $topic_poster;
+    public int    $topic_time;
+    public int    $topic_views;
+    public int    $topic_replies;
+    public int    $topic_last_post_id;
+    public int    $forum_id;
+    public int    $topic_status;
+    public int    $type_id;
+    public int    $topic_sticky;
+    public int    $topic_digest;
+    public int    $digest_time;
+    public int    $approved;
+    public string $poster_name;
+    public float  $rating;
+    public int    $votes;
+    public int    $topic_haspoll;
+    public int    $poll_id;
+    public string $topic_tags;
 
     public function __construct()
     {

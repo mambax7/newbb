@@ -29,7 +29,7 @@ if (\defined('FORUM_PERM_ITEMS') && \class_exists('ForumPermissionHandler')) {
  */
 class PermissionForumHandler extends PermissionHandler
 {
-    protected $templateFilename;
+    protected string $templateFilename;
 
     /**
      * @param \XoopsDatabase|null $db

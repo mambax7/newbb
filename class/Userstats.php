@@ -17,11 +17,11 @@ namespace XoopsModules\Newbb;
  */
 class Userstats extends \XoopsObject
 {
-    public $uid;
-    public $user_topics;
-    public $user_digests;
-    public $user_posts;
-    public $user_lastpost;
+    public int $uid;
+    public int $user_topics;
+    public int $user_digests;
+    public int $user_posts;
+    public int $user_lastpost;
 
     public function __construct()
     {

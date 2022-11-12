@@ -29,31 +29,31 @@ use XoopsModules\Newbb;
  */
 class Post extends \XoopsObject
 {
-    public $post_id;
-    public $topic_id;
-    public $forum_id;
-    public $post_time;
+    public int $post_id;
+    public int $topic_id;
+    public int $forum_id;
+    public int $post_time;
     //        public $poster_ip ;
-    public $poster_ip;
-    public $poster_name;
-    public $subject;
-    public $pid;
-    public $dohtml;
-    public $dosmiley;
-    public $doxcode;
-    public $doimage;
-    public $dobr;
-    public $uid;
-    public $icon;
-    public $attachsig;
-    public $approved;
-    public $post_karma;
-    public $require_reply;
-    public $attachment;
-    public $post_text;
-    public $post_edit;
+    public string $poster_ip;
+    public string $poster_name;
+    public string $subject;
+    public int    $pid;
+    public int    $dohtml;
+    public int    $dosmiley;
+    public int    $doxcode;
+    public int    $doimage;
+    public int    $dobr;
+    public int    $uid;
+    public string $icon;
+    public int    $attachsig;
+    public int    $approved;
+    public int    $post_karma;
+    public int    $require_reply;
+    public string $attachment;
+    public string $post_text;
+    public string $post_edit;
     //class Post extends \XoopsObject {
-    private $attachmentArray = [];
+    private array $attachmentArray = [];
 
     public function __construct()
     {

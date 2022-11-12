@@ -17,9 +17,9 @@ namespace XoopsModules\Newbb;
  */
 class Text extends \XoopsObject
 {
-    public $post_id;
-    public $post_text;
-    public $post_edit;
+    public int $post_id;
+    public string $post_text;
+    public string $post_edit;
 
     public function __construct()
     {

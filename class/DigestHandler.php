@@ -19,7 +19,7 @@ use XoopsModules\Newbb;
  */
 class DigestHandler extends \XoopsPersistableObjectHandler
 {
-    public $last_digest;
+    public int $last_digest;
 
     /**
      * Constructor

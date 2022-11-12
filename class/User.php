@@ -94,7 +94,7 @@ function newbb_calculateLevel($RPG, $RPGDIFF)
  */
 class User
 {
-    public $user;
+    public \XoopsUser $user;
 
     public function __construct()
     {

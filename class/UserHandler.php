@@ -21,14 +21,14 @@ use XoopsModules\Newbb;
 class UserHandler
 {
     /** @var array */
-    public $users = [];
+    public array $users = [];
     /** @var bool */
-    private $enableGroup;
+    private bool $enableGroup;
     /** @var bool */
-    private $enableOnline;
+    private bool $enableOnline;
     /** @var array */
-    private $userlist = [];
-    public $online;
+    private array $userlist = [];
+    public bool $online;
 
     /**
      * @param bool $enableGroup

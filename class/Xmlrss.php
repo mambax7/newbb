@@ -22,27 +22,27 @@ namespace XoopsModules\Newbb;
  */
 class Xmlrss
 {
-    public $xml_version;
-    public $rss_version;
-    public $xml_encoding;
-    public $channel_title;
-    public $channel_link;
-    public $channel_desc;
-    public $channel_lastbuild;
-    public $channel_webmaster;
-    public $channel_editor;
-    public $channel_category;
-    public $channel_generator;
-    public $channel_language;
-    public $image_title;
-    public $image_url;
-    public $image_link;
-    public $image_description;
-    public $image_height;
-    public $image_width;
-    public $max_items;
-    public $max_item_description;
-    public $items = [];
+    public string $xml_version;
+    public string $rss_version;
+    public string $xml_encoding;
+    public string $channel_title;
+    public string $channel_link;
+    public string $channel_desc;
+    public string $channel_lastbuild;
+    public string $channel_webmaster;
+    public string $channel_editor;
+    public string $channel_category;
+    public string $channel_generator;
+    public string $channel_language;
+    public string $image_title;
+    public string $image_url;
+    public string $image_link;
+    public string $image_description;
+    public int    $image_height;
+    public int    $image_width;
+    public int    $max_items;
+    public int    $max_item_description;
+    public array  $items = [];
 
     public function __construct()
     {

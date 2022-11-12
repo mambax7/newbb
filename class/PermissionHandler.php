@@ -28,12 +28,12 @@ if (!\class_exists('XoopsGroupPermHandler')) {
  */
 class PermissionHandler extends \XoopsGroupPermHandler
 {
-    protected $cacheHelper;
+    protected Cache $cacheHelper;
     /** @var array|null */
-    private $_handler;
+    private array $_handler;
     
     /** @var Helper */
-    private $helper;
+    private ?Helper $helper;
 
     /**
      * @param \XoopsDatabase|null $db

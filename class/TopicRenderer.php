@@ -22,7 +22,7 @@ use XoopsModules\Newbb;
  */
 class TopicRenderer
 {
-    public $vars = [];
+    public array $vars = [];
     /**
      * reference to moduleConfig
      */
@@ -30,20 +30,20 @@ class TopicRenderer
     /**
      * Current user has no access to current page
      */
-    private $noperm = false;
+    private bool $noperm = false;
     /**
      * For multiple forums
      */
-    public $is_multiple = false;
+    public bool $is_multiple = false;
     /**
      * force to parse vars (run against static vars) irmtfan
      */
-    public $force = false;
+    public bool $force = false;
     /**
      * Vistitor's level: 0 - anonymous; 1 - user; 2 - moderator or admin
      */
-    public $userlevel = 0;
-    public $query     = [];
+    public int   $userlevel = 0;
+    public array $query     = [];
     /**
      * reference to an object handler
      */
@@ -51,11 +51,11 @@ class TopicRenderer
     /**
      * Requested page
      */
-    private $page = 'list.topic.php';
+    private string $page = 'list.topic.php';
     /**
      * query variables
      */
-    private $args = ['forum', 'uid', 'lastposter', 'type', 'status', 'mode', 'sort', 'order', 'start', 'since'];
+    private array $args = ['forum', 'uid', 'lastposter', 'type', 'status', 'mode', 'sort', 'order', 'start', 'since'];
     /**
      * Constructor
      */
