@@ -48,7 +48,7 @@ if (!\class_exists('ObjectTree')) {
          * @internal  param string $selected Value to display as selected
          * @access    private
          */
-        protected function makeTreeItems($key, &$ret, $prefix_orig, $prefix_curr = '', $tags = null): void
+        private function makeTreeItems($key, &$ret, $prefix_orig, $prefix_curr = '', $tags = null): void
         {
             if ($key > 0) {
                 if (\count($tags) > 0) {
