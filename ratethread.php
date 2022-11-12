@@ -64,18 +64,15 @@ if (0 !== $ratinguser) {
     // Check if REG user is trying to vote twice.
     $crit_rate = new \CriteriaCompo(new \Criteria('topic_id', $topic_id));
     $crit_rate->add(new \Criteria('ratinguser', $ratinguser));
-    if ($rateHandler->getCount($crit_rate)) {
-        redirect_header('viewtopic.php?topic_id=' . $topic_id . '&amp;forum=' . $forum . '', 4, _MD_NEWBB_VOTEONCE);
-    }
 } else {
     // Check if ANONYMOUS user is trying to vote more than once per day.
     $crit_rate = new \CriteriaCompo(new \Criteria('topic_id', $topic_id));
     $crit_rate->add(new \Criteria('ratinguser', $ratinguser));
     $crit_rate->add(new \Criteria('ratinghostname', $ip));
     $crit_rate->add(new \Criteria('ratingtimestamp', time() - (86400 * $anonwaitdays), '>'));
-    if ($rateHandler->getCount($crit_rate)) {
-        redirect_header('viewtopic.php?topic_id=' . $topic_id . '&amp;forum=' . $forum . '', 4, _MD_NEWBB_VOTEONCE);
-    }
+}
+if ($rateHandler->getCount($crit_rate)) {
+    redirect_header('viewtopic.php?topic_id=' . $topic_id . '&amp;forum=' . $forum . '', 4, _MD_NEWBB_VOTEONCE);
 }
 $rateObject = $rateHandler->create();
 $rateObject->setVar('rating', $rate * 2);

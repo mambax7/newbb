@@ -3,7 +3,7 @@
 namespace XoopsModules\Newbb;
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -51,11 +51,10 @@ class OnlineHandler
     {
         if (\is_object($forum)) {
             $this->forum_id    = $forum->getVar('forum_id');
-            $this->forumObject = $forum;
         } else {
             $this->forum_id    = (int)$forum;
-            $this->forumObject = $forum;
         }
+        $this->forumObject = $forum;
         if (\is_object($forumtopic)) {
             $this->topic_id = $forumtopic->getVar('topic_id');
             if (empty($this->forum_id)) {

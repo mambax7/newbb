@@ -603,13 +603,12 @@ if (is_object($pollModuleHandler) && $pollModuleHandler->getVar('isactive')) {
             if ($hasvoted || $pollObject->hasExpired()) {
                 $renderer->assignResults($xoopsTpl);
                 $xoopsTpl->assign('topic_pollresult', 1);
-                setcookie('newbb_polls[' . $poll_id . ']', 1);
             } else {
                 $renderer->assignForm($xoopsTpl);
                 $xoopsTpl->assign('lang_vote', _PL_VOTE);
                 $xoopsTpl->assign('lang_results', _PL_RESULTS);
-                setcookie('newbb_polls[' . $poll_id . ']', 1);
             }
+            setcookie('newbb_polls[' . $poll_id . ']', 1);
         }
     }
     // END can vote in poll

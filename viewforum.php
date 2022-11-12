@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -144,11 +144,10 @@ if ($forumHandler->getPermission($forumObject, 'post')) {
     if (!is_object($GLOBALS['xoopsUser']) && !empty($GLOBALS['xoopsModuleConfig']['show_reg'])) {
         $redirect = preg_replace('|(.*)\/modules\/Newbb\/(.*)|', '\\1/modules/newbb/newtopic.php?forum=' . $forum_id, htmlspecialchars((string)$xoopsRequestUri, ENT_QUOTES | ENT_HTML5));
         $xoopsTpl->assign('forum_post_or_register', "<a href='" . XOOPS_URL . "/user.php?xoops_redirect={$redirect}'>" . _MD_NEWBB_REGTOPOST . '</a>');
-        $xoopsTpl->assign('forum_addpoll', '');
     } else {
         $xoopsTpl->assign('forum_post_or_register', '');
-        $xoopsTpl->assign('forum_addpoll', '');
     }
+    $xoopsTpl->assign('forum_addpoll', '');
 }
 $parentforum = $forumHandler->getParents($forumObject);
 $xoopsTpl->assign_by_ref('parentforum', $parentforum);

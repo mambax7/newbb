@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * NewBB 5.0x,  the forum module for XOOPS project
+ * NewBB,  the forum module for XOOPS project
  *
  * @copyright      XOOPS Project (https://xoops.org)
  * @license        GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -91,12 +91,11 @@ if (!empty($GLOBALS['xoopsModuleConfig']['download_direct'])) {
     header('Expires: 0');
     //header('Content-Type: '.$mimetype);
     header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="' . $file_display . '"');
     if (preg_match('/MSIE (\d\.\d{1,2})/', Request::getString('HTTP_USER_AGENT', '', 'SERVER'))) {
-        header('Content-Disposition: attachment; filename="' . $file_display . '"');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
     } else {
-        header('Content-Disposition: attachment; filename="' . $file_display . '"');
         header('Pragma: no-cache');
     }
     header('Content-Type: application/force-download');

@@ -611,15 +611,13 @@ function b_newbb_author_show($options)
         return false;
     }
 
+    $forumCriteria   = ' AND forum_id IN (' . implode(',', $allowedForums) . ')';
+    $approveCriteria = ' AND approved = 1';
     if ('topic' === $type) {
-        $forumCriteria   = ' AND forum_id IN (' . implode(',', $allowedForums) . ')';
-        $approveCriteria = ' AND approved = 1';
         $query           = 'SELECT DISTINCT topic_poster AS author, COUNT(*) AS count
                     FROM ' . $GLOBALS['xoopsDB']->prefix('newbb_topics') . '
                     WHERE topic_poster>0 ' . $forumCriteria . $approveCriteria . $extraCriteria . ' GROUP BY topic_poster ORDER BY ' . $order . ' DESC';
     } else {
-        $forumCriteria   = ' AND forum_id IN (' . implode(',', $allowedForums) . ')';
-        $approveCriteria = ' AND approved = 1';
         $query           = 'SELECT DISTINCT uid AS author, COUNT(*) AS count
                     FROM ' . $GLOBALS['xoopsDB']->prefix('newbb_posts') . '
                     WHERE uid > 0 ' . $forumCriteria . $approveCriteria . $extraCriteria . ' GROUP BY uid ORDER BY ' . $order . ' DESC';

@@ -62,12 +62,10 @@ $mail_author = false;
 if ($pollModuleHandler->getVar('version') >= 201) {
     //    $classConstants = \XoopsModules\Xoopspoll\Constants;
     if (is_object($pollObject)) {
+        $optionId = Request::getInt('option_id', 0, 'POST');
         if ($pollObject->getVar('multiple')) {
-            $optionId = Request::getInt('option_id', 0, 'POST');
             $optionId = (array)$optionId; // type cast to make sure it's an array
             $optionId = array_map('\intval', $optionId); // make sure values are integers
-        } else {
-            $optionId = Request::getInt('option_id', 0, 'POST');
         }
         if ($pollObject->hasExpired()) {
             /* poll has expired so just show the results */
@@ -119,14 +117,13 @@ if ($pollModuleHandler->getVar('version') >= 201) {
     if (is_object($GLOBALS['xoopsUser'])) {
         if ($classLog::hasVoted($poll_id, Request::getString('REMOTE_ADDR', '', 'SERVER'), $GLOBALS['xoopsUser']->getVar('uid'))) {
             $msg = _PL_ALREADYVOTED;
-            setcookie("newbb_polls[{$poll_id}]", 1);
         } else {
             // irmtfan save ip to db
             $pollObject->vote(Request::getInt('option_id', 0, 'POST'), Request::getString('REMOTE_ADDR', '', 'SERVER'), $GLOBALS['xoopsUser']->getVar('uid'));
             $pollObject->updateCount();
             $msg = _PL_THANKSFORVOTE;
-            setcookie("newbb_polls[{$poll_id}]", 1);
         }
+        setcookie("newbb_polls[{$poll_id}]", 1);
     } elseif ($classLog::hasVoted($poll_id, Request::getString('REMOTE_ADDR', '', 'SERVER'))) {
         $msg = _PL_ALREADYVOTED;
         setcookie("newbb_polls[{$poll_id}]", 1);
