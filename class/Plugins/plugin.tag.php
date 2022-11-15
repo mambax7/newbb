@@ -72,9 +72,9 @@ function newbb_tag_iteminfo(&$items): bool
 /**
  * Remove orphan tag-item links
  *
- * @param $mid
+ * @param int $mid
  */
-function newbb_tag_synchronization($mid): void
+function newbb_tag_synchronization(int $mid): void
 {
     /** @var TopicHandler $itemHandler */
     $itemHandler = Helper::getInstance()->getHandler('Topic');
