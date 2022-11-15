@@ -161,7 +161,7 @@ $r_content = _MD_NEWBB_SUBJECTC . ' ' . $r_subject . '<br>';
 $r_content .= _MD_NEWBB_BY . ' ' . $r_name . ' ' . _MD_NEWBB_ON . ' ' . $r_date . '<br><br>';
 $r_content .= $r_message;
 
-echo "<br><table cellpadding='4' cellspacing='1' width='98%' class='outer'><tr><td class='head'>" . $r_subject . '</td></tr>';
+echo "<br><table class='outer' style='padding: 4px; border-collapse: separate; border-spacing: 1px; width: 98%;'><tr><td class='head'>" . $r_subject . '</td></tr>';
 echo '<tr><td><br>' . $r_content . '<br></td></tr></table>';
 
 require_once $GLOBALS['xoops']->path('footer.php');

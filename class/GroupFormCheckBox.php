@@ -23,10 +23,10 @@ namespace XoopsModules\Newbb;
 class GroupFormCheckBox extends \XoopsGroupFormCheckBox
 {
     /**
-     * @param      $caption
-     * @param      $name
-     * @param      $groupId
-     * @param null $values
+     * @param string     $caption
+     * @param string     $name
+     * @param int     $groupId
+     * @param array|null $values
      */
     public function __construct($caption, $name, $groupId, $values = null)
     {

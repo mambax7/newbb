@@ -54,7 +54,7 @@ function xoops_module_pre_update_newbb(\XoopsModule $module): bool
 /**
  * Performs tasks required during update of the module
  * @param \XoopsModule $module {@link XoopsModule}
- * @param null         $previousVersion
+ * @param string|int|null         $previousVersion
  *
  * @return bool true if update successful, false if not
  */

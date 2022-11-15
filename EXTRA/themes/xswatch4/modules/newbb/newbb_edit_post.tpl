@@ -32,11 +32,11 @@
 <{/if}>
 
 <{if $post_preview|default:''}>
-    <table width='100%' class='outer' cellspacing='1'>
-        <tr valign="top">
+    <table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>
+        <tr style="vertical-align: top;">
             <td class="head"><{$post_preview.subject}></td>
         </tr>
-        <tr valign="top">
+        <tr style="vertical-align: top;">
             <td><{$post_preview.meta}><br><br>
                 <{$post_preview.content}>
             </td>
@@ -75,12 +75,12 @@
 <br>
 
 <{if $posts_context|default:''}>
-    <table width='100%' class='outer' cellspacing='1'>
+    <table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>
         <{foreach item=post from=$posts_context}>
-        <tr valign="top">
+        <tr style="vertical-align: top;">
             <td class="head"><{$post.subject}></td>
         </tr>
-        <tr valign="top">
+        <tr style="vertical-align: top;">
             <td><{$post.meta}><br><br>
                 <{$post.content}>
             </td>

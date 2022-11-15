@@ -3,7 +3,10 @@
 use Xmf\Highlighter;
 use Xmf\Metagen;
 use Xmf\Request;
-use XoopsModules\Newbb\OnlineHandler;
+use XoopsModules\Newbb\{
+    Forum,
+    OnlineHandler
+};
 
 /** @var OnlineHandler $onlineHandler */
 
@@ -77,7 +80,8 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
     $next_search['selectlength'] = $selectlength;
 
     $start = Request::getInt('start', 0);
-    $forum = Request::getInt('forum', null);
+    /** @var array|string $forum */
+    $forum = Request::getInt('forum', 0);
     if (empty($forum) || 'all' === $forum || (is_array($forum) && in_array('all', $forum, true))) {
         $forum = [];
     } elseif (!is_array($forum)) {
@@ -148,6 +152,7 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
     // entries must be lowercase
     $allowed = ['p.post_time', 'p.subject']; // irmtfan just post time and subject
 
+    /** @var string $sortby */
     $sortby                = Request::getString('sortby', 'p.post_time');
     $next_search['sortby'] = $sortby;
     //$sortby = (in_array(strtolower($sortby), $allowed)) ? $sortby :  't.topic_last_post_id';

@@ -167,7 +167,7 @@ class Topic extends \XoopsObject
             // old Xoopspoll or Umfrage or any clone from them
         } else {
             $classPoll = $this->loadOldPoll();
-            /** @var \XoopsPoll $poll */
+            /** @var XoopsPoll\Poll $poll */
             $poll = new $classPoll($poll_id);
             if (false !== $poll->delete()) {
                 $classOption = $classPoll . 'Option';

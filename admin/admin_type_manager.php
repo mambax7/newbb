@@ -114,10 +114,10 @@ switch ($op) {
         $adminObject->addItemButton(_AM_NEWBB_TYPE_FORUM, 'admin_type_manager.php?op=forum', $icon = 'add');
         $adminObject->displayButton('left');
         echo '<legend style="font-weight: bold; color: #900;">' . _AM_NEWBB_TYPE_ORDER_DESC . '</legend>';
-        echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+        echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
         echo "<form name='template' method='post' action='" . xoops_getenv('SCRIPT_NAME') . "'>";
-        echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        echo "<tr align='center'>";
+        echo "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        echo "<tr style='text-align:center;'>";
         echo "<th class='bg3' width='20%'>" . _AM_NEWBB_TYPE_ORDER . '</th>';
         echo "<th class='bg3' width='20%'>" . _AM_NEWBB_TYPE_NAME . '</th>';
         echo "<th class='bg3'>" . _AM_NEWBB_TYPE_DESCRIPTION . '</th>';
@@ -131,7 +131,7 @@ switch ($op) {
                     continue;
                 }
                 $typeObject = $typesObject[$key];
-                echo "<tr class='even' align='left'>";
+                echo "<tr class='even' style='text-align:left;'>";
                 echo "<td><input type='text' name='type_order[{$key}]' value='" . $order . "' size='10' ></td>";
                 echo "<td><em style='color:" . $typeObject->getVar('type_color') . ";'>" . $typeObject->getVar('type_name') . '</em></td>';
                 echo '<td>' . $typeObject->getVar('type_description') . '</td>';
@@ -141,7 +141,7 @@ switch ($op) {
             echo "<tr><td colspan='3' height='5px'></td></tr>";
         }
         foreach ($typesObject as $key => $typeObject) {
-            echo "<tr class='odd' align='left'>";
+            echo "<tr class='odd' style='text-align:left;'>";
             echo "<td><input type='text' name='type_order[{$key}]' value='0' size='10' ></td>";
             echo "<td><em style='color:" . $typeObject->getVar('type_color') . ";'>" . $typeObject->getVar('type_name') . '</em></td>';
             echo '<td>' . $typeObject->getVar('type_description') . '</td>';
@@ -196,9 +196,9 @@ switch ($op) {
         $adminObject->addItemButton(_AM_NEWBB_TYPE_FORUM, 'admin_type_manager.php?op=forum', $icon = 'add');
         $adminObject->displayButton('left');
 
-        echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
-        echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        echo "<tr align='center'>";
+        echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
+        echo "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        echo "<tr style='text-align:center;'>";
         echo "<th class='bg3' width='20%'>" . _AM_NEWBB_TYPE_NAME . '</th>';
         echo "<th class='bg3' width='20%'>" . _AM_NEWBB_TYPE_ORDER . '</th>';
         echo "<th class='bg3'>" . _AM_NEWBB_TYPE_DESCRIPTION . '</th>';
@@ -211,7 +211,7 @@ switch ($op) {
                 continue;
             }
             $typeObject = $typesObject[$key];
-            echo "<tr class='even' align='left'>";
+            echo "<tr class='even' style='text-align:left;'>";
             echo "<td><em style='color:" . $typeObject->getVar('type_color') . ";'>" . $typeObject->getVar('type_name') . '</em></td>';
             echo '<td>' . $order . '</td>';
             echo '<td>' . $typeObject->getVar('type_description') . '</td>';
@@ -294,10 +294,10 @@ switch ($op) {
         $adminObject->addItemButton(_AM_NEWBB_TYPE_FORUM, 'admin_type_manager.php?op=forum', $icon = 'add');
         $adminObject->displayButton('left');
         echo '<legend style="font-weight: bold; color: #900;">' . _AM_NEWBB_TYPE_ORDER_DESC . '</legend>';
-        echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+        echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
         echo "<form name='template' method='post' action='" . xoops_getenv('SCRIPT_NAME') . "'>";
-        echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        echo "<tr align='center'>";
+        echo "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        echo "<tr style='text-align:center;'>";
         echo "<th class='bg3' width='20%'>" . _AM_NEWBB_TYPE_ORDER . '</th>';
         echo "<th class='bg3' width='20%'>" . _AM_NEWBB_TYPE_NAME . '</th>';
         echo "<th class='bg3'>" . _AM_NEWBB_TYPE_DESCRIPTION . '</th>';
@@ -314,7 +314,7 @@ switch ($op) {
                 continue;
             }
             $typeObject = $typesObject[$type['type_id']];
-            echo "<tr class='even' align='left'>";
+            echo "<tr class='even' style='text-align:left;'>";
             echo "<td><input type='text' name='type_order[" . $type['type_id'] . "]' value='" . $type['type_order'] . "' size='10' ></td>";
             echo "<td><em style='color:" . $typeObject->getVar('type_color') . ";'>" . $typeObject->getVar('type_name') . '</em></td>';
             echo '<td>' . $typeObject->getVar('type_description') . '</td>';
@@ -323,7 +323,7 @@ switch ($op) {
         }
         echo "<tr><td colspan='3' height='5px'></td></tr>";
         foreach ($typesObject as $key => $typeObject) {
-            echo "<tr class='odd' align='left'>";
+            echo "<tr class='odd' style='text-align:left;'>";
             echo "<td><input type='text' name='type_order[{$key}]' value='0' size='10' ></td>";
             echo "<td><em style='color:" . $typeObject->getVar('type_color') . ";'>" . $typeObject->getVar('type_name') . '</em></td>';
             echo '<td>' . $typeObject->getVar('type_description') . '</td>';
@@ -364,16 +364,16 @@ switch ($op) {
             $adminObject->displayButton('left');
         }
         echo _AM_NEWBB_TYPE_HELP;
-        echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+        echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
         echo "<form name='list' method='post' action='" . xoops_getenv('SCRIPT_NAME') . "'>";
-        echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        echo "<tr align='center'>";
+        echo "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        echo "<tr style='text-align:center;'>";
         if ('add' !== $op) {
             echo "<th class='bg3' width='5%'>" . _DELETE . '</th>';
         }
-        echo "<th align='left' class='bg3' width='20%'>" . _AM_NEWBB_TYPE_NAME . '</th>';
+        echo "<th style='text-align:left;' class='bg3' width='20%'>" . _AM_NEWBB_TYPE_NAME . '</th>';
         echo "<th class='bg3' width='15%'>" . _AM_NEWBB_TYPE_COLOR . '</th>';
-        echo "<th align='left' class='bg3'>" . _AM_NEWBB_TYPE_DESCRIPTION . '</th>';
+        echo "<th style='text-align:left;' class='bg3'>" . _AM_NEWBB_TYPE_DESCRIPTION . '</th>';
         echo '</tr>';
 
         if (class_exists('XoopsFormColorPicker')) {
@@ -382,7 +382,7 @@ switch ($op) {
 
         if ('add' !== $op) {
             foreach ($typesObject as $key => $typeObject) {
-                echo "<tr class='odd' align='left'>";
+                echo "<tr class='odd' style='text-align:left;'>";
                 echo "<td><input type='checkbox' name='type_del[{$key}]' ></td>";
                 echo "<td><input type='text' name='type_name[{$key}]' value='" . $typeObject->getVar('type_name') . "' size='10' ></td>";
                 if ($isColorpicker) {
@@ -400,7 +400,7 @@ switch ($op) {
             $adminObject->addItemButton(_AM_NEWBB_TYPE_FORUM, 'admin_type_manager.php?op=forum', $icon = 'add');
             $adminObject->displayButton('left');
             for ($i = 0; $i < 10; ++$i) {
-                echo "<tr class='odd' align='left'>";
+                echo "<tr class='odd' style='text-align:left;'>";
                 echo "<td><input type='text' name='type_name[{$i}]' value='' size='10' ></td>";
                 if ($isColorpicker) {
                     $form_colorpicker = new \XoopsFormColorPicker('', "type_color[{$i}]", '');

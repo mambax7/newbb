@@ -1,4 +1,4 @@
-<table class="table table-hover" cellspacing="1">
+<table class="table table-hover" style="border-collapse: separate; border-spacing: 1px;">
 
     <{if $block.disp_mode == 0}>
         <tr>
@@ -8,7 +8,7 @@
         <{foreach item=author key=uid from=$block.authors}>
         <tr>
             <td><a href="<{$xoops_url}>/userinfo.php?uid=<{$uid}>"><{$author.name}></a></td>
-            <td align="center"><{$author.count}></td>
+            <td style="text-align:center;"><{$author.count}></td>
         </tr>
     <{/foreach}>
 

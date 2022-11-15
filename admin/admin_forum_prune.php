@@ -38,7 +38,7 @@ $adminObject->displayNavigation(basename(__FILE__));
 //if (!$newXoopsModuleGui) loadModuleAdminMenu(5, _AM_NEWBB_PRUNE_TITLE);
 //    else $adminObject->displayNavigation(basename(__FILE__));
 
-echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
 
 if (Request::hasVar('submit', 'POST')) {
     $post_list       = null;

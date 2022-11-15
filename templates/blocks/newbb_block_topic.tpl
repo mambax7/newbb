@@ -1,20 +1,20 @@
-<table class="outer" cellspacing="1">
+<table class="outer" style="border-collapse: separate; border-spacing: 1px;">
 
     <{if $block.disp_mode == 0}>
         <tr>
             <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_FORUM}></th>
             <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_TITLE}></th>
-            <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_RPLS}></th>
-            <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_VIEWS}></th>
-            <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
+            <th class="head" style="text-align:center;" nowrap="nowrap"><{$smarty.const._MB_NEWBB_RPLS}></th>
+            <th class="head" style="text-align:center;" nowrap="nowrap"><{$smarty.const._MB_NEWBB_VIEWS}></th>
+            <th class="head" style="text-align:center;" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
         </tr>
         <{foreach item=topic from=$block.topics}>
         <tr class="<{cycle values="even,odd"}>">
             <{* irmtfan remove hardcoded html in URLs  *}>
             <td><a href="<{$topic.seo_forum_url}>"><{$topic.forum_name}></a></td>
             <td><a href="<{$topic.seo_topic_url}>"><{$topic.title}></a></td>
-            <td align="center"><{$topic.replies}></td>
-            <td align="center"><{$topic.views}></td>
+            <td style="text-align:center;"><{$topic.replies}></td>
+            <td style="text-align:center;"><{$topic.views}></td>
             <{* irmtfan hardcode removed align="right" *}>
             <td class="align_right"><{$topic.time}><br><{$topic.topic_poster}></td>
         </tr>
@@ -23,7 +23,7 @@
     <{elseif $block.disp_mode == 1}>
         <tr>
             <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_TOPIC}></th>
-            <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
+            <th class="head" style="text-align:center;" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
         </tr>
         <{foreach item=topic from=$block.topics}>
         <tr class="<{cycle values="even,odd"}>">

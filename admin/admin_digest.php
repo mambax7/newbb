@@ -26,7 +26,7 @@ require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
 
 $op   = Request::getCmd('op', Request::getCmd('op', 'default', 'POST'), 'GET'); // !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"default");
-$item = Request::getString('op', Request::getInt('item', 'process', 'POST'), 'GET'); //!empty($_GET['op'])? $_GET['item'] : (!empty($_POST['item'])?$_POST['item']:"process");
+$item = Request::getString('op', Request::getString('item', 'process', 'POST'), 'GET'); //!empty($_GET['op'])? $_GET['item'] : (!empty($_POST['item'])?$_POST['item']:"process");
 
 $start = Request::getInt('start', 0, 'GET');
 //$reportHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Report');
@@ -79,26 +79,26 @@ switch ($op) {
         echo '<li>' . _AM_NEWBB_DIGEST_HELP_2 . '</li>';
         echo '<li>' . _AM_NEWBB_DIGEST_HELP_3 . '</li>';
         echo '<li>' . _AM_NEWBB_DIGEST_HELP_4 . '</li></ul>';
-        echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+        echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
         echo '<form action="' . xoops_getenv('SCRIPT_NAME') . '" method="post">';
-        echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        echo "<tr align='center'>";
+        echo "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        echo "<tr style='text-align:center;'>";
         echo "<th class='bg3' width='2%'>" . _DELETE . '</th>';
         echo "<th class='bg3'>" . _AM_NEWBB_DIGESTCONTENT . '</th>';
         echo '</tr>';
 
-        $digests = [];
+        $digestArray = [];
         //        $digestHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Digest');
-        $digests = $digestHandler->getAllDigests($start, $limit);
-        foreach ($digests as $digest) {
-            echo "<tr class='odd' align='left'>";
-            echo "<td align='center' ><input type='checkbox' name='digest_id[" . $digest['digest_id'] . "]' value='1' ></td>";
+        $digestArray = $digestHandler->getAllDigests($start, $limit);
+        foreach ($digestArray as $digest) {
+            echo "<tr class='odd' style='text-align:left;'>";
+            echo "<td style='text-align:center;' ><input type='checkbox' name='digest_id[" . $digest['digest_id'] . "]' value='1' ></td>";
             echo '<td><strong>#' . $digest['digest_id'] . ' @ ' . formatTimestamp($digest['digest_time']) . '</strong><br>' . str_replace("\n", '<br>', $digest['digest_content']) . '</td>';
             echo '</tr>';
             echo "<tr colspan='2'><td height='2'></td></tr>";
         }
         $submit = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
-        echo "<tr><td colspan='2' align='center'>" . $submit->render() . '</td></tr>';
+        echo "<tr><td colspan='2' style='text-align:center;'>" . $submit->render() . '</td></tr>';
         $hidden = new \XoopsFormHidden('op', 'delete');
         echo $hidden->render();
         $hidden = new \XoopsFormHidden('item', $item);

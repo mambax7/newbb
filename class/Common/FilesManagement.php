@@ -52,10 +52,10 @@ trait FilesManagement
     }
 
     /**
-     * @param $src
-     * @param $dst
+     * @param string $src
+     * @param string $dst
      */
-    public static function recurseCopy($src, $dst): void
+    public static function recurseCopy(string $src, string $dst): void
     {
         $dir = \opendir($src);
         //        @mkdir($dst);

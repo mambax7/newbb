@@ -9,14 +9,14 @@
 <{* irmtfan removed  *}>
 <{*<{if $post_id == $topic_post.post_id}><div id="aktuell"></div><{/if}>*}>
 
-<table class="outer" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="border-bottom-width: 0;">
+<table class="outer" style="border: 0; padding: 0; border-collapse: collapse; border-spacing: 0; text-align:center;">
     <tr>
         <{* irmtfan hardcode removed align="left" *}>
-        <th width="20%" class="left">
+        <th style="width:20%;" class="left">
             <div class="ThreadUserName"><{$topic_post.poster.link}></div>
         </th>
         <{* irmtfan hardcode removed align="left" *}>
-        <th width="75%" class="left">
+        <th style="width:75%;" class="left">
             <div class="comTitle"><{$topic_post.post_title}></div>
         </th>
         <{* irmtfan hardcode removed align="right" *}>
@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <{if $topic_post.poster.uid|default:'' gt -1}>
-        <td width="20%" class="odd" rowspan="2" valign="top">
+        <td class="odd" style="width:20%; rowspan='2' vertical-align: top;">
             <{if $topic_post.poster.uid|default:0 != 0}>
                 <{* START hacked by irmtfan rank_title -> rank.title *}>
                 <div class="comUserRankText"><{if $topic_post.poster.rank.title !=""}> <{$topic_post.poster.rank.title}><br><img src="<{$xoops_upload_url}>/<{$topic_post.poster.rank.image}>" alt="<{$topic_post.poster.rank.title}>" ><{/if}></div>
@@ -52,7 +52,7 @@
                     <span class="pointer"
                           onclick="ToggleBlockCategory('<{$topic_post.post_id}>',(this.firstElementChild || this.children[0]) , '<{$infobox.icon.expand}>', '<{$infobox.icon.collapse}>','<{$smarty.const._MD_NEWBB_HIDEUSERDATA|escape:'quotes'}>','<{$smarty.const._MD_NEWBB_SEEUSERDATA|escape:'quotes'}>')">
                         <{$infobox.displayImage}>
-</span>
+                    </span>
                     <{* irmtfan move semicolon *}>
                     <div id="<{$topic_post.post_id}>" style="display: <{$infobox.style}>;">
                         <div class="comUserStat"><span class="comUserStatCaption"><{$smarty.const._MD_NEWBB_JOINED}>:</span><br><{$topic_post.poster.regdate}><br><span class="comUserStatCaption"><{$smarty.const._US_LASTLOGIN}>
@@ -126,9 +126,9 @@
 
     <tr>
         <{if $topic_post.poster.uid gt -1}>
-        <td colspan="2" class="odd" valign="bottom">
+        <td colspan="2" class="odd" style="vertical-align: bottom;">
             <{else}>
-        <td colspan="3" class="odd" valign="bottom">
+        <td colspan="3" class="odd" style="vertical-align: bottom;">
             <{/if}>
             <{if $topic_post.post_signature}>
                 <div class="signature">
@@ -149,7 +149,7 @@
                         <{if $topic_post.thread_action}>
                             <{foreach item=btn from=$topic_post.thread_action}>
                             <{* irmtfan add alt key *}>
-                            <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" alt="<{$btn.name}>" title="<{$btn.name}>" <{if $btn.target}>target="<{$btn.target}>"<{/if}>> <{$btn.image|default:''}></a>&nbsp;
+                            <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>" <{if $btn.target}>target="<{$btn.target}>"<{/if}>> <{$btn.image|default:''}></a>&nbsp;
                         <{/foreach}>
                         <{/if}>
                     </td>
@@ -163,12 +163,13 @@
                             |
                             <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=3" target="_self" title="<{$smarty.const._MD_NEWBB_SPLIT_ALL}>"><{$smarty.const._MD_NEWBB_SPLIT_ALL}></a>
                             |
+                            <label for="post_id[<{$topic_post.post_id}>]"></label>
                             <input type="checkbox" name="post_id[]" id="post_id[<{$topic_post.post_id}>]" value="<{$topic_post.post_id}>">
                         <{else}>
                             <{if $topic_post.thread_buttons}>
                                 <{foreach item=btn from=$topic_post.thread_buttons}>
                                 <{* irmtfan add alt key *}>
-                                <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" alt="<{$btn.name}>" title="<{$btn.name}>"> <{$btn.image}></a>
+                                <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a>
                             <{/foreach}>
                             <{/if}>
                         <{/if}>

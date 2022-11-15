@@ -11,7 +11,9 @@ namespace XoopsModules\Newbb;
  * @since          4.00
  */
 
-use XoopsModules\Newbb;
+use XoopsModules\Newbb\{
+    Category
+};
 
 //defined("NEWBB_HANDLER_PERMISSION") || require_once __DIR__  .'/permission.php';
 //define("NEWBB_HANDLER_PERMISSION_CATEGORY", 1);
@@ -31,11 +33,11 @@ class PermissionCategoryHandler extends Newbb\PermissionHandler
     }
 
     /**
-     * @param        $mid
-     * @param int    $id
+     * @param int $mid
+     * @param int $id
      * @return array
      */
-    public function getValidItems($mid, int $id = 0): array
+    public function getValidItems(int $mid, int $id = 0): array
     {
         $full_items = [];
         if (empty($mid)) {
@@ -48,10 +50,10 @@ class PermissionCategoryHandler extends Newbb\PermissionHandler
     }
 
     /**
-     * @param $cat_id
+     * @param int $cat_id
      * @return bool
      */
-    public function deleteByCategory($cat_id): bool
+    public function deleteByCategory(int $cat_id): bool
     {
         $cat_id = (int)$cat_id;
         if (empty($cat_id)) {
@@ -67,7 +69,7 @@ class PermissionCategoryHandler extends Newbb\PermissionHandler
     }
 
     /**
-     * @param        $category
+     * @param Category $category
      * @param array  $groups
      * @return bool
      */

@@ -56,22 +56,24 @@ class PostHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int                   $limit
-     * @param int                   $start
-     * @param \CriteriaElement|null $criteria
-     * @param null                  $fields
-     * @param bool                  $asObject
-     * @param int                   $topic_id
-     * @param int                   $approved
-     * @return array
+     * @param int                   $limit    Max number of objects to fetch
+     * @param int                   $start    Which record to start at
+     * @param \CriteriaElement|null $criteria {@link \CriteriaElement} to match
+     * @param null                  $fields   variables to fetch
+     * @param bool                  $asObject flag indicating as object, otherwise as array
+     * @param int                   $topic_id Max number of objects to fetch
+     * @param int                   $approved Which record to start at
+     * @return array           of objects     {@link XoopsObject}
      */
     //    public function getByLimit($topic_id, $limit, $approved = 1)
+
+//    public function &getByLimit($limit = 0, $start = 0, CriteriaElement $criteria = null, $fields = null, $asObject = true)
     public function &getByLimit(
-        $limit = 0,
-        $start = 0,
+         $limit = 0,
+         $start = 0,
         \CriteriaElement $criteria = null,
-        $fields = null,
-        $asObject = true,
+         $fields = null,
+         $asObject = true,
         int $topic_id = 0,
         int $approved = 1
     ): array {
@@ -196,7 +198,8 @@ class PostHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $object, $force = true): bool //insert(&$object, $force = true)
     {
-        $post = $object;
+        /** @var Post $post */
+        $post        = $object;
         $topicObject = null;
         // Set the post time
         // The time should be "publish" time. To be adjusted later
@@ -461,10 +464,10 @@ class PostHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param \CriteriaElement|\CriteriaCompo|null $criteria
-     * @param null                                 $join
+     * @param string|null                          $join
      * @return int|null
      */
-    public function getPostCount($criteria = null, $join = null): ?int
+    public function getPostCount($criteria = null, string $join = null): ?int
     {
         // if not join get the count from XOOPS/class/model/stats as before
         if (empty($join)) {
@@ -484,7 +487,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
             return null;
         }
         $myrow = $this->db->fetchArray($result);
-        $count = $myrow['count'];
+        $count = (int)$myrow['count'];
 
         return $count;
     }
@@ -498,10 +501,10 @@ class PostHandler extends \XoopsPersistableObjectHandler
      * @param \CriteriaElement|\CriteriaCompo|null $criteria
      * @param int                                  $limit
      * @param int                                  $start
-     * @param null                                 $join
+     * @param string|null                                 $join
      * @return array
      */
-    public function getPostsByLimit($criteria = null, int $limit = 1, int $start = 0, $join = null): array
+    public function getPostsByLimit($criteria = null, int $limit = 1, int $start = 0, ?string $join = null): array
     {
         $ret = [];
         $sql = 'SELECT p.*, t.* ' . ' FROM ' . $this->db->prefix('newbb_posts') . ' AS p' . ' LEFT JOIN ' . $this->db->prefix('newbb_posts_text') . ' AS t ON t.post_id = p.post_id';

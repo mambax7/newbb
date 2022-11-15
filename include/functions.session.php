@@ -24,10 +24,10 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
      *
      */
     /**
-     * @param              $name
+     * @param string $name
      * @param string|array $string
      */
-    function newbbSetSession($name, $string = ''): void
+    function newbbSetSession(string $name, $string = ''): void
     {
         if (is_array($string)) {
             $value = [];
@@ -40,11 +40,11 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
     }
 
     /**
-     * @param             $name
-     * @param bool        $isArray
+     * @param string $name
+     * @param bool   $isArray
      * @return array|bool
      */
-    function newbbGetSession($name, bool $isArray = false)
+    function newbbGetSession(string $name, bool $isArray = false)
     {
         $value = !empty($_SESSION['newbb_' . $name]) ? $_SESSION['newbb_' . $name] : false;
         if ($isArray) {
@@ -66,10 +66,11 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
     /**
      * @param string       $name
      * @param string|array $string
-     * @param int          $expire
+     * @param int|null     $expire
      */
-    function newbbSetCookie(string $name, $string = '', int $expire = 0): void
+    function newbbSetCookie(string $name, $string = '', ?int $expire = null): void
     {
+        $expire ??= 0;
         global $forumCookie;
         if (is_array($string)) {
             $value = [];
@@ -82,11 +83,11 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
     }
 
     /**
-     * @param             $name
+     * @param string $name
      * @param bool        $isArray
      * @return array|string
      */
-    function newbbGetCookie($name, bool $isArray = false)
+    function newbbGetCookie(string $name, bool $isArray = false)
     {
         global $forumCookie;
         //        $value = !empty($_COOKIE[$forumCookie['prefix'] . $name]) ? $_COOKIE[$forumCookie['prefix'] . $name] : null;

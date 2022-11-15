@@ -170,10 +170,10 @@ function exportSchema(): void
  *                       Each element of the outer array represents a single table row.
  *                       Each row is an associative array in 'column' => 'value' format.
  * @param string $search name of column for which the value should be replaced
- * @param        $replace
+ * @param string $replace
  * @return int number of rows inserted
  */
-function loadTableFromArrayWithReplace(string $table, array $data, string $search, $replace): int
+function loadTableFromArrayWithReplace(string $table, array $data, string $search, string $replace): int
 {
     /** @var \XoopsMySQLDatabase $db */
     $db = \XoopsDatabaseFactory::getDatabaseConnection();

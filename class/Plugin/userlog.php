@@ -17,7 +17,7 @@ use XoopsModules\Newbb\{
     Helper,
     TopicHandler
 };
-use XoopsModules\Userlog;
+//use XoopsModules\Userlog;
 
 /** @var Helper $helper */
 

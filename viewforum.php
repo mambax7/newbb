@@ -11,6 +11,7 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Forum,
     ForumHandler,
     OnlineHandler
 
@@ -23,6 +24,8 @@ if (!Request::getInt('forum', 0, 'GET')) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_ERRORFORUM);
 }
 require_once __DIR__ . '/include/functions.read.php';
+
+global $xoopsModule;
 
 /*
  * Build the page query
@@ -77,6 +80,7 @@ $mode = (Request::getString('status', '', 'GET')
          )) ? 2 : Request::getInt('mode', 0, 'GET');
 
 //$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($forum_id);
 
 if (!$forumObject) {
@@ -241,6 +245,7 @@ $criteria_vars = ['startdate', 'start', 'sort', 'order', 'type', 'status', 'exce
 foreach ($criteria_vars as $var) {
     $criteria_topic[$var] = @${$var};
 }
+/** @var array $criteria_topic */
 $criteria_topic['excerpt'] = $GLOBALS['xoopsModuleConfig']['post_excerpt'];
 
 [$allTopics, $sticky] = $forumHandler->getAllTopics($forumObject, $criteria_topic);
@@ -357,7 +362,7 @@ if ($GLOBALS['xoopsModuleConfig']['show_permissiontable']) {
 }
 
 if (1 == $GLOBALS['xoopsModuleConfig']['rss_enable']) {
-    $xoopsTpl->assign('rss_button', "<div align='right'><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/rss.php?f=' . $forum_id . "' title='RSS feed' target='_blank'>" . newbbDisplayImage('rss', 'RSS feed') . '</a></div>');
+    $xoopsTpl->assign('rss_button', "<div style='text-align:right;'><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/rss.php?f=' . $forum_id . "' title='RSS feed' target='_blank'>" . newbbDisplayImage('rss', 'RSS feed') . '</a></div>');
 }
 // irmtfan move to footer.php
 require_once __DIR__ . '/footer.php';

@@ -26,24 +26,24 @@ use XoopsModules\Newbb\{
 require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
 
 /**
- * @param                     $queryarray
- * @param                     $andor
- * @param                     $limit
- * @param                     $offset
- * @param                     $userid
- * @param int                 $forums
+ * @param array               $queryarray
+ * @param string              $andor
+ * @param int                 $limit
+ * @param int                 $offset
+ * @param int                 $userid
+ * @param int|string|array    $forums
  * @param int|string          $sortby
  * @param string              $searchin
  * @param \CriteriaCompo|null $criteriaExtra
  * @return array
  */
 function newbb_search(
-    $queryarray,
-    $andor,
-    $limit,
-    $offset,
-    $userid,
-    int $forums = 0,
+    array $queryarray,
+    string $andor,
+    int $limit,
+    int $offset,
+    int $userid,
+    $forums = 0,
     $sortby = 0,
     string $searchin = 'both',
     \CriteriaCompo $criteriaExtra = null

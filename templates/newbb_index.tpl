@@ -3,7 +3,7 @@
     <div class="forum_title">
         <h2><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$index_title}></a></h2>
         <{* irmtfan hardcode remove align="left"  *}>
-        <hr class="align_left" width="50%" size="1">
+        <hr class="align_left" style="width:50 %; height:1px;">
         <{$index_desc}>
     </div>
 </div>
@@ -53,9 +53,9 @@
 <div class="index_category">
     <{* start forum categories  *}>
     <{foreach item=category from=$categories}>
-        <table class="index_category" cellspacing="0" width="100%">
+        <table class="index_category" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
             <tr class="head">
-                <td width="3%" valign="middle" align="center">
+                <td style="width:3%; vertical-align: middle; text-align:center;">
                     <{* irmtfan simplify onclick method and use newbbDisplayImage(this.children[0] for IE7&8) - add alt and title" *}>
                     <div class="pointer"
                          onclick="ToggleBlockCategory('<{$category.cat_element_id}>',(this.firstElementChild || this.children[0]) , '<{$category_icon.expand}>', '<{$category_icon.collapse}>','<{$smarty.const._MD_NEWBB_HIDE|escape:'quotes'}>','<{$smarty.const._MD_NEWBB_SEE|escape:'quotes'}>')">
@@ -63,7 +63,7 @@
                     </div>
                 </td>
                 <{if $category.cat_image}>
-                    <td width="8%"><img src="<{$category.cat_image}>" alt="<{$category.cat_title}>"></td>
+                    <td style="width:8%;"><img src="<{$category.cat_image}>" alt="<{$category.cat_title}>"></td>
                 <{/if}>
                 <{* irmtfan hardcode removed align="left"  *}>
                 <td class="align_left">
@@ -72,7 +72,7 @@
                 </td>
                 <{if $category.cat_sponsor}>
                     <{* irmtfan hardcode removed align="right"  *}>
-                    <td width="15%" nowrap="nowrap" class="align_right">
+                    <td style="width:15%;" nowrap="nowrap" class="align_right">
                         <p class="desc"><a href="<{$category.cat_sponsor.link}>" title="<{$category.cat_sponsor.title}>" target="_blank"><{$category.cat_sponsor.title}></a></p>
                     </td>
                 <{/if}>
@@ -80,20 +80,20 @@
         </table>
         <{* irmtfan move semicolon  *}>
         <div id="<{$category.cat_element_id}>" style="display: <{$category.cat_display}>;">
-            <table border="0" cellspacing="2" cellpadding="0" width="100%">
+            <table style="border: 0; padding: 0; border-collapse: separate; border-spacing: 2px; width: 100%;">
                 <{if $category.forums}>
-                    <tr class="head" align="center">
-                        <td width="5%">&nbsp;</td>
+                    <tr class="head" style="text-align:center;">
+                        <td style="width:5%;">&nbsp;</td>
                         <{if $subforum_display == "expand"}>
                             <{* irmtfan hardcode removed align="left"  *}>
-                            <td colspan="2" width="37%" nowrap="nowrap" class="align_left"><{$smarty.const._MD_NEWBB_FORUM}></td>
+                            <td colspan="2" style="width:37%;" nowrap="nowrap" class="align_left"><{$smarty.const._MD_NEWBB_FORUM}></td>
                         <{else}>
                             <{* irmtfan hardcode removed align="left"  *}>
-                            <td width="37%" nowrap="nowrap" class="align_left"><{$smarty.const._MD_NEWBB_FORUM}></td>
+                            <td style="width:37%;" nowrap="nowrap" class="align_left"><{$smarty.const._MD_NEWBB_FORUM}></td>
                         <{/if}>
-                        <td width="9%" nowrap="nowrap"><{$smarty.const._MD_NEWBB_TOPICS}></td>
-                        <td width="9%" nowrap="nowrap"><{$smarty.const._MD_NEWBB_POSTS}></td>
-                        <td width="40%" nowrap="nowrap"><{$smarty.const._MD_NEWBB_LASTPOST}></td>
+                        <td style="width:9%;" nowrap="nowrap"><{$smarty.const._MD_NEWBB_TOPICS}></td>
+                        <td style="width:9%;" nowrap="nowrap"><{$smarty.const._MD_NEWBB_POSTS}></td>
+                        <td style="width:40%;" nowrap="nowrap"><{$smarty.const._MD_NEWBB_LASTPOST}></td>
                     </tr>
                 <{/if}>
 
@@ -102,7 +102,7 @@
                     <{foreach item=forum from=$category.forums}>
                         <tr>
                             <{* irmtfan add forum-read/forum-new smarty variable   *}>
-                            <td width="5%" class="even <{if $forum.forum_read eq 1 }>forum-read<{else}>forum-new<{/if}>" align="center" valign="middle"><{$forum.forum_folder}></td>
+                            <td style="width:5%;" class="even <{if $forum.forum_read eq 1 }>forum-read<{else}>forum-new<{/if}>" style="text-align:center; vertical-align: middle;"><{$forum.forum_folder}></td>
                             <td colspan="2" class="odd">
                                 <div id="index_forum">
 <span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
@@ -120,16 +120,16 @@
                                     <{/if}>
                                 </div>
                             </td>
-                            <td class="even" align="center" valign="middle">
+                            <td class="even" style="text-align:center; vertical-align: middle;">
                                 <{if $stats[$forum.forum_id].topic.day|default:''}><strong><{$stats[$forum.forum_id].topic.day}></strong>/<{/if}>
                                 <{$forum.forum_topics}>
                             </td>
-                            <td class="odd" align="center" valign="middle">
+                            <td class="odd" style="text-align:center; vertical-align: middle;">
                                 <{if $stats[$forum.forum_id].post.day|default:''}><strong><{$stats[$forum.forum_id].post.day}></strong>/<{/if}>
                                 <{$forum.forum_posts}>
                             </td>
                             <{* irmtfan hardcode removed align="right"  *}>
-                            <td class="even" class="align_right" valign="middle">
+                            <td class="even" class="align_right " style="vertical-align: middle;">
                                 <{if $forum.forum_lastpost_subject|default:''}>
                                     <{$forum.forum_lastpost_time}> <{$smarty.const._MD_NEWBB_BY}> <{$forum.forum_lastpost_user}>
                                     <br>
@@ -145,19 +145,19 @@
                         </tr>
                         <{if $forum.subforum|default:false}>
                             <tr class="head">
-                                <td width="5%">&nbsp;</td>
-                                <td width="5%" align="center"><{$img_subforum}>&nbsp;</td>
-                                <td width="32%" align="center"><{$smarty.const._MD_NEWBB_SUBFORUMS}>&nbsp;</td>
-                                <td width="9%" nowrap="nowrap">&nbsp;</td>
-                                <td width="9%" nowrap="nowrap">&nbsp;</td>
-                                <td width="40%" nowrap="nowrap">&nbsp;</td>
+                                <td style="width:5%;">&nbsp;</td>
+                                <td style="text-align:center; width:5%;"><{$img_subforum}>&nbsp;</td>
+                                <td style="text-align:center; width:32%;"><{$smarty.const._MD_NEWBB_SUBFORUMS}>&nbsp;</td>
+                                <td style="width:9%;" nowrap="nowrap">&nbsp;</td>
+                                <td style="width:9%;" nowrap="nowrap">&nbsp;</td>
+                                <td style="width:40%;" nowrap="nowrap">&nbsp;</td>
                             </tr>
                             <{foreach item=subforum from=$forum.subforum|default:null}>
                                 <tr>
-                                    <td class="odd" width="5%">&nbsp;</td>
+                                    <td class="odd" style="width:5%;">&nbsp;</td>
                                     <{* irmtfan add forum-read/forum-new smarty variable   *}>
-                                    <td class="even <{if $subforum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" align="center" valign="middle" width="5%"><{$subforum.forum_folder|default:''}></td>
-                                    <td width="32%" class="odd">
+                                    <td class="even <{if $subforum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" style="text-align:center; vertical-align: middle; width:5%;"><{$subforum.forum_folder|default:''}></td>
+                                    <td style="width:32%;" class="odd">
                                         <div id="index_forum">
 <span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$subforum.forum_id}>"><strong><{$subforum.forum_name}></strong></a>
     <{if $rss_enable}>
@@ -174,17 +174,17 @@
                                             <{/if}>
                                         </div>
                                     </td>
-                                    <td class="even" width="9%" align="center" valign="middle">
+                                    <td class="even" style="text-align:center; vertical-align: middle; width:9%;">
                                         <{if $stats[$subforum.forum_id].topic.day}><strong><{$stats[$subforum.forum_id].topic.day}></strong>/<{/if}>
                                         <{$subforum.forum_topics}>
                                     </td>
-                                    <td class="odd" width="9%" align="center" valign="middle">
+                                    <td class="odd" style="text-align:center; vertical-align: middle; width:9%;">
                                         <{if $stats[$subforum.forum_id].post.day}><strong><{$stats[$subforum.forum_id].post.day}></strong>/<{/if}>
                                         <{$subforum.forum_posts}>
                                     </td>
                                     <{* irmtfan hardcode removed align="right"  *}>
 
-                                    <td class="even" width="40%" class="align_right" valign="middle">
+                                    <td class="even" style="width:40%;" class="align_right vertical-align: middle;">
                                         <{if $subforum.forum_lastpost_subject|default:''}>
                                             <{$subforum.forum_lastpost_time}> <{$smarty.const._MD_NEWBB_BY}> <{$subforum.forum_lastpost_user}>
                                             <br>
@@ -208,9 +208,9 @@
                         <tr>
                             <{if $forum.subforum|default:''}>
                                 <{* irmtfan add forum-read/forum-new smarty variable   *}>
-                                <td class="even <{if $forum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" rowspan="2" align="center" valign="middle"><{$forum.forum_folder|default:''}></td>
+                                <td class="even <{if $forum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" rowspan="2" style="text-align:center; vertical-align: middle;"><{$forum.forum_folder|default:''}></td>
                             <{else}>
-                                <td class="even <{if $forum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" align="center" valign="middle"><{$forum.forum_folder|default:''}></td>
+                                <td class="even <{if $forum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" style="text-align:center; vertical-align: middle;"><{$forum.forum_folder|default:''}></td>
                             <{/if}>
                             <td class="odd">
                                 <div id="index_forum">
@@ -229,16 +229,16 @@
                                     <{/if}>
                                 </div>
                             </td>
-                            <td class="even" align="center" valign="middle">
+                            <td class="even" style="text-align:center; vertical-align: middle;">
                                 <{if $stats[$forum.forum_id].topic.day|default:''}><strong><{$stats[$forum.forum_id].topic.day}></strong>/<{/if}>
                                 <{$forum.forum_topics}>
                             </td>
-                            <td class="odd" align="center" valign="middle">
+                            <td class="odd" style="text-align:center; vertical-align: middle;">
                                 <{if $stats[$forum.forum_id].post.day|default:''}><strong><{$stats[$forum.forum_id].post.day}></strong>/<{/if}>
                                 <{$forum.forum_posts}>
                             </td>
                             <{* irmtfan hardcode removed align="right"  *}>
-                            <td class="even" class="align_right" valign="middle">
+                            <td class="even" class="align_right vertical-align: middle;">
                                 <{if $forum.forum_lastpost_subject|default:''}>
                                     <{$forum.forum_lastpost_time}> <{$smarty.const._MD_NEWBB_BY}> <{$forum.forum_lastpost_user}>
                                     <br>
@@ -272,7 +272,7 @@
                     <{foreach item=forum from=$category.forums}>
                         <tr>
                             <{* irmtfan add forum-read/forum-new smarty variable   *}>
-                            <td class="even <{if $forum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" align="center" valign="middle"><{$forum.forum_folder|default:''}></td>
+                            <td class="even <{if $forum.forum_read|default:0 eq 1 }>forum-read<{else}>forum-new<{/if}>" style="text-align:center; vertical-align: middle;"><{$forum.forum_folder|default:''}></td>
                             <td class="odd">
                                 <div id="index_forum">
 <span class="item"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$forum.forum_id}>"><{$forum.forum_name}></a>
@@ -290,16 +290,16 @@
                                     <{/if}>
                                 </div>
                             </td>
-                            <td class="even" align="center" valign="middle">
+                            <td class="even" style="text-align:center; vertical-align: middle;">
                                 <{if $stats[$forum.forum_id].topic.day|default:''}><strong><{$stats[$forum.forum_id].topic.day}></strong>/<{/if}>
                                 <{$forum.forum_topics}>
                             </td>
-                            <td class="odd" align="center" valign="middle">
+                            <td class="odd" style="text-align:center; vertical-align: middle;">
                                 <{if $stats[$forum.forum_id].post.day|default:''}><strong><{$stats[$forum.forum_id].post.day}></strong>/<{/if}>
                                 <{$forum.forum_posts}>
                             </td>
                             <{* irmtfan hardcode removed align="right"  *}>
-                            <td class="even" class="align_right" valign="middle">
+                            <td class="even" class="align_right " style="vertical-align: middle;">
                                 <{if $forum.forum_lastpost_subject|default:''}>
                                     <{$forum.forum_lastpost_time}> <{$smarty.const._MD_NEWBB_BY}> <{$forum.forum_lastpost_user}>
                                     <br>
@@ -332,7 +332,7 @@
 <{* irmtfan hardcode removed style="float: right; text-align: right;"  *}>
 <div class="icon_right">
     <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="post" name="search" id="search">
-        <input name="term" id="term" type="text" size="20">
+        <label for="term"></label><input name="term" id="term" type="text" size="20">
         <input type="hidden" name="forum" id="forum" value="all">
         <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
         <input type="hidden" name="searchin" id="searchin" value="both">

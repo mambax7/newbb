@@ -19,6 +19,7 @@
 use Xmf\Request;
 use XoopsModules\Newbb\{
     Uploader,
+    Forum,
     ForumHandler,
     TopicHandler,
     OnlineHandler,
@@ -66,6 +67,7 @@ if (!empty($isedit) && $post_id > 0) {
 }
 $topicObject = $topicHandler->get($topic_id);
 $forum_id    = $topic_id ? $topicObject->getVar('forum_id') : $forum;
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($forum_id);
 if (!$forumHandler->getPermission($forumObject)) {
     redirect_header('index.php', 2, _NOPERM);

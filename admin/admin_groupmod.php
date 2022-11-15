@@ -61,7 +61,7 @@ if (Request::getString('submit', '', 'POST')) {
 }
 
 echo _AM_NEWBB_GROUPMOD_TITLEDESC;
-echo "<br><br><table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+echo "<br><br><table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
 echo "<form name='reorder' method='post'>";
 ///** @var Newbb\CategoryHandler $categoryHandler */
 //$categoryHandler  = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Category');

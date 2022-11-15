@@ -2,7 +2,7 @@
     <div class="forum_title">
         <h2><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a></h2>
         <{* irmtfan hardcode removed align="left" *}>
-        <hr class="align_left" width="50%" size="1">
+        <hr class="align_left" style="width:50%; height:1px;">
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$smarty.const._MD_NEWBB_FORUMHOME}></a>
         <span class="delimiter">&raquo;</span>
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
@@ -71,7 +71,7 @@
     <{if $quickreply.show}>
     <div class="modal fade bs-example-modal-sm container" id="replyquick" tabindex="-1" role="dialog" aria-labelledby="replyquick">
         <div class="modal-dialog btn-bottom" role="document">
-            <div class="modal-content modal-body"><button type="button btn-default" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&amp;times;</span></button>
+            <div class="modal-content modal-body"><button type="button" class="btn btn-default" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&amp;times;</span></button>
                 <{$quickreply.form|default:''}>
             </div>
         </div>
@@ -149,7 +149,7 @@
 
 <div>
     <div class="dropdown">
-        <select name="topicoption" id="topicoption" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
+        <label for="topicoption"></label><select name="topicoption" id="topicoption" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
             <option value=""><{$smarty.const._MD_NEWBB_TOPICOPTION}></option>
             <{if $viewer_level > 1}>
                 <{foreach item=act from=$admin_actions}>
@@ -166,6 +166,7 @@
         </select>
         <{* irmtfan user should not see rating if he dont have permission *}>
         <{if $rating_enable|default:'' && $forum_post|default:'' && $forum_reply|default:''}>
+            <label for="rate"></label>
             <select
                     name="rate" id="rate"
                     onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
@@ -178,7 +179,7 @@
             </select>
         <{/if}>
 
-        <select
+        <label for="viewmode"></label><select
                 name="viewmode" id="viewmode"
                 onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.location=this.options[this.selectedIndex].value;}">
             <option value=""><{$smarty.const._MD_NEWBB_VIEWMODE}></option>
@@ -190,8 +191,8 @@
         <{if $mode lte 1}>
             <form id="search-topic" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
                 <fieldset>
-                    <input name="term" id="term" type="text" size="15" value="<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>..." onBlur="if(this.value==='') this.value='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...'"
-                           onFocus="if(this.value =='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...' ) this.value=''">
+                    <label for="term"></label><input name="term" id="term" type="text" size="15" value="<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>..." onBlur="if(this.value==='') this.value='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...'"
+                                                     onFocus="if(this.value =='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...' ) this.value=''">
                     <input type="hidden" name="forum" id="forum" value="<{$forum_id}>">
                     <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
                     <input type="hidden" name="topic" id="topic" value="<{$topic_id}>">
@@ -301,7 +302,7 @@
     <{* irmtfan hardcode removed style="float: right; text-align: right;" *}>
     <div class="icon_right">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <input type="hidden" name="forum" id="forum" value="<{$forum_id}>">
             <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
             <input type="hidden" name="since" id="since" value="<{$forum_since|default:''}>">

@@ -28,6 +28,7 @@ use XoopsModules\Newbb\{Helper,
 /** @var Helper $helper */
 /** @var CategoryHandler $categoryHandler */
 /** @var ForumHandler $forumHandler */
+
 require_once __DIR__ . '/admin_header.php';
 
 $cat_orders = Request::getArray('cat_orders', null, 'POST');
@@ -62,14 +63,14 @@ if (Request::getString('submit', '', 'POST')) {
 
     $adminObject->displayNavigation(basename(__FILE__));
 
-    echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+    echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
     $tform = new \XoopsThemeForm(_AM_NEWBB_SETFORUMORDER, '', '');
     $tform->display();
     echo "<form name='reorder' method='post'>";
-    echo "<table border='0' width='100%' cellpadding='2' cellspacing='1' class='outer'>";
+    echo "<table class='outer' style='border: 0; padding: 2px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
     echo '<tr>';
-    echo "<td class='head' align='left' width='60%'><strong>" . _AM_NEWBB_REORDERTITLE . '</strong></td>';
-    echo "<td class='head' align='center'><strong>" . _AM_NEWBB_REORDERWEIGHT . '</strong></td>';
+    echo "<td class='head' style='text-align:left;' width='60%'><strong>" . _AM_NEWBB_REORDERTITLE . '</strong></td>';
+    echo "<td class='head' style='text-align:center;'><strong>" . _AM_NEWBB_REORDERWEIGHT . '</strong></td>';
     echo '</tr>';
 
     //    $forumHandler     = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
@@ -81,8 +82,8 @@ if (Request::getString('submit', '', 'POST')) {
     $forums     = $forumHandler->getTree(array_keys($categories), 0, 'all', '&nbsp;&nbsp;&nbsp;&nbsp;');
     foreach (array_keys($categories) as $c) {
         echo '<tr>';
-        echo "<td align='left' nowrap='nowrap' class='head' >" . $categories[$c]->getVar('cat_title') . '</td>';
-        echo "<td align='right' class='head'>";
+        echo "<td style='text-align:left;' nowrap='nowrap' class='head' >" . $categories[$c]->getVar('cat_title') . '</td>';
+        echo "<td style='text-align:right;' class='head'>";
         echo "<input type='text' name='cat_orders[]' value='" . $categories[$c]->getVar('cat_order') . "' size='5' maxlength='5' >";
         echo "<input type='hidden' name='cat[]' value='" . $c . "' >";
         echo '</td>';
@@ -95,15 +96,15 @@ if (Request::getString('submit', '', 'POST')) {
         foreach ($forums[$c] as $key => $forum) {
             echo '<tr>';
             $class = ((++$i) % 2) ? 'odd' : 'even';
-            echo "<td align='left' nowrap='nowrap' class='" . $class . "'>" . $forum['prefix'] . $forum['forum_name'] . '</td>';
-            echo "<td align='left' class='" . $class . "'>";
+            echo "<td style='text-align:left;' nowrap='nowrap' class='" . $class . "'>" . $forum['prefix'] . $forum['forum_name'] . '</td>';
+            echo "<td style='text-align:left;' class='" . $class . "'>";
             echo $forum['prefix'] . "<input type='text' name='orders[]' value='" . $forum['forum_order'] . "' size='5' maxlength='5' >";
             echo "<input type='hidden' name='forum[]' value='" . $key . "' >";
             echo '</td>';
             echo '</tr>';
         }
     }
-    echo "<tr><td class='even' align='center' colspan='6'>";
+    echo "<tr><td class='even' style='text-align:center;' colspan='6'>";
 
     echo "<input type='submit' name='submit' value='" . _SUBMIT . "' >";
     echo '</td></tr>';

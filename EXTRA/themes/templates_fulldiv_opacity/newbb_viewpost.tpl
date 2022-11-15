@@ -26,16 +26,18 @@
         <{if $mode gt 1}>
         <!-- START admin form -->
         <form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="if(window.document.form_posts_admin.op.value &lt; 1){return false;}">
-            <{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
-            <select name="op">
-                <option value="0"><{$smarty.const._SELECT}></option>
-                <option value="delete"><{$smarty.const._DELETE}></option>
-                <{if $status eq "pending"}>
-                    <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                <{elseif $status eq "deleted"}>
-                    <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                <{/if}>
-            </select>
+            <{$smarty.const._ALL}>: <label for="post_check"></label><input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
+            <label>
+                <select name="op">
+                    <option value="0"><{$smarty.const._SELECT}></option>
+                    <option value="delete"><{$smarty.const._DELETE}></option>
+                    <{if $status eq "pending"}>
+                        <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                    <{elseif $status eq "deleted"}>
+                        <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                    <{/if}>
+                </select>
+            </label>
             <input type="hidden" name="uid" value="<{$uid}>"> |
             <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>"> |
             <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>" target="_self" title="<{$smarty.const._MD_NEWBB_TYPE_VIEW}>"><{$smarty.const._MD_NEWBB_TYPE_VIEW}></a>
@@ -56,7 +58,7 @@
 <br>
 <div>
     <div class="dropdown floatleft">
-        <select name="topicoption" id="topicoption" class="menu" onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}">
+        <label for="topicoption"></label><select name="topicoption" id="topicoption" class="menu" onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}">
             <option value=""><{$smarty.const._MD_NEWBB_TOPICOPTION}></option>
             <option value="<{$post_link}>"><{$smarty.const._MD_NEWBB_VIEW}>&nbsp;<{$smarty.const._MD_NEWBB_ALLPOSTS}></option>
             <option value="<{$newpost_link}>"><{$smarty.const._MD_NEWBB_VIEW}>&nbsp;<{$smarty.const._MD_NEWBB_NEWPOSTS}></option>
@@ -65,7 +67,7 @@
             <option value="<{$unreplied_link}>"><{$smarty.const._MD_NEWBB_VIEW}>&nbsp;<{$smarty.const._MD_NEWBB_UNREPLIED}></option>
             <option value="<{$unread_link}>"><{$smarty.const._MD_NEWBB_VIEW}>&nbsp;<{$smarty.const._MD_NEWBB_UNREAD}></option>
         </select>
-        <select name="viewmode" id="viewmode" class="menu" onchange="if(this.options[this.selectedIndex].value.length >0 )  { window.document.location=this.options[this.selectedIndex].value;}">
+        <label for="viewmode"></label><select name="viewmode" id="viewmode" class="menu" onchange="if(this.options[this.selectedIndex].value.length >0 )  { window.document.location=this.options[this.selectedIndex].value;}">
             <option value=""><{$smarty.const._MD_NEWBB_VIEWMODE}></option>
             <{foreach item=act from=$viewmode_options}>
             <option value="<{$act.link}>"><{$act.title}></option>
@@ -99,7 +101,7 @@
 <br>
 <div>
     <div class="icon_left">
-        <a id="threadbottom"></a><a href="#threadtop" alt="<{$smarty.const._MD_NEWBB_TOP}>" title="<{$smarty.const._MD_NEWBB_TOP}>"><{$p_up}> <{$smarty.const._MD_NEWBB_TOP}></a>
+        <a id="threadbottom"></a><a href="#threadtop" title="<{$smarty.const._MD_NEWBB_TOP}>"><{$p_up}> <{$smarty.const._MD_NEWBB_TOP}></a>
     </div>
     <div class="pagenav">
         <{$pagenav|replace:'form':'div'|replace:'id="xo-pagenav"':''}>
@@ -111,7 +113,7 @@
 <div>
     <div class="icon_left">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
             <input type="hidden" name="action" id="action" value="yes">
             <input type="hidden" name="searchin" id="searchin" value="both">

@@ -28,19 +28,22 @@
         <div class="pagenav" id="admin">
             <{if $mode gt 1}>
                 <{$smarty.const._ALL}>:
+                <label for="topic_check1"></label>
                 <input type="checkbox" name="topic_check1" id="topic_check1" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');">
-                <select name="op">
-                    <option value="0"><{$smarty.const._SELECT}></option>
-                    <option value="delete"><{$smarty.const._DELETE}></option>
-                    <{if $status eq "pending"}>
-                        <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                        <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                    <{elseif $status eq "deleted"}>
-                        <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                    <{else}>
-                        <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                    <{/if}>
-                </select>
+                <label>
+                    <select name="op">
+                        <option value="0"><{$smarty.const._SELECT}></option>
+                        <option value="delete"><{$smarty.const._DELETE}></option>
+                        <{if $status eq "pending"}>
+                            <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                            <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                        <{elseif $status eq "deleted"}>
+                            <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                        <{else}>
+                            <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                        <{/if}>
+                    </select>
+                </label>
                 <input type="hidden" name="forum_id" value="<{$forum_id}>">
                 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>">
                 |
@@ -63,6 +66,7 @@
 
     <div class="dropdown">
         <{if $menumode eq 0}>
+            <label for="topicoption"></label>
             <select name="topicoption" id="topicoption" class="menu"
                     onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}"
             >
@@ -129,6 +133,7 @@
             </div>
             <div class="topic_icon floatleft">
                 <{if $mode gt 1}>
+                    <label for="topic_check"></label>
                     <input type="checkbox" name="topic_check" id="topic_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check');">
                 <{else}>
                     &nbsp;
@@ -144,44 +149,45 @@
         </div>
         <!-- start forum topic -->
         <{foreach name=loop item=topic from=$topics}>
-        <div class="<{cycle values="even,odd"}>">
-            <div class="topic_folder floatleft <{if $topic.topic_read eq 1 }>topic-read<{else}>topic-new<{/if}> align_center"><{$topic.topic_folder}><{$topic.lock}></div>
-            <div class="topic_icon floatleft align_center">
-                <{if $mode gt 1}>
-                    <input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>">
-                <{else}>
-                    <{$topic.topic_icon}><{$topic.sticky}>
+            <div class="<{cycle values="even,odd"}>">
+                <div class="topic_folder floatleft <{if $topic.topic_read eq 1 }>topic-read<{else}>topic-new<{/if}> align_center"><{$topic.topic_folder}><{$topic.lock}></div>
+                <div class="topic_icon floatleft align_center">
+                    <{if $mode gt 1}>
+                        <label for="topic_id[<{$topic.topic_id}>]"></label>
+                        <input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>">
+                    <{else}>
+                        <{$topic.topic_icon}><{$topic.sticky}>
+                        <br>
+                        <{$topic.digest}><{$topic.poll}>
+                    <{/if}>
+                </div>
+                <div class="topic_name floatleft left">
+                    &nbsp;
+                    <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/<{$topic.topic_link}>" title="<{$topic.topic_excerpt}>">
+                        <{$topic.topic_title}>
+                    </a>
+                    <{$topic.attachment}><{$topic.topic_page_jump}>
                     <br>
-                    <{$topic.digest}><{$topic.poll}>
-                <{/if}>
-            </div>
-            <div class="topic_name floatleft left">
-                &nbsp;
-                <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/<{$topic.topic_link}>" title="<{$topic.topic_excerpt}>">
-                    <{$topic.topic_title}>
-                </a>
-                <{$topic.attachment}><{$topic.topic_page_jump}>
-                <br>
-                <span>
+                    <span>
                 <{$headers.publish.title}>: <{$topic.topic_time}>
             </span>
-                <{if $rating_enable && $topic.votes}>
-                    |&nbsp;
-                    <span>
+                    <{if $rating_enable && $topic.votes}>
+                        |&nbsp;
+                        <span>
                     <{$headers.votes.title}>: <{$topic.votes}>&nbsp;<{$topic.rating_img}>
                 </span>
-                <{/if}>
+                    <{/if}>
+                </div>
+                <div class="topic_forumname floatleft left"><{$topic.topic_forum_link}></div>
+                <div class="topic_reply floatleft align_center"><{$topic.topic_replies}></div>
+                <div class="topic_poster floatleft align_center"><{$topic.topic_poster}></div>
+                <div class="topic_view floatleft align_center"><{$topic.topic_views}></div>
+                <div class="_col_end right">
+                    <{$topic.topic_last_posttime}><br>
+                    <{$smarty.const._MD_NEWBB_BY}> <{$topic.topic_last_poster}>&nbsp;&nbsp;<{$topic.topic_page_jump_icon}>
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="topic_forumname floatleft left"><{$topic.topic_forum_link}></div>
-            <div class="topic_reply floatleft align_center"><{$topic.topic_replies}></div>
-            <div class="topic_poster floatleft align_center"><{$topic.topic_poster}></div>
-            <div class="topic_view floatleft align_center"><{$topic.topic_views}></div>
-            <div class="_col_end right">
-                <{$topic.topic_last_posttime}><br>
-                <{$smarty.const._MD_NEWBB_BY}> <{$topic.topic_last_poster}>&nbsp;&nbsp;<{$topic.topic_page_jump_icon}>
-            </div>
-            <div class="clear"></div>
-        </div>
         <{/foreach}>
         <!-- end forum topic -->
         <{if $mode gt 1}>
@@ -222,7 +228,7 @@
     </div>
     <div class="icon_right">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <{foreach item=hidval key=hidvar from=$search}>
                 <{if $hidval }>
                     <input type="hidden" name="<{$hidvar}>" value="<{$hidval}>">

@@ -44,6 +44,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
                 return 1;
             }
         }
+        /** @var Digest $digest */
         $digest = $this->create();
         $status = $this->buildDigest($digest);
         if (!$status) {
@@ -114,7 +115,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
         }
         $array = $this->db->fetchArray($result);
 
-        return $array['count'];
+        return (int)$array['count'];
     }
 
     public function getLastDigest(): void

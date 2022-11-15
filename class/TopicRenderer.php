@@ -26,7 +26,7 @@ class TopicRenderer
     /**
      * reference to moduleConfig
      */
-    public $config;
+    public array $config;
     /**
      * Current user has no access to current page
      */
@@ -86,11 +86,11 @@ class TopicRenderer
     }
 
     /**
-     * @param $var
-     * @param $val
+     * @param string       $var
+     * @param string|array $val
      * @return array|int|string
      */
-    public function setVar($var, $val)
+    public function setVar(string $var, $val)
     {
         switch ($var) {
             case 'forum':
@@ -169,9 +169,9 @@ class TopicRenderer
     }
 
     /**
-     * @param null $status
+     * @param string|null $status
      */
-    public function myParseStatus($status = null): void
+    public function myParseStatus(string $status = null): void
     {
         switch ($status) {
             case 'digest':
@@ -320,10 +320,10 @@ class TopicRenderer
     }
 
     /**
-     * @param $var
-     * @param $val
+     * @param string $var
+     * @param string|int|array|null $val
      */
-    public function parseVar($var, $val): void
+    public function parseVar(string $var, $val): void
     {
         switch ($var) {
             case 'forum':
@@ -441,11 +441,11 @@ class TopicRenderer
     }
 
     /**
-     * @param null $header
-     * @param null $var
-     * @return array|null
+     * @param string|null $header
+     * @param string|null $var
+     * @return array|string|null
      */
-    public function getSort($header = null, $var = null): ?array
+    public function getSort(string $header = null, string $var = null)
     {
         $headers = [
             'topic'           => [
@@ -549,10 +549,10 @@ class TopicRenderer
     // START irmtfan add Display topic headers function
 
     /**
-     * @param null $header
+     * @param string|null $header
      * @return array
      */
-    public function getHeader($header = null): array
+    public function getHeader(string $header = null): array
     {
         $headersSort = $this->getSort('', 'title');
         // additional headers - important: those cannot be in sort anyway
@@ -571,11 +571,11 @@ class TopicRenderer
     // END irmtfan add Display topic headers function
 
     /**
-     * @param null $type
-     * @param null $status
+     * @param int|null     $type
+     * @param string|int|null $status
      * @return array
      */
-    public function getStatus($type = null, $status = null): array
+    public function getStatus(int $type = null, string $status = null)
     {
         $links       = [
             //""            => "", /* irmtfan remove empty array */
@@ -715,10 +715,10 @@ class TopicRenderer
     }
 
     /**
-     * @param null $type_id
+     * @param int|null $type_id
      * @return mixed
      */
-    public function getTypes($type_id = null)
+    public function getTypes(int $type_id = null)
     {
         static $types;
         if (!isset($types)) {
@@ -766,7 +766,7 @@ class TopicRenderer
      * @param \Smarty $xoopsTpl
      * @return bool
      */
-    public function buildCurrent(\Smarty $xoopsTpl): ?bool
+    public function buildCurrent(\Smarty $xoopsTpl): bool
     {
         if (empty($this->vars['status']) && !$this->is_multiple) {
             return true;
@@ -783,6 +783,7 @@ class TopicRenderer
         $status['link'] = $this->page . (empty($args) ? '' : '?' . \implode('&amp;', $args));
 
         $xoopsTpl->assign_by_ref('current', $status);
+        return true;
     }
 
     /**
@@ -848,7 +849,7 @@ class TopicRenderer
         }
         [$count] = $this->handler->db->fetchRow($result);
 
-        return $count;
+        return (int)$count;
     }
 
     /**
@@ -929,9 +930,9 @@ class TopicRenderer
             // START irmtfan remove topic_icon hardcode smarty
             // topic_icon: just regular topic_icon
             if (!empty($myrow['icon'])) {
-                $topic_icon = '<img align="middle" src="' . XOOPS_URL . '/images/subject/' . \htmlspecialchars((string)$myrow['icon'], \ENT_QUOTES | \ENT_HTML5) . '" alt="" >';
+                $topic_icon = '<img style="text-align:middle;" src="' . XOOPS_URL . '/images/subject/' . \htmlspecialchars((string)$myrow['icon'], \ENT_QUOTES | \ENT_HTML5) . '" alt="" >';
             } else {
-                $topic_icon = '<img align="middle" src="' . XOOPS_URL . '/images/icons/no_posticon.gif" alt="" >';
+                $topic_icon = '<img style="text-align:middle;" src="' . XOOPS_URL . '/images/icons/no_posticon.gif" alt="" >';
             }
             // END irmtfan remove topic_icon hardcode smarty
 
@@ -1013,10 +1014,10 @@ class TopicRenderer
                 'topic_poster_uid'       => $myrow['topic_poster'],
                 'topic_poster_name'      => !empty($myrow['poster_name']) ? \htmlspecialchars((string)$myrow['poster_name'], \ENT_QUOTES | \ENT_HTML5) : $anonymous,
                 'topic_views'            => $myrow['topic_views'],
-                'topic_time'             => \newbbFormatTimestamp($myrow['topic_time']),
+                'topic_time'             => \newbbFormatTimestamp((int)$myrow['topic_time']),
                 'topic_last_post_id'     => $myrow['topic_last_post_id'],
                 //irmtfan added
-                'topic_last_posttime'    => \newbbFormatTimestamp($myrow['last_post_time']),
+                'topic_last_posttime'    => \newbbFormatTimestamp((int)$myrow['last_post_time']),
                 'topic_last_poster_uid'  => $myrow['uid'],
                 'topic_last_poster_name' => !empty($myrow['last_poster_name']) ? \htmlspecialchars((string)$myrow['last_poster_name'], \ENT_QUOTES | \ENT_HTML5) : $anonymous,
                 'topic_forum'            => $myrow['forum_id'],
@@ -1047,7 +1048,7 @@ class TopicRenderer
             // forums
             $forums[$myrow['forum_id']] = 1;
         }
-        $posters_name = \newbbGetUnameFromIds(\array_keys($posters), $this->config['show_realname'], true);
+        $posters_name = \newbbGetUnameFromIds(\array_keys($posters), (bool)$this->config['show_realname'], true);
         $topic_isRead = \newbbIsRead('topic', $reads);
         /*
         $type_list = [];
@@ -1128,11 +1129,11 @@ class TopicRenderer
     // START irmtfan to create an array from selected keys of an array
 
     /**
-     * @param        $array
-     * @param null   $keys
+     * @param array       $array
+     * @param array|string|null   $keys
      * @return array
      */
-    public function getFromKeys($array, $keys = null): array
+    public function getFromKeys(array $array, $keys = null): array
     {
         if (empty($keys)) {
             return $array;

@@ -50,16 +50,18 @@
         <{if $mode gt 1}>
         <!-- START admin form -->
         <form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="if(window.document.form_posts_admin.op.value &lt; 1){return false;}">
-            <{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
-            <select name="op">
-                <option value="0"><{$smarty.const._SELECT}></option>
-                <option value="delete"><{$smarty.const._DELETE}></option>
-                <{if $status eq "pending"}>
-                    <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                <{elseif $status eq "deleted"}>
-                    <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                <{/if}>
-            </select>
+            <{$smarty.const._ALL}>: <label for="post_check"></label><input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
+            <label>
+                <select name="op">
+                    <option value="0"><{$smarty.const._SELECT}></option>
+                    <option value="delete"><{$smarty.const._DELETE}></option>
+                    <{if $status eq "pending"}>
+                        <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                    <{elseif $status eq "deleted"}>
+                        <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                    <{/if}>
+                </select>
+            </label>
             <input type="hidden" name="topic_id" value="<{$topic_id}>">
             <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>"> |
             <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>" target="_self" title="<{$smarty.const._MD_NEWBB_TYPE_VIEW}>"><{$smarty.const._MD_NEWBB_TYPE_VIEW}></a>
@@ -99,6 +101,7 @@
 <div>
     <div class="dropdown floatleft">
         <{if $viewer_level gt 1}>
+            <label for="topicoption"></label>
             <select name="topicoption" id="topicoption" class="menu" onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}">
                 <option value=""><{$smarty.const._MD_NEWBB_TOPICOPTION}></option>
                 <{foreach item=act from=$admin_actions}>
@@ -114,6 +117,7 @@
             </select>
         <{/if}>
         <{if $rating_enable && $forum_post && $forum_reply}>
+            <label for="rate"></label>
             <select name="rate" id="rate" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
                 <option value=""><{$smarty.const._MD_NEWBB_RATE}></option>
                 <option value="<{$xoops_url}>/modules/<{$xoops_dirname}>/ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_NEWBB_RATE5}></option>
@@ -123,7 +127,7 @@
                 <option value="<{$xoops_url}>/modules/<{$xoops_dirname}>/ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=1"><{$smarty.const._MD_NEWBB_RATE1}></option>
             </select>
         <{/if}>
-        <select name="viewmode" id="viewmode" class="menu" onchange="if(this.options[this.selectedIndex].value.length >0 )  { window.location=this.options[this.selectedIndex].value;}">
+        <label for="viewmode"></label><select name="viewmode" id="viewmode" class="menu" onchange="if(this.options[this.selectedIndex].value.length >0 )  { window.location=this.options[this.selectedIndex].value;}">
             <option value=""><{$smarty.const._MD_NEWBB_VIEWMODE}></option>
             <{foreach item=act from=$viewmode_options}>
             <option value="<{$act.link}>"><{$act.title}></option>
@@ -133,8 +137,8 @@
         <{if $mode lte 1}>
             <form id="search-topic" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
                 <fieldset>
-                    <input name="term" id="term" type="text" size="15" value="<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>..." onBlur="if(this.value==='') this.value='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...'"
-                           onFocus="if(this.value =='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...' ) this.value=''">
+                    <label for="term"></label><input name="term" id="term" type="text" size="15" value="<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>..." onBlur="if(this.value==='') this.value='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...'"
+                                                     onFocus="if(this.value =='<{$smarty.const._MD_NEWBB_SEARCHTOPIC}>...' ) this.value=''">
                     <input type="hidden" name="forum" id="forum" value="<{$forum_id}>">
                     <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
                     <input type="hidden" name="topic" id="topic" value="<{$topic_id}>">
@@ -192,7 +196,7 @@
 
 <div>
     <div class="icon_left">
-        <a id="threadbottom"></a><a href="#threadtop" alt="<{$smarty.const._MD_NEWBB_TOP}>" title="<{$smarty.const.}>"><{$p_up}> <{$smarty.const._MD_NEWBB_TOP}></a>&nbsp;&nbsp;<{$previous}>&nbsp;<a
+        <a id="threadbottom"></a><a href="#threadtop" title="<{$smarty.const.}>"><{$p_up}> <{$smarty.const._MD_NEWBB_TOP}></a>&nbsp;&nbsp;<{$previous}>&nbsp;<a
                 href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=prev"><{$smarty.const._MD_NEWBB_PREVTOPIC}></a>&nbsp;&nbsp;<{$next}>&nbsp;<a
                 href="viewtopic.php?viewmode=flat&amp;order=<{$order_current}>&amp;topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;move=next"><{$smarty.const._MD_NEWBB_NEXTTOPIC}></a>
     </div>
@@ -232,7 +236,7 @@
     </div>
     <div class="icon_right">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <input type="hidden" name="forum" id="forum" value="<{$forum_id}>">
             <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
             <input type="hidden" name="since" id="since" value="<{$forum_since}>">

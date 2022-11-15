@@ -36,7 +36,7 @@ class Configurator
     public array $renameColumns   = [];
     public array $moduleStats     = [];
     public string $modCopyright;
-    public $icons;
+    public array $icons = [];
 
     /**
      * Configurator constructor.

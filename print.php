@@ -16,6 +16,7 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Forum,
     Post,
     PostHandler,
     TopicHandler,
@@ -83,6 +84,7 @@ if (Request::getString('post_data', '', 'POST')) {
 
     //    $forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
     $forum       = $topicObject->getVar('forum_id');
+    /** @var Forum $forumObject */
     $forumObject = $forumHandler->get($forum);
     if (!$forumHandler->getPermission($forumObject)) {
         exit(_MD_NEWBB_NORIGHTTOVIEW);
@@ -113,7 +115,7 @@ if (empty($isPost)) {
         }
         $post_data = $postHandler->getPostForPrint($post);
         echo "<h2 style='margin: 0;'>" . $post_data['subject'] . "</h2>
-              <div align='center'>" . _POSTEDBY . '&nbsp;' . $post_data['author'] . '&nbsp;' . _ON . '&nbsp;' . formatTimestamp($post_data['date']) . "</div>
+              <div style='text-align:center;'>" . _POSTEDBY . '&nbsp;' . $post_data['author'] . '&nbsp;' . _ON . '&nbsp;' . formatTimestamp($post_data['date']) . "</div>
               <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
                <div>" . $post_data['text'] . "</div>
               <div style='padding-top: 12px; border-top: 2px solid #ccc;'></div><br>";
@@ -126,7 +128,7 @@ if (empty($isPost)) {
             <div style='width: 750px; border: 1px solid #000; padding: 20px;'>
             <div style='text-align: center; display: block; margin: 0 0 6px 0;'>
             <h2 style='margin: 0;'>" . $post_data['subject'] . "</h2></div>
-            <div align='center'>" . _POSTEDBY . '&nbsp;' . $post_data['author'] . '&nbsp;' . _ON . '&nbsp;' . formatTimestamp($post_data['date']) . "</div>
+            <div style='text-align:center;'>" . _POSTEDBY . '&nbsp;' . $post_data['author'] . '&nbsp;' . _ON . '&nbsp;' . formatTimestamp($post_data['date']) . "</div>
             <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
             <div>" . $post_data['text'] . "</div>
             <div style='padding-top: 12px; border-top: 2px solid #ccc;'></div>

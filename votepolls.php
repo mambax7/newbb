@@ -134,7 +134,8 @@ if ($pollModuleHandler->getVar('version') >= 201) {
         $msg = _PL_ALREADYVOTED;
         setcookie("newbb_polls[{$poll_id}]", 1);
     } else {
-        $pollObject->vote(Request::getInt('option_id', 0, 'POST'), Request::getString('REMOTE_ADDR', '', 'SERVER'));
+        $voteTime = time();
+        $pollObject->vote(Request::getInt('option_id', 0, 'POST'), Request::getString('REMOTE_ADDR', '', 'SERVER'), $voteTime);
         $pollObject->updateCount();
         $msg = _PL_THANKSFORVOTE;
         setcookie("newbb_polls[{$poll_id}]", 1);

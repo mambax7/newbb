@@ -26,14 +26,14 @@ use XoopsModules\Newbb\{
 };
 
 /** @var Helper $helper */
-/** @var CategoryHandler $categoryHandler */
-/** @var ForumHandler $forumHandler */
-/** @var PermissionHandler $permissionHandler */
+
 require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 if (!class_exists('XoopsGroupPermForm')) {
     require_once $GLOBALS['xoops']->path('class/xoopsform/grouppermform.php');
 }
+
+//assert($helper instanceof Helper);
 
 /**
  * TODO: synchronize cascade permissions for multi-level
@@ -49,11 +49,19 @@ if (!class_exists('XoopsGroupPermForm')) {
  * Note: this is a __patchy__ solution. We should have a more extensible and flexible group permission management: not only for data architecture but also for management interface
  */
 
+global $xoopsModule, $adminObject;
+
 //$action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : "";
 $action            = \mb_strtolower(Request::getCmd('action', ''));
 $module_id         = $xoopsModule->getVar('mid');
+
+/** @var PermissionHandler $permissionHandler */
 $permissionHandler = Helper::getInstance()->getHandler('Permission');
 $perms             = $permissionHandler->getValidForumPerms();
+/** @var CategoryHandler $categoryHandler */
+$categoryHandler = Helper::getInstance()->getHandler('Category');
+/** @var ForumHandler $forumHandler */
+$forumHandler    = Helper::getInstance()->getHandler('Forum');
 
 switch ($action) {
     case 'template':
@@ -75,12 +83,13 @@ switch ($action) {
         $opform->display();
         /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = xoops_getHandler('member');
+//        assert($memberHandler instanceof \XoopsMemberHandler);
         $glist         = $memberHandler->getGroupList();
         $elements      = [];
         $perm_template = $permissionHandler->getTemplate();
         foreach (array_keys($glist) as $i) {
             $selected   = !empty($perm_template[$i]) ? array_keys($perm_template[$i]) : [];
-            $ret_ele    = '<tr align="left" valign="top"><td class="head">' . $glist[$i] . '</td>';
+            $ret_ele    = '<tr style="text-align:left;" valign="top"><td class="head">' . $glist[$i] . '</td>';
             $ret_ele    .= '<td class="even">';
             $ret_ele    .= '<table class="outer"><tr><td class="odd"><table><tr>';
             $ii         = 0;
@@ -106,9 +115,9 @@ switch ($action) {
         $tray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $tray->addElement(new \XoopsFormButton('', 'reset', _CANCEL, 'reset'));
         $ret = '<br><strong>' . _AM_NEWBB_PERM_TEMPLATE . '</strong><br>' . _AM_NEWBB_PERM_TEMPLATE_DESC . '<br>';
-        $ret .= "<form name='template' id='template' method='post'>\n<table width='100%' class='outer' cellspacing='1'>\n";
+        $ret .= "<form name='template' id='template' method='post'>\n<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>\n";
         $ret .= implode("\n", $elements);
-        $ret .= '<tr align="left" valign="top"><td class="head"></td><td class="even" style="text-align:center;">';
+        $ret .= '<tr style="text-align:left; vertical-align: top;"><td class="head"></td><td class="even" style="text-align:center;">';
         $ret .= $tray->render();
         $ret .= '</td></tr>';
         $ret .= '</table></form>';
@@ -117,7 +126,7 @@ switch ($action) {
         break;
     case 'template_save':
         //        $res = $permissionHandler->setTemplate($_POST['perms'], $groupid = 0);
-        $res = $permissionHandler->setTemplate(Request::getArray('perms', '', 'POST'), $groupid = 0);
+        $res = $permissionHandler->setTemplate(Request::getArray('perms', [], 'POST'), $groupid = 0);
         if ($res) {
             redirect_header('admin_permissions.php', 2, _AM_NEWBB_PERM_TEMPLATE_CREATED);
         } else {
@@ -147,13 +156,14 @@ switch ($action) {
         $opform->addElement($op_select);
         $opform->display();
 
-        $categoryHandler  = Helper::getInstance()->getHandler('Category');
+//        $categoryHandler  = Helper::getInstance()->getHandler('Category');
         $criteriaCategory = new \CriteriaCompo(new \Criteria('cat_id'));
         $criteriaCategory->setSort('cat_order');
         $categories = $categoryHandler->getList($criteriaCategory);
 
-        $forumHandler = Helper::getInstance()->getHandler('Forum');
+//        $forumHandler = Helper::getInstance()->getHandler('Forum');
         $forums       = $forumHandler->getTree(array_keys($categories), 0, 'all');
+        $fm_options = [];
         foreach (array_keys($forums) as $c) {
             $fm_options[-1 * $c - 1000] = ' ';
             $fm_options[-1 * $c]        = '[' . $categories[$c] . ']';
@@ -192,7 +202,7 @@ switch ($action) {
     default:
         xoops_cp_header();
 
-        $categoryHandler  = Helper::getInstance()->getHandler('Category');
+//        $categoryHandler  = Helper::getInstance()->getHandler('Category');
         $criteriaCategory = new \CriteriaCompo(new \Criteria('cat_id'));
         $criteriaCategory->setSort('cat_order');
         $categories = $categoryHandler->getList($criteriaCategory);
@@ -201,7 +211,7 @@ switch ($action) {
             redirect_header('admin_cat_manager.php', 2, _AM_NEWBB_CREATENEWCATEGORY);
         }
 
-        $forumHandler = Helper::getInstance()->getHandler('Forum');
+//        $forumHandler = Helper::getInstance()->getHandler('Forum');
         $forums       = $forumHandler->getTree(array_keys($categories), 0, 'all');
 
         if (0 === count($forums)) {
@@ -247,9 +257,11 @@ switch ($action) {
         $op      = \mb_strtolower(Request::getCmd('op', Request::getCmd('op', '', 'COOKIE'), 'GET'));
         if (empty($op)) {
             $op = $op_keys[0];
-            setcookie('op', $op_keys[1] ?? '');
+//            setcookie('op', $op_keys[1] ?? '');
+            setcookie('op', (string)$op_keys[1], (int)ini_get('session.cookie_lifetime'), (string)ini_get('session.cookie_path'), (string)ini_get('session.cookie_domain'), (bool)ini_get('session.cookie_secure'), (bool)ini_get('session.cookie_httponly'));
         } elseif (false !== ($key = array_search($op, $op_keys, true))) {
-            setcookie('op', $op_keys[$key + 1] ?? '');
+//            setcookie('op', $op_keys[$key + 1] ?? '');
+            setcookie('op', (string)$op_keys[$key + 1], (int)ini_get('session.cookie_lifetime'), (string)ini_get('session.cookie_path'), (string)ini_get('session.cookie_domain'), (bool)ini_get('session.cookie_secure'), (bool)ini_get('session.cookie_httponly'));
         }
 
         $opform    = new \XoopsSimpleForm('', 'opform', 'admin_permissions.php', 'get');
@@ -263,7 +275,8 @@ switch ($action) {
 
         $form = new GroupPermForm($fm_options[$op]['title'], $module_id, $fm_options[$op]['item'], $fm_options[$op]['desc'], 'admin/admin_permissions.php', $fm_options[$op]['anonymous']);
 
-        $categoryHandler  = Helper::getInstance()->getHandler('Category');
+//        $categoryHandler  = Helper::getInstance()->getHandler('Category');
+//        assert($categoryHandler instanceof CategoryHandler);
         $criteriaCategory = new \CriteriaCompo(new \Criteria('cat_id'));
         $criteriaCategory->setSort('cat_order');
         $categories = $categoryHandler->getList($criteriaCategory);
@@ -273,15 +286,16 @@ switch ($action) {
             }
             unset($categories);
         } else {
-            $forumHandler = Helper::getInstance()->getHandler('Forum');
+//            $forumHandler = Helper::getInstance()->getHandler('Forum');
+//            assert($forumHandler instanceof ForumHandler);
             $forums       = $forumHandler->getTree(array_keys($categories), 0, 'all');
             if (count($forums) > 0) {
                 foreach (array_keys($forums) as $c) {
                     $key_c = -1 * $c;
-                    $form->addItem($key_c, '<strong>[' . $categories[$c] . ']</strong>');
+                    $form->addItem((int)$key_c, '<strong>[' . $categories[$c] . ']</strong>');
                     foreach (array_keys($forums[$c]) as $f) {
                         $pid = $forums[$c][$f]['parent_forum'] ?: $key_c;
-                        $form->addItem($f, $forums[$c][$f]['prefix'] . $forums[$c][$f]['forum_name'], $pid);
+                        $form->addItem((int)$f, $forums[$c][$f]['prefix'] . $forums[$c][$f]['forum_name'], $pid);
                     }
                 }
             }
@@ -293,8 +307,8 @@ switch ($action) {
         echo _AM_NEWBB_HELP_PERMISSION_TAB;
         echo '</fieldset>';
         // Since we can not control the permission update, a trick is used here
-        /** var Newbb\PermissionHandler $permissionHandler */
         $permissionHandler = Helper::getInstance()->getHandler('Permission');
+        assert($permissionHandler instanceof PermissionHandler);
         $permissionHandler->createPermData();
         //$cacheHelper->delete('permission');
         Utility::cleanCache();

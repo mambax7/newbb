@@ -19,7 +19,11 @@
 
 use Xmf\Request;
 use XoopsModules\Xlanguage\Utility as XlanguageUtility;
-use XoopsModules\Newbb\Helper;
+use XoopsModules\Newbb\{
+    Forum,
+    Helper,
+    Post
+};
 
 $moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -47,6 +51,7 @@ if (empty($post_id)) {
 }
 ///** @var Newbb\PostHandler $postHandler */
 //$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
+/** @var Post $post */
 $post = $postHandler->get($post_id);
 if (!$approved = $post->getVar('approved')) {
     exit(_MD_NEWBB_NORIGHTTOVIEW);
@@ -63,6 +68,7 @@ if (!$approved = $forumtopic->getVar('approved')) {
 ///** @var Newbb\ForumHandler $forumHandler */
 //$forumHandler    = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
 $forum           = $forum ?: $forumtopic->getVar('forum_id');
+/** @var Forum $viewtopic_forum */
 $viewtopic_forum = $forumHandler->get($forum);
 $parent_forums   = [];
 $parent_forums   = $forumHandler->getParents($viewtopic_forum);

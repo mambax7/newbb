@@ -1,7 +1,7 @@
 <div class="forum_header">
     <div class="forum_title">
         <h2><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/<{$moderate_url}>"><{$smarty.const._MD_NEWBB_SUSPEND_MANAGEMENT}></a></h2>
-        <hr class="align_left" width="100%" size="1">
+        <hr class="align_left" style="width:100 %; height:1px;">
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$smarty.const._MD_NEWBB_FORUMINDEX}></a>
         <span class="delimiter">&raquo;</span>
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/<{$moderate_url}>"><{$smarty.const._MD_NEWBB_SUSPEND_MANAGEMENT}></a>
@@ -17,8 +17,8 @@
 <{/if}>
 
 <h3><{$smarty.const._MD_NEWBB_SUSPEND_LIST}></h3>
-<hr class="align_left" width="100%" size="1">
-<table width="100%">
+<hr class="align_left" style="width:100 %; height:1px;">
+<table style="width:100%;">
     <thead>
     <tr>
     <{foreach item=colHead from=$columnHeaders}>
@@ -55,12 +55,12 @@
 
 <br>
 <h3><{$suspend_form.title}></h3>
-<hr class="align_left" width="100%" size="1">
+<hr class="align_left" style="width:100 %; height:1px;">
 <form name="<{$suspend_form.name}>" id="<{$suspend_form.name}>" action="<{$suspend_form.action}>" method="<{$suspend_form.method}>" <{$suspend_form.extra}> >
-    <table width='100%' class='outer' cellspacing='1'>
+    <table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>
         <{foreach item=element from=$suspend_form.elements}>
         <{if $element.hidden !== true}>
-            <tr valign="top">
+            <tr style=' vertical-align: top;'>
                 <td class="head">
                     <div class="xoops-form-element-caption<{if $element.required}>-required<{/if}>"><span class="caption-text"><{$element.caption}></span><span class="caption-marker">*</span></div>
                     <{if $element.description|default:'' != ''}>

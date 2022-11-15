@@ -18,6 +18,7 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Forum,
     Helper,
     TopicHandler,
     ForumHandler
@@ -74,7 +75,8 @@ if (is_object($topicObject)) {
 }
 // forum access permission
 $forumHandler = Helper::getInstance()->getHandler('Forum');
-$forumObject  = $forumHandler->get($forum_id);
+/** @var Forum $forumObject */
+$forumObject = $forumHandler->get($forum_id);
 if (!$forumHandler->getPermission($forumObject)) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);
 }
@@ -781,7 +783,7 @@ switch ($op) {
     case 'restart':
         // new xoopspoll module
         if ($pollModuleHandler->getVar('version') >= 201) {
-            $default_poll_duration = Constants::DEFAULT_POLL_DURATION;
+            $default_poll_duration = PollConstants::DEFAULT_POLL_DURATION;
         } elseif ($pollModuleHandler->getVar('version') >= 140) {
             $classConstants        = ucfirst($GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
             $default_poll_duration = $classConstants::DEFAULT_POLL_DURATION;
@@ -820,9 +822,9 @@ switch ($op) {
         // new xoopspoll module
         if ($pollModuleHandler->getVar('version') >= 201) {
             //            $classConstants        = new XoopsModules\Xoopspoll\Constants();
-            $default_poll_duration = Constants::DEFAULT_POLL_DURATION;
-            $poll_not_mailed       = Constants::POLL_NOT_MAILED;
-            $poll_mailed           = Constants::POLL_MAILED;
+            $default_poll_duration = PollConstants::DEFAULT_POLL_DURATION;
+            $poll_not_mailed       = PollConstants::POLL_NOT_MAILED;
+            $poll_mailed           = PollConstants::POLL_MAILED;
         } elseif ($pollModuleHandler->getVar('version') >= 140) {
             $classConstants        = ucfirst($GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
             $default_poll_duration = $classConstants::DEFAULT_POLL_DURATION;

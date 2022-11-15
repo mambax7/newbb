@@ -50,7 +50,7 @@
     <div class="row collapse forum-search" id="forum-search">
         <div class="col-sm-9 col-md-9">
             <form class="input-group" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get" role="search">
-                <input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_FORUM}>">
+                <label for="term"></label><input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_FORUM}>">
                 <input type="hidden" name="forum" value="<{$forum_id}>">
                 <input type="hidden" name="sortby" value="p.post_time desc">
                 <input type="hidden" name="since" value="<{$forum_since}>">
@@ -84,21 +84,23 @@
                                     <label for="topic_check1">
                                         <{$smarty.const._ALL}>:
                                     </label>
-                                    <input type="checkbox" name="topic_check1" id="post_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');">
+                                    <label for="post_check"></label><input type="checkbox" name="topic_check1" id="post_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');">
                                 </div>
                             </div>
                             <div class="col-auto">
-                                <select name="op" class="custom-select mb-2">                        <option value="0"><{$smarty.const._SELECT}></option>
-                                    <option value="delete"><{$smarty.const._DELETE}></option>
-                                    <{if $status eq "pending"}>
-                                    <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                                    <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                                    <{elseif $status eq "deleted"}>
-                                    <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                                    <{else}>
-                                    <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                                    <{/if}>
-                                </select>
+                                <label>
+                                    <select name="op" class="custom-select mb-2">                        <option value="0"><{$smarty.const._SELECT}></option>
+                                        <option value="delete"><{$smarty.const._DELETE}></option>
+                                        <{if $status eq "pending"}>
+                                        <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                                        <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                                        <{elseif $status eq "deleted"}>
+                                        <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                                        <{else}>
+                                        <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                                        <{/if}>
+                                    </select>
+                                </label>
                             </div>
                             <input type="hidden" name="forum_id" value="<{$forum_id}>">
                             <div class="col-auto">
@@ -142,7 +144,7 @@
         <{foreach item=topic from=$topics}>
             <tr>
                 <{if $mode gt 1}>
-                <td><input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>"></td>
+                <td><label for="topic_id[<{$topic.topic_id}>]"></label><input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>"></td>
                 <{/if}>
                 <td class="d-none d-sm-table-cell"><{$topic.topic_folder}></td>
                 <td><a class="<{if $topic.topic_read eq 1 }>read-topic<{else}>new-topic<{/if}>" href="<{$xoops_url}>/modules/<{$xoops_dirname}>/<{$topic.topic_link}>" title="<{$topic.topic_excerpt}>"><{$topic.topic_title}></a></td>
@@ -192,15 +194,15 @@
     <div class="col-md-12">
         <{strip}>
             <form class="xoopsform" method="get" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php">
-            <ul class="list-inline">
-            <li><strong><{$smarty.const._MD_NEWBB_SORTEDBY}>:</strong></li>
-            <li><{$forum_selection_sort|replace:'<select name':'<select class="form-control" name'}></li>
-            <li><{$forum_selection_order|replace:'<select name':'<select class="form-control" name'}></li>
-            <li><{$forum_selection_since}></li>
-            <input type="hidden" name="forum" value="<{$forum_id}>">
-            <input type="hidden" name="status" value="<{$status}>">
-            <li><input type="submit" value="<{$smarty.const._SUBMIT}>" class="btn btn-primary"></li>
-            </ul>
+                <ul class="list-inline">
+                    <li><strong><{$smarty.const._MD_NEWBB_SORTEDBY}>:</strong></li>
+                    <li><{$forum_selection_sort|replace:'<select name':'<select class="form-control" name'}></li>
+                    <li><{$forum_selection_order|replace:'<select name':'<select class="form-control" name'}></li>
+                    <li><{$forum_selection_since}></li>
+                    <li><input type="submit" value="<{$smarty.const._SUBMIT}>" class="btn btn-primary"></li>
+                </ul>
+                <input type="hidden" name="forum" value="<{$forum_id}>">
+                <input type="hidden" name="status" value="<{$status}>">
             </form>
         <{/strip}>
     </div>

@@ -1,4 +1,4 @@
-<select
+<label for="forumoption"></label><select
         name="forumoption" id="forumoption"
         onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.location=this.options[this.selectedIndex].value;}"
         >
@@ -15,6 +15,7 @@
 </select>
 
 <{if $typeOptions}>
+    <label for="type"></label>
     <select
             name="type" id="type"
             onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.location=this.options[this.selectedIndex].value;}"

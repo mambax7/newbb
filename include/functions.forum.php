@@ -27,13 +27,13 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
     define('NEWBB_FUNCTIONS_FORUM', 1);
 
     /**
-     * @param array|null $value             selected forum id
+     * @param array|int|null $value             selected forum id
      * @param string     $permission        permission (access, all, etc.)
      * @param bool       $categoryDelimiter show delimiter between categories
      * @param bool       $see
      * @return string
      */
-    function newbbForumSelectBox(array $value = null, string $permission = 'access', bool $categoryDelimiter = true, bool $see = false): string
+    function newbbForumSelectBox($value = null, string $permission = 'access', bool $categoryDelimiter = true, bool $see = false): string
     {
         global $xoopsUser;
         $categoryHandler = Helper::getInstance()->getHandler('Category');

@@ -181,14 +181,14 @@ Utility::cleanCache();
 //$cacheHelper->delete('permission');
 
 /**
- * @param             $sizeAsString
- * @param bool        $b
+ * @param string $sizeAsString
+ * @param bool   $b
  * @return int|string
  */
 function return_bytes($sizeAsString, bool $b = false)
 {
     if ($b) {
-        $base   = log($sizeAsString) / log(1024);
+        $base   = log((int)$sizeAsString) / log(1024);
         $suffix = ['', 'KB', 'MB', 'GB', 'TB'];
 
         return round(pow(1024, $base - floor($base))) . ' ' . $suffix[(int)floor($base)];

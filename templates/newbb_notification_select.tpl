@@ -10,7 +10,7 @@
             </tr>
           <tr>
             <td class="head"><{$lang_category}></td>
-            <td class="head"><input name="allbox" id="allbox" onclick="xoopsCheckAll('notification_select','allbox');" type="checkbox" value="<{$lang_checkall}>" ></td>
+            <td class="head"><label for="allbox"></label><input name="allbox" id="allbox" onclick="xoopsCheckAll('notification_select','allbox');" type="checkbox" value="<{$lang_checkall}>" ></td>
             <td class="head"><{$lang_events}></td>
           </tr>
           <{foreach name=outer item=category from=$xoops_notification.categories}>
@@ -22,7 +22,7 @@
             <td class="odd">
             <{counter assign=index}>
             <input type="hidden" name="not_list[<{$index}>][params]" value="<{$category.name}>,<{$category.itemid}>,<{$event.name}>" >
-            <input type="checkbox" id="not_list[]" name="not_list[<{$index}>][status]" value="1" <{if $event.subscribed}>checked<{/if}> >
+                <label for="not_list[]"></label><input type="checkbox" id="not_list[]" name="not_list[<{$index}>][status]" value="1" <{if $event.subscribed}>checked<{/if}> >
             </td>
             <td class="odd"><{$event.caption}></td>
           </tr>

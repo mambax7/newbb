@@ -18,9 +18,9 @@ class IpCheck
     // Return IP type.  4 for IPv4, 6 for IPv6, 0 for bad IP.
 
     /**
-     * @param $ipValue
+     * @param string $ipValue
      */
-    public function addressType($ipValue): void
+    public function addressType(string $ipValue): void
     {
         $this->ipin  = $ipValue;
         $this->ipver = 0;
@@ -59,7 +59,7 @@ class IpCheck
      *
      * @param string $ip Given IP address
      *
-     * @return string A if IPv4, AAAA if IPv6 or 0 if invalid
+     * @return string|int A if IPv4, AAAA if IPv6 or 0 if invalid
      */
     public function isValidIpAddress(string $ip)
     {

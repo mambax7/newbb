@@ -1,4 +1,4 @@
-<select
+<label for="mainoption"></label><select
         name="mainoption" id="mainoption"
         onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
     <option value=""><{$smarty.const._MD_NEWBB_MAINFORUMOPT}></option>

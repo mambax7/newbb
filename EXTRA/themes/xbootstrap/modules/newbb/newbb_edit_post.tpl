@@ -2,7 +2,7 @@
     <div class="forum_title">
         <h2><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a></h2>
         <!-- irmtfan hardcode removed align="left" -->
-        <hr class="align_left" width="50%" size="1">
+        <hr class="align_left" style="width:50%; height:1px;">
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$smarty.const._MD_NEWBB_FORUMINDEX}></a>
         <span class="delimiter">&raquo;</span>
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?cat=<{$category.id}>"><{$category.title}></a>
@@ -35,11 +35,11 @@
 <{/if}>
 
 <{if $post_preview|default:''}>
-    <table width='100%' class='outer' cellspacing='1'>
-        <tr valign="top">
+    <table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>
+        <tr style="vertical-align: top;">
             <td class="head"><{$post_preview.subject}></td>
         </tr>
-        <tr valign="top">
+        <tr style="vertical-align: top;">
             <td><{$post_preview.meta}><br><br>
                 <{$post_preview.content}>
             </td>
@@ -51,10 +51,10 @@
 
 <form name="<{$form_post.name}>" id="<{$form_post.name}>" action="<{$form_post.action}>"
       method="<{$form_post.method}>" <{$form_post.extra}> >
-    <table width='100%' class='outer' cellspacing='1'>
+    <table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>
         <{foreach item=element from=$form_post.elements}>
         <{if $element.hidden|default:false != true}>
-            <tr valign="top">
+            <tr style="vertical-align: top;">
                 <td class="head">
                     <div class="xoops-form-element-caption<{if $element.required|default:''}>-required<{/if}>"><span
                                 class="caption-text"><{$element.caption|default:''}></span><span class="caption-marker">*</span>
@@ -79,12 +79,12 @@
 <br>
 
 <{if $posts_context|default:''}>
-    <table width='100%' class='outer' cellspacing='1'>
+    <table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>
         <{foreach item=post from=$posts_context}>
-        <tr valign="top">
+        <tr style="vertical-align: top;">
             <td class="head"><{$post.subject}></td>
         </tr>
-        <tr valign="top">
+        <tr style="vertical-align: top;">
             <td><{$post.meta}><br><br>
                 <{$post.content}>
             </td>

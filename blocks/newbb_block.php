@@ -18,6 +18,7 @@
 
 use XoopsModules\Newbb\{
     Helper,
+    PermissionHandler,
     TypeHandler
 };
 
@@ -34,10 +35,10 @@ if (defined('NEWBB_BLOCK_DEFINED')) {
 define('NEWBB_BLOCK_DEFINED', true);
 
 /**
- * @param $var
+ * @param int $var
  * @return bool
  */
-function b_newbb_array_filter($var): bool
+function b_newbb_array_filter(int $var): bool
 {
     return $var > 0;
 }
@@ -51,10 +52,10 @@ function b_newbb_array_filter($var): bool
 // options[6] - SelectedForumIDs: null for all
 
 /**
- * @param $options
+ * @param array $options
  * @return array|bool
  */
-function b_newbb_show($options)
+function b_newbb_show(array $options )
 {
     global $accessForums;
     global $xoopsLogger;
@@ -69,7 +70,7 @@ function b_newbb_show($options)
     $extraCriteria = '';
     if (!empty($options[2])) {
         //require_once  \dirname(__DIR__) . '/include/functions.time.php';
-        $extraCriteria .= ' AND p.post_time>' . (time() - newbbGetSinceTime($options[2]));
+        $extraCriteria .= ' AND p.post_time>' . (time() - newbbGetSinceTime((int)$options[2]));
     }
     switch ($options[0]) {
         case 'time':
@@ -79,9 +80,9 @@ function b_newbb_show($options)
     }
 
     if (!isset($accessForums)) {
-        /** var Newbb\PermissionHandler $permHandler */
-        $permHandler = Helper::getInstance()->getHandler('Permission');
-        if (!$accessForums = $permHandler->getForums()) {
+        $permissionHandler = Helper::getInstance()->getHandler('Permission');
+        assert($permissionHandler instanceof PermissionHandler);
+        if (!$accessForums = $permissionHandler->getForums()) {
             return $block;
         }
     }
@@ -154,6 +155,7 @@ function b_newbb_show($options)
 
     if (count($types) > 0) {
         $typeHandler = Helper::getInstance()->getHandler('Type');
+        assert($typeHandler instanceof TypeHandler);
         $type_list   = $typeHandler->getList(new \Criteria('type_id', '(' . implode(', ', array_keys($types)) . ')', 'IN'));
     }
 
@@ -226,7 +228,7 @@ function b_newbb_show($options)
 // options[6] - SelectedForumIDs: null for all
 
 /**
- * @param $options
+ * @param array $options
  * @return array|bool
  */
 function b_newbb_topic_show($options)
@@ -275,9 +277,9 @@ function b_newbb_topic_show($options)
     }
 
     if (!isset($accessForums)) {
-        /** var Newbb\PermissionHandler $permHandler */
-        $permHandler = Helper::getInstance()->getHandler('Permission');
-        if (!$accessForums = $permHandler->getForums()) {
+        $permissionHandler = Helper::getInstance()->getHandler('Permission');
+        assert($permissionHandler instanceof PermissionHandler);
+        if (!$accessForums = $permissionHandler->getForums()) {
             return $block;
         }
     }
@@ -319,9 +321,10 @@ function b_newbb_topic_show($options)
         return $block;
     }
     require_once \dirname(__DIR__) . '/include/functions.user.php';
-    $author_name = newbbGetUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
+    $author_name = newbbGetUnameFromIds(array_keys($author), (bool)$newbbConfig['show_realname'], true);
     if (count($types) > 0) {
         $typeHandler = Helper::getInstance()->getHandler('Type');
+        assert($typeHandler instanceof TypeHandler);
         $type_list   = $typeHandler->getList(new \Criteria('type_id', '(' . implode(', ', array_keys($types)) . ')', 'IN'));
     }
 
@@ -341,7 +344,7 @@ function b_newbb_topic_show($options)
         $topic['title']   = $topic['topic_subject'] . $title;
         $topic['replies'] = $arr['topic_replies'];
         $topic['views']   = $arr['topic_views'];
-        $topic['time']    = newbbFormatTimestamp($arr['topic_time']);
+        $topic['time']    = newbbFormatTimestamp((int)$arr['topic_time']);
         if (!empty($author_name[$arr['topic_poster']])) {
             $topic_poster = $author_name[$arr['topic_poster']];
         } else {
@@ -387,10 +390,10 @@ function b_newbb_topic_show($options)
 // options[6] - SelectedForumIDs: null for all
 
 /**
- * @param $options
+ * @param array $options
  * @return array
  */
-function b_newbb_post_show($options): array
+function b_newbb_post_show(array $options ): array
 {
     global $accessForums;
     global $newbbConfig;
@@ -422,9 +425,9 @@ function b_newbb_post_show($options): array
     }
 
     if (!isset($accessForums)) {
-        /** var Newbb\PermissionHandler $permHandler */
-        $permHandler = Helper::getInstance()->getHandler('Permission');
-        if (!$accessForums = $permHandler->getForums()) {
+        $permissionHandler = Helper::getInstance()->getHandler('Permission');
+        assert($permissionHandler instanceof PermissionHandler);
+        if (!$accessForums = $permissionHandler->getForums()) {
             return $block;
         }
     }
@@ -477,7 +480,7 @@ function b_newbb_post_show($options): array
         return $block;
     }
     require_once \dirname(__DIR__) . '/include/functions.user.php';
-    $author_name = newbbGetUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
+    $author_name = newbbGetUnameFromIds(array_keys($author), (bool)$newbbConfig['show_realname'], true);
 
     foreach ($rows as $arr) {
         //if ($arr['icon'] && is_file($GLOBALS['xoops']->path('images/subject/' . $arr['icon']))) {
@@ -498,7 +501,7 @@ function b_newbb_post_show($options): array
         }
         $topic['title']   = $title;
         $topic['post_id'] = $arr['post_id'];
-        $topic['time']    = newbbFormatTimestamp($arr['post_time']);
+        $topic['time']    = newbbFormatTimestamp((int)$arr['post_time']);
         if (!empty($author_name[$arr['uid']])) {
             $topic_poster = $author_name[$arr['uid']];
         } else {
@@ -553,10 +556,10 @@ function b_newbb_post_show($options): array
 // options[6] - SelectedForumIDs: null for all
 
 /**
- * @param $options
+ * @param array $options
  * @return array|bool
  */
-function b_newbb_author_show($options)
+function b_newbb_author_show(array $options )
 {
     global $accessForums;
     global $newbbConfig;
@@ -594,9 +597,9 @@ function b_newbb_author_show($options)
     }
 
     if (!isset($accessForums)) {
-        /** var Newbb\PermissionHandler $permHandler */
-        $permHandler = Helper::getInstance()->getHandler('Permission');
-        if (!$accessForums = $permHandler->getForums()) {
+        $permissionHandler = Helper::getInstance()->getHandler('Permission');
+        assert($permissionHandler instanceof PermissionHandler);
+        if (!$accessForums = $permissionHandler->getForums()) {
             return $block;
         }
     }
@@ -636,7 +639,7 @@ function b_newbb_author_show($options)
         return $block;
     }
     require_once \dirname(__DIR__) . '/include/functions.user.php';
-    $author_name = newbbGetUnameFromIds(array_keys($author), (int)(isset($newbbConfig['show_realname'])??0));
+    $author_name = newbbGetUnameFromIds(array_keys($author), (bool)(isset($newbbConfig['show_realname'])??0));
     foreach (array_keys($author) as $uid) {
         $author[$uid]['name'] = htmlspecialchars((string)$author_name[$uid], ENT_QUOTES | ENT_HTML5);
     }
@@ -648,10 +651,10 @@ function b_newbb_author_show($options)
 }
 
 /**
- * @param $options
+ * @param array $options
  * @return string
  */
-function b_newbb_edit($options): string
+function b_newbb_edit(array $options ): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
 
@@ -708,10 +711,10 @@ function b_newbb_edit($options): string
 }
 
 /**
- * @param $options
+ * @param array $options
  * @return string
  */
-function b_newbb_topic_edit($options): string
+function b_newbb_topic_edit(array $options ): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $form = _MB_NEWBB_CRITERIA . "<select name='options[0]'>";
@@ -788,10 +791,10 @@ function b_newbb_topic_edit($options): string
 }
 
 /**
- * @param $options
+ * @param array $options
  * @return string
  */
-function b_newbb_post_edit($options): string
+function b_newbb_post_edit(array $options ): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $form = _MB_NEWBB_CRITERIA . "<select name='options[0]'>";
@@ -852,10 +855,10 @@ function b_newbb_post_edit($options): string
 }
 
 /**
- * @param $options
+ * @param array $options
  * @return string
  */
-function b_newbb_author_edit($options): string
+function b_newbb_author_edit(array $options ): string
 {
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $form = _MB_NEWBB_CRITERIA . "<select name='options[0]'>";
@@ -920,10 +923,10 @@ function b_newbb_author_edit($options): string
 }
 
 /**
- * @param $options
+ * @param array|string $options
  * @return bool
  */
-function b_newbb_custom($options): bool
+function b_newbb_custom($options ): bool
 {
     // if no newbb module block set, we have to include the language file
     xoops_loadLanguage('blocks', 'newbb');
@@ -940,10 +943,10 @@ function b_newbb_custom($options): bool
 }
 
 /**
- * @param $options
+ * @param array|string $options
  * @return bool
  */
-function b_newbb_custom_topic($options): bool
+function b_newbb_custom_topic($options ): bool
 {
     $helper = Helper::getInstance();
     // if no newbb module block set, we have to include the language file
@@ -961,10 +964,10 @@ function b_newbb_custom_topic($options): bool
 }
 
 /**
- * @param $options
+ * @param array|string $options
  * @return bool
  */
-function b_newbb_custom_post($options): bool
+function b_newbb_custom_post($options ): bool
 {
     $helper = Helper::getInstance();
     // if no newbb module block set, we have to include the language file
@@ -982,10 +985,10 @@ function b_newbb_custom_post($options): bool
 }
 
 /**
- * @param $options
+ * @param array|string $options
  * @return bool
  */
-function b_newbb_custom_author($options): bool
+function b_newbb_custom_author($options ): bool
 {
     $helper = Helper::getInstance();
     // if no newbb module block set, we have to include the language file

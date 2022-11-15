@@ -35,8 +35,8 @@ define('XOOPS_MODULE_NEWBB_FUCTIONS', 1);
 require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
 
 /**
- * @param XoopsModule $module
- * @param null        $oldversion
+ * @param XoopsModule     $module
+ * @param string|int|null $oldversion
  * @return bool
  */
 function xoops_module_update_newbb(\XoopsModule $module, $oldversion = null): bool

@@ -37,12 +37,12 @@ if (!defined('NEWBB_FUNCTIONS_STATS')) {
     }
 
     /**
-     * @param        $id
-     * @param        $type
+     * @param int    $id
+     * @param string $type
      * @param int    $increment
      * @return bool
      */
-    function newbbUpdateStats($id, $type, int $increment = 1): bool
+    function newbbUpdateStats(int $id, string $type, int $increment = 1): bool
     {
         /** @var StatsHandler $statsHandler */
         $statsHandler = Helper::getInstance()->getHandler('Stats');
@@ -73,13 +73,16 @@ if (!defined('NEWBB_FUNCTIONS_STATS')) {
     * Also can return the number of users on the system.
     */
     /**
-     * @param int    $id
-     * @param string $type
+     * @param int|null    $id
+     * @param string|null $type
      * @return int
      */
-    function getTotalPosts(int $id = 0, string $type = 'all'): int
+    function getTotalPosts(?int $id = 0, string $type = null): int
     {
-        $postHandler = Helper::getInstance()->getHandler('Post');
+        $id          ??= 0;
+        $type        ??= 'all';
+        $postHandler = Helper::getInstance()
+                             ->getHandler('Post');
         $criteria    = new \CriteriaCompo(new \Criteria('approved', '0', '>'));
         switch ($type) {
             case 'forum':

@@ -13,11 +13,11 @@ namespace XoopsModules\Newbb;
 \defined('NEWBB_FUNCTIONS_INI') || require $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
 
 /**
- * @param $RPG
- * @param $RPGDIFF
+ * @param int $RPG
+ * @param int $RPGDIFF
  * @return array
  */
-function newbb_calculateLevel($RPG, $RPGDIFF): array
+function newbb_calculateLevel(int $RPG, int $RPGDIFF): array
 {
     //$RPG = $user->getVar('posts');
     //$RPGDIFF = $user->getVar('user_regdate');

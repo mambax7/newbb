@@ -259,13 +259,13 @@ class SysUtility
     /**
      * Add a field to a mysql table
      *
-     * @param $field
-     * @param $table
+     * @param string $field
+     * @param string $table
      * @return bool|\mysqli_result
      * @author        Hervé Thouzard (https://www.herve-thouzard.com)
      * @copyright (c) Hervé Thouzard
      */
-    public function addField($field, $table)
+    public function addField(string $field, string $table)
     {
         global $xoopsDB;
         $result = $xoopsDB->queryF('ALTER TABLE ' . $table . " ADD $field");

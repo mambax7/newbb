@@ -81,15 +81,15 @@ switch ($op) {
             $box .= newbbForumSelectBox($forum_id, 'all', true, true);
             $box .= '</select>';
 
-            echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+            echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
             echo '<form action="./admin_forum_manager.php" method="post" name="forummove" id="forummove">';
             echo '<input type="hidden" name="op" value="moveforum" >';
             echo '<input type="hidden" name="forum" value=' . $forum_id . ' >';
-            echo '<table border="0" cellpadding="1" cellspacing="0" align="center" valign="top" width="95%"><tr>';
-            echo '<td class="bg2" align="center"><strong>' . _AM_NEWBB_MOVETHISFORUM . '</strong></td>';
+            echo '<table style="border: 0; padding: 1px; border-collapse: collapse; border-spacing: 0; width: 95%; text-align:center; vertical-align: top;"><tr>';
+            echo '<td class="bg2" style="text-align:center;"><strong>' . _AM_NEWBB_MOVETHISFORUM . '</strong></td>';
             echo '</tr>';
-            echo '<tr><td class="bg1" align="center">' . $box . '</td></tr>';
-            echo '<tr><td align="center"><input type="submit" name="save" value=' . _GO . ' class="button" ></td></tr>';
+            echo '<tr><td class="bg1" style="text-align:center;">' . $box . '</td></tr>';
+            echo '<tr><td style="text-align:center;"><input type="submit" name="save" value=' . _GO . ' class="button" ></td></tr>';
             echo '</table></form>';
             echo '</td></tr></table>';
         }
@@ -97,7 +97,7 @@ switch ($op) {
     case 'mergeforum':
         //if (!$newXoopsModuleGui) loadModuleAdminMenu(2, "");
 
-        if (Request::getString('dest_forum', '', 'POST')) {
+        if ('' !== Request::getString('dest_forum', '', 'POST')) {
             $forum_dest = $forumHandler->get(Request::getString('dest_forum', '', 'POST'));
             if (is_object($forum_dest)) {
                 $cid         = $forum_dest->getVar('cat_id');
@@ -108,7 +108,7 @@ switch ($op) {
                 $result_topic = $GLOBALS['xoopsDB']->queryF($sql);
 
                 $forumObject = $forumHandler->get($forum_id);
-                $forumHandler->updateAll('parent_forum', Request::getInt('dest_forum', 0, 'POST'), new \Criteria('parent_forum', $forum_id));
+                $forumHandler->updateAll('parent_forum', Request::getInt('dest_forum', 0, 'POST'), new \Criteria('parent_forum', (string)$forum_id));
                 if ($cid !== $forumObject->getVar('cat_id') && $subforums = newbbGetSubForum($forum_id)) {
                     $forums = array_map('\intval', array_values($subforums));
                     $forumHandler->updateAll('cat_id', $cid, new \Criteria('forum_id', '(' . implode(', ', $forums) . ')', 'IN'));
@@ -129,16 +129,16 @@ switch ($op) {
             $box .= '<option value=0 selected>' . _SELECT . '</option>';
             $box .= newbbForumSelectBox($forum_id, 'all');
             $box .= '</select>';
-            echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+            echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
             echo '<form action="' . xoops_getenv('SCRIPT_NAME') . '" method="post" name="forummove" id="forummove">';
             echo '<input type="hidden" name="op" value="mergeforum" >';
             echo '<input type="hidden" name="forum" value=' . $forum_id . ' >';
-            echo '<table border="0" cellpadding="1" cellspacing="0" align="center" valign="top" width="95%"><tr>';
-            echo '<td class="bg2" align="center"><strong>' . _AM_NEWBB_MERGETHISFORUM . '</strong></td>';
+            echo '<table style="border: 0; padding: 1px; border-collapse: collapse; border-spacing: 0; width: 95%; text-align:center; vertical-align: top;"><tr>';
+            echo '<td class="bg2" style="text-align:center;"><strong>' . _AM_NEWBB_MERGETHISFORUM . '</strong></td>';
             echo '</tr>';
-            echo '<tr><td class="bg1" align="center">' . _AM_NEWBB_MERGETO_FORUM . '</td></tr>';
-            echo '<tr><td class="bg1" align="center">' . $box . '</td></tr>';
-            echo '<tr><td align="center"><input type="submit" name="save" value=' . _GO . ' class="button" ></td></tr>';
+            echo '<tr><td class="bg1" style="text-align:center;">' . _AM_NEWBB_MERGETO_FORUM . '</td></tr>';
+            echo '<tr><td class="bg1" style="text-align:center;">' . $box . '</td></tr>';
+            echo '<tr><td style="text-align:center;"><input type="submit" name="save" value=' . _GO . ' class="button" ></td></tr>';
             echo '</form></table>';
             echo '</td></tr></table>';
         }
@@ -231,9 +231,9 @@ switch ($op) {
         }
 
         $echo = $adminObject->displayNavigation(basename(__FILE__));
-        $echo .= "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
-        $echo .= "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        $echo .= "<tr align='center'>";
+        $echo .= "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
+        $echo .= "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        $echo .= "<tr style='text-align:center;'>";
         $echo .= "<th class='bg3' colspan='2'>" . _AM_NEWBB_NAME . '</th>';
         $echo .= "<th class='bg3'>" . _AM_NEWBB_EDIT . '</th>';
         $echo .= "<th class='bg3'>" . _AM_NEWBB_DELETE . '</th>';
@@ -254,11 +254,11 @@ switch ($op) {
             $cat_edit_link  = '<a href="admin_cat_manager.php?op=mod&amp;cat_id=' . $cat_id . '">' . newbbDisplayImage('admin_edit', _EDIT) . '</a>';
             $cat_del_link   = '<a href="admin_cat_manager.php?op=del&amp;cat_id=' . $cat_id . '">' . newbbDisplayImage('admin_delete', _DELETE) . '</a>';
             $forum_add_link = '<a href="admin_forum_manager.php?op=addforum&amp;cat_id=' . $cat_id . '">' . newbbDisplayImage('new_forum') . '</a>';
-            $echo           .= "<tr class='even' align='left'>";
+            $echo           .= "<tr class='even' style='text-align:left;'>";
             $echo           .= "<td width='100%' colspan='2'><strong>" . $cat_link . '</strong></td>';
-            $echo           .= "<td align='center'>" . $cat_edit_link . '</td>';
-            $echo           .= "<td align='center'>" . $cat_del_link . '</td>';
-            $echo           .= "<td align='center'>" . $forum_add_link . '</td>';
+            $echo           .= "<td style='text-align:center;'>" . $cat_edit_link . '</td>';
+            $echo           .= "<td style='text-align:center;'>" . $cat_del_link . '</td>';
+            $echo           .= "<td style='text-align:center;'>" . $forum_add_link . '</td>';
             $echo           .= '<td></td>';
             $echo           .= '<td></td>';
             $echo           .= '</tr>';
@@ -276,13 +276,13 @@ switch ($op) {
                 $f_merge_link = '<a href="admin_forum_manager.php?op=mergeforum&amp;forum=' . $f . '">' . newbbDisplayImage('admin_merge', _AM_NEWBB_MERGE) . '</a>';
 
                 $class = (($i++) % 2) ? 'odd' : 'even';
-                $echo  .= "<tr class='" . $class . "' align='left'><td></td>";
+                $echo  .= "<tr class='" . $class . "' style='text-align:left;'><td></td>";
                 $echo  .= '<td><strong>' . $f_link . '</strong></td>';
-                $echo  .= "<td align='center'>" . $f_edit_link . '</td>';
-                $echo  .= "<td align='center'>" . $f_del_link . '</td>';
-                $echo  .= "<td align='center'>" . $sf_add_link . '</td>';
-                $echo  .= "<td align='center'>" . $f_move_link . '</td>';
-                $echo  .= "<td align='center'>" . $f_merge_link . '</td>';
+                $echo  .= "<td style='text-align:center;'>" . $f_edit_link . '</td>';
+                $echo  .= "<td style='text-align:center;'>" . $f_del_link . '</td>';
+                $echo  .= "<td style='text-align:center;'>" . $sf_add_link . '</td>';
+                $echo  .= "<td style='text-align:center;'>" . $f_move_link . '</td>';
+                $echo  .= "<td style='text-align:center;'>" . $f_merge_link . '</td>';
                 $echo  .= '</tr>';
             }
         }

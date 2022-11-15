@@ -18,10 +18,10 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) {
     define('NEWBB_FUNCTIONS_IMAGE', true);
 
     /**
-     * @param $source
+     * @param string $source
      * @return string
      */
-    function newbbAttachmentImage($source): string
+    function newbbAttachmentImage(string $source): string
     {
         $img_path   = $GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments']);
         $img_url    = XOOPS_URL . '/' . $GLOBALS['xoopsModuleConfig']['dir_attachments'];
@@ -78,7 +78,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) {
             $attachmentImage .= '<img src="' . $image_url . '" ' . $pseudo_size . ' alt="' . $source . ' ' . $img_info . '" style="max-width: 100%; height: auto;">';
             $attachmentImage .= '</a>';
         } elseif (file_exists($image)) {
-            $attachmentImage = '<img src="' . $image_url . '" alt="' . $source . ' ' . $img_info . '" width="' . $imginfo[0] . '" height="' . $imginfo[1] . '" style="max-width: 100%; height: auto;">';
+            $attachmentImage = '<img src="' . $image_url . '" alt="' . $source . ' ' . $img_info . '" style="width:' . $imginfo[0] . '" height="' . $imginfo[1] . '" style="max-width: 100%; height: auto;">';
         } else {
             $attachmentImage = '';
         }
@@ -87,11 +87,11 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) {
     }
 
     /**
-     * @param $source
-     * @param $thumb_width
+     * @param string $source
+     * @param int $thumb_width
      * @return bool
      */
-    function newbbCreateThumbnail($source, $thumb_width): bool
+    function newbbCreateThumbnail(string $source, int $thumb_width): bool
     {
         $cmd        = '';
         $img_path   = $GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments']);

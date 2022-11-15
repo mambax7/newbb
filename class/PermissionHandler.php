@@ -12,8 +12,9 @@ namespace XoopsModules\Newbb;
  */
 
 use Xmf\Module\Helper\Cache;
+use XoopsModules\Newbb\Helper;
 
-/** @var Xmf\Module\Helper\Cache $cacheHelper */
+/** @var Cache $cacheHelper */
 
 \defined('NEWBB_FUNCTIONS_INI') || require $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
 \define('NEWBB_HANDLER_PERMISSION', 1);
@@ -32,7 +33,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
     /** @var array|null */
     private array $_handler;
     
-    /** @var Helper $helper */
+    /** @var Helper|null $helper */
     private ?Helper $helper;
 
     /**
@@ -52,10 +53,10 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return mixed
      */
-    public function loadHandler($name)
+    public function loadHandler(string $name)
     {
         if (!isset($this->_handler[$name])) {
             //            $className             = '\\XoopsModules\\Newbb\\Permission' . \ucfirst($name) . 'Handler';
@@ -78,12 +79,12 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param int  $forum
+     * @param int|Forum  $forum
      * @param bool $topic_locked
      * @param bool $isAdmin
      * @return mixed
      */
-    public function getPermissionTable(int $forum = 0, bool $topic_locked = false, bool $isAdmin = false)
+    public function getPermissionTable($forum = 0, bool $topic_locked = false, bool $isAdmin = false)
     {
         $handler = $this->loadHandler('Forum');
         $perm    = $handler->getPermissionTable($forum, $topic_locked, $isAdmin);
@@ -92,10 +93,10 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param $forum_id
+     * @param int $forum_id
      * @return mixed
      */
-    public function deleteByForum($forum_id)
+    public function deleteByForum(int $forum_id)
     {
         $this->cacheHelper->delete('permission_forum');
         $handler = $this->loadHandler('Forum');
@@ -104,10 +105,10 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param $cat_id
+     * @param int $cat_id
      * @return mixed
      */
-    public function deleteByCategory($cat_id)
+    public function deleteByCategory(int $cat_id)
     {
         $this->cacheHelper->delete('permission_category');
         $handler = $this->loadHandler('Category');
@@ -116,7 +117,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param        $category
+     * @param string $category
      * @param array  $groups
      * @return mixed
      */
@@ -129,9 +130,9 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param         $type
-     * @param string  $gperm_name
-     * @param int     $id
+     * @param string $type
+     * @param string $gperm_name
+     * @param int    $id
      * @return bool
      */
     public function getPermission($type, string $gperm_name = 'access', int $id = 0): bool
@@ -180,11 +181,11 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param $type
-     * @param $perm_name
+     * @param string $type
+     * @param string $perm_name
      * @return array
      */
-    public function getAllowedItems($type, $perm_name): array
+    public function getAllowedItems(string $type, string $perm_name): array
     {
         $ret = [];
 
@@ -214,7 +215,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param        $gperm_name
+     * @param string $gperm_name
      * @param int    $id
      * @return array
      */
@@ -297,13 +298,13 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param       $perm
-     * @param       $itemid
-     * @param       $groupid
-     * @param null  $mid
+     * @param string   $perm
+     * @param int      $itemid
+     * @param int      $groupid
+     * @param int|null $mid
      * @return bool
      */
-    public function validateRight($perm, $itemid, $groupid, $mid = null): bool
+    public function validateRight(string $perm, int $itemid, int $groupid, ?int $mid = null): bool
     {
         if (empty($mid)) {
             if (\is_object($GLOBALS['xoopsModule']) && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
@@ -361,13 +362,13 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param       $perm
-     * @param       $itemid
-     * @param       $groupid
-     * @param null  $mid
+     * @param string   $perm
+     * @param int      $itemid
+     * @param int      $groupid
+     * @param int|null $mid
      * @return bool
      */
-    public function deleteRight($perm, $itemid, $groupid, $mid = null): bool
+    public function deleteRight(string $perm, int $itemid, int $groupid, ?int $mid = null): bool
     {
         $this->cacheHelper->delete('permission');
         if (null === $mid) {
@@ -400,7 +401,7 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param        $forum
+     * @param string $forum
      * @param int    $mid
      * @return mixed
      */
@@ -424,11 +425,13 @@ class PermissionHandler extends \XoopsGroupPermHandler
     }
 
     /**
-     * @param $perms
+     * @param array $perms
+     * @param int $groupid
      * @return mixed
      */
-    public function setTemplate($perms)
+    public function setTemplate(array $perms, int $groupid = 0)
     {
+        /** @var ForumHandler $handler */
         $handler = $this->loadHandler('Forum');
 
         return $handler->setTemplate($perms);

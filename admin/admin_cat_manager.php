@@ -19,6 +19,7 @@
 use Xmf\Module\Helper\Cache;
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Category,
     Helper,
     Utility,
     CategoryHandler
@@ -119,7 +120,7 @@ switch ($op) {
         editCategory($categoryObject);
         break;
     case 'del':
-        if (!Request::getBool('confirm', '', 'POST')) {
+        if (!Request::getInt('confirm', 0, 'POST')) {
             xoops_confirm(['op' => 'del', 'cat_id' => Request::getInt('cat_id', 0, 'GET'), 'confirm' => 1], 'admin_cat_manager.php', _AM_NEWBB_WAYSYWTDTTAL);
             break;
         }
@@ -151,6 +152,7 @@ switch ($op) {
         if (!$categoryHandler->insert($categoryObject)) {
             $message = _AM_NEWBB_DATABASEERROR;
         }
+        /** @var Category $categoryObject */
         if ($cat_isNew && ($cat_id == $categoryObject->getVar('cat_id'))) {
             $categoryHandler->applyPermissionTemplate($categoryObject);
         }
@@ -169,10 +171,10 @@ switch ($op) {
         $adminObject->addItemButton(_AM_NEWBB_CREATENEWCATEGORY, 'admin_cat_manager.php?op=mod', $icon = 'add');
         $adminObject->displayButton('left');
 
-        echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
-        echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        echo "<tr align='center'>";
-        echo "<th align='left' class='bg3'>" . _AM_NEWBB_CATEGORY1 . '</th>';
+        echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
+        echo "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        echo "<tr style='text-align:center;'>";
+        echo "<th style='text-align:left;' class='bg3'>" . _AM_NEWBB_CATEGORY1 . '</th>';
         echo "<th class='bg3' width='10%'>" . _AM_NEWBB_EDIT . '</th>';
         echo "<th class='bg3' width='10%'>" . _AM_NEWBB_DELETE . '</th>';
         echo '</tr>';
@@ -183,10 +185,10 @@ switch ($op) {
             $cat_del_link   = '<a href="admin_cat_manager.php?op=del&cat_id=' . $onecat->getVar('cat_id') . '">' . newbbDisplayImage('admin_delete', _DELETE) . '</a>';
             $cat_title_link = '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/index.php?cat=' . $onecat->getVar('cat_id') . '">' . $onecat->getVar('cat_title') . '</a>';
 
-            echo "<tr class='odd' align='left'>";
+            echo "<tr class='odd' style='text-align:left;'>";
             echo '<td>' . $cat_title_link . '</td>';
-            echo "<td align='center'>" . $cat_edit_link . '</td>';
-            echo "<td align='center'>" . $cat_del_link . '</td>';
+            echo "<td style='text-align:center;'>" . $cat_edit_link . '</td>';
+            echo "<td style='text-align:center;'>" . $cat_del_link . '</td>';
             echo '</tr>';
         }
         echo '</table>';

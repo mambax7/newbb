@@ -13,12 +13,9 @@ namespace XoopsModules\Newbb;
  * @since          4.00
  */
 
-use Criteria;
-use CriteriaElement;
-use Smarty;
+
 use Xmf\IPAddress;
 use XoopsDatabase;
-use XoopsModules\Newbb;
 
 /** @var \XoopsOnlineHandler $xoopsOnlineHandler */
 require_once \dirname(__DIR__) . '/include/functions.config.php';
@@ -30,7 +27,7 @@ class OnlineHandler
 {
     public ?XoopsDatabase $db;
     public int            $forum_id;
-    public Forum          $forumObject;
+    public           $forumObject;
     public int            $topic_id;
     public array          $user_ids = [];
 
@@ -46,11 +43,11 @@ class OnlineHandler
     }
 
     /**
-     * @param null|Forum $forum
+     * @param Forum|string|int|null $forum
      * @param Topic|null $forumtopic
      * @throws \Exception
      */
-    public function init(Forum $forum = null, Topic $forumtopic = null): void
+    public function init($forum = null, Topic $forumtopic = null): void
     {
         if (\is_object($forum)) {
             $this->forum_id    = $forum->getVar('forum_id');
@@ -105,15 +102,15 @@ class OnlineHandler
     /**
      * @param \Smarty $xoopsTpl
      */
-    public function render(Smarty $xoopsTpl): void
+    public function render(\Smarty $xoopsTpl): void
     {
         require_once \dirname(__DIR__) . '/include/functions.render.php';
         require_once \dirname(__DIR__) . '/include/functions.user.php';
         $criteria = null;
         if ($this->topic_id) {
-            $criteria = new Criteria('online_topic', $this->topic_id);
+            $criteria = new \Criteria('online_topic', $this->topic_id);
         } elseif ($this->forum_id) {
-            $criteria = new Criteria('online_forum', $this->forum_id);
+            $criteria = new \Criteria('online_forum', $this->forum_id);
         }
         $users     = $this->getAll($criteria);
         $num_total = \count($users);
@@ -171,9 +168,9 @@ class OnlineHandler
         require_once \dirname(__DIR__) . '/include/functions.user.php';
         $criteria = null;
         if ($this->topic_id) {
-            $criteria = new Criteria('online_topic', $this->topic_id);
+            $criteria = new \Criteria('online_topic', $this->topic_id);
         } elseif ($this->forum_id) {
-            $criteria = new Criteria('online_forum', $this->forum_id);
+            $criteria = new \Criteria('online_forum', $this->forum_id);
         }
         $users     = $this->getAll($criteria);
         $num_total = \count($users);
@@ -227,16 +224,16 @@ class OnlineHandler
     /**
      * Write online information to the database
      *
-     * @param int     $uid      UID of the active user
-     * @param string  $uname    Username
-     * @param         $time
-     * @param string  $forum_id Current forum_id
-     * @param string  $ip       User's IP adress
-     * @param         $topic_id
+     * @param int    $uid      UID of the active user
+     * @param string $uname    Username
+     * @param int    $time
+     * @param int    $forum_id Current forum_id
+     * @param string $ip       User's IP adress
+     * @param int    $topic_id
      * @return bool   TRUE on success
      * @internal param string $timestamp
      */
-    public function write(int $uid, string $uname, $time, string $forum_id, string $ip, $topic_id): bool
+    public function write(int $uid, string $uname, int $time, int $forum_id, string $ip, int $topic_id): bool
     {
         global $xoopsModule, $xoopsDB;
 
@@ -314,7 +311,7 @@ class OnlineHandler
      * @param \CriteriaElement|null $criteria {@link \CriteriaElement}
      * @return array           Array of associative arrays of online information
      */
-    public function getAll(CriteriaElement $criteria = null): array
+    public function getAll(\CriteriaElement $criteria = null): array
     {
         $ret   = [];
         $limit = $start = 0;
@@ -340,10 +337,10 @@ class OnlineHandler
     }
 
     /**
-     * @param $uids
+     * @param array $uids
      * @return array
      */
-    public function checkStatus($uids): array
+    public function checkStatus(array $uids): array
     {
         $online_users = [];
         $ret          = [];
@@ -376,10 +373,10 @@ class OnlineHandler
     /**
      * Count the number of online users
      *
-     * @param \CriteriaElement|\CriteriaCompo|null $criteria {@link CriteriaElement}
+     * @param \CriteriaElement|\CriteriaCompo|null $criteria {@link \CriteriaElement}
      * @return bool
      */
-    public function getCount($criteria = null): bool
+    public function getCount(\CriteriaElement $criteria = null): bool
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('newbb_online');
         if (($criteria instanceof \CriteriaCompo || $criteria instanceof \Criteria)) {

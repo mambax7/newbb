@@ -13,10 +13,10 @@ define('SEO_MODULE_NAME', 'modules/newbb');  //this is SEO Name for rewrite Hack
 //ob_start('seo_urls');
 
 /**
- * @param $s
+ * @param string $s
  * @return array|string|string[]|null
  */
-function seo_urls($s)
+function seo_urls(string $s)
 {
     $XPS_URL     = str_replace('/', '\/', quotemeta(XOOPS_URL));
     $module_name = str_replace('/', '\/', quotemeta(SEO_MODULE_NAME));
@@ -38,7 +38,7 @@ function seo_urls($s)
 }
 
 /**
- * @param $matches
+ * @param array $matches
  * @return string
  */
 function replace_links($matches): string
@@ -179,10 +179,10 @@ function replace_links($matches): string
 }
 
 /**
- * @param $_cat_id
+ * @param int $_cat_id
  * @return bool|mixed
  */
-function forum_seo_cat($_cat_id)
+function forum_seo_cat(int $_cat_id)
 {
     xoops_load('XoopsCache');
     $key = 'newbb_seo_cat';
@@ -211,10 +211,10 @@ function forum_seo_cat($_cat_id)
 }
 
 /**
- * @param $_cat_id
+ * @param int $_cat_id
  * @return bool|mixed
  */
-function forum_seo_forum($_cat_id)
+function forum_seo_forum(int $_cat_id)
 {
     xoops_load('XoopsCache');
     $key = 'newbb_seo_forum';
@@ -243,10 +243,10 @@ function forum_seo_forum($_cat_id)
 }
 
 /**
- * @param $_cat_id
+ * @param int $_cat_id
  * @return array|string|string[]|null
  */
-function forum_seo_topic($_cat_id)
+function forum_seo_topic(int $_cat_id)
 {
     $sql  = 'SELECT    topic_title    FROM ' . $GLOBALS['xoopsDB']->prefix('newbb_topics') . ' WHERE topic_id = ' . $_cat_id;
     $result = $GLOBALS['xoopsDB']->query($sql);
@@ -266,10 +266,10 @@ function forum_seo_topic($_cat_id)
 }
 
 /**
- * @param $_cat_id
+ * @param int $_cat_id
  * @return array|string|string[]|null
  */
-function forum_seo_post($_cat_id)
+function forum_seo_post(int $_cat_id)
 {
     $sql  = 'SELECT    subject    FROM ' . $GLOBALS['xoopsDB']->prefix('newbb_posts') . ' WHERE post_id = ' . $_cat_id;
     $result = $GLOBALS['xoopsDB']->query($sql);

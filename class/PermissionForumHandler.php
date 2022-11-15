@@ -63,8 +63,8 @@ class PermissionForumHandler extends PermissionHandler
     }
 
     /**
-     * @param        $mid
-     * @param int    $id
+     * @param int $mid
+     * @param int $id
      * @return array
      */
     public function getValidItems($mid, int $id = 0): array
@@ -80,7 +80,7 @@ class PermissionForumHandler extends PermissionHandler
         $ip  = IPAddress::fromRequest()->asReadable();
         if (!empty($GLOBALS['xoopsModuleConfig']['enable_usermoderate']) && !isset($suspension[$uid][$id])
             && !\newbbIsAdmin($id)) {
-            /** @var Newbb\ModerateHandler $moderateHandler */
+            /** @var ModerateHandler $moderateHandler */
             $moderateHandler = Helper::getInstance()->getHandler('Moderate');
             if ($moderateHandler->verifyUser($uid, '', $id)) {
                 $suspension[$uid][$ip][$id] = 0;
@@ -162,12 +162,12 @@ class PermissionForumHandler extends PermissionHandler
     }
 
     /**
-     * @param int  $forum
+     * @param int|Forum  $forum
      * @param bool $topic_locked
      * @param bool $isAdmin
-     * @return array
+     * @return mixed
      */
-    public function getPermissionTable(int $forum = 0, bool $topic_locked = false, bool $isAdmin = false): array
+    public function getPermissionTable($forum = 0, bool $topic_locked = false, bool $isAdmin = false): array
     {
         $perm = [];
 
@@ -197,10 +197,10 @@ class PermissionForumHandler extends PermissionHandler
     }
 
     /**
-     * @param $forum_id
+     * @param int $forum_id
      * @return bool
      */
-    public function deleteByForum($forum_id): bool
+    public function deleteByForum(int $forum_id): bool
     {
         $forum_id = (int)$forum_id;
         if (empty($forum_id)) {
@@ -217,8 +217,8 @@ class PermissionForumHandler extends PermissionHandler
     }
 
     /**
-     * @param       $forum
-     * @param int   $mid
+     * @param Forum|int $forum
+     * @param int       $mid
      * @return bool
      */
     public function applyTemplate($forum, int $mid = 0): bool
@@ -268,9 +268,10 @@ class PermissionForumHandler extends PermissionHandler
 
     /**
      * @param array $perms
+     * @param int $groupid
      * @return bool|int
      */
-    public function setTemplate($perms)
+    public function setTemplate($perms, int $groupid = 0)
     {
         return Yaml::saveWrapped($perms, $this->templateFilename);
     }

@@ -11,6 +11,7 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Forum,
     ForumHandler,
     Post,
     PostHandler,
@@ -43,6 +44,7 @@ if (!$approved = $topicObject->getVar('approved')) {
     exit(_MD_NEWBB_NORIGHTTOVIEW);
 }
 //$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($topicObject->getVar('forum_id'));
 if (!$forumHandler->getPermission($forumObject)) {
     exit(_MD_NEWBB_NORIGHTTOACCESS);

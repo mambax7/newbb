@@ -25,12 +25,12 @@ use XoopsModules\Newbb\{
 
 /**
  * Function to a list of user names associated with their user IDs
- * @param int  $uid
- * @param int  $usereal
+ * @param array|int  $uid
+ * @param bool  $usereal
  * @param bool $linked
  * @return array
  */
-function newbbGetUnameFromIds(int $uid, int $usereal = 0, bool $linked = false): array
+function newbbGetUnameFromIds($uid, bool $usereal = false, bool $linked = false): array
 {
     xoops_load('xoopsuserutility');
     $ids = \XoopsUserUtility::getUnameFromIds($uid, $usereal, $linked);
@@ -62,7 +62,7 @@ function newbbIsAdministrator($user = -1, int $mid = 0): bool
 {
     global $xoopsModule;
 
-    if (is_numeric($user) && -1 == $user) {
+    if (is_numeric($user) && -1 === $user) {
         $user = $GLOBALS['xoopsUser'];
     }
     if (!is_object($user) && (int)$user < 1) {

@@ -176,7 +176,7 @@ if (Request::getString('submit', '', 'POST')) {
 
         foreach ($topic_id as $tid) {
             $topicObject    = $topicHandler->get($tid);
-            $newtopicObject = $topicHandler->get($newtopic);
+            $newtopicObject = $topicHandler->get($newtopic); //mb TODO define $newtopic
 
             /* return false if destination topic is not existing */
             // irmtfan bug fix: the old topic will be deleted if user input a not exist new topic
@@ -189,7 +189,7 @@ if (Request::getString('submit', '', 'POST')) {
             $criteria->add(new \Criteria('pid', '0'));
             // irmtfan OR change to this for less query?:
             // $postHandler->updateAll("pid", $newtopicObject->getVar("topic_last_post_id"), $criteria, true);
-            $postHandler->updateAll('pid', $topicHandler->getTopPostId($newtopic), $criteria, true);
+            $postHandler->updateAll('pid', $topicHandler->getTopPostId($newtopic), $criteria, true); //mb TODO check on $newtopic
             $postHandler->updateAll('topic_id', $newtopic, $criteria_topic, true);
             // irmtfan update vote data instead of deleting them
             $rateHandler->updateAll('topic_id', $newtopic, $criteria_topic, true);
@@ -330,17 +330,18 @@ if (Request::getString('submit', '', 'POST')) {
 } else {  // No submit
     $mode = Request::getString('mode', '', 'GET'); //$_GET['mode'];
     echo "<form action='" . Request::getString('SCRIPT_NAME', '', 'SERVER') . "' method='post'>";
-    echo "<table border='0' cellpadding='1' cellspacing='0' align='center' width='95%'>";
+    echo "<table style='border: 0; padding: 1px; border-collapse: collapse; border-spacing: 0; width: 100%; text-align:center;'>";
     echo "<tr><td class='bg2'>";
-    echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'>";
-    echo "<tr class='bg3' align='left'>";
-    echo "<td colspan='2' align='center'>" . $action[$mode]['desc'] . '</td></tr>';
+    echo "<table style='border: 0; padding: 1px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+    echo "<tr class='bg3' style='text-align:left;'>";
+    echo "<td colspan='2' style='text-align:center;'>" . $action[$mode]['desc'] . '</td></tr>';
 
     if ('move' === $mode) {
         echo '<tr><td class="bg3">' . _MD_NEWBB_MOVETOPICTO . '</td><td class="bg1">';
         $box = '<select name="newforum" size="1">';
 
         //        $categoryHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Category');
+        /** @var array $categories */
         $categories = $categoryHandler->getByPermission('access');
         $forums     = $forumHandler->getForumsByCategory(array_keys($categories), 'post', false);
 
@@ -370,7 +371,7 @@ if (Request::getString('submit', '', 'POST')) {
         echo _MD_NEWBB_TOPIC . "&nbsp;ID-$topic_id -> ID: <input name='newtopic' value='' >";
         echo '</td></tr>';
     }
-    echo '<tr class="bg3"><td colspan="2" align="center">';
+    echo '<tr class="bg3"><td colspan="2" style="text-align:center;">';
     echo "<input type='hidden' name='mode' value='" . $action[$mode]['name'] . "' >";
     echo "<input type='hidden' name='topic_id' value='" . $topic_id . "' >";
     echo "<input type='hidden' name='forum' value='" . $forum . "' >";

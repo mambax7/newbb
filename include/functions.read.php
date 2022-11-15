@@ -24,13 +24,13 @@ if (!defined('NEWBB_FUNCTIONS_READ')) {
     define('NEWBB_FUNCTIONS_READ', 1);
 
     /**
-     * @param        $type
-     * @param        $item_id
-     * @param        $post_id
-     * @param null   $uid
+     * @param string $type
+     * @param int    $item_id
+     * @param int    $post_id
+     * @param int|null   $uid
      * @return mixed
      */
-    function newbbSetRead($type, $item_id, $post_id, $uid = null)
+    function newbbSetRead(string $type, int $item_id, int $post_id, ?int $uid = null)
     {
         $readHandler = Helper::getInstance()->getHandler('Read' . $type);
 
@@ -38,12 +38,12 @@ if (!defined('NEWBB_FUNCTIONS_READ')) {
     }
 
     /**
-     * @param        $type
-     * @param        $item_id
-     * @param null   $uid
-     * @return mixed
+     * @param string $type
+     * @param int $item_id
+     * @param int|null   $uid
+     * @return bool|int
      */
-    function newbbGetRead($type, $item_id, $uid = null)
+    function newbbGetRead(string $type, int $item_id, ?int $uid = null)
     {
         /** @var ReadHandler $readHandler */
         $readHandler = Helper::getInstance()->getHandler('Read' . $type);
@@ -79,12 +79,12 @@ if (!defined('NEWBB_FUNCTIONS_READ')) {
     }
 
     /**
-     * @param        $type
-     * @param        $items
-     * @param null   $uid
+     * @param string $type
+     * @param array  $items
+     * @param int|null   $uid
      * @return array|null
      */
-    function newbbIsRead($type, $items, $uid = null): ?array
+    function newbbIsRead(string $type, array $items, ?int $uid = null): ?array
     {
         /** @var ReadHandler $readHandler */
         $readHandler = Helper::getInstance()->getHandler('Read' . $type);

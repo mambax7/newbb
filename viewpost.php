@@ -241,7 +241,7 @@ $viewtopic_users = [];
 
 if (count($userid_array) > 0) {
     //    require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname', 'n') . '/class/user.php');
-    $userHandler         = new UserHandler($GLOBALS['xoopsModuleConfig']['groupbar_enabled'], $GLOBALS['xoopsModuleConfig']['wol_enabled']);
+    $userHandler         = new UserHandler((bool)$GLOBALS['xoopsModuleConfig']['groupbar_enabled'], (bool)$GLOBALS['xoopsModuleConfig']['wol_enabled']);
     $userHandler->users  = $users;
     $userHandler->online = $online;
     $viewtopic_users     = $userHandler->getUsers();

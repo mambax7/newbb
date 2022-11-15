@@ -71,11 +71,11 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
     /**
      * function for highlight a text when it have some keywords
      *
-     * @param string       $text
+     * @param string|array       $text
      * @param array|string $queryarray
      * @return string
      */
-    function newbb_highlightText(string $text, $queryarray): string
+    function newbb_highlightText($text, $queryarray): string
     {
         if (empty($GLOBALS['xoopsModuleConfig']['highlight_search_enable'])) {
             return $text;

@@ -31,15 +31,15 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
     }
 
     /**
-     * @param mixed $text
-     * @param int   $html
-     * @param int   $smiley
-     * @param int   $xcode
-     * @param int   $image
-     * @param int   $br
+     * @param string $text
+     * @param int    $html
+     * @param int    $smiley
+     * @param int    $xcode
+     * @param int    $image
+     * @param int    $br
      * @return mixed
      */
-    function &newbbDisplayTarea(&$text, int $html = 0, int $smiley = 1, int $xcode = 1, int $image = 1, int $br = 1)
+    function &newbbDisplayTarea(string &$text, int $html = 0, int $smiley = 1, int $xcode = 1, int $image = 1, int $br = 1)
     {
         global $myts;
 
@@ -72,10 +72,10 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
     }
 
     /**
-     * @param $document
+     * @param string $document
      * @return string
      */
-    function newbbHtml2text($document): string
+    function newbbHtml2text(string $document): string
     {
         $text = strip_tags($document);
 
@@ -83,17 +83,17 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
     }
 
     /**
-     * Display forrum button
+     * Display forum button
      *
-     * @param          $link
-     * @param          $button
-     * @param string   $alt     alt message
-     * @param bool     $asImage true for image mode; false for text mode
-     * @param string   $extra   extra attribute for the button
+     * @param string $link
+     * @param string $button
+     * @param string $alt     alt message
+     * @param bool   $asImage true for image mode; false for text mode
+     * @param string $extra   extra attribute for the button
      * @return string
      * @internal param string $image image/button name, without extension
      */
-    function newbbGetButton($link, $button, string $alt = '', bool $asImage = true, string $extra = "class='forum_button'"): string
+    function newbbGetButton(string $link, string $button, string $alt = '', bool $asImage = true, string $extra = "class='forum_button'"): string
     {
         $button = "<input type='button' name='{$button}' {$extra} value='{$alt}' onclick='window.location.href={$link}' >";
         if (empty($asImage)) {

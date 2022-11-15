@@ -23,19 +23,22 @@
             <div class="pagenav" id="admin">
                 <{if $mode gt 1}>
                     <{$smarty.const._ALL}>:
+                    <label for="topic_check1"></label>
                     <input type="checkbox" name="topic_check1" id="topic_check1" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');">
-                    <select class="form-control" name="op">
-                        <option value="0"><{$smarty.const._SELECT}></option>
-                        <option value="delete"><{$smarty.const._DELETE}></option>
-                        <{if $status eq "pending"}>
-                            <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                            <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                        <{elseif $status eq "deleted"}>
-                            <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                        <{else}>
-                            <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                        <{/if}>
-                    </select>
+                    <label>
+                        <select class="form-control" name="op">
+                            <option value="0"><{$smarty.const._SELECT}></option>
+                            <option value="delete"><{$smarty.const._DELETE}></option>
+                            <{if $status eq "pending"}>
+                                <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                                <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                            <{elseif $status eq "deleted"}>
+                                <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                            <{else}>
+                                <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                            <{/if}>
+                        </select>
+                    </label>
                     <input type="hidden" name="forum_id" value="<{$forum_id}>">
                     <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>">
                     |
@@ -69,6 +72,7 @@
         <div>
             <div>
                 <{if $menumode eq 0}>
+                    <label for="topicoption"></label>
                     <select class="form-control menu" name="topicoption" id="topicoption" onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}">
                         <option value=""><{$smarty.const._MD_NEWBB_TOPICOPTION}></option>
                         <option value="<{$post_link}>"><{$smarty.const._MD_NEWBB_VIEW}>
@@ -159,24 +163,25 @@
 
         </div> <!-- end column -->
     </div><!-- end row -->
-<table class="table table-responsive" width="100%" align="center">
+<table class="table table-responsive" style="width:100%;" style="text-align:center;">
     <!-- irmtfan hardcode removed align="left" -->
     <thead>
     <tr class="head" class="align_left">
-        <th width="5%" colspan="2">
+        <th style="width:5%;" colspan="2">
             <{if $mode gt 1}>
                 <{$smarty.const._ALL}>:
+                <label for="topic_check"></label>
                 <input type="checkbox" name="topic_check" id="topic_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check');">
             <{else}>
                 &nbsp;
             <{/if}>
-            </tth>
-            <th><a href="<{$headers.topic.link}>"><{$headers.topic.title}></a></th>
-            <th width="15%" align="center" nowrap="nowrap"><a href="<{$headers.forum.link}>"><{$headers.forum.title}></a></th>
-            <th width="5%" align="center" nowrap="nowrap"> <a href="<{$headers.replies.link}>"><{$headers.replies.title}></a></th>
-            <th width="10%" align="center" nowrap="nowrap"><a href="<{$headers.poster.link}>"><{$headers.poster.title}></a></td>
-            <th width="5%" align="center" nowrap="nowrap"> <a href="<{$headers.views.link}>"><{$headers.views.title}></a></th>
-            <th width="15%" align="center" nowrap="nowrap"><a href="<{$headers.lastpost.link}>"><{$headers.lastpost.title}></a></th>
+        </th>
+        <th><a href="<{$headers.topic.link}>"><{$headers.topic.title}></a></th>
+        <th style="text-align:center; width:15%;" nowrap="nowrap"><a href="<{$headers.forum.link}>"><{$headers.forum.title}></a></th>
+        <th style="text-align:center; width:5%;" nowrap="nowrap"> <a href="<{$headers.replies.link}>"><{$headers.replies.title}></a></th>
+        <th style="text-align:center; width:10%;" nowrap="nowrap"><a href="<{$headers.poster.link}>"><{$headers.poster.title}></a></th>
+        <th style="text-align:center; width:5%;" nowrap="nowrap"> <a href="<{$headers.views.link}>"><{$headers.views.title}></a></th>
+        <th style="text-align:center; width:15%;" nowrap="nowrap"><a href="<{$headers.lastpost.link}>"><{$headers.lastpost.title}></a></th>
         </tr>
     </thead>
     <tbody>
@@ -184,8 +189,9 @@
     <{foreach name=loop item=topic from=$topics}>
     <tr class="<{cycle values="even,odd"}>">
         <!-- irmtfan add topic-read/topic-new smarty variable  -->
-        <td width="4%" align="center" class="<{if $topic.topic_read eq 1 }>topic-read<{else}>topic-new<{/if}>">
+        <td style="width:4%;" style="text-align:center;" class="<{if $topic.topic_read eq 1 }>topic-read<{else}>topic-new<{/if}>">
         <{if $mode gt 1}>
+            <label for="topic_id[<{$topic.topic_id}>]"></label>
             <input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>">
         <{else}>
         <!-- irmtfan add lock -->
@@ -193,7 +199,7 @@
         <{/if}>
         </td>
         <!-- irmtfan add sticky, digest, poll -->
-        <td width="4%" align="center"><{$topic.topic_icon}><{$topic.sticky}><br><{$topic.digest}><{$topic.poll}></td>
+        <td style="text-align:center; width:4%;"><{$topic.topic_icon}><{$topic.sticky}><br><{$topic.digest}><{$topic.poll}></td>
         <!-- irmtfan remove topic_link hardcode and add topic_excerpt -->
         <td>&nbsp;<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/<{$topic.topic_link}>" title="<{$topic.topic_excerpt}>">
             <{$topic.topic_title}></a><{$topic.attachment|default:''}> <{$topic.topic_page_jump}>
@@ -206,19 +212,19 @@
             <{/if}>
         </td>
         <!-- irmtfan hardcode removed align="left" -->
-        <td class="align_left" valign="middle"><{$topic.topic_forum_link}></td>
-        <td align="center" valign="middle"><{$topic.topic_replies}></td>
-        <td align="center" valign="middle"><{$topic.topic_poster}></td>
-        <td align="center" valign="middle"><{$topic.topic_views}></td>
+        <td class="align_left" style ="vertical-align: middle;"><{$topic.topic_forum_link}></td>
+        <td style="text-align:center; vertical-align: middle;"><{$topic.topic_replies}></td>
+        <td style="text-align:center; vertical-align: middle;"><{$topic.topic_poster}></td>
+        <td style="text-align:center; vertical-align: middle;"><{$topic.topic_views}></td>
         <!-- irmtfan hardcode removed align="right" -->
-        <td class="align_right" valign="middle"><{$topic.topic_last_posttime}><br>
+        <td class="align_right" style ="vertical-align: middle;"><{$topic.topic_last_posttime}><br>
             <{$smarty.const._MD_NEWBB_BY}> <{$topic.topic_last_poster}>&nbsp;&nbsp;<{$topic.topic_page_jump_icon}>
         </td>
     </tr>
     <{/foreach}>
     <!-- end forum topic -->
     <tr class="foot">
-    <td colspan="8" align="center">
+    <td colspan="8" style="text-align:center;">
         <{strip}>
             <form class="xoopsform" method="get" action="<{$selection.action}>">
                 <ul class="list-inline">
@@ -263,7 +269,7 @@
     <!-- irmtfan hardcode removed style="float: right; text-align: right;" -->
     <div class="icon_right">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <{foreach item=hidval key=hidvar from=$search}>
                 <{if $hidval }>
                     <!-- irmtfan correct name="$hidvar" -->

@@ -39,12 +39,12 @@ class Digest extends \XoopsObject
     }
 
     /**
-     * @param        $title
-     * @param        $link
-     * @param        $author
+     * @param string $title
+     * @param string $link
+     * @param string $author
      * @param string $summary
      */
-    public function addItem($title, $link, $author, string $summary = ''): void
+    public function addItem(string $title, string $link, string $author, string $summary = ''): void
     {
         $title  = $this->cleanup($title);
         $author = $this->cleanup($author);
@@ -55,10 +55,10 @@ class Digest extends \XoopsObject
     }
 
     /**
-     * @param $text
+     * @param string $text
      * @return string
      */
-    public function cleanup($text): string
+    public function cleanup(string $text): string
     {
         global $myts;
 

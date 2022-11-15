@@ -55,18 +55,18 @@ class Tree extends XoopsTree
     }
 
     /**
-     * @param        $sel_id
+     * @param int    $sel_id
      * @param string $order
      */
-    public function getAllPostArray($sel_id, string $order = ''): void
+    public function getAllPostArray(int $sel_id, string $order = ''): void
     {
         $this->postArray = $this->getAllChild($sel_id, $order);
     }
 
     /**
-     * @param $postArray
+     * @param array $postArray
      */
-    public function setPostArray($postArray): void
+    public function setPostArray(array $postArray): void
     {
         $this->postArray = $postArray;
     }

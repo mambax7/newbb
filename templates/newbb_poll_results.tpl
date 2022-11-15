@@ -5,7 +5,7 @@
             <{$topic_resultform}>
         </div>
     <{else}>
-        <table class="outer width100" cellspacing="1">
+        <table class="outer" style="border-collapse: separate; border-spacing: 1px; width: 100%;">
             <tr>
                 <th colspan="2"><{$poll.question}></th>
             </tr>

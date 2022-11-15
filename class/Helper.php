@@ -82,11 +82,11 @@ class Helper extends \Xmf\Module\Helper
      *
      * @param string $name name of handler to load
      *
-     * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
+     * @return \XoopsObjectHandler|\XoopsPersistableObjectHandler
      */
     public function getHandler($name)
     {
-        $ret = false;
+//        $ret = null;
 
         $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
         if (!\class_exists($class)) {
@@ -96,7 +96,7 @@ class Helper extends \Xmf\Module\Helper
         $db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $helper = self::getInstance();
         $ret    = new $class($db, $helper);
-        $this->addLog("Getting handler '{$name}'");
+        $this->addLog("Getting handler '$name'");
 
         return $ret;
     }

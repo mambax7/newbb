@@ -17,15 +17,16 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    CategoryHandler,
+    Forum,
+    ForumHandler,
     Helper,
-    UserHandler,
     KarmaHandler,
     OnlineHandler,
-    TopicHandler,
-    ForumHandler,
+    Post,
     PostHandler,
-    CategoryHandler,
-    Post
+    TopicHandler,
+    UserHandler
 };
 /** @var Helper $helper */
 /** @var KarmaHandler $karmaHandler */
@@ -103,6 +104,7 @@ if (!is_object($topicObject) || !$topic_id = $topicObject->getVar('topic_id')) {
 }
 $forum_id = $topicObject->getVar('forum_id');
 //$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($forum_id);
 
 $isAdmin = newbbIsAdmin($forumObject);
@@ -123,7 +125,7 @@ $topic_is_unread = true;
  * if !$GLOBALS['xoopsUser'] && $GLOBALS['xoopsModuleConfig']["read_mode"] === 1
  * => $topic_last_post_time_or_id_read = lastview(newbb_IP{ip}LT)
 */
-$topic_last_post_time_or_id_read = newbbGetRead('topic', $topic_id);
+$topic_last_post_time_or_id_read = newbbGetRead('topic', (int)$topic_id);
 if (!empty($topic_last_post_time_or_id_read)) {
     if (1 == $GLOBALS['xoopsModuleConfig']['read_mode']) {
         //        $postHandler     = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
@@ -283,7 +285,7 @@ if ($poster_array && is_array($poster_array)) {
 $viewtopic_users = [];
 if ($userid_array && is_array($userid_array)) {
     //    require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname', 'n') . '/class/user.php');
-    $userHandler         = new UserHandler($GLOBALS['xoopsModuleConfig']['groupbar_enabled'], $GLOBALS['xoopsModuleConfig']['wol_enabled']);
+    $userHandler         = new UserHandler((bool)$GLOBALS['xoopsModuleConfig']['groupbar_enabled'], (bool)$GLOBALS['xoopsModuleConfig']['wol_enabled']);
     $userHandler->users  = $users;
     $userHandler->online = $online;
     $viewtopic_users     = $userHandler->getUsers();
@@ -474,7 +476,7 @@ $xoopsTpl->assign('viewer_level', (int)($isAdmin ? 2 : is_object($GLOBALS['xoops
 if ($GLOBALS['xoopsModuleConfig']['show_permissiontable']) {
     //    /** var Newbb\PermissionHandler $permHandler */
     //    $permHandler      = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Permission');
-    $permission_table = $permHandler->getPermissionTable($forumObject, $topicObject->getVar('topic_status'), $isAdmin);
+    $permission_table = $permHandler->getPermissionTable($forumObject, (bool)$topicObject->getVar('topic_status'), $isAdmin);
     $xoopsTpl->assign_by_ref('permission_table', $permission_table);
 }
 

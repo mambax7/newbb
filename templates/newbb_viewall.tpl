@@ -2,7 +2,7 @@
     <div class="forum_title">
         <h2><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$forum_index_title}></a></h2>
         <{* irmtfan hardcode removed align="left" *}>
-        <hr class="align_left" width="50%" size="1">
+        <hr class="align_left" style="width:50 %; height:1px;">
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$smarty.const._MD_NEWBB_FORUMHOME}></a>
         <{if $parent_forum|default:''}>
             <span class="delimiter">&raquo;</span>
@@ -30,19 +30,22 @@
         <div class="pagenav" id="admin">
             <{if $mode gt 1}>
                 <{$smarty.const._ALL}>:
+                <label for="topic_check1"></label>
                 <input type="checkbox" name="topic_check1" id="topic_check1" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check1');">
-                <select name="op">
-                    <option value="0"><{$smarty.const._SELECT}></option>
-                    <option value="delete"><{$smarty.const._DELETE}></option>
-                    <{if $status eq "pending"}>
-                        <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                        <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                    <{elseif $status eq "deleted"}>
-                        <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                    <{else}>
-                        <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
-                    <{/if}>
-                </select>
+                <label>
+                    <select name="op">
+                        <option value="0"><{$smarty.const._SELECT}></option>
+                        <option value="delete"><{$smarty.const._DELETE}></option>
+                        <{if $status eq "pending"}>
+                            <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                            <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                        <{elseif $status eq "deleted"}>
+                            <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                        <{else}>
+                            <option value="move"><{$smarty.const._MD_NEWBB_MOVE}></option>
+                        <{/if}>
+                    </select>
+                </label>
                 <input type="hidden" name="forum_id" value="<{$forum_id}>">
                 <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>">
                 |
@@ -71,6 +74,7 @@
     <div>
         <div class="dropdown">
             <{if $menumode eq 0}>
+                <label for="topicoption"></label>
                 <select
                         name="topicoption" id="topicoption"
                         class="menu"
@@ -143,31 +147,33 @@
     <br>
     <br>
 
-    <table class="outer" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
+    <table class="outer" style="border: 0; padding: 6px; border-collapse: separate; border-spacing: 1px; width: 100%; text-align:center;">
         <{* irmtfan hardcode removed align="left" *}>
         <tr class="head" class="align_left">
-            <td width="5%" colspan="2">
+            <td style="width:5%;" colspan="2">
                 <{if $mode gt 1}>
                     <{$smarty.const._ALL}>:
+                    <label for="topic_check"></label>
                     <input type="checkbox" name="topic_check" id="topic_check" value="1" onclick="xoopsCheckAll('form_topics_admin', 'topic_check');">
                 <{else}>
                     &nbsp;
                 <{/if}>
             </td>
             <td>&nbsp;<strong><a href="<{$headers.topic.link}>"><{$headers.topic.title}></a></strong></td>
-            <td width="15%" align="center" nowrap="nowrap"><strong><a href="<{$headers.forum.link}>"><{$headers.forum.title}></a></strong></td>
-            <td width="5%" align="center" nowrap="nowrap"><strong><a href="<{$headers.replies.link}>"><{$headers.replies.title}></a></strong></td>
-            <td width="10%" align="center" nowrap="nowrap"><strong><a href="<{$headers.poster.link}>"><{$headers.poster.title}></a></strong></td>
-            <td width="5%" align="center" nowrap="nowrap"><strong><a href="<{$headers.views.link}>"><{$headers.views.title}></a></strong></td>
-            <td width="15%" align="center" nowrap="nowrap"><strong><a href="<{$headers.lastpost.link}>"><{$headers.lastpost.title}></a></strong></td>
+            <td style="text-align:center; width:15%;" nowrap="nowrap"><strong><a href="<{$headers.forum.link}>"><{$headers.forum.title}></a></strong></td>
+            <td style="text-align:center; width:5%;" nowrap="nowrap"><strong><a href="<{$headers.replies.link}>"><{$headers.replies.title}></a></strong></td>
+            <td style="text-align:center; width:10%;" nowrap="nowrap"><strong><a href="<{$headers.poster.link}>"><{$headers.poster.title}></a></strong></td>
+            <td style="text-align:center; width:5%;" nowrap="nowrap"><strong><a href="<{$headers.views.link}>"><{$headers.views.title}></a></strong></td>
+            <td style="text-align:center; width:15%;" nowrap="nowrap"><strong><a href="<{$headers.lastpost.link}>"><{$headers.lastpost.title}></a></strong></td>
         </tr>
 
         <{* start forum topic *}>
         <{foreach name=loop item=topic from=$topics}>
         <tr class="<{cycle values="even,odd"}>">
             <{* irmtfan add topic-read/topic-new smarty variable  *}>
-            <td width="4%" align="center" class="<{if $topic.topic_read eq 1 }>topic-read<{else}>topic-new<{/if}>">
+            <td style="text-align:center; width:4%;" class="<{if $topic.topic_read eq 1 }>topic-read<{else}>topic-new<{/if}>">
                 <{if $mode gt 1}>
+                    <label for="topic_id[<{$topic.topic_id}>]"></label>
                     <input type="checkbox" name="topic_id[]" id="topic_id[<{$topic.topic_id}>]" value="<{$topic.topic_id}>">
                 <{else}>
                     <{* irmtfan add lock *}>
@@ -175,7 +181,7 @@
                 <{/if}>
             </td>
             <{* irmtfan add sticky, digest, poll *}>
-            <td width="4%" align="center"><{$topic.topic_icon}><{$topic.sticky}><br><{$topic.digest}><{$topic.poll}></td>
+            <td style="text-align:center; width:4%;"><{$topic.topic_icon}><{$topic.sticky}><br><{$topic.digest}><{$topic.poll}></td>
             <{* irmtfan remove topic_link hardcode and add topic_excerpt *}>
             <td>&nbsp;<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/<{$topic.topic_link}>" title="<{$topic.topic_excerpt}>">
                     <{* irmtfan remove
@@ -196,12 +202,12 @@
                 <{/if}>
             </td>
             <{* irmtfan hardcode removed align="left" *}>
-            <td class="align_left" valign="middle"><{$topic.topic_forum_link}></td>
-            <td align="center" valign="middle"><{$topic.topic_replies}></td>
-            <td align="center" valign="middle"><{$topic.topic_poster}></td>
-            <td align="center" valign="middle"><{$topic.topic_views}></td>
+            <td class="align_left " style="vertical-align: middle;"><{$topic.topic_forum_link}></td>
+            <td style="text-align:center; vertical-align: middle;"><{$topic.topic_replies}></td>
+            <td style="text-align:center; vertical-align: middle;"><{$topic.topic_poster}></td>
+            <td style="text-align:center; vertical-align: middle;"><{$topic.topic_views}></td>
             <{* irmtfan hardcode removed align="right" *}>
-            <td class="align_right" valign="middle"><{$topic.topic_last_posttime}><br>
+            <td class="align_right " style="vertical-align: middle;"><{$topic.topic_last_posttime}><br>
                 <{$smarty.const._MD_NEWBB_BY}> <{$topic.topic_last_poster}>&nbsp;&nbsp;<{$topic.topic_page_jump_icon}>
             </td>
         </tr>
@@ -213,7 +219,7 @@
 <{/if}>
 
 <tr class="foot">
-    <td colspan="8" align="center">
+    <td colspan="8" style="text-align:center;">
         <{strip}>
             <form method="get" action="<{$selection.action}>">
                 <strong><{$smarty.const._MD_NEWBB_SORTEDBY}></strong>&nbsp;
@@ -254,7 +260,7 @@
     <{* irmtfan hardcode removed style="float: right; text-align: right;" *}>
     <div class="icon_right">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <{foreach item=hidval key=hidvar from=$search}>
                 <{if $hidval }>
                     <{* irmtfan correct name="$hidvar" *}>

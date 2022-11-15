@@ -12,6 +12,7 @@
 use Xmf\Request;
 use XoopsModules\Newbb\{
     TopicHandler,
+    Forum,
     ForumHandler,
     Post,
     PostHandler,
@@ -39,7 +40,7 @@ $op   = Request::getCmd('op', Request::getCmd('op', '', 'POST'), 'GET');
 $op   = in_array($op, ['approve', 'delete', 'restore', 'split'], true) ? $op : '';
 $mode = Request::getInt('mode', 1, 'GET');
 
-if (0 === $post_id || '' === $op) {
+if (0 === count($post_id) || '' === $op) {
     // irmtfan - issue with javascript:history.go(-1)
     redirect_header(Request::getString('HTTP_REFERER', '', 'SERVER'), 2, \_MD_NEWBB_NO_SELECTION);
 }
@@ -56,7 +57,10 @@ if (0 === $topic_id) {
     $forum_id    = $topicObject->getVar('forum_id');
     $forumObject = $forumHandler->get($forum_id);
 }
-$isAdmin = newbbIsAdmin($forumObject);
+
+if (assert($forumObject instanceof Forum)) {
+    $isAdmin = newbbIsAdmin($forumObject);
+}
 
 if (!$isAdmin) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);
@@ -70,6 +74,7 @@ switch ($op) {
         $forums = [];
         foreach ($post_id as $post) {
             $postObject = $postHandler->get($post);
+            assert($postObject instanceof Post);
             if ($postObject->getVar('topic_id') < 1) {
                 continue;
             }
@@ -96,6 +101,7 @@ switch ($op) {
         foreach ($post_id as $post) {
             /** @var Post $postObject */
             $postObject = $postsObject[$post];
+            assert($postObject instanceof Post);
             if (!empty($topic_id) && $topic_id !== $postObject->getVar('topic_id')) {
                 continue;
             }
@@ -147,6 +153,7 @@ switch ($op) {
         $forums = [];
         foreach ($post_id as $post) {
             $postObject = $postHandler->get($post);
+            assert($postObject instanceof Post);
             if (!empty($topic_id) && $topic_id !== $postObject->getVar('topic_id')) {
                 continue;
             }
@@ -164,6 +171,7 @@ switch ($op) {
         break;
     case 'split':
         $postObject = $postHandler->get($post_id);
+        assert($postObject instanceof Post);
         if ((is_array($post_id) && 0 === count($post_id)) || $postObject->isTopic()) {
             break;
         }
@@ -187,8 +195,8 @@ switch ($op) {
 
         /* split a single post */
         if (1 === $mode) {
-            $criteria = new \CriteriaCompo(new \Criteria('topic_id', $topic_id));
-            $criteria->add(new \Criteria('pid', $post_id));
+            $criteria = new \CriteriaCompo(new \Criteria('topic_id', (string)$topic_id));
+            $criteria->add(new \Criteria('pid', (string)$post_id));
             $postHandler->updateAll('pid', $pid, $criteria, true);
             /* split a post and its children posts */
         } elseif (2 === $mode) {
@@ -201,13 +209,13 @@ switch ($op) {
             }
             /* split a post and all posts coming after */
         } elseif (3 === $mode) {
-            $criteria = new \CriteriaCompo(new \Criteria('topic_id', $topic_id));
-            $criteria->add(new \Criteria('post_id', $post_id, '>'));
+            $criteria = new \CriteriaCompo(new \Criteria('topic_id', (string)$topic_id));
+            $criteria->add(new \Criteria('post_id', (string)$post_id, '>'));
             $postHandler->updateAll('topic_id', $new_topic_id, $criteria, true);
 
             unset($criteria);
             $criteria = new \CriteriaCompo(new \Criteria('topic_id', $new_topic_id));
-            $criteria->add(new \Criteria('post_id', $post_id, '>'));
+            $criteria->add(new \Criteria('post_id', (string)$post_id, '>'));
             $postHandler->identifierName = 'pid';
             $posts                       = $postHandler->getList($criteria);
 

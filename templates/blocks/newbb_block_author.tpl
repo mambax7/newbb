@@ -1,14 +1,14 @@
-<table class="outer" cellspacing="1">
+<table class="outer" style="border-collapse: separate; border-spacing: 1px;">
 
     <{if $block.disp_mode == 0}>
         <tr>
             <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
-            <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_COUNT}></th>
+            <th class="head" style="text-align:center;" nowrap="nowrap"><{$smarty.const._MB_NEWBB_COUNT}></th>
         </tr>
         <{foreach item=author key=uid from=$block.authors}>
         <tr class="<{cycle values="even,odd"}>">
             <td><a href="<{$xoops_url}>/userinfo.php?uid=<{$uid}>"><{$author.name}></a></td>
-            <td align="center"><{$author.count}></td>
+            <td style="text-align:center;"><{$author.count}></td>
         </tr>
     <{/foreach}>
 

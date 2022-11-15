@@ -53,7 +53,7 @@
 
                     <{if $report_post|default:''}>
                     <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/admin/admin_report.php" title="_MD_NEWBB_REPORT" class="btn btn-primary">
-                        <span class="fa fa-thumbs-o-down" aria-hidden="true"></span> <span class="badge badge-light badge-pill"><{$reported_coun badge-pillt}></span>
+                        <span class="fa fa-thumbs-o-down" aria-hidden="true"></span> <span class="badge badge-light badge-pill"><{$reported_coun}></span>
                     </a>
                     <{/if}>
 
@@ -131,7 +131,7 @@
             <div class="col-md-8 mb10">
                 <form class="input-group" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="post" name="search" id="search"
                       role="search">
-                    <input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_FORUM}>">
+                    <label for="term"></label><input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_FORUM}>">
                     <input type="hidden" name="forum" id="forum" value="all">
                     <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
                     <input type="hidden" name="searchin" id="searchin" value="both">

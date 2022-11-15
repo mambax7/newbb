@@ -59,10 +59,10 @@ class ReadforumHandler extends Newbb\ReadHandler
 
     /**
      * @param int  $status
-     * @param null $uid
+     * @param int|null $uid
      * @return bool
      */
-    public function setReadItems(int $status = 0, $uid = null): bool
+    public function setReadItems(int $status = 0, ?int $uid = null): bool
     {
         if (empty($this->mode)) {
             return true;
@@ -98,11 +98,11 @@ class ReadforumHandler extends Newbb\ReadHandler
     }
 
     /**
-     * @param $status
-     * @param $uid
+     * @param int $status
+     * @param int $uid
      * @return bool
      */
-    public function setReadItemsDb($status, $uid): bool
+    public function setReadItemsDb(int $status, int $uid): bool
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {
@@ -112,7 +112,7 @@ class ReadforumHandler extends Newbb\ReadHandler
             }
         }
         if (empty($status)) {
-            $this->deleteAll(new \Criteria('uid', $uid));
+            $this->deleteAll(new \Criteria('uid', (string)$uid));
 
             return true;
         }

@@ -11,6 +11,7 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Forum,
     Helper,
     OnlineHandler
 };
@@ -25,6 +26,7 @@ if (!$forum = Request::getString('forum', '', 'GET')) {
 
 ///** @var Newbb\ForumHandler $forumHandler */
 //$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($forum);
 if (!$forumHandler->getPermission($forumObject)) {
     redirect_header(XOOPS_URL . '/index.php', 2, _NOPERM);

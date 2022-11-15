@@ -27,30 +27,35 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param string $perm
+     * @param string|null $perm
      * @return mixed
      */
-    public function getIdsByPermission(string $perm = 'access')
+    public function getIdsByPermission(?string $perm)
     {
+        $perm ??= 'access';
         /** var Newbb\PermissionHandler $permHandler */
-        $permHandler = Helper::getInstance()->getHandler('Permission');
+        $permHandler = Helper::getInstance()
+                             ->getHandler('Permission');
 
         return $permHandler->getCategories($perm);
     }
 
     /**
-     * @param string $permission
-     * @param null   $tags
-     * @param bool   $asObject
+     * @param string|null $perm
+     * @param array|null  $tags
+     * @param bool|null   $asObject
      * @return array
      */
-    public function &getByPermission(string $permission = 'access', $tags = null, bool $asObject = true): array
+    public function &getByPermission(?string $perm = null, ?array $tags = null, ?bool $asObject = null): array
     {
+        $perm       ??= 'access';
+        $tags       ??= [];
+        $asObject   ??= true;
         $categories = [];
-        if (!$valid_ids = $this->getIdsByPermission($permission)) {
+        if (!$validIds = $this->getIdsByPermission($perm)) {
             return $categories;
         }
-        $criteria = new \Criteria('cat_id', '(' . \implode(', ', $valid_ids) . ')', 'IN');
+        $criteria = new \Criteria('cat_id', '(' . \implode(', ', $validIds) . ')', 'IN');
         $criteria->setSort('cat_order');
         $categories = $this->getAll($criteria, $tags, $asObject);
 
@@ -64,7 +69,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $object, $force = true)
     {
-        $category = $object;
+        /** @var Category $category */
+        $category  = $object;
         $className = Category::class;
         if (!($category instanceof $className)) {
             return false;
@@ -78,13 +84,14 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $object Category
+     * @param \XoopsObject|Category $object Category
      * @param bool $force
      * @return bool|mixed
      * @internal param Category $object
      */
     public function delete(\XoopsObject $object, $force = false)//delete(Category $object)
     {
+        /** @var Category $category */
         $category = $object;
         $className = Category::class;
         if (!($category instanceof $className)) {
@@ -107,12 +114,13 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * Check permission for a category
      *
      * @param Category|int $category object or id
-     * @param string       $perm     permission name
+     * @param string|null  $perm     permission name
      *
      * @return bool
      */
-    public function getPermission($category, string $perm = 'access'): bool
+    public function getPermission($category, ?string $perm = null): bool
     {
+        $perm ??= 'access';
         if ($GLOBALS['xoopsUserIsAdmin'] && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
             return true;
         }

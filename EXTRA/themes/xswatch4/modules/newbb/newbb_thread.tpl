@@ -143,7 +143,8 @@
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=3" title="<{$smarty.const._MD_NEWBB_SPLIT_ALL}>">
             <{$smarty.const._MD_NEWBB_SPLIT_ALL}>
         </a>
-            <input type="checkbox" name="post_id[]" id="post_id[<{$topic_post.post_id}>]" value="<{$topic_post.post_id}>">
+        <label for="post_id[<{$topic_post.post_id}>]"></label>
+        <input type="checkbox" name="post_id[]" id="post_id[<{$topic_post.post_id}>]" value="<{$topic_post.post_id}>">
     <{else}>
         <{if $topic_post.thread_buttons}>
                 <{assign var='bantext' value=`$smarty.const._MD_NEWBB_SUSPEND_MANAGEMENT`}>

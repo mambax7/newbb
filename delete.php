@@ -10,14 +10,14 @@
  */
 
 use Xmf\Request;
-//use XoopsModules\Newbb\{
-//    OnlineHandler,
-//    Post,
-//    StatsHandler
-//};
+use XoopsModules\Newbb\{
+    OnlineHandler,
+    Post,
+    StatsHandler
+};
 /** @var XoopsModules\Newbb\StatsHandler $statsHandler */
 /** @var XoopsModules\Newbb\OnlineHandler $onlineHandler */
-///** @var XoopsModules\Newbb\Post $postObject */
+/** @var XoopsModules\Newbb\Post $postObject */
 /** @var XoopsModules\Newbb\ForumHandler $forumHandler */
 /** @var XoopsModules\Newbb\TopicHandler $topicHandler */
 /** @var XoopsModules\Newbb\PostHandler $postHandler */
@@ -59,6 +59,7 @@ if (!$topic_id) {
 }
 
 $forum       = $topic->getVar('forum_id');
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($forum);
 if (!$forumHandler->getPermission($forumObject)) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);

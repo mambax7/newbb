@@ -179,7 +179,7 @@ $form .= '<input type="hidden" name="type" value="misc">';
 $form .= '<input type="submit" name="submit" value=' . _SUBMIT . ' >';
 $form .= '</div>';
 $form .= '</form>';
-echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
 echo $form;
 echo '</td></tr></table>';
 echo '<fieldset>';

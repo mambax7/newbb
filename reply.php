@@ -17,6 +17,7 @@
 use Xmf\Request;
 use XoopsModules\Newbb\{
     Helper,
+    Forum,
     ForumHandler,
     Post,
     PostHandler,
@@ -55,6 +56,7 @@ $postObject->setVar('pid', $pid);
 $postObject->setVar('topic_id', $topic_id);
 $postObject->setVar('forum_id', $forum);
 
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($forum);
 if (!$forumHandler->getPermission($forumObject)) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);

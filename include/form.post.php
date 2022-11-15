@@ -122,6 +122,7 @@ $topic_status = $topicHandler->get(@$topic_id, 'topic_status');
 
 //$filname = XOOPS_URL.$_SERVER['REQUEST_URI'];
 
+/** @var \XoopsThemeForm $forum_form */
 $forum_form = new \XoopsThemeForm(htmlspecialchars(@$form_title, ENT_QUOTES | ENT_HTML5), 'form_post', XOOPS_URL . '/modules/newbb/post.php', 'post', true);
 $forum_form->setExtra('enctype="multipart/form-data"');
 
@@ -354,7 +355,8 @@ if (!empty($topic_id)) {
 $cancel_button->setExtra("onclick='location=\"" . $extra . "\"'");
 $cancel_button->setExtra("tabindex='6'");
 
-if (!empty($isreply) && !empty($hidden)) {
+/** @var string $hidden */
+if (!empty($isreply) && null !== $hidden) {
     $forum_form->addElement(new \XoopsFormHidden('hidden', $hidden));
 
     $quote_button = new \XoopsFormButton('', 'quote', _MD_NEWBB_QUOTE, 'button');

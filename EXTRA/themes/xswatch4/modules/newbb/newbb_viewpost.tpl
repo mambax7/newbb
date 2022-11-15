@@ -27,15 +27,17 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <select name="op" class="custom-select mb-2">
-                        <option value="0"><{$smarty.const._SELECT}></option>
-                        <option value="delete"><{$smarty.const._DELETE}></option>
-                        <{if $status eq "pending"}>
-                        <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                        <{elseif $status eq "deleted"}>
-                        <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                        <{/if}>
-                    </select>
+                    <label>
+                        <select name="op" class="custom-select mb-2">
+                            <option value="0"><{$smarty.const._SELECT}></option>
+                            <option value="delete"><{$smarty.const._DELETE}></option>
+                            <{if $status eq "pending"}>
+                            <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                            <{elseif $status eq "deleted"}>
+                            <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                            <{/if}>
+                        </select>
+                    </label>
                 </div>
                 <input type="hidden" name="uid" value="<{$uid}>">
                 <div class="col-auto">
@@ -68,7 +70,7 @@
 <div>
         <div class="form-row">
             <div class="col">
-                <select
+                <label for="topicoption"></label><select
                         name="topicoption" id="topicoption"
                         class="form-control  mb-2"
                         onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}"
@@ -79,7 +81,7 @@
                 </select>
             </div>
             <div class="col">
-                <select
+                <label for="viewmode"></label><select
                         name="viewmode" id="viewmode"
                         class="form-control  mb-2"
                         onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}"
@@ -140,7 +142,7 @@
     </div>
     <div class="xoopsform col">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
             <input type="hidden" name="action" id="action" value="yes">
             <input type="hidden" name="searchin" id="searchin" value="both">

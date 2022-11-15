@@ -28,7 +28,7 @@ class UserHandler
     private bool $enableOnline;
     /** @var array */
     private array $userlist = [];
-    public bool $online;
+    public array $online;
 
     /**
      * @param bool $enableGroup

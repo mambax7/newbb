@@ -81,12 +81,12 @@ class ReadtopicHandler extends Newbb\ReadHandler
     }
 
     /**
-     * @param int  $status
-     * @param int  $forum_id
-     * @param null $uid
+     * @param int      $status
+     * @param int      $forum_id
+     * @param int|null $uid
      * @return bool
      */
-    public function setReadItems(int $status = 0, int $forum_id = 0, $uid = null): bool
+    public function setReadItems(int $status = 0, int $forum_id = 0, int $uid = null): bool
     {
         if (empty($this->mode)) {
             return true;
@@ -100,11 +100,11 @@ class ReadtopicHandler extends Newbb\ReadHandler
     }
 
     /**
-     * @param $status
-     * @param $forum_id
+     * @param int $status
+     * @param int $forum_id
      * @return bool
      */
-    public function setReadItemsCookie($status, $forum_id): bool
+    public function setReadItemsCookie(int $status, int $forum_id): bool
     {
         $cookie_name = 'LT';
         $cookie_vars = \newbbGetCookie($cookie_name, true);
@@ -132,12 +132,12 @@ class ReadtopicHandler extends Newbb\ReadHandler
     }
 
     /**
-     * @param $status
-     * @param $forum_id
-     * @param $uid
+     * @param int $status
+     * @param int $forum_id
+     * @param int $uid
      * @return bool
      */
-    public function setReadItemsDb($status, $forum_id, $uid): bool
+    public function setReadItemsDb(int $status, int $forum_id, int $uid): bool
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {

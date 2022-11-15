@@ -58,15 +58,17 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <select name="op" class="custom-select mb-2">
-                                <option value="0"><{$smarty.const._SELECT}></option>
-                                <option value="delete"><{$smarty.const._DELETE}></option>
-                                <{if $status eq "pending"}>
-                                <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                                <{elseif $status eq "deleted"}>
-                                <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                                <{/if}>
-                            </select>
+                            <label>
+                                <select name="op" class="custom-select mb-2">
+                                    <option value="0"><{$smarty.const._SELECT}></option>
+                                    <option value="delete"><{$smarty.const._DELETE}></option>
+                                    <{if $status eq "pending"}>
+                                    <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                                    <{elseif $status eq "deleted"}>
+                                    <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                                    <{/if}>
+                                </select>
+                            </label>
                         </div>
                         <input type="hidden" name="topic_id" value="<{$topic_id}>">
                         <div class="col-auto">
@@ -135,7 +137,7 @@
         <div class="col-sm-12 col-md-12">
             <{if $mode lte 1}>
                 <form class="input-group" id="search-topic" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get" role="search">
-                    <input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_TOPIC}>">
+                    <label for="term"></label><input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_TOPIC}>">
                     <input type="hidden" name="forum" id="forum" value="<{$forum_id}>">
                     <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
                     <input type="hidden" name="topic" id="topic" value="<{$topic_id}>">
@@ -152,7 +154,7 @@
 
     <div class="form-row">
         <div class="col">
-            <select class="form-control mb-2" name="topicoption" id="topicoption" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
+            <label for="topicoption"></label><select class="form-control mb-2" name="topicoption" id="topicoption" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
                 <option value=""><{$smarty.const._MD_NEWBB_TOPICOPTION}></option>
                 <{if $viewer_level > 1}>
                 <{foreach item=act from=$admin_actions}>
@@ -170,7 +172,7 @@
         </div>
         <{if $rating_enable && $forum_post && $forum_reply}>
         <div class="col">
-            <select class="form-control  mb-2" name="rate" id="rate" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
+            <label for="rate"></label><select class="form-control  mb-2" name="rate" id="rate" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
                 <option value=""><{$smarty.const._MD_NEWBB_RATE}></option>
                 <option value="<{$xoops_url}>/modules/<{$xoops_dirname}>/ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_NEWBB_RATE5}></option>
                 <option value="<{$xoops_url}>/modules/<{$xoops_dirname}>/ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=4"><{$smarty.const._MD_NEWBB_RATE4}></option>
@@ -181,7 +183,7 @@
         </div>
         <{/if}>
         <div class="col">
-            <select class="form-control mb-2" name="viewmode" id="viewmode" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.location=this.options[this.selectedIndex].value;}">
+            <label for="viewmode"></label><select class="form-control mb-2" name="viewmode" id="viewmode" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.location=this.options[this.selectedIndex].value;}">
                 <option value=""><{$smarty.const._MD_NEWBB_VIEWMODE}></option>
                 <{foreach item=act from=$viewmode_options}>
                 <option value="<{$act.link}>"><{$act.title}></option>

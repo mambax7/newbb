@@ -19,11 +19,11 @@ if (!defined('NEWBB_NOTIFY_ITEMINFO')) {
     define('NEWBB_NOTIFY_ITEMINFO', 1);
 
     /**
-     * @param $category
-     * @param $item_id
+     * @param string $category
+     * @param int $item_id
      * @return array
      */
-    function newbb_notify_iteminfo($category, $item_id): array
+    function newbb_notify_iteminfo(string $category, int $item_id): array
     {
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');

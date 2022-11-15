@@ -11,8 +11,12 @@ namespace XoopsModules\Newbb;
  * @since          4.00
  */
 
-use XoopsModules\Newbb;
-use XoopsModules\Tag;
+use XoopsModules\Newbb\{
+    Topic
+};
+use XoopsModules\Tag\{
+    Helper as TagHelper
+};
 
 \defined('NEWBB_FUNCTIONS_INI') || require $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
 
@@ -70,7 +74,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
 
         $newbbConfig = \newbbLoadConfig();
         if (!empty($newbbConfig['do_tag']) && \class_exists('XoopsModules\Tag\FormTag')) {
-            $tagHandler = Tag\Helper::getInstance()->getHandler('Tag');
+            $tagHandler = TagHelper::getInstance()->getHandler('Tag');
             if ($tagHandler) {
                 $tagHandler->updateByItem($topic->getVar('topic_tags', 'n'), $topic->getVar('topic_id'), 'newbb');
             }
@@ -80,7 +84,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param       $object
+     * @param object|Topic $object
      * @param bool  $force
      * @return bool
      */
@@ -148,10 +152,10 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $post_id
+     * @param int $post_id
      * @return null|\XoopsObject
      */
-    public function &getByPost($post_id): ?\XoopsObject
+    public function &getByPost(int $post_id): ?\XoopsObject
     {
         $topic  = null;
         $sql    = 'SELECT t.* FROM ' . $this->db->prefix('newbb_topics') . ' t, ' . $this->db->prefix('newbb_posts') . ' p
@@ -188,7 +192,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
         }
         $criteria = new \CriteriaCompo(new \Criteria('topic_id', $topic->getVar('topic_id')));
         $criteria->add(new \Criteria('approved', $approved));
-        /** @var Newbb\PostHandler $postHandler */
+        /** @var PostHandler $postHandler */
         $postHandler = Helper::getInstance()->getHandler('Post');
         $count       = $postHandler->getCount($criteria);
 
@@ -196,10 +200,10 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $topic_id
+     * @param int $topic_id
      * @return null|Newbb\Post
      */
-    public function &getTopPost($topic_id): ?Post
+    public function &getTopPost(int $topic_id): ?Post
     {
         $post = null;
         $sql  = 'SELECT p.*, t.* FROM ' . $this->db->prefix('newbb_posts') . ' p,
@@ -213,10 +217,10 @@ class TopicHandler extends \XoopsPersistableObjectHandler
             //xoops_error($this->db->error());
             return $post;
         }
-        /** @var Newbb\PostHandler $postHandler */
+        /** @var PostHandler $postHandler */
         $postHandler = Helper::getInstance()->getHandler('Post');
         $myrow       = $this->db->fetchArray($result);
-        /** @var Newbb\Post $post */
+        /** @var Post $post */
         $post = $postHandler->create(false);
         $post->assignVars($myrow);
 
@@ -224,10 +228,10 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $topic_id
-     * @return bool
+     * @param int $topic_id
+     * @return bool|int
      */
-    public function getTopPostId($topic_id): bool
+    public function getTopPostId(int $topic_id)
     {
         $sql    = 'SELECT MIN(post_id) AS post_id FROM ' . $this->db->prefix('newbb_posts') . ' WHERE topic_id = ' . $topic_id . ' AND pid = 0';
         $result = $this->db->query($sql);
@@ -244,11 +248,11 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     //Added by BigKev to get the next unread post ID based on the $lastreadpost_id
 
     /**
-     * @param $topic_id
-     * @param $lastreadpost_id
+     * @param int $topic_id
+     * @param int $lastreadpost_id
      * @return false|mixed
      */
-    public function getNextPostId($topic_id, $lastreadpost_id)
+    public function getNextPostId(int $topic_id, int $lastreadpost_id)
     {
         $sql    = 'SELECT MIN(post_id) AS post_id FROM ' . $this->db->prefix('newbb_posts') . ' WHERE topic_id = ' . $topic_id . ' AND post_id > ' . $lastreadpost_id . ' ORDER BY post_id LIMIT 1';
         $result = $this->db->query($sql);
@@ -263,15 +267,15 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param         $topic
-     * @param string  $order
-     * @param int     $perpage
-     * @param int     $start
-     * @param int     $post_id
-     * @param string  $type
+     * @param Topic  $topic
+     * @param string $order
+     * @param int    $perpage
+     * @param int    $start
+     * @param int    $post_id
+     * @param string $type
      * @return array
      */
-    public function &getAllPosts($topic, string $order = 'ASC', int $perpage = 10, int &$start = 0, int $post_id = 0, string $type = ''): array
+    public function &getAllPosts(Topic $topic, string $order = 'ASC', int $perpage = 10, int &$start = 0, int $post_id = 0, string $type = ''): array
     {
         $ret     = [];
         $perpage = ((int)$perpage > 0) ? (int)$perpage : (empty($GLOBALS['xoopsModuleConfig']['posts_per_page']) ? 10 : $GLOBALS['xoopsModuleConfig']['posts_per_page']);
@@ -325,8 +329,8 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param        $postArray
-     * @param int    $pid
+     * @param array $postArray
+     * @param int   $pid
      * @return mixed
      */
     public function &getPostTree($postArray, int $pid = 0)
@@ -341,11 +345,11 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $topic
-     * @param $postArray
-     * @return mixed
+     * @param int $topic
+     * @param array $postArray
+     * @return array
      */
-    public function showTreeItem($topic, &$postArray)
+    public function showTreeItem(int $topic, array &$postArray): array
     {
         global $viewtopic_users, $myts;
 
@@ -373,8 +377,8 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param        $topic
-     * @param bool   $isApproved
+     * @param Topic $topic
+     * @param bool  $isApproved
      * @return array
      */
     public function getAllPosters($topic, bool $isApproved = true): array
@@ -407,13 +411,13 @@ class TopicHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         $postObject = $this->getTopPost($topicId);
-        /** @var Newbb\PostHandler $postHandler */
+        /** @var PostHandler $postHandler */
         $postHandler = Helper::getInstance()->getHandler('Post');
         $postHandler->myDelete($postObject, false, $force);
 
         $newbbConfig = \newbbLoadConfig();
         /** @var \XoopsModules\Tag\TagHandler $tagHandler */
-        if (!empty($newbbConfig['do_tag']) && \class_exists('TagFormTag') && $tagHandler = Tag\Helper::getInstance()->getHandler('Tag')) { //@xoops_getModuleHandler('tag', 'tag', true)) {
+        if (!empty($newbbConfig['do_tag']) && \class_exists('TagFormTag') && $tagHandler = TagHelper::getInstance()->getHandler('Tag')) { //@xoops_getModuleHandler('tag', 'tag', true)) {
             $tagHandler->updateByItem([], $topicId, 'newbb');
         }
 
@@ -425,12 +429,12 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     // $gperm_names = "'forum_can_post', 'forum_can_view', 'forum_can_reply', 'forum_can_edit', 'forum_can_delete', 'forum_can_addpoll', 'forum_can_vote', 'forum_can_attach', 'forum_can_noapprove'";
 
     /**
-     * @param Newbb\Forum $forum
+     * @param int|Forum $forum
      * @param int         $topic_locked
      * @param string      $type
      * @return bool
      */
-    public function getPermission(Forum $forum, int $topic_locked = 0, string $type = 'view'): bool
+    public function getPermission($forum, int $topic_locked = 0, string $type = 'view'): bool
     {
         static $_cachedTopicPerms;
         require_once \dirname(__DIR__) . '/include/functions.user.php';
@@ -510,7 +514,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
             return false;
         }
 
-        /** @var Newbb\PostHandler $postHandler */
+        /** @var PostHandler $postHandler */
         $postHandler = Helper::getInstance()->getHandler('Post');
         $criteria    = new \CriteriaCompo();
         $criteria->add(new \Criteria('topic_id', (string)$object->getVar('topic_id')), 'AND');

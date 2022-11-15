@@ -26,10 +26,10 @@ class ReportHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $posts
+     * @param array $posts
      * @return array
      */
-    public function getByPost($posts): array
+    public function getByPost(array $posts): array
     {
         $ret = [];
         if (!$posts) {
@@ -87,7 +87,7 @@ class ReportHandler extends \XoopsPersistableObjectHandler
             if ($this->db->isResultSet($result)) {
                 $row = $this->db->fetchArray($result);
             }
-            $position = isset($row['report_count']) ?? 0;
+            $position = isset($row['report_count']) ?$row['report_count'] : 0;
             $start    = (int)($position / $perpage) * $perpage;
         }
 

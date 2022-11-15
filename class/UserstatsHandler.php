@@ -26,10 +26,10 @@ class UserstatsHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param null $db
+     * @param \XoopsDatabase|null $db
      * @return UserstatsHandler
      */
-    public static function getInstance($db = null): UserstatsHandler
+    public static function getInstance(\XoopsDatabase $db = null): UserstatsHandler
     {
         static $instance;
         if (null === $instance) {
@@ -41,7 +41,7 @@ class UserstatsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param mixed $id
-     * @param null  $fields
+     * @param array|null  $fields
      * @return null|\XoopsObject
      */
     public function get($id = null, $fields = null): ?\XoopsObject //get($id)
@@ -71,10 +71,10 @@ class UserstatsHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param $id
-     * @return null|array
+     * @param int $id
+     * @return array|bool
      */
-    public function getStats($id): ?array
+    public function getStats(int $id)
     {
         if (empty($id)) {
             return null;

@@ -74,10 +74,10 @@ if (!empty($seoOp) && !empty($seoMap[$seoOp]) && in_array($seoOp, $seos, true)) 
 exit();
 
 /**
- * @param $value
+ * @param string $value
  * @return string
  */
-function checker(&$value): string
+function checker(string &$value): string
 {
     // keine Tags erlaubt
     $value = strip_tags($value);

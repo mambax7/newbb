@@ -10,7 +10,7 @@ namespace XoopsModules\Newbb;
  * @author         Taiwen Jiang (phppp or D.J.) <phppp@users.sourceforge.net>
  * @since          4.00
  */
-\defined('NEWBB_FUNCTIONS_INI') || require __DIR__ . '/functions.ini.php';
+\defined('NEWBB_FUNCTIONS_INI') || require \dirname(__DIR__) . '/include/functions.ini.php';
 
 \define('NEWBB_STATS_TYPE_TOPIC', 1);
 \define('NEWBB_STATS_TYPE_POST', 2);
@@ -27,30 +27,33 @@ namespace XoopsModules\Newbb;
  */
 class StatsHandler
 {
-    public $db;
+    /** @var \XoopsMySQLDatabase|null $db */
+    public ?\XoopsMySQLDatabase $db;
+    /** @var string $table */
     public string $table;
+    /** @var array $param */
     public array $param = [
         'type'   => ['topic', 'post', 'digest', 'view'],
         'period' => ['total', 'day', 'week', 'month'],
     ];
 
     /**
-     * @param null|\XoopsDatabase $db
+     * @param \XoopsMySQLDatabase|null $db
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsMySQLDatabase $db = null)
     {
-        //$this->db = $db;
-        //if (!$db || !($db instanceof \XoopsDatabase)) {
-        $this->db = $GLOBALS['xoopsDB'];
+        $this->db = $db;
+        //if (!$db || !($db instanceof \XoopsMySQLDatabase)) {
+//        $this->db = $GLOBALS['xoopsDB'];
         //}
         $this->table = $this->db->prefix('newbb_stats');
     }
 
     /**
-     * @param null|\XoopsDatabase $db
+     * @param \XoopsMySQLDatabase|null $db
      * @return StatsHandler
      */
-    public static function getInstance(\XoopsDatabase $db = null): StatsHandler
+    public static function getInstance(\XoopsMySQLDatabase $db = null): StatsHandler
     {
         static $instance;
         if (null === $instance) {
@@ -61,12 +64,12 @@ class StatsHandler
     }
 
     /**
-     * @param       $id
-     * @param       $type
-     * @param int   $increment
+     * @param int|string $id
+     * @param string     $type
+     * @param int        $increment
      * @return bool
      */
-    public function update($id, $type, int $increment = 1): ?bool
+    public function update($id, string $type, int $increment = 1): bool
     {
         $id        = (int)$id;
         $increment = (int)$increment;
@@ -122,6 +125,7 @@ class StatsHandler
                       . "', NOW(), '%Y%m')";
             $result = $this->db->queryF($sql);
         }
+        return $result;
     }
 
     /**
@@ -183,8 +187,8 @@ class StatsHandler
                 \trigger_error("Query Failed! SQL: $sql- Error: " . $this->db->error(), E_USER_ERROR);
             }
             [$topics, $views] = $this->db->fetchRow($result);
-            $this->update($forum_id, 'topic', $topics);
-            $this->update($forum_id, 'view', $views);
+            $this->update($forum_id, 'topic', (int)$topics);
+            $this->update($forum_id, 'view', (int)$views);
 
             $sql    = '    SELECT COUNT(*)' . '    FROM ' . $this->db->prefix('newbb_topics') . "    WHERE approved=1 AND topic_digest >0 AND forum_id = {$forum_id}";
             $result = $this->db->query($sql);
@@ -192,7 +196,7 @@ class StatsHandler
                 \trigger_error("Query Failed! SQL: $sql- Error: " . $this->db->error(), E_USER_ERROR);
             }
             [$digests] = $this->db->fetchRow($result);
-            $this->update($forum_id, 'digest', $digests);
+            $this->update($forum_id, 'digest', (int)$digests);
 
             $sql    = '    SELECT COUNT(*)' . '    FROM ' . $this->db->prefix('newbb_posts') . "    WHERE approved=1 AND forum_id = {$forum_id}";
             $result = $this->db->query($sql);
@@ -200,7 +204,7 @@ class StatsHandler
                 \trigger_error("Query Failed! SQL: $sql- Error: " . $this->db->error(), E_USER_ERROR);
             }
             [$posts] = $this->db->fetchRow($result);
-            $this->update($forum_id, 'post', $posts);
+            $this->update($forum_id, 'post', (int)$posts);
 
             foreach ($time_start as $period => $format) {
                 $sql    = '    SELECT COUNT(*), SUM(topic_views)' . '    FROM ' . $this->db->prefix('newbb_topics') . "    WHERE approved=1 AND forum_id = {$forum_id}" . "        AND FROM_UNIXTIME(topic_time, '{$format}') >= FROM_UNIXTIME({$now}, '{$format}')";

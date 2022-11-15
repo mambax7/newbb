@@ -106,10 +106,10 @@ class Post extends \XoopsObject
     }
 
     /**
-     * @param $attachKey
+     * @param string $attachKey
      * @return bool
      */
-    public function incrementDownload($attachKey): bool
+    public function incrementDownload(string $attachKey): bool
     {
         if (!$attachKey) {
             return false;
@@ -482,10 +482,10 @@ class Post extends \XoopsObject
     // TODO: cleaning up and merge with post hanldings in viewpost.php
 
     /**
-     * @param $isAdmin
+     * @param bool $isAdmin
      * @return array
      */
-    public function showPost($isAdmin): array
+    public function showPost(bool $isAdmin): array
     {
         global $xoopsModule, $myts;
         global $forumUrl, $forumImage, $forumObject, $online, $viewmode;

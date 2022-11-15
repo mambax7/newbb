@@ -53,11 +53,11 @@ final class Blocksadmin
      */
     public function __construct(?\XoopsMySQLDatabase $db, Helper $helper)
     {
-        /** @var \XoopsMySQLDatabase $db */
         if (null == $db) {
             $db = \XoopsDatabaseFactory::getDatabaseConnection();
         }
         $this->db                 = $db;
+        assert($this->db instanceof \XoopsMySQLDatabase);
         $this->helper             = $helper;
         $this->moduleDirName      = \basename(\dirname(__DIR__, 2));
         $this->moduleDirNameUpper = \mb_strtoupper($this->moduleDirName);
@@ -97,13 +97,13 @@ final class Blocksadmin
         echo "<h4 style='text-align:left;'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'BADMIN') . '</h4>';
         echo "<form action='" . $_SERVER['SCRIPT_NAME'] . "' name='blockadmin' method='post'>";
         echo $GLOBALS['xoopsSecurity']->getTokenHTML();
-        echo "<table width='100%' class='outer' cellpadding='4' cellspacing='1'>
-        <tr valign='middle'><th align='center'>" . \_AM_SYSTEM_BLOCKS_TITLE . "</th><th align='center' nowrap='nowrap'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'SIDE') . '<br>' . \_LEFT . '-' . \_CENTER . '-' . \_RIGHT . "</th>
-        <th align='center'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'WEIGHT') . "</th>
-        <th align='center'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'VISIBLE') . "</th><th align='center'>" . \_AM_SYSTEM_BLOCKS_VISIBLEIN . "</th>
-        <th align='center'>" . \_AM_SYSTEM_ADGS . "</th>
-        <th align='center'>" . \_AM_SYSTEM_BLOCKS_BCACHETIME . "</th>
-        <th align='center'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'ACTION') . '</th>
+        echo "<table class='outer' style='padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>
+        <tr valign='middle'><th style='text-align:center;'>" . \_AM_SYSTEM_BLOCKS_TITLE . "</th><th style='text-align:center;' nowrap='nowrap'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'SIDE') . '<br>' . \_LEFT . '-' . \_CENTER . '-' . \_RIGHT . "</th>
+        <th style='text-align:center;'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'WEIGHT') . "</th>
+        <th style='text-align:center;'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'VISIBLE') . "</th><th style='text-align:center;'>" . \_AM_SYSTEM_BLOCKS_VISIBLEIN . "</th>
+        <th style='text-align:center;'>" . \_AM_SYSTEM_ADGS . "</th>
+        <th style='text-align:center;'>" . \_AM_SYSTEM_BLOCKS_BCACHETIME . "</th>
+        <th style='text-align:center;'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'ACTION') . '</th>
         </tr>';
         $blockArray = \XoopsBlock::getByModule($xoopsModule->mid());
         $blockCount = \count($blockArray);
@@ -176,44 +176,44 @@ final class Blocksadmin
             }
             $title = '' === $i->getVar('title') ? '&nbsp;' : $i->getVar('title');
             $name = $i->getVar('name');
-            echo "<tr valign='top'><td class='$class' align='center'><input type='text' name='title[" . $i->getVar('bid') . "]' value='" . $title . "'></td>
-            <td class='$class' align='center' nowrap='nowrap'><div align='center' >
+            echo "<tr valign='top'><td class='$class' style='text-align:center;'><input type='text' name='title[" . $i->getVar('bid') . "]' value='" . $title . "'></td>
+            <td class='$class' style='text-align:center;' nowrap='nowrap'><div style='text-align:center;' >
                     <input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_CENTERBLOCK_LEFT . "'$ssel2>
                     <input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_CENTERBLOCK_CENTER . "'$ssel3>
                     <input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_CENTERBLOCK_RIGHT . "'$ssel4>
                     </div>
                     <div>
                         <span style='float:right;'><input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_SIDEBLOCK_RIGHT . "'$ssel1></span>
-                    <div align='left'><input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_SIDEBLOCK_LEFT . "'$ssel0></div>
+                    <div style='text-align:left;'><input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_SIDEBLOCK_LEFT . "'$ssel0></div>
                     </div>
-                    <div align='center'>
+                    <div style='text-align:center;'>
                     <input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_CENTERBLOCK_BOTTOMLEFT . "'$ssel5>
                         <input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_CENTERBLOCK_BOTTOM . "'$ssel7>
                     <input type='radio' name='side[" . $i->getVar('bid') . "]' value='" . \XOOPS_CENTERBLOCK_BOTTOMRIGHT . "'$ssel6>
                     </div>
                 </td>
-                <td class='$class' align='center'><input type='text' name='weight[" . $i->getVar('bid') . "]' value='" . $i->getVar('weight') . "' size='5' maxlength='5'></td>
-                <td class='$class' align='center' nowrap><input type='radio' name='visible[" . $i->getVar('bid') . "]' value='1'$sel1>" . \_YES . "&nbsp;<input type='radio' name='visible[" . $i->getVar('bid') . "]' value='0'$sel0>" . \_NO . '</td>';
+                <td class='$class' style='text-align:center;'><input type='text' name='weight[" . $i->getVar('bid') . "]' value='" . $i->getVar('weight') . "' size='5' maxlength='5'></td>
+                <td class='$class' style='text-align:center;' nowrap><input type='radio' name='visible[" . $i->getVar('bid') . "]' value='1'$sel1>" . \_YES . "&nbsp;<input type='radio' name='visible[" . $i->getVar('bid') . "]' value='0'$sel0>" . \_NO . '</td>';
 
-            echo "<td class='$class' align='center'><select size='5' name='bmodule[" . $i->getVar('bid') . "][]' id='bmodule[" . $i->getVar('bid') . "][]' multiple='multiple'>";
+            echo "<td class='$class' style='text-align:center;'><select size='5' name='bmodule[" . $i->getVar('bid') . "][]' id='bmodule[" . $i->getVar('bid') . "][]' multiple='multiple'>";
             foreach ($moduleList as $k => $v) {
                 echo "<option value='$k'" . (\in_array($k, $modules) ? " selected='selected'" : '') . ">$v</option>";
             }
             echo '</select></td>';
 
-            echo "<td class='$class' align='center'><select size='5' name='groups[" . $i->getVar('bid') . "][]' id='groups[" . $i->getVar('bid') . "][]' multiple='multiple'>";
+            echo "<td class='$class' style='text-align:center;'><select size='5' name='groups[" . $i->getVar('bid') . "][]' id='groups[" . $i->getVar('bid') . "][]' multiple='multiple'>";
             foreach ($groups as $grp) {
                 echo "<option value='" . $grp->getVar('groupid') . "' " . (\in_array($grp->getVar('groupid'), $groupsPermissions) ? " selected='selected'" : '') . '>' . $grp->getVar('name') . '</option>';
             }
             echo '</select></td>';
 
             // Cache lifetime
-            echo '<td class="' . $class . '" align="center"> <select name="bcachetime[' . $i->getVar('bid') . ']" size="1">' . $cachetimeOptions . '</select>
+            echo '<td class="' . $class . '" style="text-align:center;"> <select name="bcachetime[' . $i->getVar('bid') . ']  height:1px;">' . $cachetimeOptions . '</select>
                                     </td>';
 
             // Actions
 
-            echo "<td class='$class' align='center'>
+            echo "<td class='$class' style='text-align:center;'>
                 <a href='blocksadmin.php?op=edit&amp;bid=" . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/edit.png' . " alt='" . \_EDIT . "' title='" . \_EDIT . "'></a> 
                 <a href='blocksadmin.php?op=clone&amp;bid=" . $i->getVar('bid') . "'><img src=" . $pathIcon16 . '/editcopy.png' . " alt='" . \_CLONE . "' title='" . \_CLONE . "'></a>";
             //            if ('S' !== $i->getVar('block_type') && 'M' !== $i->getVar('block_type')) {
@@ -239,7 +239,7 @@ final class Blocksadmin
             ";
             $class = ('even' === $class) ? 'odd' : 'even';
         }
-        echo "<tr><td class='foot' align='center' colspan='8'> <input type='hidden' name='op' value='order'>" . $GLOBALS['xoopsSecurity']->getTokenHTML() . "<input type='submit' name='submit' value='" . \_SUBMIT . "'></td></tr></table></form><br><br>";
+        echo "<tr><td class='foot' style='text-align:center;' colspan='8'> <input type='hidden' name='op' value='order'>" . $GLOBALS['xoopsSecurity']->getTokenHTML() . "<input type='submit' name='submit' value='" . \_SUBMIT . "'></td></tr></table></form><br><br>";
     }
 
     /**
@@ -332,8 +332,11 @@ final class Blocksadmin
         \xoops_loadLanguage('admin/blocksadmin', 'system');
         \xoops_loadLanguage('admin/groups', 'system');
 
+
+
         $block = new \XoopsBlock($bid);
         $clone = $block->xoopsClone();
+        assert($clone instanceof \XoopsObject);
         if (empty($bmodule)) {
             //            \xoops_cp_header();
             \xoops_error(\sprintf(_AM_NOTSELNG, _AM_VISIBLEIN));
@@ -584,7 +587,7 @@ final class Blocksadmin
     /**
      * @param array|null $block
      */
-    public function render(?array $block = null): void
+    public function render(?array $block = null)
     {
         \xoops_load('XoopsFormLoader');
         \xoops_loadLanguage('common', $this->moduleDirNameUpper);

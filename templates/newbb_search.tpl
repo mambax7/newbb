@@ -8,15 +8,17 @@
     <{include file="db:newbb_searchresults.tpl" results=$results}>
 <{/if}>
 <form name="Search" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-    <table class="outer" border="0" cellpadding="1" cellspacing="0" align="center" width="95%">
+    <table class="outer" style="border: 0; padding: 1px; border-collapse: collapse; border-spacing: 0; width: 95%; text-align:center;">
         <tr>
             <td>
-                <table border="0" cellpadding="1" cellspacing="1" width="100%" class="head">
+                <table class='head' style='padding: 1px; border-collapse: separate; border-spacing: 1px; width: 100%;'>
                     <tr>
                         <{* irmtfan hardcode removed align="right" *}>
-                        <td class="head" width="10%" id="align_right"><strong><{$smarty.const._SR_KEYWORDS}></strong>&nbsp;</td>
+                        <td class="head" style="width:10%;" id="align_right"><strong><{$smarty.const._SR_KEYWORDS}></strong>&nbsp;</td>
                         <{* irmtfan add  value="$search_term" *}>
-                        <td class="even"><input type="text" name="term" value="<{$search_term}>"></td>
+                        <td class="even"><label>
+                                <input type="text" name="term" value="<{$search_term}>">
+                            </label></td>
                     </tr>
                     <tr>
                         <{* irmtfan hardcode removed align="right" add $andor_selection_box *}>
@@ -36,7 +38,9 @@
                     <tr>
                         <{* irmtfan hardcode removed align="right" add value="$author_select" *}>
                         <td class="head" id="align_right"><strong><{$smarty.const._MD_NEWBB_AUTHOR}></strong>&nbsp;</td>
-                        <td class="even"><input type="text" name="uname" value="<{$author_select}>"></td>
+                        <td class="even"><label>
+                                <input type="text" name="uname" value="<{$author_select}>">
+                            </label></td>
                     </tr>
                     <tr>
                         <{* irmtfan hardcode removed align="right" add $sortby_selection_box *}>
@@ -50,7 +54,9 @@
                     </tr>
                     <tr>
                         <td class="head" id="align_right"><strong><{$smarty.const._MD_NEWBB_SELECT_LENGTH}></strong>&nbsp;</td>
-                        <td class="even"><input type="text" name="selectlength" value="<{$selectlength_select}>"></td>
+                        <td class="even"><label>
+                                <input type="text" name="selectlength" value="<{$selectlength_select}>">
+                            </label></td>
                     </tr>
                     <tr>
                         <td class="head" id="align_right"><strong><{$smarty.const._MD_NEWBB_SHOWSEARCH}></strong>&nbsp;</td>

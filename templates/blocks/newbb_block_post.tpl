@@ -1,9 +1,9 @@
-<table class="outer" cellspacing="1">
+<table class="outer" style="border-collapse: separate; border-spacing: 1px;">
     <{if $block.disp_mode == 0}>
         <tr>
             <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_FORUM}></th>
             <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_TITLE}></th>
-            <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
+            <th class="head" style="text-align:center;" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
         </tr>
         <{foreach item=topic from=$block.topics}>
         <tr class="<{cycle values="even,odd"}>">
@@ -18,7 +18,7 @@
     <{elseif $block.disp_mode == 1}>
         <tr>
             <th class="head" nowrap="nowrap"><{$smarty.const._MB_NEWBB_TOPIC}></th>
-            <th class="head" align="center" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
+            <th class="head" style="text-align:center;" nowrap="nowrap"><{$smarty.const._MB_NEWBB_AUTHOR}></th>
         </tr>
         <{foreach item=topic from=$block.topics}>
         <tr class="<{cycle values="even,odd"}>">

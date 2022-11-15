@@ -4,7 +4,7 @@
     <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/votepolls.php" method="post">
         <input type="hidden" name="topic_id" value="<{$topic_id}>">
         <input type="hidden" name="forum" value="<{$forum_id}>">
-        <table class="outer width100" cellspacing="1">
+        <table class="outer" style="border-collapse: separate; border-spacing: 1px; width: 100%;">
             <tr>
                 <th class="center" colspan="2"><input type="hidden" name="poll_id" value="<{$poll.pollId}>">
                     <{$poll.question}></th>
@@ -12,8 +12,8 @@
             <{foreach item=option from=$poll.options}>
             <tr>
                 <{*-- irmtfan hardcode removed align="left" --*}>
-                <td class="even align_left" width="2%"><{$option.input}></td>
-                <td class="odd align_left" width="98%"><{$option.text}></td>
+                <td class="even align_left" style="width:2%;"><{$option.input}></td>
+                <td class="odd align_left" style="width:98%;"><{$option.text}></td>
             </tr>
             <{/foreach}>
             <tr>

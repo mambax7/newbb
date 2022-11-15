@@ -51,15 +51,15 @@ require_once \dirname(__DIR__) . '/include/functions.user.php';
 // options[12] - SelectedForumIDs: multi-select ngative values for categories and positive values for forums: null for all(by default)
 
 /**
- * @param $options
+ * @param array $options
  * @return array
  */
-function newbb_list_topic_show($options): array
+function newbb_list_topic_show(array $options ): array
 {
     $newbbConfig = newbbLoadConfig(); // load all newbb configs
 
     $topicRenderer            = new TopicRenderer();
-    $topicRenderer->userlevel = $GLOBALS['xoopsUserIsAdmin'] ? 2 : is_object($GLOBALS['xoopsUser']); // Vistitor's level: 0 - anonymous; 1 - user; 2 - moderator or admin
+    $topicRenderer->userlevel = (int)$GLOBALS['xoopsUserIsAdmin'] ? 2 : is_object($GLOBALS['xoopsUser']); // Vistitor's level: 0 - anonymous; 1 - user; 2 - moderator or admin
 
     $topicRenderer->force = true; // force against static vars for parse
 
@@ -102,10 +102,10 @@ function newbb_list_topic_show($options): array
 }
 
 /**
- * @param $options
+ * @param array $options
  * @return string
  */
-function newbb_list_topic_edit($options): string
+function newbb_list_topic_edit(array $options ): string
 {
     // require_once $GLOBALS['xoops']->path('class/blockform.php'); //reserve for 2.6
     xoops_load('XoopsFormLoader');
@@ -125,7 +125,7 @@ function newbb_list_topic_edit($options): string
 
     // topic_poster element
     $topicPosterRadioEle = new \XoopsFormRadio(_MB_NEWBB_AUTHOR, 'options[1]', $options[1]);
-    $topicPosterRadioEle->addOption(-1, _MD_NEWBB_TOTALUSER);
+    $topicPosterRadioEle->addOption('-1', _MD_NEWBB_TOTALUSER);
     $topicPosterRadioEle->addOption((-1 !== $options[1]) ? $options[1] : 0, _SELECT); // if no user in selection box it select uid=0 anon users
     $topicPosterRadioEle->setExtra("onchange=\"var el=document.getElementById('options[1]'); el.disabled=(this.id == 'options[1]1'); if (!el.value) {el.value= this.value}\""); // if user dont select any option it select "all"
     $topicPosterSelectEle = new \XoopsFormSelectUser(_MB_NEWBB_AUTHOR, 'options[1]', true, explode(',', $options[1]), 5, true); // show $limit = 200 users when no user is selected;
@@ -133,7 +133,7 @@ function newbb_list_topic_edit($options): string
 
     // lastposter element
     $lastPosterRadioEle = new \XoopsFormRadio(_MD_NEWBB_POSTER, 'options[2]', $options[2]);
-    $lastPosterRadioEle->addOption(-1, _MD_NEWBB_TOTALUSER);
+    $lastPosterRadioEle->addOption('-1', _MD_NEWBB_TOTALUSER);
     $lastPosterRadioEle->addOption((-1 !== $options[2]) ? $options[2] : 0, _SELECT); // if no user in selection box it select uid=1
     $lastPosterRadioEle->setExtra("onchange=\"var el=document.getElementById('options[2]'); el.disabled=(this.id == 'options[2]1'); if (!el.value) {el.value= this.value}\""); // if user dont select any option it select "all"
     $lastPosterSelectEle = new \XoopsFormSelectUser(_MD_NEWBB_POSTER, 'options[2]', true, explode(',', $options[2]), 5, true); // show $limit = 200 users when no user is selected;
@@ -142,7 +142,7 @@ function newbb_list_topic_edit($options): string
     // type element
     $types   = $topicRenderer->getTypes(); // get all available types in all forums
     $typeEle = new \XoopsFormSelect(_MD_NEWBB_TYPE, 'options[3]', $options[3]);
-    $typeEle->addOption(0, _NONE);
+    $typeEle->addOption('0', _NONE);
     if (!empty($types)) {
         foreach ($types as $type_id => $type) {
             $typeEle->addOption($type_id, $type['type_name']);
@@ -157,11 +157,11 @@ function newbb_list_topic_edit($options): string
 
     // order element
     $orderEle = new \XoopsFormSelect(_MB_NEWBB_CRITERIA_ORDER, 'options[5]', $options[5]);
-    $orderEle->addOption(0, _DESCENDING);
-    $orderEle->addOption(1, _ASCENDING);
+    $orderEle->addOption('0', _DESCENDING);
+    $orderEle->addOption('1', _ASCENDING);
 
     // number of topics to display element
-    $numdispEle = new \XoopsFormText(_MB_NEWBB_DISPLAY, 'options[6]', 10, 255, (int)$options[6]);
+    $numdispEle = new \XoopsFormText(_MB_NEWBB_DISPLAY, 'options[6]', 10, 255, (string)$options[6]);
 
     $timeEle = new \XoopsFormText(_MB_NEWBB_TIME, 'options[7]', 10, 255, $options[7]);
     $timeEle->setDescription(_MB_NEWBB_TIME_DESC);
@@ -175,20 +175,21 @@ function newbb_list_topic_edit($options): string
     $modeEle->addOptionArray($disps);
     $modeEle->setExtra("onchange = \"validate('options[8][]','checkbox', true)\""); // prevent user select no option
     // Index navigation element
-    $navEle = new \XoopsFormRadioYN(_MB_NEWBB_INDEXNAV, 'options[9]', !empty($options[9]));
+    $navEle = new \XoopsFormRadioYN(_MB_NEWBB_INDEXNAV, 'options[9]', $options[9]);
 
     // Topic title element
-    $lengthEle = new \XoopsFormText(_MB_NEWBB_TITLE_LENGTH, 'options[10]', 10, 255, (int)$options[10]);
+    $lengthEle = new \XoopsFormText(_MB_NEWBB_TITLE_LENGTH, 'options[10]', 10, 255, $options[10]);
     $lengthEle->setDescription(_MB_NEWBB_TITLE_LENGTH_DESC);
 
     // Post text element
-    $postExcerptEle = new \XoopsFormText(_MB_NEWBB_POST_EXCERPT, 'options[11]', 10, 255, (int)$options[11]);
+    $postExcerptEle = new \XoopsFormText(_MB_NEWBB_POST_EXCERPT, 'options[11]', 10, 255, $options[11]);
     $postExcerptEle->setDescription(_MB_NEWBB_POST_EXCERPT_DESC);
 
     //  forum element
     $optionsForum = explode(',', $options[12]);
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $forumHandler = Helper::getInstance()->getHandler('Forum');
+    assert($forumHandler instanceof ForumHandler);
     //get forum Ids by values. parse positive values to forum IDs and negative values to category IDs. value=0 => all valid forums
     // Get accessible forums
     $accessForums = $forumHandler->getIdsByValues(array_map('\intval', $optionsForum));

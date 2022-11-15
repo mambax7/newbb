@@ -48,16 +48,18 @@
                     <div class="col-sm-8 col-md-8">
                         <{if $mode gt 1}>
                         <form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="if(window.document.form_posts_admin.op.value &lt; 1){return false;}">
-                            <{$smarty.const._ALL}>: <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
-                            <select name="op">
-                                <option value="0"><{$smarty.const._SELECT}></option>
-                                <option value="delete"><{$smarty.const._DELETE}></option>
-                                <{if $status eq "pending"}>
-                            <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                                <{elseif $status eq "deleted"}>
-                            <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                                <{/if}>
-                            </select>
+                            <{$smarty.const._ALL}>: <label for="post_check"></label><input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
+                            <label>
+                                <select name="op">
+                                    <option value="0"><{$smarty.const._SELECT}></option>
+                                    <option value="delete"><{$smarty.const._DELETE}></option>
+                                    <{if $status eq "pending"}>
+                                <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                                    <{elseif $status eq "deleted"}>
+                                <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                                    <{/if}>
+                                </select>
+                            </label>
                             <input type="hidden" name="topic_id" value="<{$topic_id}>">
                             <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>"> |
                             <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewtopic.php?topic_id=<{$topic_id}>" target="_self" title="<{$smarty.const._MD_NEWBB_TYPE_VIEW}>"><{$smarty.const._MD_NEWBB_TYPE_VIEW}></a>
@@ -119,7 +121,7 @@
         <div class="col-sm-12 col-md-12">
             <{if $mode lte 1}>
                 <form class="input-group" id="search-topic" action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get" role="search">
-                    <input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_TOPIC}>">
+                    <label for="term"></label><input name="term" id="term" type="text" class="form-control" placeholder="<{$smarty.const.THEME_NEWBB_SEARCH_TOPIC}>">
                     <input type="hidden" name="forum" id="forum" value="<{$forum_id}>">
                     <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
                     <input type="hidden" name="topic" id="topic" value="<{$topic_id}>">
@@ -136,7 +138,7 @@
 
     <div class="row mb10">
         <div class="<{if $rating_enable}>col-sm-4 col-md-4<{else}>col-sm-8 col-md-8<{/if}>">
-            <select class="form-control" name="topicoption" id="topicoption" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
+            <label for="topicoption"></label><select class="form-control" name="topicoption" id="topicoption" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
                 <option value=""><{$smarty.const._MD_NEWBB_TOPICOPTION}></option>
                 <{if $viewer_level gt 1}>
                     <{foreach item=act from=$admin_actions}>
@@ -155,6 +157,7 @@
 
         <div class="col-sm-4 col-md-4">
             <{if $rating_enable && $forum_post && $forum_reply}>
+                <label for="rate"></label>
                 <select class="form-control" name="rate" id="rate" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.document.location=this.options[this.selectedIndex].value;}">
                     <option value=""><{$smarty.const._MD_NEWBB_RATE}></option>
                     <option value="<{$xoops_url}>/modules/<{$xoops_dirname}>/ratethread.php?topic_id=<{$topic_id}>&amp;forum=<{$forum_id}>&amp;rate=5"><{$smarty.const._MD_NEWBB_RATE5}></option>
@@ -167,7 +170,7 @@
         </div>
 
         <div class="col-sm-4 col-md-4">
-            <select class="form-control" name="viewmode" id="viewmode" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.location=this.options[this.selectedIndex].value;}">
+            <label for="viewmode"></label><select class="form-control" name="viewmode" id="viewmode" onchange="if(this.options[this.selectedIndex].value.length >0 ) { window.location=this.options[this.selectedIndex].value;}">
                 <option value=""><{$smarty.const._MD_NEWBB_VIEWMODE}></option>
                 <{foreach item=act from=$viewmode_options}>
                     <option value="<{$act.link}>"><{$act.title}></option>

@@ -27,10 +27,10 @@ if (!\class_exists('ObjectTree')) {
     class ObjectTree extends \XoopsObjectTree
     {
         /**
-         * @param      $objectArr
-         * @param null $rootId
+         * @param array     $objectArr
+         * @param string|int|null $rootId
          */
-        public function __construct($objectArr, $rootId = null)
+        public function __construct(array $objectArr, $rootId = null)
         {
             parent::__construct($objectArr, 'forum_id', 'parent_forum', $rootId);
         }
@@ -71,9 +71,9 @@ if (!\class_exists('ObjectTree')) {
         /**
          * Make a select box with options from the tree
          *
-         * @param string $prefix           String to indent deeper levels
-         * @param int    $key              ID of the object to display as the root of select options
-         * @param null   $tags
+         * @param string     $prefix           String to indent deeper levels
+         * @param int        $key              ID of the object to display as the root of select options
+         * @param array|null $tags
          * @return array  HTML select box
          * @internal param string $name Name of the select box
          * @internal param string $fieldName Name of the member variable from the
@@ -81,7 +81,7 @@ if (!\class_exists('ObjectTree')) {
          * @internal param string $selected Value to display as selected
          * @internal param bool $addEmptyOption Set TRUE to add an empty option with value "0" at the top of the hierarchy
          */
-        public function &makeTree(string $prefix = '-', int $key = 0, $tags = null): array
+        public function &makeTree(string $prefix = '-', int $key = 0, array $tags = null): array
         {
             $ret = [];
             $this->makeTreeItems($key, $ret, $prefix, '', $tags);
@@ -252,12 +252,12 @@ if (!\class_exists('ObjectTree')) {
         /**#@+
          * get all parent forums
          *
-         * @param string $key     ID of the child object
+         * @param int $key     ID of the child object
          * @param array  $ret     (empty when called from outside) Result from previous recursions
          * @param int    $uplevel (empty when called from outside) level of recursion
          * @return array  Array of parent nodes.
          */
-        public function &myGetParentForums(string $key, array $ret = [], int $uplevel = 0): array
+        public function &myGetParentForums(int $key, array $ret = [], int $uplevel = 0): array
         {
             if (isset($this->tree[$key]['parent'], $this->tree[$this->tree[$key]['parent']]['obj'])) {
                 $ret[$uplevel] = $this->tree[$this->tree[$key]['parent']]['obj'];
@@ -274,7 +274,7 @@ if (!\class_exists('ObjectTree')) {
         }
 
         /**
-         * @param        $key
+         * @param int|string $key
          * @param bool   $reverse
          * @return array
          */

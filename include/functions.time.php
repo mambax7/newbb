@@ -15,12 +15,12 @@ if (!defined('NEWBB_FUNCTIONS_TIME')) {
 
     /**
      * Function to convert UNIX time to formatted time string
-     * @param         $time
+     * @param int $time
      * @param string  $format
      * @param string  $timeoffset
      * @return string
      */
-    function newbbFormatTimestamp($time, string $format = 'c', string $timeoffset = ''): string
+    function newbbFormatTimestamp(int $time, string $format = 'c', string $timeoffset = ''): string
     {
         xoops_loadLanguage('locale');
         $newbbConfig = newbbLoadConfig();

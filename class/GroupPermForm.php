@@ -10,22 +10,23 @@ use XoopsModules\Newbb;
 class GroupPermForm extends \XoopsGroupPermForm
 {
     /**
-     * @param        $title
-     * @param        $modid
-     * @param        $permname
-     * @param        $permdesc
+     * @param string $title
+     * @param int    $modid
+     * @param string $permname
+     * @param string $permdesc
      * @param string $url
+     * @param bool   $anonymous
      */
-    public function __construct($title, $modid, $permname, $permdesc, $url = '')
+    public function __construct($title, $modid, $permname, $permdesc, $url = '', $anonymous = false)
     {
-        parent::__construct($title, $modid, $permname, $permdesc, $url);
+        parent::__construct($title, $modid, $permname, $permdesc, $url, $anonymous);
     }
 
     /**
-     * @param        $title
-     * @param        $modid
-     * @param        $permname
-     * @param        $permdesc
+     * @param string $title
+     * @param int    $modid
+     * @param string $permname
+     * @param string $permdesc
      * @param string $url
      */
 
@@ -65,7 +66,7 @@ class GroupPermForm extends \XoopsGroupPermForm
         $tray->addElement(new \XoopsFormButton('', 'reset', _CANCEL, 'reset'));
         $this->addElement($tray);
         $ret      = '<br><strong>' . $this->getTitle() . '</strong><br>' . $this->_permDesc . '<br>';
-        $ret      .= "<form name='" . $this->getName() . "' id='" . $this->getName() . "' action='" . $this->getAction() . "' method='" . $this->getMethod() . "'" . $this->getExtra() . ">\n<table width='100%' class='outer' cellspacing='1' valign='top'>\n";
+        $ret      .= "<form name='" . $this->getName() . "' id='" . $this->getName() . "' action='" . $this->getAction() . "' method='" . $this->getMethod() . "'" . $this->getExtra() . ">\n<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%; vertical-align: top;'>\n";
         $elements = $this->getElements();
         $hidden   = '';
         foreach (\array_keys($elements) as $i) {
@@ -74,7 +75,7 @@ class GroupPermForm extends \XoopsGroupPermForm
             } elseif ($elements[$i]->isHidden()) {
                 $hidden .= $elements[$i]->render();
             } else {
-                $ret .= "<tr valign='top' align='left'><td class='head'>" . $elements[$i]->getCaption();
+                $ret .= "<tr valign='top' style='text-align:left;'><td class='head'>" . $elements[$i]->getCaption();
                 if ('' !== $elements[$i]->getDescription()) {
                     $ret .= '<br><br><span style="font-weight: normal;">' . $elements[$i]->getDescription() . '</span>';
                 }

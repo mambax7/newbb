@@ -17,14 +17,14 @@ if (!defined('NEWBB_FUNCTIONS_TOPIC')) {
      * Create full title of a topic
      *
      * the title is composed of [type_name] if type_id is greater than 0 plus topic Title
-     * @param         $topicTitle
-     * @param null    $prefixName
-     * @param null    $prefixColor
+     * @param string $topicTitle
+     * @param string|null    $prefixName
+     * @param string|null    $prefixColor
      * @return string
      */
-    function newbbGetTopicTitle($topicTitle, $prefixName = null, $prefixColor = null): string
+    function newbbGetTopicTitle(string $topicTitle, ?string $prefixName = null, ?string $prefixColor = null): string
     {
-        return getTopicTitle($topicTitle, $prefixName = null, $prefixColor = null);
+        return getTopicTitle($topicTitle, $prefixName, $prefixColor);
     }
 
     /**
@@ -33,7 +33,7 @@ if (!defined('NEWBB_FUNCTIONS_TOPIC')) {
      * @param string|null $prefixColor
      * @return string
      */
-    function getTopicTitle(string $topicTitle, string $prefixName = null, string $prefixColor = null): string
+    function getTopicTitle(string $topicTitle, ?string $prefixName = null, ?string $prefixColor = null): string
     {
         if (empty($prefixName)) {
             return $topicTitle;

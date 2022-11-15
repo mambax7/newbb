@@ -99,10 +99,10 @@ switch ($op) {
         $adminObject->addItemButton($title_other, $item_other, $icon = 'add');
         $adminObject->displayButton('left');
         echo _AM_NEWBB_REPORTADMIN_HELP;
-        echo "<table width='100%' border='0' cellspacing='1' class='outer'>" . "<tr><td class='odd'>";
+        echo "<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
         echo '<form action="' . xoops_getenv('SCRIPT_NAME') . '" method="post">';
-        echo "<table border='0' cellpadding='4' cellspacing='1' width='100%' class='outer'>";
-        echo "<tr align='center'>";
+        echo "<table class='outer' style='border: 0; padding: 4px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
+        echo "<tr style='text-align:center;'>";
         echo "<th class='bg3' width='80%'>" . _AM_NEWBB_REPORTTITLE . '</th>';
         echo "<th class='bg3' width='10%'>" . $extra . '</th>';
         echo '</tr>';
@@ -119,20 +119,20 @@ switch ($op) {
             } else {
                 $memo = htmlspecialchars((string)$report['report_memo'], ENT_QUOTES | ENT_HTML5);
             }
-            echo "<tr class='odd' align='left'>";
+            echo "<tr class='odd' style='text-align:left;'>";
             echo '<td>' . _AM_NEWBB_REPORTPOST . ': ' . $post_link . '</td>';
-            echo "<td align='center'>" . $report['report_id'] . '</td>';
+            echo "<td style='text-align:center;'>" . $report['report_id'] . '</td>';
             echo '</tr>';
-            echo "<tr class='odd' align='left'>";
+            echo "<tr class='odd' style='text-align:left;'>";
             echo '<td>' . _AM_NEWBB_REPORTTEXT . ': ' . htmlspecialchars((string)$report['report_text'], ENT_QUOTES | ENT_HTML5) . '</td>';
             $uid           = (int)$report['reporter_uid'];
             $reporter_name = newbbGetUnameFromId($uid, $GLOBALS['xoopsModuleConfig']['show_realname']);
             $reporter      = !empty($uid) ? "<a href='" . XOOPS_URL . '/userinfo.php?uid=' . $uid . "'>" . $reporter_name . '</a><br>' : '';
-            echo "<td align='center'>" . $reporter . $report['reporter_ip'] . '</td>';
+            echo "<td style='text-align:center;'>" . $reporter . $report['reporter_ip'] . '</td>';
             echo '</tr>';
-            echo "<tr class='odd' align='left'>";
+            echo "<tr class='odd' style='text-align:left;'>";
             echo '<td>' . _AM_NEWBB_REPORTMEMO . ': ' . $memo . '</td>';
-            echo "<td align='center' >" . $checkbox . '</td>';
+            echo "<td style='text-align:center;' >" . $checkbox . '</td>';
             echo '</tr>';
             echo "<tr colspan='2'><td height='2'></td></tr>";
         }
@@ -145,7 +145,7 @@ switch ($op) {
         $buttons .= $delete->render() . ' ';
         $cancel  = new \XoopsFormButton('', 'cancel', _CANCEL, 'reset');
         $buttons .= $cancel->render();
-        echo "<tr colspan='2'><td align='center'>{$buttons}</td></tr>";
+        echo "<tr colspan='2'><td style='text-align:center;'>{$buttons}</td></tr>";
         $hidden = new \XoopsFormHidden('start', (string)$start);
         echo $hidden->render();
         $hidden = new \XoopsFormHidden('item', $item);

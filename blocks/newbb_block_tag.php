@@ -13,10 +13,10 @@ use XoopsModules\Newbb;
 
 /**#@+
  * Function to display tag cloud
- * @param $options
+ * @param array $options
  * @return array|null|bool
  */
-function newbb_tag_block_cloud_show($options)
+function newbb_tag_block_cloud_show(array $options)
 {
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
@@ -28,10 +28,10 @@ function newbb_tag_block_cloud_show($options)
 }
 
 /**
- * @param $options
+ * @param array $options
  * @return null|string
  */
-function newbb_tag_block_cloud_edit($options): ?string
+function newbb_tag_block_cloud_edit(array $options): ?string
 {
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
@@ -44,10 +44,10 @@ function newbb_tag_block_cloud_edit($options): ?string
 
 /**#@+
  * Function to display top tag list
- * @param $options
+ * @param array $options
  * @return array|null|bool
  */
-function newbb_tag_block_top_show($options)
+function newbb_tag_block_top_show(array $options)
 {
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
@@ -59,10 +59,10 @@ function newbb_tag_block_top_show($options)
 }
 
 /**
- * @param $options
+ * @param array $options
  * @return null|string
  */
-function newbb_tag_block_top_edit($options): ?string
+function newbb_tag_block_top_edit(array $options): ?string
 {
     if (!@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php')) {
         return null;

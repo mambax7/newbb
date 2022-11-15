@@ -1,6 +1,6 @@
-<table cellspacing="1" class="outer" width="100%">
-    <tr class="head" align="center">
-        <td width="5%">&nbsp;</td>
+<table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>
+    <tr class="head" style="text-align:center;">
+        <td style="width:5%;">&nbsp;</td>
         <{* irmtfan hardcode removed align="left" *}>
         <td nowrap="nowrap" class="align_left"><{$smarty.const._MD_NEWBB_SUBFORUMS}></td>
         <td nowrap="nowrap">&nbsp;</td>
@@ -9,7 +9,7 @@
     <{* start subforums *}>
     <{foreach item=sforum from=$subforum}>
     <tr>
-        <td class="even" align="center" valign="middle"><{$sforum.forum_folder}></td>
+        <td class="even" style="text-align:center; vertical-align: middle;"><{$sforum.forum_folder}></td>
         <td class="odd" onclick="window.location='<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>'"><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewforum.php?forum=<{$sforum.forum_id}>"><strong><{$sforum.forum_name}></strong></a><br>
 
             <div id="index_forum">
@@ -20,13 +20,13 @@
                 <{/if}>
             </div>
         </td>
-        <td class="even" align="center" valign="middle">
+        <td class="even" style="text-align:center; vertical-align: middle;">
             <{$sforum.forum_topics}>  <{$smarty.const._MD_NEWBB_TOPICS}>
             <br>
             <{$sforum.forum_posts}> <{$smarty.const._MD_NEWBB_POSTS}>
         </td>
         <{* irmtfan hardcode removed align="right" *}>
-        <td class="odd" id="align_right" valign="middle">
+        <td class="odd" id="align_right " style="vertical-align: middle;">
             <{if $sforum.forum_lastpost_subject}>
                 <{$sforum.forum_lastpost_time}> <{$smarty.const._MD_NEWBB_BY}> <{$sforum.forum_lastpost_user}>
                 <br>

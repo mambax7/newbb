@@ -19,9 +19,13 @@ use XoopsModules\Newbb\{
     TopicHandler,
     Forum,
     ForumHandler,
+    Post,
     PostHandler
 };
-/** @var Category $categories */
+
+require_once __DIR__ . '/header.php';
+
+/** @var array $categories */
 /** @var CategoryHandler $categoryHandler */
 /** @var Topic $topicObject */
 /** @var TopicHandler $topicHandler */
@@ -29,7 +33,6 @@ use XoopsModules\Newbb\{
 /** @var ForumHandler $forumHandler */
 /** @var PostHandler $postHandler */
 /** @var StatsHandler $statsHandler */
-require_once __DIR__ . '/header.php';
 
 $forum_id = Request::getInt('forum_id', 0, 'POST');
 $topic_id = Request::getArray('topic_id', [], 'POST');
@@ -105,6 +108,7 @@ switch ($op) {
             $tags['FORUM_URL']  = XOOPS_URL . '/modules/' . $moduleDirName . '/viewforum.php?forum=' . $topicObject->getVar('forum_id');
             $notificationHandler->triggerEvent('global', 0, 'new_thread', $tags);
             $notificationHandler->triggerEvent('forum', $topicObject->getVar('forum_id'), 'new_thread', $tags);
+            /** @var Post $postObject */
             $postObject       = $topicHandler->getTopPost($id);
             $tags['POST_URL'] = $tags['THREAD_URL'] . '&topic_id=' . $id . '#forumpost' . $postObject->getVar('post_id');
             $notificationHandler->triggerEvent('thread', $id, 'new_post', $tags);
@@ -120,7 +124,7 @@ switch ($op) {
         break;
     case 'delete':
         $forums = [];
-        /** @var TopicHandler|\XoopsPersistableObjectHandler $topicHandler */
+        /** @var TopicHandler $topicHandler */
         $topicsObject = $topicHandler->getAll(new \Criteria('topic_id', '(' . implode(',', $topic_id) . ')', 'IN'));
         foreach (array_keys($topicsObject) as $id) {
             /** @var Topic $topicObject */
@@ -139,6 +143,7 @@ switch ($op) {
         unset($topicsObject, $forumsObject);
         break;
     case 'move':
+        /** @var ForumHandler $forumHandler */
         if (Request::getInt('newforum', 0, 'POST')
             && Request::getInt('newforum', 0, 'POST') !== $forum_id
             && $forumHandler->getPermission(Request::getInt('newforum', 0, 'POST'), 'post')) {
@@ -177,13 +182,13 @@ switch ($op) {
             unset($forums, $categories);
 
             echo "<form action='" . Request::getString('SCRIPT_NAME', '', 'SERVER') . "' method='post'>";
-            echo "<table border='0' cellpadding='1' cellspacing='0' align='center' width='95%'>";
+            echo "<table style='border: 0; padding: 1px; border-collapse: collapse; border-spacing: 0; width: 100%; text-align:center;'>";
             echo "<tr><td class='bg2'>";
-            echo "<table border='0' cellpadding='1' cellspacing='1' width='100%'>";
+            echo "<table style='border: 0; padding: 1px; border-collapse: separate; border-spacing: 1px; width: 100%;'>";
             echo '<tr><td class="bg3">' . _MD_NEWBB_MOVETOPICTO . '</td><td class="bg1">';
             echo $box;
             echo '</td></tr>';
-            echo '<tr class="bg3"><td colspan="2" align="center">';
+            echo '<tr class="bg3"><td colspan="2" style="text-align:center;">';
             echo "<input type='hidden' name='op' value='move' >";
             echo "<input type='hidden' name='forum_id' value='{$forum_id}' >";
             foreach ($topic_id as $id) {

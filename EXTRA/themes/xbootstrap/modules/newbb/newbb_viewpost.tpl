@@ -2,7 +2,7 @@
     <div class="forum_title">
         <h2><a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$lang_forum_index}></a></h2>
         <!-- irmtfan hardcode removed align="left" -->
-        <hr class="align_left" width="50%" size="1">
+        <hr class="align_left" style="width:50%; height:1px;">
         <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php"><{$smarty.const._MD_NEWBB_FORUMHOME}></a>
         <{if $parent_forum|default:''}>
             <span class="delimiter">&raquo;</span>
@@ -24,16 +24,18 @@
         <!-- irmtfan mistype forum_posts_admin => form_posts_admin  -->
         <form name="form_posts_admin" action="action.post.php" method="POST" onsubmit="if(window.document.form_posts_admin.op.value &lt; 1){return false;}">
             <{$smarty.const._ALL}>:
-                <input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
-            <select name="op">
-                <option value="0"><{$smarty.const._SELECT}></option>
-                <option value="delete"><{$smarty.const._DELETE}></option>
-                <{if $status eq "pending"}>
-                    <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
-                <{elseif $status eq "deleted"}>
-                    <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
-                <{/if}>
-            </select>
+            <label for="post_check"></label><input type="checkbox" name="post_check" id="post_check" value="1" onclick="xoopsCheckAll('form_posts_admin', 'post_check');">
+            <label>
+                <select name="op">
+                    <option value="0"><{$smarty.const._SELECT}></option>
+                    <option value="delete"><{$smarty.const._DELETE}></option>
+                    <{if $status eq "pending"}>
+                        <option value="approve"><{$smarty.const._MD_NEWBB_APPROVE}></option>
+                    <{elseif $status eq "deleted"}>
+                        <option value="restore"><{$smarty.const._MD_NEWBB_RESTORE}></option>
+                    <{/if}>
+                </select>
+            </label>
             <input type="hidden" name="uid" value="<{$uid}>"> |
             <input type="submit" name="submit" value="<{$smarty.const._SUBMIT}>"> |
             <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/viewpost.php?uid=<{$uid}>" target="_self"
@@ -62,7 +64,7 @@
 <br>
 <div>
     <div class="dropdown">
-        <select
+        <label for="topicoption"></label><select
                 name="topicoption" id="topicoption"
                 class="menu"
                 onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}"
@@ -77,7 +79,7 @@
             //-->
         </select>
 
-        <select
+        <label for="viewmode"></label><select
                 name="viewmode" id="viewmode"
                 class="menu"
                 onchange="if(this.options[this.selectedIndex].value.length >0 )    { window.document.location=this.options[this.selectedIndex].value;}"
@@ -138,7 +140,7 @@
     <!-- irmtfan hardcode removed style="float: left; text-align: left;" -->
     <div class="icon_left">
         <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="get">
-            <input name="term" id="term" type="text" size="15">
+            <label for="term"></label><input name="term" id="term" type="text" size="15">
             <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
             <input type="hidden" name="action" id="action" value="yes">
             <input type="hidden" name="searchin" id="searchin" value="both">

@@ -22,7 +22,7 @@ class NewbbCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
     /**
-     * @param $args
+     * @param array $args
      */
     public static function eventCoreIncludeCommonEnd($args): void
     {

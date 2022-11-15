@@ -36,7 +36,7 @@ class IconHandler
     /**
      * reference to XOOPS template
      */
-    public string $template;
+    public \XoopsTpl $template;
     /**
      * image set
      */
@@ -77,14 +77,14 @@ class IconHandler
 
     /**
      * TODO: get compatible with new theme engine
-     * @param         $type
+     * @param string  $type
      * @param string  $dirname
      * @param string  $default
      * @param string  $endDir
      * @return mixed
      */
     // START irmtfan - improve to get other "end dirnames" like "css" and "js" - change images with $endDir
-    public function getPath($type, string $dirname = 'newbb', string $default = '', string $endDir = 'images')
+    public function getPath(string $type, string $dirname = 'newbb', string $default = '', string $endDir = 'images')
     {
         static $paths;
         if (isset($paths[$endDir . '/' . $type])) {
@@ -134,11 +134,11 @@ class IconHandler
     }
 
     /**
-     * @param        $image
+     * @param string $image
      * @param string $alt
      * @param string $extra
      */
-    public function setImage($image, string $alt = '', string $extra = ''): void
+    public function setImage(string $image, string $alt = '', string $extra = ''): void
     {
         if (!isset($this->images[$image])) {
             $imageSource = $this->getImageSource($image);
@@ -149,21 +149,21 @@ class IconHandler
 
     /**
      * TODO: How about image not exist?
-     * @param $image
+     * @param string $image
      * @return string
      */
-    public function getImageSource($image): string
+    public function getImageSource(string $image): string
     {
         return $this->forumImage[$this->forumImage[$image]] . $this->prefix . $image . $this->postfix;
     }
 
     /**
-     * @param         $image
+     * @param string $image
      * @param string  $alt
      * @param string  $extra
      * @return mixed
      */
-    public function getImage($image, string $alt = '', string $extra = '')
+    public function getImage(string $image, string $alt = '', string $extra = '')
     {
         $this->setImage($image, $alt, $extra);
 
@@ -171,12 +171,12 @@ class IconHandler
     }
 
     /**
-     * @param         $image
+     * @param string $image
      * @param string  $alt
      * @param string  $extra
      * @return string
      */
-    public function assignImage($image, string $alt = '', string $extra = ''): string
+    public function assignImage(string $image, string $alt = '', string $extra = ''): string
     {
         $this->setImage($image, $alt, $extra);
         // START hacked by irmtfan - improve function to CSS3 buttons - add alt and title attributes - use span instead of button to support IE7&8
@@ -190,9 +190,9 @@ class IconHandler
     }
 
     /**
-     * @param $images
+     * @param array $images
      */
-    public function assignImages($images): void
+    public function assignImages(array $images): void
     {
         foreach ($images as $myImage) {
             [$image, $alt, $extra] = $myImage;

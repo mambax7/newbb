@@ -18,6 +18,7 @@ use XoopsModules\Newbb\{
     Helper,
     KarmaHandler,
     OnlineHandler,
+    Post,
     PostHandler,
     StatsHandler,
     Topic,
@@ -52,6 +53,7 @@ $postHandler  = Helper::getInstance()->getHandler('Post');
 
 $postObject  = $postHandler->get($post_id);
 $topicObject = $topicHandler->get($postObject->getVar('topic_id'));
+/** @var Forum $forumObject */
 $forumObject = $forumHandler->get($postObject->getVar('forum_id'));
 if (!$forumHandler->getPermission($forumObject)) {
     redirect_header('index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);

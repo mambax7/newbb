@@ -109,7 +109,7 @@
           &nbsp;<a href="#threadtop" title="<{$smarty.const._MD_NEWBB_TOP}>"><{$p_up}></a>&nbsp;
             <{if $topic_post.thread_action}>
                 <{foreach item=btn from=$topic_post.thread_action}>
-                <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" alt="<{$btn.name}>" title="<{$btn.name}>" <{if $btn.target}>target="<{$btn.target}>"<{/if}>><{$btn.image}></a>&nbsp;
+                <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>" <{if $btn.target}>target="<{$btn.target}>"<{/if}>><{$btn.image}></a>&nbsp;
             <{/foreach}>
             <{/if}>
         </div>
@@ -121,11 +121,12 @@
                 |
                 <a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/action.post.php?post_id=<{$topic_post.post_id}>&amp;op=split&amp;mode=3" target="_self" title="<{$smarty.const._MD_NEWBB_SPLIT_ALL}>"><{$smarty.const._MD_NEWBB_SPLIT_ALL}></a>
                 |
+                <label for="post_id[<{$topic_post.post_id}>]"></label>
                 <input type="checkbox" name="post_id[]" id="post_id[<{$topic_post.post_id}>]" value="<{$topic_post.post_id}>">
             <{else}>
                 <{if $topic_post.thread_buttons}>
                     <{foreach item=btn from=$topic_post.thread_buttons}>
-                    <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" alt="<{$btn.name}>" title="<{$btn.name}>"> <{$btn.image}></a>
+                    <a href="<{$btn.link}>&amp;post_id=<{$topic_post.post_id}>" title="<{$btn.name}>"> <{$btn.image}></a>
                 <{/foreach}>
                 <{/if}>
             <{/if}>

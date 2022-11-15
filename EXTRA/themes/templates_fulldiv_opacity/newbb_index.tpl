@@ -207,7 +207,7 @@
 </div>
 <div class="icon_right">
     <form action="<{$xoops_url}>/modules/<{$xoops_dirname}>/search.php" method="post" name="search" id="search">
-        <input name="term" id="term" type="text" size="20">
+        <label for="term"></label><input name="term" id="term" type="text" size="20">
         <input type="hidden" name="forum" id="forum" value="all">
         <input type="hidden" name="sortby" id="sortby" value="p.post_time desc">
         <input type="hidden" name="searchin" id="searchin" value="both">

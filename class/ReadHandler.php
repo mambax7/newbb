@@ -73,7 +73,7 @@ class ReadHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param null|\XoopsMySQLDatabase $db
-     * @param                     $type
+     * @param string                   $type
      */
     public function __construct(\XoopsMySQLDatabase $db, $type)
     {
@@ -122,14 +122,14 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     // END irmtfan rephrase function to 1- add clearDuplicate and 2- don't clean when read_expire = 0
 
     /**
-     * @param int      $read_item
+     * @param int|string      $read_item
      * @param int|null $uid
-     * @return bool|mixed|null
+     * @return bool|int
      */
     public function getRead(int $read_item, int $uid = null)
     {
         if (empty($this->mode)) {
-            return null;
+            return false;
         }
         if (1 == $this->mode) {
             return $this->getReadCookie($read_item);
@@ -154,10 +154,10 @@ class ReadHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param int $read_item
-     * @param int $uid
-     * @return bool|null
+     * @param int|null $uid
+     * @return bool|int|null
      */
-    public function getReadDb(int $read_item, int $uid): ?bool
+    public function getReadDb(int $read_item, ?int $uid =  null)
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {
@@ -170,12 +170,12 @@ class ReadHandler extends \XoopsPersistableObjectHandler
         $result = $this->db->queryF($sql, 1);
         if (!$this->db->isResultSet($result)) {
             //                \trigger_error("Query Failed! SQL: $sql- Error: " . $this->db->error(), E_USER_ERROR);
-            return null;
+            return false;
         }
 
         [$post_id] = $this->db->fetchRow($result);
 
-        return $post_id;
+        return (int)$post_id;
     }
 
     /**
@@ -210,12 +210,12 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int $read_item
-     * @param int $post_id
-     * @param int $uid
+     * @param int      $read_item
+     * @param int|null $post_id
+     * @param int|null $uid
      * @return bool|mixed
      */
-    public function setReadDb(int $read_item, int $post_id, int $uid)
+    public function setReadDb(int $read_item, int $post_id, ?int $uid = null)
     {
         if (empty($uid)) {
             if (\is_object($GLOBALS['xoopsUser'])) {
@@ -277,11 +277,11 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param array  $items
-     * @param string $uid
+     * @param array       $items
+     * @param string|null $uid
      * @return array
      */
-    public function isReadItemsDb(array $items, string $uid): array
+    public function isReadItemsDb(array $items, ?string $uid = null): array
     {
         $ret = [];
         if (empty($items)) {
