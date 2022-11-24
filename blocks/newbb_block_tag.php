@@ -45,9 +45,9 @@ function newbb_tag_block_cloud_edit(array $options): ?string
 /**#@+
  * Function to display top tag list
  * @param array $options
- * @return array|null|bool
+ * @return array|null
  */
-function newbb_tag_block_top_show(array $options)
+function newbb_tag_block_top_show(array $options): ?array
 {
     if ((!class_exists('TagFormTag')) || (class_exists('TagFormTag') && !@require $GLOBALS['xoops']->path('modules/tag/blocks/block.php'))) {
         return null;
@@ -60,7 +60,7 @@ function newbb_tag_block_top_show(array $options)
 
 /**
  * @param array $options
- * @return null|string
+ * @return string|null
  */
 function newbb_tag_block_top_edit(array $options): ?string
 {

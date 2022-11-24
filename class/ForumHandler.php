@@ -165,13 +165,13 @@ class ForumHandler extends \XoopsPersistableObjectHandler
     public function getAllTopics($forum, array $criteria = null): array
     {
         global $myts, $viewAllForums, $xoopsUser;
-        $startdate = '';
+        $startdate = 0;
         $type      = '';
         $status    = '';
-        $excerpt   = '';
+        $excerpt   = 0;
         $sort      = '';
         $order     = '';
-        $start     = '';
+        $start     = 0;
 
         require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.render.php');
         require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.session.php');
