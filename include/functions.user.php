@@ -22,10 +22,9 @@ use XoopsModules\Newbb\{
 };
 
 /** @var Helper $helper */
-
 /**
  * Function to a list of user names associated with their user IDs
- * @param array|int  $uid
+ * @param mixed[]|int $uid
  * @param bool  $usereal
  * @param bool $linked
  * @return array
@@ -100,7 +99,7 @@ function newbbIsAdministrator($user = -1, int $mid = 0): bool
 /**
  * Function to check if a user is a moderator of a forum
  *
- * @param mixed                        $forum
+ * @param mixed $forum
  * @param int|array |string|\XoopsUser $user
  * @return bool
  */
@@ -108,7 +107,7 @@ function newbbIsModerator(&$forum, $user = -1): bool
 {
     if (!is_object($forum)) {
         $forum_id = (int)$forum;
-        if (0 == $forum_id) {
+        if (0 === $forum_id) {
             return false;
         }
         $forumHandler = Helper::getInstance()->getHandler('Forum');
@@ -164,7 +163,10 @@ function newbbIsAdmin($forum = 0): bool
 /* use hardcoded DB query to save queries */
 /**
  * @param array $uid
+ *
  * @return array
+ *
+ * @psalm-return list<mixed>
  */
 function newbbIsModuleAdministrators(array $uid = []): array
 {
@@ -177,9 +179,9 @@ function newbbIsModuleAdministrators(array $uid = []): array
     /** @var \XoopsMembershipHandler $xoopsMembershipHandler */
     $xoopsMembershipHandler = xoops_getHandler('membership');
     $xoopsMembershipTable   = $xoopsMembershipHandler->table;
-    /** @var \XoopsGroupPermHandler $xoopsGroupPermHandler */
-    $xoopsGroupPermHandler = xoops_getHandler('groupperm');
-    $xoopsGroupPermTable   = $xoopsGroupPermHandler->table;
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
+    $xoopsGroupPermTable   = $grouppermHandler->table;
 
     if (!$uid) {
         return $module_administrators;
@@ -222,7 +224,7 @@ function newbbIsForumModerators(array $uid = [], int $mid = 0): array
 {
     $forum_moderators = [];
 
-    if (empty($uid)) {
+    if ($uid === []) {
         return $forum_moderators;
     }
 

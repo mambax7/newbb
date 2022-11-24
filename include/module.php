@@ -37,7 +37,8 @@ require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
 /**
  * @param XoopsModule     $module
  * @param string|int|null $oldversion
- * @return bool
+ *
+ * @return true
  */
 function xoops_module_update_newbb(\XoopsModule $module, $oldversion = null): bool
 {
@@ -85,7 +86,8 @@ function xoops_module_update_newbb(\XoopsModule $module, $oldversion = null): bo
 
 /**
  * @param XoopsModule $module
- * @return bool
+ *
+ * @return true
  */
 function xoops_module_pre_update_newbb(\XoopsModule $module): bool
 {
@@ -100,7 +102,8 @@ function xoops_module_pre_update_newbb(\XoopsModule $module): bool
 
 /**
  * @param XoopsModule $module
- * @return bool
+ *
+ * @return true
  */
 function xoops_module_pre_install_newbb(\XoopsModule $module): bool
 {
@@ -114,7 +117,8 @@ function xoops_module_pre_install_newbb(\XoopsModule $module): bool
 
 /**
  * @param XoopsModule $module
- * @return bool
+ *
+ * @return true
  */
 function xoops_module_install_newbb(\XoopsModule $module): bool
 {

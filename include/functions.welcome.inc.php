@@ -45,7 +45,8 @@ $categories = [];
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 
-$mod = @$moduleHandler->getByDirname('profile', true);
+$mod = @$moduleHandler->getByDirname('profile');
+$weights = null;
 if ($mod) {
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
@@ -76,7 +77,7 @@ if ($mod) {
 
     // Add core fields
     $categories[0]['cat_title'] = sprintf(_MD_NEWBB_AUTO_CREATE_ABOUT, $GLOBALS['xoopsUser']->getVar('uname'));
-    $avatar                     = trim($GLOBALS['xoopsUser']->getVar('user_avatar'));
+    $avatar                     = trim((string) $GLOBALS['xoopsUser']->getVar('user_avatar'));
     if (!empty($avatar) && 'blank.gif' !== $avatar) {
         $categories[0]['fields'][] = [
             'title' => _MD_NEWBB_AUTO_CREATE_AVATARS,

@@ -68,6 +68,7 @@ if (empty($topic_id)) {
 ///** @var Newbb\ForumHandler $forumHandler */
 //$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
 
+$topicObject = null;
 if (!$forum) {
     $topicObject = $topicHandler->get((int)$topic_id);
     if (is_object($topicObject)) {
@@ -96,6 +97,7 @@ $action_array = [
     'digest',
     'undigest',
 ];
+$action = null;
 foreach ($action_array as $_action) {
     $action[$_action] = [
         'name'   => $_action,
@@ -173,6 +175,7 @@ if (Request::getString('submit', '', 'POST')) {
     } elseif ('merge' === $mode) {
         //        $postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
         //        $rateHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Rate');
+        $newtopic = 0;
 
         foreach ($topic_id as $tid) {
             $topicObject    = $topicHandler->get($tid);

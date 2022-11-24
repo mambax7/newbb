@@ -181,7 +181,7 @@ switch ($op) {
                         $ids = $permHandler->getItemIds($perm, $group, $xoopsModule->getVar('mid'));
                         if (!in_array($forumObject->getVar('forum_id'), $ids, true)) {
                             if (empty($perm_template[$group][$perm])) {
-                                $permHandler->deleteRight($perm, $forumObject->getVar('forum_id'), $group, $xoopsModule->getVar('mid'));
+                                $permHandler->deleteRight($perm, (int)$forumObject->getVar('forum_id'), $group, $xoopsModule->getVar('mid'));
                             } else {
                                 $permHandler->addRight($perm, $forumObject->getVar('forum_id'), $group, $xoopsModule->getVar('mid'));
                             }
@@ -226,7 +226,7 @@ switch ($op) {
         $criteriaCategory = new \CriteriaCompo(new \Criteria('cat_id'));
         $criteriaCategory->setSort('cat_order');
         $categories = $categoryHandler->getList($criteriaCategory);
-        if (0 === count($categories)) {
+        if (0 === (is_countable($categories) ? count($categories) : 0)) {
             redirect_header('admin_cat_manager.php', 2, _AM_NEWBB_CREATENEWCATEGORY);
         }
 

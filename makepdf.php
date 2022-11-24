@@ -28,7 +28,7 @@ use XoopsModules\Newbb\{
 $moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-//use tecnickcom\TCPDF;
+use tecnickcom\tcpdf;
 
 // a complete rewrite by irmtfan to enhance: 1- RTL 2- Multilanguage (EMLH and Xlanguage)
 error_reporting(0);
@@ -121,9 +121,9 @@ if (function_exists('easiestml')) {
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
 // load $localLanguageOptions array with language specific definitions and apply
 //if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/config/lang/' . $GLOBALS['xoopsConfig']['language'] . '.php')) {
-//    require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/config/lang/' . $GLOBALS['xoopsConfig']['language'] . '.php';
+    //require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/config/lang/' . $GLOBALS['xoopsConfig']['language'] . '.php';
 //} else {
-//    require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/config/lang/english.php';
+    //require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/config/lang/english.php';
 //}
 // set some language dependent data:
 $lg                   = [];

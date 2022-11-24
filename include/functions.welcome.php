@@ -23,7 +23,9 @@ if (!defined('NEWBB_FUNCTIONS_WELCOME')) {
     define('NEWBB_FUNCTIONS_WELCOME', true);
 
     /**
-     * @return bool|string
+     * @return false|string
+     *
+     * @psalm-return ''|false
      */
     function newbbWelcome()
     {

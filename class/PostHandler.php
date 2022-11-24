@@ -37,7 +37,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
     /**
      * @param mixed $id
      * @param array $fields fields to fetch
-     * @return null|\XoopsObject
+     * @return \XoopsObject|null
      */
     public function get($id = null,  $fields = null): ?\XoopsObject //get($id)
     {
@@ -109,7 +109,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
      */
     public function getPostForPDF(Post $post): array
     {
-        return $post->getPostBody(true);
+        return $post->getPostBody();
     }
 
     /**
@@ -345,7 +345,8 @@ class PostHandler extends \XoopsPersistableObjectHandler
         $mytree = new Tree($this->db->prefix('newbb_posts'), 'post_id', 'pid');
         $arr    = $mytree->getAllChild($post->getVar('post_id'));
         // irmtfan - delete childs in a reverse order
-        for ($i = \count($arr) - 1; $i >= 0; $i--) {
+        for ($i = (is_countable($arr) ? \count($arr) : 0) - 1; $i >= 0; $i--) {
+            /** @var Post $childpost */
             $childpost = $this->create(false);
             $childpost->assignVars($arr[$i]);
             $this->delete($childpost, $force);
@@ -461,13 +462,12 @@ class PostHandler extends \XoopsPersistableObjectHandler
     }
 
     // START irmtfan enhance getPostCount when there is join (read_mode = 2)
-
     /**
      * @param \CriteriaElement|\CriteriaCompo|null $criteria
      * @param string|null                          $join
      * @return int|null
      */
-    public function getPostCount($criteria = null, string $join = null): ?int
+    public function getPostCount(\CriteriaElement $criteria = null, string $join = null): ?int
     {
         // if not join get the count from XOOPS/class/model/stats as before
         if (empty($join)) {
@@ -496,15 +496,14 @@ class PostHandler extends \XoopsPersistableObjectHandler
     /*
      * TODO: combining viewtopic.php
      */
-
     /**
      * @param \CriteriaElement|\CriteriaCompo|null $criteria
      * @param int                                  $limit
      * @param int                                  $start
-     * @param string|null                                 $join
+     * @param string|null                          $join
      * @return array
      */
-    public function getPostsByLimit($criteria = null, int $limit = 1, int $start = 0, ?string $join = null): array
+    public function getPostsByLimit(\CriteriaElement $criteria = null, int $limit = 1, int $start = 0, ?string $join = null): array
     {
         $ret = [];
         $sql = 'SELECT p.*, t.* ' . ' FROM ' . $this->db->prefix('newbb_posts') . ' AS p' . ' LEFT JOIN ' . $this->db->prefix('newbb_posts_text') . ' AS t ON t.post_id = p.post_id';
@@ -517,7 +516,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
         }
-        $result = $this->db->query($sql, (int)$limit, (int)$start);
+        $result = $this->db->query($sql, $limit, $start);
         if ($this->db->isResultSet($result)) {
             while (false !== ($myrow = $this->db->fetchArray($result))) {
                 $post = $this->create(false);

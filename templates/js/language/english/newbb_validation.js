@@ -19,12 +19,12 @@
 
 
 function validate(elName, elType, prevent, disablecat, elMsg) {
-    var i = 0;
-    var el = document.getElementsByName(elName);
-    var is_valid = true;
+    let i = 0;
+    let el = document.getElementsByName(elName);
+    let is_valid = true;
     switch (elType) {
         case 'checkbox':
-            var hasChecked = false;
+            let hasChecked = false;
             if (el.length) {
                 for (i = 0; i < el.length; i++) {
                     if (el[i].checked === true) {

@@ -31,7 +31,8 @@ namespace XoopsModules\Newbb\Common;
  */
 class Breadcrumb
 {
-    /** @var string */
+    /** @var string
+     * @readonly */
     private string $dirname;
     /** @var array */
     private array $bread = [];

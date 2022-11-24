@@ -117,6 +117,7 @@ function loadSampleData(): void
 
 function saveSampleData(): void
 {
+    $skipColumns = [];
     global $xoopsConfig;
     $moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -156,24 +157,26 @@ function exportSchema(): void
         //        $migrate->saveCurrentSchema();
         //
         //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
-    } catch (\Throwable $e) {
+    } catch (\Throwable $exception) {
         exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
     }
 }
 
 /**
- * loadTableFromArrayWithReplace
+ *  loadTableFromArrayWithReplace
  *
  * @param string $table  value with should be used insead of original value of $search
- *
  * @param array  $data   array of rows to insert
  *                       Each element of the outer array represents a single table row.
  *                       Each row is an associative array in 'column' => 'value' format.
  * @param string $search name of column for which the value should be replaced
- * @param string $replace
+ * @param int $replace
+ *
  * @return int number of rows inserted
+ *
+ * @psalm-return 0|positive-int
  */
-function loadTableFromArrayWithReplace(string $table, array $data, string $search, string $replace): int
+function loadTableFromArrayWithReplace(string $table, array $data, string $search, int $replace): int
 {
     /** @var \XoopsMySQLDatabase $db */
     $db = \XoopsDatabaseFactory::getDatabaseConnection();

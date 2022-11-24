@@ -53,7 +53,10 @@ function b_newbb_array_filter(int $var): bool
 
 /**
  * @param array $options
- * @return array|bool
+ *
+ * @return ((mixed|string)[][]|int|mixed)[]|false
+ *
+ * @psalm-return array{disp_mode?: mixed, topics?: non-empty-list<array{topic_subject: string, post_id: mixed, topic_status: mixed, forum_id: mixed, forum_name: string, id: mixed, title: string, replies: mixed, views: mixed, time: string, topic_poster: mixed|string, topic_page_jump: mixed, seo_url: mixed|string, seo_topic_url: mixed|string, seo_forum_url: mixed|string}>, seo_top_allforums?: mixed, seo_top_alltopics?: mixed, seo_top_allposts?: mixed, indexNav?: int}|false
  */
 function b_newbb_show(array $options )
 {
@@ -73,7 +76,6 @@ function b_newbb_show(array $options )
         $extraCriteria .= ' AND p.post_time>' . (time() - newbbGetSinceTime((int)$options[2]));
     }
     switch ($options[0]) {
-        case 'time':
         default:
             $order = 't.topic_last_post_id';
             break;
@@ -153,6 +155,7 @@ function b_newbb_show(array $options )
     require_once \dirname(__DIR__) . '/include/functions.user.php';
     $author_name = newbbGetUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
 
+    $type_list = null;
     if (count($types) > 0) {
         $typeHandler = Helper::getInstance()->getHandler('Type');
         assert($typeHandler instanceof TypeHandler);
@@ -183,7 +186,7 @@ function b_newbb_show(array $options )
         if (!empty($author_name[$arr['uid']])) {
             $topic_poster = $author_name[$arr['uid']];
         } else {
-            $topic_poster = htmlspecialchars((string)$arr['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous'], ENT_QUOTES | ENT_HTML5);
+            $topic_poster = htmlspecialchars((string) ((string)$arr['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous']), ENT_QUOTES | ENT_HTML5);
         }
         $topic['topic_poster']    = $topic_poster;
         $topic['topic_page_jump'] = $topic_page_jump;
@@ -229,9 +232,12 @@ function b_newbb_show(array $options )
 
 /**
  * @param array $options
- * @return array|bool
+ *
+ * @return ((mixed|string)[][]|int|mixed)[]|false
+ *
+ * @psalm-return array{disp_mode?: mixed, topics?: non-empty-list<array{topic_subject: string, forum_id: mixed, forum_name: string, id: mixed, title: string, replies: mixed, views: mixed, time: string, topic_poster: mixed|string, seo_topic_url: mixed|string, seo_forum_url: mixed|string}>, seo_top_allforums?: mixed, seo_top_alltopics?: mixed, seo_top_allposts?: mixed, indexNav?: int}|false
  */
-function b_newbb_topic_show($options)
+function b_newbb_topic_show(array $options)
 {
     global $accessForums;
     require_once \dirname(__DIR__) . '/include/functions.time.php';
@@ -322,6 +328,7 @@ function b_newbb_topic_show($options)
     }
     require_once \dirname(__DIR__) . '/include/functions.user.php';
     $author_name = newbbGetUnameFromIds(array_keys($author), (bool)$newbbConfig['show_realname'], true);
+    $type_list = null;
     if (count($types) > 0) {
         $typeHandler = Helper::getInstance()->getHandler('Type');
         assert($typeHandler instanceof TypeHandler);
@@ -348,7 +355,7 @@ function b_newbb_topic_show($options)
         if (!empty($author_name[$arr['topic_poster']])) {
             $topic_poster = $author_name[$arr['topic_poster']];
         } else {
-            $topic_poster = htmlspecialchars((string)$arr['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous'], ENT_QUOTES | ENT_HTML5);
+            $topic_poster = htmlspecialchars((string) ((string)$arr['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous']), ENT_QUOTES | ENT_HTML5);
         }
         $topic['topic_poster'] = $topic_poster;
         // irmtfan remove $topic_page_jump because there is no last post
@@ -391,7 +398,10 @@ function b_newbb_topic_show($options)
 
 /**
  * @param array $options
- * @return array
+ *
+ * @return ((mixed|string)[][]|int|mixed)[]
+ *
+ * @psalm-return array{disp_mode?: 3|mixed, topics?: non-empty-list<array{forum_id: mixed, forum_name: string, title: mixed|string, post_id: mixed, time: string, topic_poster: mixed|string, post_text?: mixed, seo_url: mixed|string, seo_forum_url: mixed|string}>, seo_top_allforums?: mixed, seo_top_alltopics?: mixed, seo_top_allposts?: mixed, indexNav?: int}
  */
 function b_newbb_post_show(array $options ): array
 {
@@ -505,14 +515,14 @@ function b_newbb_post_show(array $options ): array
         if (!empty($author_name[$arr['uid']])) {
             $topic_poster = $author_name[$arr['uid']];
         } else {
-            $topic_poster = htmlspecialchars((string)$arr['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous'], ENT_QUOTES | ENT_HTML5);
+            $topic_poster = htmlspecialchars((string) ((string)$arr['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous']), ENT_QUOTES | ENT_HTML5);
         }
         $topic['topic_poster'] = $topic_poster;
 
         if ('text' === $options[0]) {
             $post_text = $myts->displayTarea($arr['post_text'], $arr['dohtml'], $arr['dosmiley'], $arr['doxcode'], 1, $arr['dobr']);
             if (!empty($options[5])) {
-                $post_text = xoops_substr(strip_tags($post_text), 0, $options[5]);
+                $post_text = xoops_substr(strip_tags((string) $post_text), 0, $options[5]);
             }
             $topic['post_text'] = $post_text;
         }
@@ -557,7 +567,10 @@ function b_newbb_post_show(array $options ): array
 
 /**
  * @param array $options
- * @return array|bool
+ *
+ * @return ((mixed|string)[][]|int|mixed)[]|false
+ *
+ * @psalm-return array{authors?: array<array{count: mixed, name?: string}>, disp_mode?: mixed, indexNav?: int}|false
  */
 function b_newbb_author_show(array $options )
 {
@@ -923,7 +936,7 @@ function b_newbb_author_edit(array $options ): string
 }
 
 /**
- * @param array|string $options
+ * @param mixed[]|string $options
  * @return bool
  */
 function b_newbb_custom($options ): bool
@@ -933,17 +946,18 @@ function b_newbb_custom($options ): bool
 
     $options = explode('|', $options);
     $block   = b_newbb_show($options);
-    if (count($block['topics']) < 1) {
+    if ((is_countable($block['topics']) ? count($block['topics']) : 0) < 1) {
         return false;
     }
 
     $tpl = new \XoopsTpl();
     $tpl->assign('block', $block);
     $tpl->display('db:newbb_block.tpl');
+    return true;
 }
 
 /**
- * @param array|string $options
+ * @param mixed[]|string $options
  * @return bool
  */
 function b_newbb_custom_topic($options ): bool
@@ -954,17 +968,18 @@ function b_newbb_custom_topic($options ): bool
 
     $options = explode('|', $options);
     $block   = b_newbb_topic_show($options);
-    if (count($block['topics']) < 1) {
+    if ((is_countable($block['topics']) ? count($block['topics']) : 0) < 1) {
         return false;
     }
 
     $tpl = new \XoopsTpl();
     $tpl->assign('block', $block);
     $tpl->display('db:newbb_block_topic.tpl');
+    return true;
 }
 
 /**
- * @param array|string $options
+ * @param mixed[]|string $options
  * @return bool
  */
 function b_newbb_custom_post($options ): bool
@@ -975,17 +990,18 @@ function b_newbb_custom_post($options ): bool
 
     $options = explode('|', $options);
     $block   = b_newbb_post_show($options);
-    if (count($block['topics']) < 1) {
+    if ((is_countable($block['topics']) ? count($block['topics']) : 0) < 1) {
         return false;
     }
 
     $tpl = new \XoopsTpl();
     $tpl->assign('block', $block);
     $tpl->display('db:newbb_block_post.tpl');
+    return true;
 }
 
 /**
- * @param array|string $options
+ * @param mixed[]|string $options
  * @return bool
  */
 function b_newbb_custom_author($options ): bool
@@ -996,13 +1012,14 @@ function b_newbb_custom_author($options ): bool
 
     $options = explode('|', $options);
     $block   = b_newbb_author_show($options);
-    if (count($block['authors']) < 1) {
+    if ((is_countable($block['authors']) ? count($block['authors']) : 0) < 1) {
         return false;
     }
 
     $tpl = new \XoopsTpl();
     $tpl->assign('block', $block);
     $tpl->display('db:newbb_block_author.tpl');
+    return true;
 }
 
 // irmtfan add local stylesheet and js footer.php

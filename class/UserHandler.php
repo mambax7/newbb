@@ -22,10 +22,14 @@ class UserHandler
 {
     /** @var array */
     public array $users = [];
-    /** @var bool */
-    private bool $enableGroup;
-    /** @var bool */
-    private bool $enableOnline;
+    /**
+     * @readonly
+     */
+    private bool $enableGroup = true;
+    /**
+     * @readonly
+     */
+    private bool $enableOnline = true;
     /** @var array */
     private array $userlist = [];
     public array $online;
@@ -36,7 +40,7 @@ class UserHandler
      */
     public function __construct(bool $enableGroup = true, bool $enableOnline = true)
     {
-        $this->enableGroup  = $enableGroup;
+        $this->enableGroup = $enableGroup;
         $this->enableOnline = $enableOnline;
     }
 

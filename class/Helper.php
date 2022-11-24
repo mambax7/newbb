@@ -25,14 +25,16 @@ namespace XoopsModules\Newbb;
  */
 class Helper extends \Xmf\Module\Helper
 {
-    public $debug;
-
+    /**
+     * @var bool
+     */
+    public $debug = false;
     /**
      * @param bool $debug
      */
     public function __construct($debug = false)
     {
-        $this->debug   = $debug;
+        $this->debug = $debug;
         $moduleDirName = \basename(\dirname(__DIR__));
         parent::__construct($moduleDirName);
     }

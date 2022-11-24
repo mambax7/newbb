@@ -9,16 +9,15 @@ use XoopsModules\Newbb\{
 /** @var TopicHandler $topicsHandler */
 define('REAL_MODULE_NAME', 'modules/newbb');  //this is the Real Module directory
 define('SEO_MODULE_NAME', 'modules/newbb');  //this is SEO Name for rewrite Hack
-
 //ob_start('seo_urls');
-
 /**
  * @param string $s
- * @return array|string|string[]|null
+ *
+ * @return null|string
  */
-function seo_urls(string $s)
+function seo_urls(string $s): ?string
 {
-    $XPS_URL     = str_replace('/', '\/', quotemeta(XOOPS_URL));
+    $XPS_URL     = str_replace('/', '\/', quotemeta((string) XOOPS_URL));
     $module_name = str_replace('/', '\/', quotemeta(SEO_MODULE_NAME));
 
     $search = [
@@ -41,7 +40,7 @@ function seo_urls(string $s)
  * @param array $matches
  * @return string
  */
-function replace_links($matches): string
+function replace_links(array $matches): string
 {
     switch ($matches[5]) {
         case 'index.php':
@@ -49,9 +48,9 @@ function replace_links($matches): string
             $req_string = $matches[6];
             if (!empty($matches[6])) {
                 //                replacing cat=x
-                if (preg_match('/cat=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 'c-' . $mvars[1] . '/' . forum_seo_cat($mvars[1]) . '';
-                    $req_string = preg_replace('/cat=\d+/', '', $matches[6]);
+                if (preg_match('/cat=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 'c-' . $mvars[1] . '/' . forum_seo_cat((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/cat=\d+/', '', (string) $matches[6]);
                 } else {
                     return $matches['0'];
                 }
@@ -62,9 +61,9 @@ function replace_links($matches): string
             $req_string = $matches[6];
             if (!empty($matches[6])) {
                 //                replacing status=x
-                if (preg_match('/status=([a-z]+)/', $matches[6], $mvars)) {
+                if (preg_match('/status=([a-z]+)/', (string) $matches[6], $mvars)) {
                     $add_to_url = 'viewpost.php' . $matches[6];
-                    $req_string = preg_replace('/status=([a-z])+/', '', $matches[6]);
+                    $req_string = preg_replace('/status=([a-z])+/', '', (string) $matches[6]);
                 } else {
                     return $matches['0'];
                 }
@@ -77,22 +76,22 @@ function replace_links($matches): string
             $req_string = $matches[6];
             if (!empty($matches[6])) {
                 //                replacing c=x
-                if (preg_match('/c=(\d+)/', $matches[6], $mvars)) {
+                if (preg_match('/c=(\d+)/', (string) $matches[6], $mvars)) {
                     $add_to_url = 'rc-';
                     if ($mvars[1] > 0) {
-                        $add_to_url .= $mvars[1] . '/' . forum_seo_cat($mvars[1]) . '';
+                        $add_to_url .= $mvars[1] . '/' . forum_seo_cat((int)$mvars[1]) . '';
                     } else {
                         $add_to_url .= $mvars[1] . '/rss.html';
                     }
-                    $req_string = preg_replace('/c=\d+/', '', $matches[6]);
-                } elseif (preg_match('/f=(\d+)/', $matches[6], $mvars)) {
+                    $req_string = preg_replace('/c=\d+/', '', (string) $matches[6]);
+                } elseif (preg_match('/f=(\d+)/', (string) $matches[6], $mvars)) {
                     $add_to_url = 'rf-';
                     if ($mvars[1] > 0) {
-                        $add_to_url .= $mvars[1] . '/' . forum_seo_forum($mvars[1]) . '';
+                        $add_to_url .= $mvars[1] . '/' . forum_seo_forum((int)$mvars[1]) . '';
                     } else {
                         $add_to_url .= $mvars[1] . '/rss.html';
                     }
-                    $req_string = preg_replace('/f=\d+/', '', $matches[6]);
+                    $req_string = preg_replace('/f=\d+/', '', (string) $matches[6]);
                 } else {
                     return $matches['0'];
                 }
@@ -104,9 +103,9 @@ function replace_links($matches): string
             $req_string = $matches[6];
             if (!empty($matches[6])) {
                 //                replacing forum=x
-                if (preg_match('/forum=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 'f-' . $mvars[1] . '/' . forum_seo_forum($mvars[1]) . '';
-                    $req_string = preg_replace('/forum=\d+/', '', $matches[6]);
+                if (preg_match('/forum=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 'f-' . $mvars[1] . '/' . forum_seo_forum((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/forum=\d+/', '', (string) $matches[6]);
                 } else {
                     return $matches['0'];
                 }
@@ -117,13 +116,13 @@ function replace_links($matches): string
             $req_string = $matches[6];
             if (!empty($matches[6])) {
                 //                replacing topic_id=x
-                if (preg_match('/topic_id=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 't-' . $mvars[1] . '/' . forum_seo_topic($mvars[1]) . '';
-                    $req_string = preg_replace('/topic_id=\d+/', '', $matches[6]);
+                if (preg_match('/topic_id=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 't-' . $mvars[1] . '/' . forum_seo_topic((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/topic_id=\d+/', '', (string) $matches[6]);
                 } //replacing post_id=x
-                elseif (preg_match('/post_id=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 'p-' . $mvars[1] . '/' . forum_seo_post($mvars[1]) . '';
-                    $req_string = preg_replace('/post_id=\d+/', '', $matches[6]);
+                elseif (preg_match('/post_id=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 'p-' . $mvars[1] . '/' . forum_seo_post((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/post_id=\d+/', '', (string) $matches[6]);
                 } else {
                     return $matches['0'];
                 }
@@ -134,13 +133,13 @@ function replace_links($matches): string
             $req_string = $matches[6];
             if (!empty($matches[6])) {
                 //                replacing topic_id=x
-                if (preg_match('/topic_id=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 'pr-' . $mvars[1] . '/' . forum_seo_topic($mvars[1]) . '';
-                    $req_string = preg_replace('/topic_id=\d+/', '', $matches[6]);
+                if (preg_match('/topic_id=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 'pr-' . $mvars[1] . '/' . forum_seo_topic((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/topic_id=\d+/', '', (string) $matches[6]);
                 } //replacing post_id=x
-                elseif (preg_match('/post_id=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 'pr-' . $mvars[1] . '/' . forum_seo_post($mvars[1]) . '';
-                    $req_string = preg_replace('/post_id=\d+/', '', $matches[6]);
+                elseif (preg_match('/post_id=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 'pr-' . $mvars[1] . '/' . forum_seo_post((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/post_id=\d+/', '', (string) $matches[6]);
                 } else {
                     return $matches['0'];
                 }
@@ -151,13 +150,13 @@ function replace_links($matches): string
             $req_string = $matches[6];
             if (!empty($matches[6])) {
                 //                replacing topic_id=x
-                if (preg_match('/topic_id=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 'pdf-' . $mvars[1] . '/' . forum_seo_topic($mvars[1]) . '';
-                    $req_string = preg_replace('/topic_id=\d+/', '', $matches[6]);
+                if (preg_match('/topic_id=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 'pdf-' . $mvars[1] . '/' . forum_seo_topic((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/topic_id=\d+/', '', (string) $matches[6]);
                 } //replacing post_id=x
-                elseif (preg_match('/post_id=(\d+)/', $matches[6], $mvars)) {
-                    $add_to_url = 'pdf-' . $mvars[1] . '/' . forum_seo_post($mvars[1]) . '';
-                    $req_string = preg_replace('/post_id=\d+/', '', $matches[6]);
+                elseif (preg_match('/post_id=(\d+)/', (string) $matches[6], $mvars)) {
+                    $add_to_url = 'pdf-' . $mvars[1] . '/' . forum_seo_post((int)$mvars[1]) . '';
+                    $req_string = preg_replace('/post_id=\d+/', '', (string) $matches[6]);
                 } else {
                     return $matches['0'];
                 }
@@ -285,9 +284,10 @@ function forum_seo_post(int $_cat_id)
 /**
  * @param string $title
  * @param bool   $withExt
- * @return array|string|string[]|null
+ *
+ * @return null|string
  */
-function forum_seo_title(string $title = '', bool $withExt = true)
+function forum_seo_title(string $title = '', bool $withExt = true): ?string
 {
     /**
      * if XOOPS ML is present, let's sanitize the title with the current language
@@ -299,7 +299,7 @@ function forum_seo_title(string $title = '', bool $withExt = true)
 
     // Convert string to lowercase
     // Coding of the string to avoid 500 errors in case of unexpected characters
-    $title = rawurlencode(mb_strtolower($title));
+    $title = rawurlencode(mb_strtolower((string) $title));
 
     // Transformation of punctuations
     //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
@@ -428,7 +428,7 @@ function forum_seo_title(string $title = '', bool $withExt = true)
     $string = preg_replace('#[^a-z0-9\-\.]#si', '', $string);
     $title  = str_replace('\/','', $string);  */
 
-    if (count($title) > 0) {
+    if (($title === null ? 0 : count($title)) > 0) {
         if ($withExt) {
             $title .= '.html';
         }

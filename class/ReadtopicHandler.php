@@ -39,6 +39,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
      * assigned from $GLOBALS['xoopsModuleConfig']["read_items"]
      *
      * @var int
+     * @readonly
      */
     private int $items_per_forum;
 

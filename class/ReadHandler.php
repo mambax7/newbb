@@ -120,9 +120,8 @@ class ReadHandler extends \XoopsPersistableObjectHandler
     }
 
     // END irmtfan rephrase function to 1- add clearDuplicate and 2- don't clean when read_expire = 0
-
     /**
-     * @param int|string      $read_item
+     * @param int      $read_item
      * @param int|null $uid
      * @return bool|int
      */

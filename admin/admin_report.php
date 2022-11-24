@@ -39,7 +39,7 @@ switch ($op) {
         $reportArray = Request::getArray('report_id', '', 'POST');
         //        $reportArray = Request::getInt('report_id', 0, 'POST'); //$_POST['report_id'];
         // irmtfan add error redirect header
-        if (0 === count($reportArray)) {
+        if (0 === (is_countable($reportArray) ? count($reportArray) : 0)) {
             redirect_header("admin_report.php?item={$item}" . (empty($start) ? '' : "&start={$start}"), 1, _AM_NEWBB_REPORTNOTSELECT);
         }
         $report_memos = Request::getArray('report_memo', [], 'POST'); // isset($_POST['report_memo']) ? $_POST['report_memo'] : array();
@@ -58,7 +58,7 @@ switch ($op) {
     case 'delete':
         $reportArray = Request::getArray('report_id', [], 'POST'); // $_POST['report_id'];
         // irmtfan add error redirect header
-        if (0 === count($reportArray)) {
+        if (0 === (is_countable($reportArray) ? count($reportArray) : 0)) {
             redirect_header("admin_report.php?item={$item}" . (empty($start) ? '' : "&start={$start}"), 1, _AM_NEWBB_REPORTNOTSELECT);
         }
         foreach ($reportArray as $rid => $value) {
@@ -127,7 +127,7 @@ switch ($op) {
             echo '<td>' . _AM_NEWBB_REPORTTEXT . ': ' . htmlspecialchars((string)$report['report_text'], ENT_QUOTES | ENT_HTML5) . '</td>';
             $uid           = (int)$report['reporter_uid'];
             $reporter_name = newbbGetUnameFromId($uid, $GLOBALS['xoopsModuleConfig']['show_realname']);
-            $reporter      = !empty($uid) ? "<a href='" . XOOPS_URL . '/userinfo.php?uid=' . $uid . "'>" . $reporter_name . '</a><br>' : '';
+            $reporter      = $uid !== 0 ? "<a href='" . XOOPS_URL . '/userinfo.php?uid=' . $uid . "'>" . $reporter_name . '</a><br>' : '';
             echo "<td style='text-align:center;'>" . $reporter . $report['reporter_ip'] . '</td>';
             echo '</tr>';
             echo "<tr class='odd' style='text-align:left;'>";

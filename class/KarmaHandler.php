@@ -16,9 +16,9 @@ class KarmaHandler
      * @param \XoopsUser|null $user
      * @return int
      */
-    public function getUserKarma(\XoopsUser $user = null)
+    public function getUserKarma(\XoopsUser $user = null): int
     {
-        $user = $user ?? $GLOBALS['xoopsUser'];
+        $user ??= $GLOBALS['xoopsUser'];
 
         return $this->calculateUserKarma($user);
     }
@@ -28,7 +28,7 @@ class KarmaHandler
      * @param \XoopsUser|null $user
      * @return int
      */
-    public function calculateUserKarma(\XoopsUser $user = null)
+    public function calculateUserKarma(\XoopsUser $user = null): int
     {
         if (\is_object($user)) {
             $user_karma = $user->getVar('posts') * 50;

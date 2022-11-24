@@ -63,7 +63,9 @@ function newbb_admin_chmod(string $target, int $mode = 0777): bool
 }
 
 /**
- * @return array
+ * @return (mixed|string)[]
+ *
+ * @psalm-return array{imagemagick?: string, netpbm?: string, gd?: mixed}
  */
 function newbb_getImageLibs(): array
 {
@@ -72,7 +74,7 @@ function newbb_getImageLibs(): array
     if (1 == $GLOBALS['xoopsModuleConfig']['image_lib'] || 0 == $GLOBALS['xoopsModuleConfig']['image_lib']) {
         $path = empty($GLOBALS['xoopsModuleConfig']['path_magick']) ? '' : $GLOBALS['xoopsModuleConfig']['path_magick'] . '/';
         @exec($path . 'convert -version', $output, $status);
-        if (empty($status) && !empty($output) && preg_match("/imagemagick[ \t]+([0-9\.]+)/i", $output[0], $matches)) {
+        if ($status === 0 && $output !== [] && preg_match("/imagemagick[ \t]+([0-9\.]+)/i", $output[0], $matches)) {
             $imageLibs['imagemagick'] = $matches[0];
         }
 
@@ -81,7 +83,7 @@ function newbb_getImageLibs(): array
     if (2 == $GLOBALS['xoopsModuleConfig']['image_lib'] || 0 == $GLOBALS['xoopsModuleConfig']['image_lib']) {
         $path = empty($GLOBALS['xoopsModuleConfig']['path_netpbm']) ? '' : $GLOBALS['xoopsModuleConfig']['path_netpbm'] . '/';
         @exec($path . 'jpegtopnm -version 2>&1', $output, $status);
-        if (empty($status) && !empty($output) && preg_match("/netpbm[ \t]+([0-9\.]+)/i", $output[0], $matches)) {
+        if ($status === 0 && $output !== [] && preg_match("/netpbm[ \t]+([0-9\.]+)/i", $output[0], $matches)) {
             $imageLibs['netpbm'] = $matches[0];
         }
         unset($output, $status);
@@ -185,24 +187,24 @@ Utility::cleanCache();
  * @param bool   $b
  * @return int|string
  */
-function return_bytes($sizeAsString, bool $b = false)
+function return_bytes(string $sizeAsString, bool $b = false)
 {
     if ($b) {
         $base   = log((int)$sizeAsString) / log(1024);
         $suffix = ['', 'KB', 'MB', 'GB', 'TB'];
 
-        return round(pow(1024, $base - floor($base))) . ' ' . $suffix[(int)floor($base)];
+        return round(1024 ** ($base - floor($base))) . ' ' . $suffix[(int)floor($base)];
     }
     switch (mb_substr($sizeAsString, -1)) {
         case 'M':
         case 'm':
-            return (int)$sizeAsString * 1048576;
+            return (int)$sizeAsString * 1_048_576;
         case 'K':
         case 'k':
             return (int)$sizeAsString * 1024;
         case 'G':
         case 'g':
-            return (int)$sizeAsString * 1073741824;
+            return (int)$sizeAsString * 1_073_741_824;
         default:
             return $sizeAsString;
     }

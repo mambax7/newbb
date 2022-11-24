@@ -28,9 +28,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param string|null $perm
-     * @return mixed
+     * @return array
      */
-    public function getIdsByPermission(?string $perm)
+    public function getIdsByPermission(?string $perm): array
     {
         $perm ??= 'access';
         /** var Newbb\PermissionHandler $permHandler */
@@ -146,9 +146,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param Category $category
-     * @return mixed
+     * @return bool
      */
-    public function applyPermissionTemplate(Category $category)
+    public function applyPermissionTemplate(Category $category): bool
     {
         /** @var PermissionHandler $permHandler */
         $permHandler = Helper::getInstance()->getHandler('Permission');

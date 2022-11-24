@@ -43,7 +43,7 @@ if (Request::hasVar('submit', 'POST') && Request::getInt('expire', 0, 'POST')) {
     if (0 == $forum_userid) {
         $ipWithMask = Request::getString('ip', null, 'POST');
         $mask       = '';
-        $ipParts    = explode('/', $ipWithMask);
+        $ipParts    = explode('/', (string) $ipWithMask);
         $ip         = new IPAddress($ipParts[0]);
         if (false !== $ip->asReadable()) {
             $ipWithMask = $ip->asReadable();
@@ -115,6 +115,8 @@ if ($forum_id) {
 }
 $xoopsTpl->assign('moderate_url', $url);
 
+$columnHeaders = null;
+$row = null;
 if (!empty($moderate_count)) {
     $_users = [];
     foreach (array_keys($moderateObjects) as $id) {

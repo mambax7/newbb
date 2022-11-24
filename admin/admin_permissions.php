@@ -52,7 +52,7 @@ if (!class_exists('XoopsGroupPermForm')) {
 global $xoopsModule, $adminObject;
 
 //$action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : "";
-$action            = \mb_strtolower(Request::getCmd('action', ''));
+$action            = \mb_strtolower((string) Request::getCmd('action', ''));
 $module_id         = $xoopsModule->getVar('mid');
 
 /** @var PermissionHandler $permissionHandler */
@@ -96,13 +96,13 @@ switch ($action) {
             $option_ids = [];
             foreach ($perms as $perm) {
                 ++$ii;
-                if (0 == $ii % 5) {
+                if (0 === $ii % 5) {
                     $ret_ele .= '</tr><tr>';
                 }
                 $checked      = in_array('forum_' . $perm, $selected, true) ? ' checked' : '';
                 $option_id    = $perm . '_' . $i;
                 $option_ids[] = $option_id;
-                $ret_ele      .= '<td><input name="perms[' . $i . '][' . 'forum_' . $perm . ']" id="' . $option_id . '" onclick="" value="1" type="checkbox"' . $checked . '>' . constant('_AM_NEWBB_CAN_' . \mb_strtoupper($perm)) . '<br></td>';
+                $ret_ele      .= '<td><input name="perms[' . $i . '][' . 'forum_' . $perm . ']" id="' . $option_id . '" onclick="" value="1" type="checkbox"' . $checked . '>' . constant('_AM_NEWBB_CAN_' . \mb_strtoupper((string) $perm)) . '<br></td>';
             }
             $ret_ele    .= '</tr></table></td><td class="even">';
             $ret_ele    .= _ALL . ' <input id="checkall[' . $i . ']" type="checkbox" value="" onclick="var optionids = new Array(' . implode(', ', $option_ids) . '); xoopsCheckAllElements(optionids, \'checkall[' . $i . ']\')" >';
@@ -190,6 +190,7 @@ switch ($action) {
             break;
         }
         foreach (Request::getArray('forums', '', 'POST') as $forum) {
+            $forum = (int)($forum);
             if ($forum < 1) {
                 continue;
             }
@@ -207,7 +208,7 @@ switch ($action) {
         $criteriaCategory->setSort('cat_order');
         $categories = $categoryHandler->getList($criteriaCategory);
 
-        if (0 === count($categories)) {
+        if (0 === (is_countable($categories) ? count($categories) : 0)) {
             redirect_header('admin_cat_manager.php', 2, _AM_NEWBB_CREATENEWCATEGORY);
         }
 
@@ -244,9 +245,9 @@ switch ($action) {
             ],
         ];
         foreach ($perms as $perm) {
-            $op_options[$perm] = constant('_AM_NEWBB_CAN_' . \mb_strtoupper($perm));
+            $op_options[$perm] = constant('_AM_NEWBB_CAN_' . \mb_strtoupper((string) $perm));
             $fm_options[$perm] = [
-                'title'     => constant('_AM_NEWBB_CAN_' . \mb_strtoupper($perm)),
+                'title'     => constant('_AM_NEWBB_CAN_' . \mb_strtoupper((string) $perm)),
                 'item'      => 'forum_' . $perm,
                 'desc'      => '',
                 'anonymous' => true,
@@ -254,14 +255,14 @@ switch ($action) {
         }
 
         $op_keys = array_keys($op_options);
-        $op      = \mb_strtolower(Request::getCmd('op', Request::getCmd('op', '', 'COOKIE'), 'GET'));
-        if (empty($op)) {
+        $op      = \mb_strtolower((string) Request::getCmd('op', Request::getCmd('op', '', 'COOKIE'), 'GET'));
+        if (($op === '' || $op === '0')) {
             $op = $op_keys[0];
 //            setcookie('op', $op_keys[1] ?? '');
-            setcookie('op', (string)$op_keys[1], (int)ini_get('session.cookie_lifetime'), (string)ini_get('session.cookie_path'), (string)ini_get('session.cookie_domain'), (bool)ini_get('session.cookie_secure'), (bool)ini_get('session.cookie_httponly'));
+            setcookie('op', (string)$op_keys[1], ['expires' => (int)ini_get('session.cookie_lifetime'), 'path' => (string)ini_get('session.cookie_path'), 'domain' => (string)ini_get('session.cookie_domain'), 'secure' => (bool)ini_get('session.cookie_secure'), 'httponly' => (bool)ini_get('session.cookie_httponly')]);
         } elseif (false !== ($key = array_search($op, $op_keys, true))) {
 //            setcookie('op', $op_keys[$key + 1] ?? '');
-            setcookie('op', (string)$op_keys[$key + 1], (int)ini_get('session.cookie_lifetime'), (string)ini_get('session.cookie_path'), (string)ini_get('session.cookie_domain'), (bool)ini_get('session.cookie_secure'), (bool)ini_get('session.cookie_httponly'));
+            setcookie('op', (string)$op_keys[$key + 1], ['expires' => (int)ini_get('session.cookie_lifetime'), 'path' => (string)ini_get('session.cookie_path'), 'domain' => (string)ini_get('session.cookie_domain'), 'secure' => (bool)ini_get('session.cookie_secure'), 'httponly' => (bool)ini_get('session.cookie_httponly')]);
         }
 
         $opform    = new \XoopsSimpleForm('', 'opform', 'admin_permissions.php', 'get');

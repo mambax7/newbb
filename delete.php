@@ -11,6 +11,7 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Forum,
     OnlineHandler,
     Post,
     StatsHandler

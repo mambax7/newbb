@@ -26,7 +26,7 @@ require_once __DIR__ . '/header.php';
 
 $topic_id = Request::getInt('topic_id', 0, 'POST');
 $post_id  = Request::getArray('post_id', Request::getArray('post_id', [], 'POST'), 'GET');
-// Change by BigKev73, changed this code back to what this was before as with this following change, trying to permanately delete a deleted post reports no selection made.
+// Change by BigKev73, changed this code back to what this was before as with this following change, trying to permanently delete a deleted post reports no selection made.
 //$post_id = Request::getInt('post_id', 0, 'GET');
 //if (Request::hasVar('post_id', 'POST')) {
 //    Request::getArray('post_id', $post_id, 'POST');
@@ -40,7 +40,7 @@ $op   = Request::getCmd('op', Request::getCmd('op', '', 'POST'), 'GET');
 $op   = in_array($op, ['approve', 'delete', 'restore', 'split'], true) ? $op : '';
 $mode = Request::getInt('mode', 1, 'GET');
 
-if (0 === count($post_id) || '' === $op) {
+if (0 === (is_countable($post_id) ? count($post_id) : 0) || '' === $op) {
     // irmtfan - issue with javascript:history.go(-1)
     redirect_header(Request::getString('HTTP_REFERER', '', 'SERVER'), 2, \_MD_NEWBB_NO_SELECTION);
 }
@@ -58,6 +58,7 @@ if (0 === $topic_id) {
     $forumObject = $forumHandler->get($forum_id);
 }
 
+$isAdmin = null;
 if (assert($forumObject instanceof Forum)) {
     $isAdmin = newbbIsAdmin($forumObject);
 }
@@ -66,6 +67,7 @@ if (!$isAdmin) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);
 }
 
+$post_update2 = null;
 switch ($op) {
     case 'restore':
         $post_id = array_values($post_id);
@@ -203,7 +205,7 @@ switch ($op) {
             require_once $GLOBALS['xoops']->path('class/xoopstree.php');
             $mytree = new Tree($GLOBALS['xoopsDB']->prefix('newbb_posts'), 'post_id', 'pid');
             $posts  = $mytree->getAllChildId($post_id);
-            if (count($posts) > 0) {
+            if ((is_countable($posts) ? count($posts) : 0) > 0) {
                 $criteria = new \Criteria('post_id', '(' . implode(',', $posts) . ')', 'IN');
                 $postHandler->updateAll('topic_id', $new_topic_id, $criteria, true);
             }

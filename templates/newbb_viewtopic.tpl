@@ -328,7 +328,7 @@ xoopsGetElementById('aktuell').scrollIntoView(true);
 <{* START irmtfan add scroll js function to scroll down to current post or top of the topic *}>
 <script type="text/javascript">
     if (document.body.scrollIntoView && window.location.href.indexOf('#') == -1) {
-        var el = xoopsGetElementById('<{$forum_post_prefix|default:''}><{$post_id}>');
+        let el = xoopsGetElementById('<{$forum_post_prefix|default:''}><{$post_id}>');
         if (el) {
             el.scrollIntoView(true);
         }

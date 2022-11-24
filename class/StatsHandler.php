@@ -74,7 +74,7 @@ class StatsHandler
         $id        = (int)$id;
         $increment = (int)$increment;
 
-        if (empty($increment) || false === ($type = \array_search($type, $this->param['type'], true))) {
+        if ($increment !== 0 || false === ($type = \array_search($type, $this->param['type'], true))) {
             return false;
         }
 
@@ -107,7 +107,7 @@ class StatsHandler
                       . "', NOW(), '%Y%m')";
             $result = $this->db->queryF($sql);
         }
-        if ($rows < 2 * \count($this->param['period']) && !empty($id)) {
+        if ($rows < 2 * (is_countable($this->param['period']) ? \count($this->param['period']) : 0) && !empty($id)) {
             $sql    = "    INSERT INTO {$this->table}"
                       . '        (`stats_id`, `stats_value`, `stats_type`, `stats_period`, `time_update`, `time_format`) '
                       . '    VALUES '
@@ -129,12 +129,15 @@ class StatsHandler
     }
 
     /**
-     * Get stats of "Today"
+     *  Get stats of "Today"
      *
      * @param array $ids     ID of forum: > 0, forum; 0 - global; empty - all
      * @param array $types   type of stats items: 1 - topic; 2 - post; 3 - digest; 4 - click; empty - all
      * @param array $periods time period: 1 - all time; 2 - today; 3 - this week; 4 - this month; empty - all
-     * @return array
+     *
+     * @return array[][]
+     *
+     * @psalm-return array<string, array<array>>
      */
     public function getStats(array $ids = [], array $types = [], array $periods = []): array
     {
@@ -148,13 +151,13 @@ class StatsHandler
         foreach ($periods as $period) {
             $_periods[] = \array_search($period, $this->param['period'], true);
         }
-        $sql    = '    SELECT stats_id, stats_value, stats_type, stats_period ' . "    FROM {$this->table} " . '    WHERE ' . "        ( time_format = '' OR DATE_FORMAT(time_update, time_format) = DATE_FORMAT(NOW(), time_format) ) " . '        ' . (empty($ids) ? '' : 'AND stats_id IN (' . \implode(
+        $sql    = '    SELECT stats_id, stats_value, stats_type, stats_period ' . "    FROM {$this->table} " . '    WHERE ' . "        ( time_format = '' OR DATE_FORMAT(time_update, time_format) = DATE_FORMAT(NOW(), time_format) ) " . '        ' . ($ids === [] ? '' : 'AND stats_id IN (' . \implode(
                     ', ',
                     \array_map(
                         '\intval',
                         $ids
                     )
-                ) . ')') . '        ' . (empty($_types) ? '' : 'AND stats_type IN (' . \implode(', ', $_types) . ')') . '        ' . (empty($_periods) ? '' : 'AND stats_period IN (' . \implode(', ', $_periods) . ')');
+                ) . ')') . '        ' . ($_types === [] ? '' : 'AND stats_type IN (' . \implode(', ', $_types) . ')') . '        ' . ($_periods === [] ? '' : 'AND stats_period IN (' . \implode(', ', $_periods) . ')');
         $result = $this->db->query($sql);
         if ($this->db->isResultSet($result)) {
             while (false !== ($row = $this->db->fetchArray($result))) {

@@ -33,7 +33,10 @@ class XmlrssHandler
 
     /**
      * @param \XoopsModules\Newbb\Xmlrss $rss
-     * @return array
+     *
+     * @return (array|int|string)[]
+     *
+     * @psalm-return array{xml_version: string, xml_encoding: string, rss_version: string, channel_title: string, channel_link: string, channel_desc: string, channel_lastbuild: string, channel_webmaster: string, channel_editor: string, channel_category: string, channel_generator: string, channel_language: string, image_title: string, image_url: string, image_link: string, image_width: int, image_height: int, items: array}
      */
     public function get(Xmlrss $rss): array
     {

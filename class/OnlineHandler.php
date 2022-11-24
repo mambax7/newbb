@@ -27,6 +27,10 @@ class OnlineHandler
 {
     public ?XoopsDatabase $db;
     public int            $forum_id;
+
+    /**
+     * @var Forum|int|null|string
+     */
     public           $forumObject;
     public int            $topic_id;
     public array          $user_ids = [];
@@ -160,7 +164,11 @@ class OnlineHandler
     }
 
     /**
-     * Deprecated
+     *  Deprecated
+     *
+     * @return ((int|mixed|string)[][]|int|mixed)[]
+     *
+     * @psalm-return array{image: mixed, statistik: mixed, num_total: 0|positive-int, num_user: 0|positive-int, num_anonymous: int, users?: non-empty-list<array{link: string, uname: mixed, level: 0|1|2}>}
      */
     public function showOnline(): array
     {
@@ -250,7 +258,7 @@ class OnlineHandler
         [$count] = $this->db->fetchRow($result);
         if ($count > 0) {
             $sql = 'UPDATE ' . $this->db->prefix('newbb_online') . " SET online_updated= '" . $time . "', online_forum = '" . $forum_id . "', online_topic = '" . $topic_id . "' WHERE online_uid = " . $uid;
-            if (0 == $uid) {
+            if (0 === $uid) {
                 $sql .= " AND online_ip='" . $ip . "'";
             }
         } else {
@@ -306,10 +314,13 @@ class OnlineHandler
     }
 
     /**
-     * Get an array of online information
+     *  Get an array of online information
      *
      * @param \CriteriaElement|null $criteria {@link \CriteriaElement}
-     * @return array           Array of associative arrays of online information
+     *
+     * @return array Array of associative arrays of online information
+     *
+     * @psalm-return list<mixed>
      */
     public function getAll(\CriteriaElement $criteria = null): array
     {
@@ -338,7 +349,10 @@ class OnlineHandler
 
     /**
      * @param array $uids
-     * @return array
+     *
+     * @return int[]
+     *
+     * @psalm-return array<1>
      */
     public function checkStatus(array $uids): array
     {
@@ -348,7 +362,7 @@ class OnlineHandler
             $online_users = $this->user_ids;
         } else {
             $sql = 'SELECT online_uid FROM ' . $this->db->prefix('newbb_online');
-            if (!empty($uids)) {
+            if ($uids !== []) {
                 $sql .= ' WHERE online_uid IN (' . \implode(', ', \array_map('\intval', $uids)) . ')';
             }
 
@@ -371,9 +385,10 @@ class OnlineHandler
     }
 
     /**
-     * Count the number of online users
+     *  Count the number of online users
      *
-     * @param \CriteriaElement|\CriteriaCompo|null $criteria {@link \CriteriaElement}
+     * @param \CriteriaElement|null $criteria
+     *
      * @return bool
      */
     public function getCount(\CriteriaElement $criteria = null): bool

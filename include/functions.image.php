@@ -23,6 +23,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) {
      */
     function newbbAttachmentImage(string $source): string
     {
+        $pseudo_size = null;
         $img_path   = $GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments']);
         $img_url    = XOOPS_URL . '/' . $GLOBALS['xoopsModuleConfig']['dir_attachments'];
         $thumb_path = $img_path . '/thumbs';

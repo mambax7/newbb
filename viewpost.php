@@ -44,6 +44,8 @@ $mode   = (!empty($status) && in_array($status, ['active', 'pending', 'deleted']
 ///** @var Newbb\PostHandler $postHandler */
 //$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
 
+$forumObject = null;
+$forums = null;
 if (empty($forum_id)) {
     $forums       = $forumHandler->getByPermission(0, 'view');
     $accessForums = array_keys($forums);
@@ -117,7 +119,7 @@ switch ($status) {
             // START irmtfan fix read_mode = 1 bugs - for all users (member and anon)
             $topics         = [];
             $topic_lastread = newbbGetCookie('LT', true);
-            if (count($topic_lastread) > 0) {
+            if ((is_countable($topic_lastread) ? count($topic_lastread) : 0) > 0) {
                 foreach ($topic_lastread as $id => $time) {
                     if ($time > (int)$last_visit) {
                         $topics[] = $id;
@@ -159,14 +161,14 @@ $postCount = $postHandler->getPostCount($criteria_count, $join); // irmtfan add 
 $posts     = $postHandler->getPostsByLimit($criteria_post, $post_perpage, $start, $join); // irmtfan add join for read_mode = 2
 
 $poster_array = [];
-if (count($posts) > 0) {
+if ((is_countable($posts) ? count($posts) : 0) > 0) {
     foreach (array_keys($posts) as $id) {
         $poster_array[$posts[$id]->getVar('uid')] = 1;
     }
 }
 
-$xoops_pagetitle                = $xoopsModule->getVar('name') . ' - ' . _MD_NEWBB_VIEWALLPOSTS;
-$xoopsOption['xoops_pagetitle'] = $xoops_pagetitle;
+$xoopsPageTitle                = $xoopsModule->getVar('name') . ' - ' . _MD_NEWBB_VIEWALLPOSTS;
+$xoopsOption['xoops_pagetitle'] = $xoopsPageTitle;
 $xoopsOption['template_main']   = 'newbb_viewpost.tpl';
 
 require_once $GLOBALS['xoops']->path('header.php');
@@ -192,7 +194,7 @@ if (!empty($forum_id)) {
     $xoopsTpl->assign('forum_name', $forumObject->getVar('forum_name'));
     $xoopsTpl->assign('forum_moderators', $forumObject->dispForumModerators());
 
-    $xoops_pagetitle = $forumObject->getVar('forum_name') . ' - ' . _MD_NEWBB_VIEWALLPOSTS . ' [' . $xoopsModule->getVar('name') . ']';
+    $xoopsPageTitle = $forumObject->getVar('forum_name') . ' - ' . _MD_NEWBB_VIEWALLPOSTS . ' [' . $xoopsModule->getVar('name') . ']';
     $xoopsTpl->assign('forum_id', $forumObject->getVar('forum_id'));
     // irmtfan new method
     if (!empty($GLOBALS['xoopsModuleConfig']['rss_enable'])) {
@@ -213,7 +215,7 @@ if (!empty($forum_id)) {
 }
 // irmtfan remove and move to footer.php
 //$xoopsTpl->assign('xoops_module_header', $xoops_module_header);
-$xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
+$xoopsTpl->assign('xoops_pagetitle', $xoopsPageTitle);
 // irmtfan - remove icon_path and use newbbDisplayImage
 $xoopsTpl->assign('anonym_avatar', newbbDisplayImage('anonym'));
 $userid_array = [];
@@ -231,7 +233,7 @@ if (count($poster_array) > 0) {
 $online = [];
 
 if ($GLOBALS['xoopsModuleConfig']['wol_enabled']) {
-    if (!empty($user_criteria)) {
+    if (($user_criteria !== '' && $user_criteria !== '0')) {
         //        $onlineHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Online');
         $onlineHandler->init($forum_id);
     }

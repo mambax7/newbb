@@ -24,8 +24,8 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
      *
      */
     /**
-     * @param string $name
-     * @param string|array $string
+     * @param string $name    
+     * @param string|mixed[] $string
      */
     function newbbSetSession(string $name, $string = ''): void
     {
@@ -42,13 +42,13 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
     /**
      * @param string $name
      * @param bool   $isArray
-     * @return array|bool
+     * @return mixed[]|bool
      */
     function newbbGetSession(string $name, bool $isArray = false)
     {
         $value = !empty($_SESSION['newbb_' . $name]) ? $_SESSION['newbb_' . $name] : false;
         if ($isArray) {
-            $_value = $value ? explode(',', $value) : [];
+            $_value = $value ? explode(',', (string) $value) : [];
             $value  = [];
             if (count($_value) > 0) {
                 foreach ($_value as $string) {
@@ -65,7 +65,7 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
 
     /**
      * @param string       $name
-     * @param string|array $string
+     * @param string|mixed[] $string
      * @param int|null     $expire
      */
     function newbbSetCookie(string $name, $string = '', ?int $expire = null): void
@@ -79,13 +79,13 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
             }
             $string = implode(',', $value);
         }
-        setcookie($forumCookie['prefix'] . $name, (string)$string, (int)$expire, $forumCookie['path'], $forumCookie['domain'], $forumCookie['secure']);
+        setcookie($forumCookie['prefix'] . $name, (string)$string, ['expires' => (int)$expire, 'path' => $forumCookie['path'], 'domain' => $forumCookie['domain'], 'secure' => $forumCookie['secure']]);
     }
 
     /**
      * @param string $name
      * @param bool        $isArray
-     * @return array|string
+     * @return mixed[]|string
      */
     function newbbGetCookie(string $name, bool $isArray = false)
     {
@@ -94,7 +94,7 @@ if (!defined('NEWBB_FUNCTIONS_SESSION')) {
         $value = Request::getString($forumCookie['prefix'] . $name, '', 'COOKIE');
 
         if ($isArray) {
-            $_value = $value ? explode(',', $value) : [];
+            $_value = $value ? explode(',', (string) $value) : [];
             $value  = [];
             if (count($_value) > 0) {
                 foreach ($_value as $string) {

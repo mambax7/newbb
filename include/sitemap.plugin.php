@@ -17,7 +17,9 @@ use XoopsModules\Newbb\{
 /** @var CategoryHandler $categoryHandler */
 
 /**
- * @return array
+ * @return (((mixed|string)[][]|int|mixed|string)[][]|mixed|string)[][][]
+ *
+ * @psalm-return array{parent?: array<array{id?: mixed, cid?: mixed, url?: string, title?: mixed, fchild?: array<array{id: mixed, url: string, title: mixed}>, child?: array<array{id?: mixed, cid?: mixed, url?: string, title?: mixed, fchild?: array<array{id: mixed, url: string, title: mixed}>, image?: 2|3}>}>}
  */
 function b_sitemap_newbb(): array
 {
@@ -47,7 +49,7 @@ function b_sitemap_newbb(): array
     /* Fetch forum data */
     $forums_available = array_merge($forums_top_id, $forums_sub_id);
     $forums_array     = [];
-    if (!empty($forums_available)) {
+    if ($forums_available !== []) {
         $crit_forum = new \Criteria('forum_id', '(' . implode(', ', $forums_available) . ')', 'IN');
         $crit_forum->setSort('cat_id ASC, parent_forum ASC, forum_order');
         $crit_forum->setOrder('ASC');

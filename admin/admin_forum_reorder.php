@@ -37,14 +37,14 @@ $cat        = Request::getArray('cat', null, 'POST');
 $forum      = Request::getArray('forum', null, 'POST');
 
 if (Request::getString('submit', '', 'POST')) {
-    $catOrdersCount = count($cat_orders);
+    $catOrdersCount = is_countable($cat_orders) ? count($cat_orders) : 0;
     for ($i = 0; $i < $catOrdersCount; ++$i) {
         $sql = 'update ' . $GLOBALS['xoopsDB']->prefix('newbb_categories') . ' set cat_order = ' . $cat_orders[$i] . " WHERE cat_id=$cat[$i]";
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
             redirect_header('admin_forum_reorder.php', 1, _AM_NEWBB_FORUM_ERROR);
         }
     }
-    $ordersCount = count($orders);
+    $ordersCount = is_countable($orders) ? count($orders) : 0;
     for ($i = 0; $i < $ordersCount; ++$i) {
         $sql = 'update ' . $GLOBALS['xoopsDB']->prefix('newbb_forums') . ' set forum_order = ' . $orders[$i] . ' WHERE forum_id=' . $forum[$i];
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {

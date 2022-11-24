@@ -88,6 +88,9 @@ if (!$topicHandler->getPermission($forumObject, $topicObject->getVar('topic_stat
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler     = xoops_getHandler('module');
 $pollModuleHandler = $moduleHandler->getByDirname($GLOBALS['xoopsModuleConfig']['poll_module']);
+$classPoll = null;
+$pollObject = null;
+$xpPollHandler = null;
 if (is_object($pollModuleHandler) && $pollModuleHandler->getVar('isactive')) {
     // new xoopspoll module
     if ($pollModuleHandler->getVar('version') >= 201) {
@@ -301,7 +304,7 @@ switch ($op) {
             }
             $option_text = Request::getArray('option_text', '', 'POST');
             foreach ($option_text as $optxt) {
-                if ('' !== trim($optxt)) {
+                if ('' !== trim((string) $optxt)) {
                     $option_empty = false;
                     break;
                 }
@@ -315,7 +318,7 @@ switch ($op) {
             $end_time = Request::getString('end_time', '', 'POST'); // (empty($_POST['end_time'])) ? "" : $_POST['end_time'];
             if ('' !== $end_time) {
                 $timezone = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('timezone') : null;
-                $pollObject->setVar('end_time', userTimeToServerTime(strtotime($end_time), $timezone));
+                $pollObject->setVar('end_time', userTimeToServerTime(strtotime((string) $end_time), $timezone));
             } else {
                 // if expiration date is not set, set it to 10 days from now
                 $pollObject->setVar('end_time', time() + (86400 * 10));
@@ -341,7 +344,7 @@ switch ($op) {
             $option_color = Request::getArray('option_color', null, 'POST');
             $classOption  = $classPoll . 'Option';
             foreach ($option_text as $optxt) {
-                $optxt = trim($optxt);
+                $optxt = trim((string) $optxt);
                 /** @var \XoopsModules\Xoopspoll\Option $optionObject */
                 $optionObject = new $classOption();
                 if ('' !== $optxt) {
@@ -378,7 +381,7 @@ switch ($op) {
 
         $option_text   = Request::getString('option_text', '', 'POST');
         $option_string = is_array($option_text) ? implode('', $option_text) : $option_text;
-        $option_string = trim($option_string);
+        $option_string = trim((string) $option_string);
         if ('' === $option_string) {
             redirect_header(Request::getString('HTTP_REFERER', '', 'SERVER'), 2, _MD_NEWBB_ERROROCCURED . ': ' . _MD_NEWBB_POLL_POLLOPTIONS . ' !');
         }
@@ -399,11 +402,11 @@ switch ($op) {
 
             //$xuEndTimestamp   = method_exists('XoopsLocal', 'strtotime') ? XoopsLocal::strtotime(Request::getString('xu_end_time', null, 'POST'))
             //                                                             : strtotime(Request::getString('xu_end_time', null, 'POST'));
-            $xuEndTimestamp = strtotime(Request::getString('xu_end_time', null, 'POST'));
+            $xuEndTimestamp = strtotime((string) Request::getString('xu_end_time', null, 'POST'));
             $endTimestamp   = (!Request::getString('xu_end_time', null, 'POST')) ? ($currentTimestamp + PollConstants::DEFAULT_POLL_DURATION) : userTimeToServerTime($xuEndTimestamp);
             //$xuStartTimestamp = method_exists('XoopsLocal', 'strtotime') ? XoopsLocal::strtotime(Request::getString('xu_start_time', null, 'POST'))
             //                                                             : strtotime(Request::getString('xu_start_time', null, 'POST'));
-            $xuStartTimestamp = strtotime(Request::getString('xu_start_time', null, 'POST'));
+            $xuStartTimestamp = strtotime((string) Request::getString('xu_start_time', null, 'POST'));
             $startTimestamp   = (!Request::getString('xu_start_time', null, 'POST')) ? ($endTimestamp - PollConstants::DEFAULT_POLL_DURATION) : userTimeToServerTime($xuStartTimestamp);
 
             //  don't allow changing start time if there are votes in the log
@@ -441,9 +444,9 @@ switch ($op) {
             $optionColorArray = Request::getArray('option_color', [], 'POST');
 
             foreach ($optionIdArray as $key => $oId) {
-                if (!empty($oId) && ($optionObject = $xpOptHandler->get($oId))) {
+                if ($oId !== 0 && ($optionObject = $xpOptHandler->get($oId))) {
                     // existing option object so need to update it
-                    $optionTextArray[$key] = trim($optionTextArray[$key]);
+                    $optionTextArray[$key] = trim((string) $optionTextArray[$key]);
                     if ('' === $optionTextArray[$key]) {
                         // want to delete this option
                         if (false !== $xpOptHandler->delete($optionObject)) {
@@ -464,7 +467,7 @@ switch ($op) {
                 } else {
                     // new option object
                     $optionObject          = $xpOptHandler->create();
-                    $optionTextArray[$key] = trim($optionTextArray[$key]);
+                    $optionTextArray[$key] = trim((string) $optionTextArray[$key]);
                     if ('' !== $optionTextArray[$key]) { // ignore if text is empty
                         $optionObject->setVar('option_text', $optionTextArray[$key]);
                         $optionObject->setVar('option_color', $optionColorArray[$key]);
@@ -479,17 +482,17 @@ switch ($op) {
             $xpOptHandler = xoops_getModuleHandler('option', $GLOBALS['xoopsModuleConfig']['poll_module']);
             $xpLogHandler = xoops_getModuleHandler('log', $GLOBALS['xoopsModuleConfig']['poll_module']);
             //            $classRequest = ucfirst($GLOBALS['xoopsModuleConfig']["poll_module"]) . "Request";
-            $classConstants   = ucfirst($GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
+            $classConstants   = ucfirst((string) $GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
             $notify           = XoopsRequest::getInt('notify', $classConstants::NOTIFICATION_ENABLED, 'POST');
             $currentTimestamp = time();
 
             //$xuEndTimestamp   = method_exists('XoopsLocal', 'strtotime') ? XoopsLocal::strtotime(Request::getString('xu_end_time', null, 'POST'))
             //                                                             : strtotime(Request::getString('xu_end_time', null, 'POST'));
-            $xuEndTimestamp = strtotime(Request::getString('xu_end_time', null, 'POST'));
+            $xuEndTimestamp = strtotime((string) Request::getString('xu_end_time', null, 'POST'));
             $endTimestamp   = (!Request::getString('xu_end_time', null, 'POST')) ? ($currentTimestamp + $classConstants::DEFAULT_POLL_DURATION) : userTimeToServerTime($xuEndTimestamp);
             //$xuStartTimestamp = method_exists('XoopsLocal', 'strtotime') ? XoopsLocal::strtotime(Request::getString('xu_start_time', null, 'POST'))
             //                                                             : strtotime(Request::getString('xu_start_time', null, 'POST'));
-            $xuStartTimestamp = strtotime(Request::getString('xu_start_time', null, 'POST'));
+            $xuStartTimestamp = strtotime((string) Request::getString('xu_start_time', null, 'POST'));
             $startTimestamp   = (!Request::getString('xu_start_time', null, 'POST')) ? ($endTimestamp - $classConstants::DEFAULT_POLL_DURATION) : userTimeToServerTime($xuStartTimestamp);
 
             //  don't allow changing start time if there are votes in the log
@@ -527,9 +530,9 @@ switch ($op) {
             $optionColorArray = Request::getArray('option_color', [], 'POST');
 
             foreach ($optionIdArray as $key => $oId) {
-                if (!empty($oId) && ($optionObject = $xpOptHandler->get($oId))) {
+                if ($oId !== 0 && ($optionObject = $xpOptHandler->get($oId))) {
                     // existing option object so need to update it
-                    $optionTextArray[$key] = trim($optionTextArray[$key]);
+                    $optionTextArray[$key] = trim((string) $optionTextArray[$key]);
                     if ('' === $optionTextArray[$key]) {
                         // want to delete this option
                         if (false !== $xpOptHandler->delete($optionObject)) {
@@ -550,7 +553,7 @@ switch ($op) {
                 } else {
                     // new option object
                     $optionObject          = $xpOptHandler->create();
-                    $optionTextArray[$key] = trim($optionTextArray[$key]);
+                    $optionTextArray[$key] = trim((string) $optionTextArray[$key]);
                     if ('' !== $optionTextArray[$key]) { // ignore if text is empty
                         $optionObject->setVar('option_text', $optionTextArray[$key]);
                         $optionObject->setVar('option_color', $optionColorArray[$key]);
@@ -564,12 +567,12 @@ switch ($op) {
         } else {
             $pollObject->setVar('question', Request::getString('question', '', 'POST'));
             $pollObject->setVar('description', Request::getString('description', '', 'POST'));
-            $classConstants = ucfirst($GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
+            $classConstants = ucfirst((string) $GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
 
             $end_time = Request::getString('end_time', '', 'POST');
             if ('' !== $end_time) {
                 $timezone = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('timezone') : null;
-                $pollObject->setVar('end_time', userTimeToServerTime(strtotime($end_time), $timezone));
+                $pollObject->setVar('end_time', userTimeToServerTime(strtotime((string) $end_time), $timezone));
             }
             $pollObject->setVar('display', 0);
             $pollObject->setVar('weight', Request::getInt('weight', 0, 'POST'));
@@ -594,7 +597,7 @@ switch ($op) {
             $classLog     = $classPoll . 'Log';
             foreach ($option_id as $opid) {
                 $optionObject    = new $classOption($opid);
-                $option_text[$i] = trim($option_text[$i]);
+                $option_text[$i] = trim((string) $option_text[$i]);
                 if ('' !== $option_text[$i]) {
                     $optionObject->setVar('option_text', $option_text[$i]);
                     $optionObject->setVar('option_color', $option_color[$i]);
@@ -673,7 +676,7 @@ switch ($op) {
 
         $option_text   = Request::getString('option_text', '', 'POST');
         $option_string = is_array($option_text) ? implode('', $option_text) : $option_text;
-        $option_string = trim($option_string);
+        $option_string = trim((string) $option_string);
         if ('' === $option_string) {
             // irmtfan - issue with javascript:history.go(-1)
             redirect_header(Request::getString('HTTP_REFERER', '', 'SERVER'), 2, _MD_NEWBB_ERROROCCURED . ': ' . _MD_NEWBB_POLL_POLLOPTIONS . ' !');
@@ -681,7 +684,7 @@ switch ($op) {
         $i            = 0;
         $option_color = Request::getArray('option_color', null, 'POST');
         foreach ($option_text as $optxt) {
-            $optxt = trim($optxt);
+            $optxt = trim((string) $optxt);
             if ('' !== $optxt) {
                 // new xoopspoll module
                 if ($pollModuleHandler->getVar('version') >= 201) {
@@ -785,7 +788,7 @@ switch ($op) {
         if ($pollModuleHandler->getVar('version') >= 201) {
             $default_poll_duration = PollConstants::DEFAULT_POLL_DURATION;
         } elseif ($pollModuleHandler->getVar('version') >= 140) {
-            $classConstants        = ucfirst($GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
+            $classConstants        = ucfirst((string) $GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
             $default_poll_duration = $classConstants::DEFAULT_POLL_DURATION;
             // old xoopspoll or umfrage or any clone from them
         } else {
@@ -826,7 +829,7 @@ switch ($op) {
             $poll_not_mailed       = PollConstants::POLL_NOT_MAILED;
             $poll_mailed           = PollConstants::POLL_MAILED;
         } elseif ($pollModuleHandler->getVar('version') >= 140) {
-            $classConstants        = ucfirst($GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
+            $classConstants        = ucfirst((string) $GLOBALS['xoopsModuleConfig']['poll_module']) . 'Constants';
             $default_poll_duration = $classConstants::DEFAULT_POLL_DURATION;
             $poll_not_mailed       = $classConstants::POLL_NOT_MAILED;
             $poll_mailed           = $classConstants::POLL_MAILED;

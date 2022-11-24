@@ -34,7 +34,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param mixed      $id
+     * @param mixed $id
      * @param null|array $fields
      * @return mixed|null
      */
@@ -88,7 +88,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool  $force
      * @return bool
      */
-    public function approve($object, bool $force = false): bool
+    public function approve(object $object, bool $force = false): bool
     {
         $topic_id = $object->getVar('topic_id');
         if ($force) {
@@ -246,7 +246,6 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     //Added by BigKev to get the next unread post ID based on the $lastreadpost_id
-
     /**
      * @param int $topic_id
      * @param int $lastreadpost_id
@@ -333,23 +332,24 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param int   $pid
      * @return mixed
      */
-    public function &getPostTree($postArray, int $pid = 0)
+    public function &getPostTree(array $postArray, int $pid = 0)
     {
+        $postsArray = null;
         //        require_once $GLOBALS['xoops']->path('modules/newbb/class/Tree.php');
-        $NewBBTree = new Tree('newbb_posts');
-        $NewBBTree->setPrefix('&nbsp;&nbsp;');
-        $NewBBTree->setPostArray($postArray);
-        $NewBBTree->getPostTree($postsArray, $pid);
+        $newbbTree = new Tree('newbb_posts');
+        $newbbTree->setPrefix('&nbsp;&nbsp;');
+        $newbbTree->setPostArray($postArray);
+        $newbbTree->getPostTree($postsArray, $pid);
 
         return $postsArray;
     }
 
     /**
-     * @param int $topic
+     * @param Topic $topic
      * @param array $postArray
      * @return array
      */
-    public function showTreeItem(int $topic, array &$postArray): array
+    public function showTreeItem(Topic $topic, array &$postArray): array
     {
         global $viewtopic_users, $myts;
 
@@ -381,7 +381,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
      * @param bool  $isApproved
      * @return array
      */
-    public function getAllPosters($topic, bool $isApproved = true): array
+    public function getAllPosters(Topic $topic, bool $isApproved = true): array
     {
         $ret = [];
         $sql = 'SELECT DISTINCT uid FROM ' . $this->db->prefix('newbb_posts') . '  WHERE topic_id=' . $topic->getVar('topic_id') . ' AND uid>0';
@@ -499,7 +499,6 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     // START irmtfan - rewrite topic synchronization function. add pid sync and remove hard-code db access
-
     /**
      * @param \XoopsObject|int|string|null $object
      * @param bool                         $force
@@ -525,7 +524,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
         }
         $last_post     = \max($post_ids);
         $top_post      = \min($post_ids);
-        $topic_replies = \count($post_ids) - 1;
+        $topic_replies = (is_countable($post_ids) ? \count($post_ids) : 0) - 1;
         if ($object->getVar('topic_last_post_id') != $last_post) {
             $object->setVar('topic_last_post_id', $last_post);
         }

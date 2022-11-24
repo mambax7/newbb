@@ -53,6 +53,7 @@ if (!in_array($op, $validOps, true)) {
 $cacheHelper = new Cache('newbb');
 $fm_options = [];
 
+$isColorpicker = null;
 switch ($op) {
     case 'save_type':
 //        $type_names0 = $_POST['type_name'];
@@ -104,7 +105,7 @@ switch ($op) {
         break;
     case 'template':
         $typesObject = $typeHandler->getAll();
-        if (0 === count($typesObject)) {
+        if (0 === (is_countable($typesObject) ? count($typesObject) : 0)) {
             redirect_header(xoops_getenv('SCRIPT_NAME'), 2, _AM_NEWBB_TYPE_ADD_ERR);
         }
 
@@ -245,7 +246,7 @@ switch ($op) {
         }
         //        $forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
         $forums = $forumHandler->getTree(array_keys($categories));
-        if (empty($forums)) {
+        if ($forums === []) {
             redirect_header('admin_forum_manager.php', 2, _AM_NEWBB_CREATENEWFORUM);
         }
 
@@ -285,7 +286,7 @@ switch ($op) {
         }
 
         $typesObject = $typeHandler->getAll();
-        if (0 === count($typesObject)) {
+        if (0 === (is_countable($typesObject) ? count($typesObject) : 0)) {
             redirect_header(xoops_getenv('SCRIPT_NAME'), 2, _AM_NEWBB_TYPE_ADD_ERR);
         }
 
@@ -350,7 +351,7 @@ switch ($op) {
     case 'add':
     default:
         $typesObject = $typeHandler->getAll();
-        if (0 === count($typesObject)) {
+        if (0 === (is_countable($typesObject) ? count($typesObject) : 0)) {
             $op    = 'add';
             $title = _AM_NEWBB_TYPE_ADD;
         } else {

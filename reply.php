@@ -27,7 +27,7 @@ use XoopsModules\Newbb\{
 /** @var PostHandler $post_contextObject */
 /** @var ForumHandler $forumHandler */
 /** @var TopicHandler $topicHandler */
-/** @var PostHandler $postHandler */
+
 require_once __DIR__ . '/header.php';
 
 $forum    = Request::getInt('forum', 0, 'GET');
@@ -43,6 +43,7 @@ if (!$topic_id && !$post_id) {
 
 $forumHandler = Helper::getInstance()->getHandler('Forum');
 $topicHandler = Helper::getInstance()->getHandler('Topic');
+/** @var PostHandler $postHandler */
 $postHandler  = Helper::getInstance()->getHandler('Post');
 
 if (!$pid = $post_id) {
@@ -129,7 +130,7 @@ if ($postParentObject->getVar('uid')) {
 $r_subject = $postParentObject->getVar('subject', 'E');
 
 $subject = $r_subject;
-if (!preg_match('/^(Re|' . _MD_NEWBB_RE . '):/i', $r_subject)) {
+if (!preg_match('/^(Re|' . _MD_NEWBB_RE . '):/i', (string) $r_subject)) {
     $subject = _MD_NEWBB_RE . ': ' . $r_subject;
 }
 

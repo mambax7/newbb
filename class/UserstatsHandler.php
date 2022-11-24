@@ -72,7 +72,7 @@ class UserstatsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param int $id
-     * @return array|bool
+     * @return mixed[]|bool
      */
     public function getStats(int $id)
     {

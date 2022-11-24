@@ -23,9 +23,10 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
      */
     /**
      * @param string $text
-     * @return array|string|null
+     *
+     * @return null|string
      */
-    function newbbhtmlspecialchars(string $text)
+    function newbbhtmlspecialchars(string $text): ?string
     {
         return preg_replace(['/&amp;/i', '/&nbsp;/i'], ['&', '&amp;nbsp;'], htmlspecialchars($text, ENT_QUOTES | ENT_HTML5));
     }
@@ -96,7 +97,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
     function newbbGetButton(string $link, string $button, string $alt = '', bool $asImage = true, string $extra = "class='forum_button'"): string
     {
         $button = "<input type='button' name='{$button}' {$extra} value='{$alt}' onclick='window.location.href={$link}' >";
-        if (empty($asImage)) {
+        if ($asImage === false) {
             $button = "<a href='{$link}' title='{$alt}' {$extra}>" . newbbDisplayImage($button, $alt, true) . '</a>';
         }
 
@@ -118,7 +119,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
         // START hacked by irmtfan
         // to show text links instead of buttons - func_num_args()==2 => only when $image, $alt is set and optional $display not set
 
-        if (2 == func_num_args()) {
+        if (2 === func_num_args()) {
             // overall setting
             if (!empty($GLOBALS['xoopsModuleConfig']['display_text_links'])) {
                 $display = false;
@@ -129,7 +130,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')) {
             }
         }
         // END hacked by irmtfan
-        if (empty($display)) {
+        if ($display === false) {
             return $iconHandler->assignImage($image, $alt, $extra);
         }
 

@@ -45,7 +45,9 @@ class TopicRenderer
     public int   $userlevel = 0;
     public array $query     = [];
     /**
-     * reference to an object handler
+     *  reference to an object handler
+     *
+     * @var \XoopsObjectHandler|\XoopsPersistableObjectHandler
      */
     private $handler;
     /**
@@ -86,9 +88,9 @@ class TopicRenderer
     }
 
     /**
-     * @param string       $var
-     * @param string|array $val
-     * @return array|int|string
+     * @param string       $var    
+     * @param string|mixed[] $val
+     * @return mixed[]|int|string
      */
     public function setVar(string $var, $val)
     {
@@ -241,7 +243,7 @@ class TopicRenderer
                         }
                         $topics         = [];
                         $topic_lastread = \newbbGetCookie('LT', true);
-                        if (\count($topic_lastread) > 0) {
+                        if ((is_countable($topic_lastread) ? \count($topic_lastread) : 0) > 0) {
                             foreach ($topic_lastread as $id => $time) {
                                 if ($time > $lastvisit) {
                                     $topics[] = $id;
@@ -251,7 +253,7 @@ class TopicRenderer
                         if (\count($topics) > 0) {
                             $topicquery = ' t.topic_id IN (' . \implode(',', $topics) . ')';
                             // because it should be OR
-                            $readmode1query = !empty($readmode1query) ? '(' . $readmode1query . ' OR ' . $topicquery . ')' : $topicquery;
+                            $readmode1query = ($readmode1query !== '' && $readmode1query !== '0') ? '(' . $readmode1query . ' OR ' . $topicquery . ')' : $topicquery;
                         }
                         $this->query['where'][] = $readmode1query;
                     }
@@ -282,7 +284,7 @@ class TopicRenderer
                         }
                         $topics         = [];
                         $topic_lastread = \newbbGetCookie('LT', true);
-                        if (\count($topic_lastread) > 0) {
+                        if ((is_countable($topic_lastread) ? \count($topic_lastread) : 0) > 0) {
                             foreach ($topic_lastread as $id => $time) {
                                 if ($time > $lastvisit) {
                                     $topics[] = $id;
@@ -338,7 +340,7 @@ class TopicRenderer
                 $this->vars['forum'] = $this->setVar('forum', $accessForums);
                 // END irmtfan - get forum Ids by values. parse positive values to forum IDs and negative values to category IDs. value=0 => all valid forums
 
-                if (empty($accessForums)) {
+                if ($accessForums === []) {
                     $this->noperm = true;
                     // irmtfan - it just return return the forum_id only when the forum_id is the first allowed forum - no need for this code implode is enough removed.
                     //} elseif (count($accessForums) === 1) {
@@ -363,12 +365,12 @@ class TopicRenderer
                 if (!empty($val)) {
                     // START irmtfan if unread && read_mode = 1 and last_visit > startdate do not add where query | to accept multiple status
                     $startdate = \time() - \newbbGetSinceTime($val);
-                    if (\in_array('unread', \explode(',', $this->vars['status']), true) && 1 == $this->config['read_mode']
+                    if (\in_array('unread', \explode(',', (string) $this->vars['status']), true) && 1 == $this->config['read_mode']
                         && $GLOBALS['last_visit'] > $startdate) {
                         break;
                     }
                     // irmtfan digest_time | to accept multiple status
-                    if (\in_array('digest', \explode(',', $this->vars['status']), true)) {
+                    if (\in_array('digest', \explode(',', (string) $this->vars['status']), true)) {
                         $this->query['where'][] = 't.digest_time > ' . $startdate;
                     }
                     // irmtfan - should be >= instead of =
@@ -407,7 +409,7 @@ class TopicRenderer
     }
 
     /**
-     * @return bool
+     * @return true
      */
     public function parseVars(): bool
     {
@@ -522,7 +524,7 @@ class TopicRenderer
                 'sort'  => 't.type_id',
             ];
         }
-        if (2 == $this->userlevel) {
+        if (2 === $this->userlevel) {
             $headers['approve'] = [
                 'title' => \_MD_NEWBB_APPROVE,
                 'sort'  => 't.approved',
@@ -547,7 +549,6 @@ class TopicRenderer
     }
 
     // START irmtfan add Display topic headers function
-
     /**
      * @param string|null $header
      * @return array
@@ -569,13 +570,13 @@ class TopicRenderer
     }
 
     // END irmtfan add Display topic headers function
-
     /**
      * @param int|null     $type
-     * @param string|int|null $status
+     * @param null|string $status
+     *
      * @return array
      */
-    public function getStatus(int $type = null, string $status = null)
+    public function getStatus(int $type = null, string $status = null): array
     {
         $links       = [
             //""            => "", /* irmtfan remove empty array */
@@ -620,7 +621,7 @@ class TopicRenderer
         $selection         = ['action' => $this->page];
         $selection['vars'] = $this->vars;
         require_once \dirname(__DIR__) . '/include/functions.forum.php';
-        $forum_selected     = empty($this->vars['forum']) ? null : \explode('|', @$this->vars['forum']);
+        $forum_selected     = empty($this->vars['forum']) ? null : \explode('|', (string) @$this->vars['forum']);
         $selection['forum'] = '<select name="forum[]" multiple="multiple">';
         $selection['forum'] .= '<option value="0">' . \_MD_NEWBB_ALL . '</option>';
         $selection['forum'] .= \newbbForumSelectBox($forum_selected);
@@ -667,6 +668,7 @@ class TopicRenderer
      */
     public function buildHeaders(\Smarty $xoopsTpl): void
     {
+        $headers_data = [];
         $args = [];
         foreach ($this->vars as $var => $val) {
             if ('sort' === $var || 'order' === $var) {
@@ -709,7 +711,7 @@ class TopicRenderer
         foreach ($links as $link => $title) {
             $_args                  = ["status={$link}"];
             $status[$link]['title'] = $title;
-            $status[$link]['link']  = $this->page . '?' . \implode('&amp;', \array_merge($args, $_args));
+            $status[$link]['link']  = $this->page . '?' . \implode('&amp;', [...$args, ...$_args]);
         }
         $xoopsTpl->assign_by_ref('filters', $status);
     }
@@ -722,13 +724,13 @@ class TopicRenderer
     {
         static $types;
         if (!isset($types)) {
-            /** @var Newbb\TypeHandler $typeHandler */
+            /** @var TypeHandler $typeHandler */
             $typeHandler = Helper::getInstance()->getHandler('Type');
 
             $types = $typeHandler->getByForum(\explode('|', (string)@$this->vars['forum']));
         }
 
-        if (empty($type_id)) {
+        if (($type_id === null || $type_id === 0)) {
             return $types;
         }
 
@@ -737,7 +739,8 @@ class TopicRenderer
 
     /**
      * @param \Smarty $xoopsTpl
-     * @return bool
+     *
+     * @return true
      */
     public function buildTypes(\Smarty $xoopsTpl): ?bool
     {
@@ -757,14 +760,16 @@ class TopicRenderer
         foreach ($types as $id => $type) {
             $_args                = ["type={$id}"];
             $status[$id]['title'] = $type['type_name'];
-            $status[$id]['link']  = $this->page . '?' . \implode('&amp;', \array_merge($args, $_args));
+            $status[$id]['link']  = $this->page . '?' . \implode('&amp;', [...$args, ...$_args]);
         }
         $xoopsTpl->assign_by_ref('types', $status);
+        return true;
     }
 
     /**
      * @param \Smarty $xoopsTpl
-     * @return bool
+     *
+     * @return true
      */
     public function buildCurrent(\Smarty $xoopsTpl): bool
     {
@@ -780,7 +785,7 @@ class TopicRenderer
         $status          = [];
         $status['title'] = \implode(',', $this->getStatus($this->userlevel, $this->vars['status'])); // irmtfan to accept multiple status
         //$status['link'] = $this->page.(empty($this->vars['status']) ? '' : '?status='.$this->vars['status']);
-        $status['link'] = $this->page . (empty($args) ? '' : '?' . \implode('&amp;', $args));
+        $status['link'] = $this->page . ($args === [] ? '' : '?' . \implode('&amp;', $args));
 
         $xoopsTpl->assign_by_ref('current', $status);
         return true;
@@ -993,7 +998,7 @@ class TopicRenderer
                 $topic_excerpt = '';
             } else {
                 $topic_excerpt = \xoops_substr(\newbbHtml2text($myts->displayTarea($myrow['post_text'])), 0, $this->config['post_excerpt']);
-                $topic_excerpt = \str_replace('[', '&#91;', \htmlspecialchars($topic_excerpt, \ENT_QUOTES | \ENT_HTML5));
+                $topic_excerpt = \str_replace('[', '&#91;', \htmlspecialchars((string) $topic_excerpt, \ENT_QUOTES | \ENT_HTML5));
             }
 
             $topics[$myrow['topic_id']] = [
@@ -1127,7 +1132,6 @@ class TopicRenderer
     }
 
     // START irmtfan to create an array from selected keys of an array
-
     /**
      * @param array       $array
      * @param array|string|null   $keys

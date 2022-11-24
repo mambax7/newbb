@@ -10,10 +10,15 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Newbb\{Helper,
+use XoopsModules\Newbb\{
+    CategoryHandler,
+    Helper,
     ForumHandler,
     ObjectTree,
     OnlineHandler,
+    PostHandler,
+    ReportHandler,
+    StatsHandler,
     UserstatsHandler
 };
 
@@ -22,6 +27,8 @@ use XoopsModules\Newbb\{Helper,
 /** @var ForumHandler $forumHandler */
 /** @var UserstatsHandler $userstatsHandler */
 require_once __DIR__ . '/header.php';
+
+global $xoopsModule;
 
 /* deal with marks */
 if (Request::getInt('mark_read', 0)) {
@@ -39,8 +46,8 @@ if (Request::getInt('mark_read', 0)) {
 }
 
 $viewcat = Request::getInt('cat', 0, 'GET'); //TODO mb check if this is GET or POST?
-///** @var Newbb\CategoryHandler $categoryHandler */
-//$categoryHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Category');
+/** @var CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Category');
 
 $categories = [];
 if ($viewcat) {
@@ -48,20 +55,20 @@ if ($viewcat) {
     if ($categoryHandler->getPermission($categoryObject)) {
         $categories[$viewcat] = $categoryObject->getValues();
     }
-    $forum_index_title = sprintf(_MD_NEWBB_FORUMINDEX, htmlspecialchars((string)$GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES));
-    $xoops_pagetitle   = $categoryObject->getVar('cat_title') . ' [' . $xoopsModule->getVar('name') . ']';
+    $forumIndexTitle = sprintf(_MD_NEWBB_FORUMINDEX, htmlspecialchars((string)$GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES));
+    $xoopsPageTitle   = $categoryObject->getVar('cat_title') . ' [' . $xoopsModule->getVar('name') . ']';
 } else {
     $categories        = $categoryHandler->getByPermission('access', null, false);
-    $forum_index_title = '';
-    $xoops_pagetitle   = $xoopsModule->getVar('name');
+    $forumIndexTitle = '';
+    $xoopsPageTitle   = $xoopsModule->getVar('name');
 }
 
-if (0 === count($categories)) {
+if (0 === (is_countable($categories) ? count($categories) : 0)) {
     redirect_header(XOOPS_URL, 2, _MD_NEWBB_NORIGHTTOACCESS);
 }
 
 $xoopsOption['template_main']   = 'newbb_index.tpl';
-$xoopsOption['xoops_pagetitle'] = $xoops_pagetitle;
+$xoopsOption['xoops_pagetitle'] = $xoopsPageTitle;
 // irmtfan remove and move to footer.php
 //$xoopsOption['xoops_module_header'] = $xoops_module_header;
 // irmtfan include header.php after defining $xoopsOption['template_main']
@@ -77,10 +84,10 @@ if (!empty($GLOBALS['xoopsModuleConfig']['rss_enable'])) {
     ' . @$xoopsTpl->get_template_vars('xoops_module_header')
     );
 }
-$xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
+$xoopsTpl->assign('xoops_pagetitle', $xoopsPageTitle);
 // irmtfan remove and move to footer.php
 //$xoopsTpl->assign('xoops_module_header', $xoops_module_header);
-$xoopsTpl->assign('forum_index_title', $forum_index_title);
+$xoopsTpl->assign('forum_index_title', $forumIndexTitle);
 //if ($GLOBALS['xoopsModuleConfig']['wol_enabled']) {
 if (!empty($GLOBALS['xoopsModuleConfig']['wol_enabled'])) {
     //    $onlineHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Online');
@@ -88,8 +95,8 @@ if (!empty($GLOBALS['xoopsModuleConfig']['wol_enabled'])) {
     $xoopsTpl->assign('online', $onlineHandler->showOnline());
 }
 $forumHandler = Helper::getInstance()->getHandler('Forum');
-///** @var Newbb\PostHandler $postHandler */
-//$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
+/** @var PostHandler $postHandler */
+$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
 
 /* Allowed forums */
 $forums_allowed = $forumHandler->getIdsByPermission();
@@ -105,7 +112,7 @@ if (!empty($forums_allowed)) {
 }
 
 /* fetch subforums if required to display */
-if ('hidden' === $GLOBALS['xoopsModuleConfig']['subforum_display'] || 0 === count($forums_top)) {
+if ('hidden' === $GLOBALS['xoopsModuleConfig']['subforum_display'] || 0 === (is_countable($forums_top) ? count($forums_top) : 0)) {
     $forums_sub = [];
 } else {
     $crit_sub = new \CriteriaCompo(new \Criteria('parent_forum', '(' . implode(', ', $forums_top) . ')', 'IN'));
@@ -114,53 +121,54 @@ if ('hidden' === $GLOBALS['xoopsModuleConfig']['subforum_display'] || 0 === coun
 }
 
 /* Fetch forum data */
-$forums_available = array_merge($forums_top, $forums_sub);
-$forums_array     = [];
-$newtopics        = 0;
-$deletetopics     = 0;
-$newposts         = 0;
-$deleteposts      = 0;
-if (0 !== count($forums_available)) {
-    $crit_forum = new \Criteria('forum_id', '(' . implode(', ', $forums_available) . ')', 'IN');
+$availableForums = array_merge($forums_top, $forums_sub);
+$forumsArray     = [];
+$newTopics        = 0;
+$deleteTopics     = 0;
+$newPosts         = 0;
+$deletePosts      = 0;
+if (0 !== count($availableForums)) {
+    $crit_forum = new \Criteria('forum_id', '(' . implode(', ', $availableForums) . ')', 'IN');
     $crit_forum->setSort('cat_id ASC, parent_forum ASC, forum_order');
     $crit_forum->setOrder('ASC');
     $forums       = $forumHandler->getAll($crit_forum, null, false);
-    $newtopics    = $forumHandler->getTopicCount($forums, 0, 'pending');
-    $deletetopics = $forumHandler->getTopicCount($forums, 0, 'deleted');
-    $forums_array = $forumHandler->display($forums, $GLOBALS['xoopsModuleConfig']['length_title_index'], $GLOBALS['xoopsModuleConfig']['count_subforum']);
-    $crit         = new \CriteriaCompo(new \Criteria('forum_id', '(' . implode(', ', $forums_available) . ')', 'IN'));
+    $newTopics    = $forumHandler->getTopicCount($forums, 0, 'pending');
+    $deleteTopics = $forumHandler->getTopicCount($forums, 0, 'deleted');
+    $forumsArray = $forumHandler->display($forums, $GLOBALS['xoopsModuleConfig']['length_title_index'], $GLOBALS['xoopsModuleConfig']['count_subforum']);
+    $crit         = new \CriteriaCompo(new \Criteria('forum_id', '(' . implode(', ', $availableForums) . ')', 'IN'));
     $crit->add(new \Criteria('approved', '-1'));
-    $deleteposts = $postHandler->getCount($crit);
-    $crit        = new \CriteriaCompo(new \Criteria('forum_id', '(' . implode(', ', $forums_available) . ')', 'IN'));
+    $deletePosts = $postHandler->getCount($crit);
+    $crit        = new \CriteriaCompo(new \Criteria('forum_id', '(' . implode(', ', $availableForums) . ')', 'IN'));
     $crit->add(new \Criteria('approved', '0'));
-    $newposts = $postHandler->getCount($crit);
+    $newPosts = $postHandler->getCount($crit);
 }
 
-if ($newtopics > 0) {
-    $xoopsTpl->assign('wait_new_topic', $newtopics);
+if ($newTopics > 0) {
+    $xoopsTpl->assign('wait_new_topic', $newTopics);
 }
-if ($deletetopics > 0) {
-    $xoopsTpl->assign('delete_topic', $deletetopics);
+if ($deleteTopics > 0) {
+    $xoopsTpl->assign('delete_topic', $deleteTopics);
 }
-if ($newposts > 0) {
-    $xoopsTpl->assign('wait_new_post', $newposts);
+if ($newPosts > 0) {
+    $xoopsTpl->assign('wait_new_post', $newPosts);
 }
-if ($deleteposts > 0) {
-    $xoopsTpl->assign('delete_post', $deleteposts);
+if ($deletePosts > 0) {
+    $xoopsTpl->assign('delete_post', $deletePosts);
 }
 
-///** @var Newbb\ReportHandler $reportHandler */
-//$reportHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Report');
+/** @var ReportHandler $reportHandler */
+$reportHandler = Helper::getInstance()->getHandler('Report');
 $reported = $reportHandler->getCount(new \Criteria('report_result', '0'));
 $xoopsTpl->assign('reported_count', $reported);
 if ($reported > 0) {
     $xoopsTpl->assign('report_post', sprintf(_MD_NEWBB_SEEWAITREPORT, $reported));
 }
 
-if (count($forums_array) > 0) {
-    foreach ($forums_array[0] as $parent => $forum) {
-        if (isset($forums_array[$forum['forum_id']])) {
-            $forum['subforum'] = $forums_array[$forum['forum_id']];
+$forumsByCat = null;
+if ((is_countable($forumsArray) ? count($forumsArray) : 0) > 0) {
+    foreach ($forumsArray[0] as $parent => $forum) {
+        if (isset($forumsArray[$forum['forum_id']])) {
+            $forum['subforum'] = $forumsArray[$forum['forum_id']];
         }
         $forumsByCat[$forum['forum_cid']][] = $forum;
     }
@@ -179,7 +187,7 @@ foreach (array_keys($categories) as $id) {
     $onecat = $categories[$id];
 
     $cat_element_id = 'cat_' . $onecat['cat_id'];
-    $expand         = !(count($toggles) > 0) || !in_array($cat_element_id, $toggles, true);
+    $expand         = !((is_countable($toggles) ? count($toggles) : 0) > 0) || !in_array($cat_element_id, $toggles, true);
     // START irmtfan to improve newbbDisplayImage
     if ($expand) {
         $cat_display      = 'block';        //irmtfan move semicolon
@@ -197,7 +205,7 @@ foreach (array_keys($categories) as $id) {
     }
 
     $cat_sponsor = [];
-    @[$url, $title] = array_map('\trim', explode(' ', $onecat['cat_url'], 2));
+    @[$url, $title] = array_map('\trim', explode(' ', (string) $onecat['cat_url'], 2));
     if ('' === $title) {
         $title = $url;
     }
@@ -224,7 +232,7 @@ foreach (array_keys($categories) as $id) {
     ];
 }
 
-unset($categories, $forums_array, $forumsByCat);
+unset($categories, $forumsArray, $forumsByCat);
 $xoopsTpl->assign_by_ref('category_icon', $category_icon);
 $xoopsTpl->assign_by_ref('categories', $category_array);
 $xoopsTpl->assign('notifyicon', $category_icon);
@@ -256,9 +264,9 @@ if (!empty($GLOBALS['xoopsModuleConfig']['statistik_enabled'])) {
 }
 
 /* display forum stats */
-///** @var Newbb\StatsHandler $statsHandler */
-//$statsHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Stats');
-$stats = $statsHandler->getStats(array_merge([0], $forums_available));
+/** @var StatsHandler $statsHandler */
+$statsHandler = Helper::getInstance()->getHandler('Stats');
+$stats = $statsHandler->getStats(array_merge([0], $availableForums));
 $xoopsTpl->assign_by_ref('stats', $stats);
 $xoopsTpl->assign('subforum_display', $GLOBALS['xoopsModuleConfig']['subforum_display']);
 $xoopsTpl->assign('mark_read', XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/index.php?mark_read=1');
@@ -304,9 +312,9 @@ require_once $GLOBALS['xoops']->path('footer.php');
 //added missing php closing tag
 ?>
 <script>
-    //Added by BigKev73 to force the reloading of this page when the browser back button is used. Otherwise the unread envelope status wont update
+    //Added by BigKev73 to force the reloading of this page when the browser back button is used. Otherwise, the unread envelope status won't update
     if (!!window.performance && window.performance.navigation.type === 2) {
-        console.log('Reloading');
+        //console.log('Reloading');
         window.location.reload();
     }
 </script>

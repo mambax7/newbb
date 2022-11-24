@@ -81,10 +81,10 @@ class IconHandler
      * @param string  $dirname
      * @param string  $default
      * @param string  $endDir
-     * @return mixed
+     * @return string
      */
     // START irmtfan - improve to get other "end dirnames" like "css" and "js" - change images with $endDir
-    public function getPath(string $type, string $dirname = 'newbb', string $default = '', string $endDir = 'images')
+    public function getPath(string $type, string $dirname = 'newbb', string $default = '', string $endDir = 'images'): string
     {
         static $paths;
         if (isset($paths[$endDir . '/' . $type])) {
@@ -94,7 +94,7 @@ class IconHandler
         $theme_path = $this->template->currentTheme->path;
         $rel_dir    = "modules/{$dirname}/{$endDir}";
         // START irmtfan add default for all pathes
-        if (empty($default)) {
+        if (($default === '' || $default === '0')) {
             $path = \is_dir($theme_path . "/{$rel_dir}/{$type}/") ? $theme_path . "/{$rel_dir}/{$type}" : (\is_dir(\XOOPS_THEME_PATH . "/default/{$rel_dir}/{$type}/") ? \XOOPS_THEME_PATH . "/default/{$rel_dir}/{$type}" : $GLOBALS['xoops']->path("modules/{$dirname}/templates/{$endDir}/{$type}"));
         } else {
             $path = \is_dir($theme_path . "/{$rel_dir}/{$type}/") ? $theme_path . "/{$rel_dir}/{$type}" : (
@@ -111,7 +111,7 @@ class IconHandler
             ); // $theme_path {$default}
         }
         // END irmtfan add default for all pathes
-        $paths[$endDir . '/' . $type] = \str_replace(XOOPS_ROOT_PATH, '', \str_replace('\\', '/', $path));
+        $paths[$endDir . '/' . $type] = \str_replace(XOOPS_ROOT_PATH, '', \str_replace('\\', '/', (string) $path));
 
         return $paths[$endDir . '/' . $type];
     }
@@ -127,7 +127,7 @@ class IconHandler
         string $language = 'english',
         string $dirname = 'newbb'
     ): void {
-        $this->forumImage = require_once $GLOBALS['xoops']->path("modules/{$dirname}/include/images.php");
+        $this->forumImage = require $GLOBALS['xoops']->path("modules/{$dirname}/include/images.php");
 
         $this->forumImage['icon']     = XOOPS_URL . $this->getPath('icon', $dirname) . '/';
         $this->forumImage['language'] = XOOPS_URL . $this->getPath("language/{$language}", $dirname, 'language/english') . '/';
@@ -202,6 +202,8 @@ class IconHandler
 
     /**
      * @return int
+     *
+     * @psalm-return 0|positive-int
      */
     public function render(): int
     {

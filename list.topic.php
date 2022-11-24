@@ -38,27 +38,27 @@ require_once __DIR__ . '/include/functions.render.php';
 
 // irmtfan use require_once because it will redeclared in newbb/blocks/list_topic.php
 //require_once __DIR__ . '/./class/TopicRenderer.php';
-$topic_renderer            = TopicRenderer::getInstance();
-$topic_renderer->userlevel = $GLOBALS['xoopsUserIsAdmin'] ? 2 : is_object($GLOBALS['xoopsUser']);
+$topicRenderer            = TopicRenderer::getInstance();
+$topicRenderer->userlevel = $GLOBALS['xoopsUserIsAdmin'] ? 2 : is_object($GLOBALS['xoopsUser']);
 // irmtfan if list topic block is in the page then force to parse
 if (defined('LIST_TOPIC_DEFINED')) {
-    $topic_renderer->force = true; // force against static vars
+    $topicRenderer->force = true; // force against static vars
 }
 
-$topic_renderer->is_multiple = true;
-$topic_renderer->config      = $GLOBALS['xoopsModuleConfig'];
-$topic_renderer->setVarsFromRequest('get');
+$topicRenderer->is_multiple = true;
+$topicRenderer->config      = $GLOBALS['xoopsModuleConfig'];
+$topicRenderer->setVarsFromRequest('get');
 
 $type   = Request::getInt('type', 0, 'GET');
-$status = explode(',', $topic_renderer->vars['status']); // irmtfan to accept multiple status
+$status = explode(',', (string) $topicRenderer->vars['status']); // irmtfan to accept multiple status
 //irmtfan parse status for rendering topic correctly - remove here and move to TopicRenderer.php
-//$topic_renderer->parseVar('status',$status);
+//$topicRenderer->parseVar('status',$status);
 // irmtfan to accept multiple status
 $mode = count(array_intersect($status, ['active', 'pending', 'deleted'])) > 0 ? 2 : Request::getInt('mode', 0, 'GET');
 
 //$isAdmin = $GLOBALS["xoopsUserIsAdmin"];
 /* Only admin has access to admin mode */
-if ($topic_renderer->userlevel < 2) { // irmtfan use userlevel
+if ($topicRenderer->userlevel < 2) { // irmtfan use userlevel
     $mode = 0;
 }
 
@@ -68,14 +68,14 @@ if ($GLOBALS['xoopsModuleConfig']['wol_enabled']) {
     $onlineHandler->render($xoopsTpl);
 }
 
-$topic_renderer->buildHeaders($xoopsTpl);
-$topic_renderer->buildFilters($xoopsTpl);
-$topic_renderer->buildTypes($xoopsTpl);
-$topic_renderer->buildCurrent($xoopsTpl);
-$topic_renderer->renderTopics($xoopsTpl);
-$topic_renderer->buildSearch($xoopsTpl);
-$topic_renderer->buildPagenav($xoopsTpl);
-$topic_renderer->buildSelection($xoopsTpl);
+$topicRenderer->buildHeaders($xoopsTpl);
+$topicRenderer->buildFilters($xoopsTpl);
+$topicRenderer->buildTypes($xoopsTpl);
+$topicRenderer->buildCurrent($xoopsTpl);
+$topicRenderer->renderTopics($xoopsTpl);
+$topicRenderer->buildSearch($xoopsTpl);
+$topicRenderer->buildPagenav($xoopsTpl);
+$topicRenderer->buildSelection($xoopsTpl);
 
 $xoopsTpl->assign('rating_enable', $GLOBALS['xoopsModuleConfig']['rating_enabled']);
 
@@ -101,7 +101,7 @@ $xoopsTpl->assign('menumode_other', $menumode_other);
 
 $xoopsTpl->assign('mode', $mode);
 $xoopsTpl->assign('status', $status);
-$xoopsTpl->assign('viewer_level', $topic_renderer->userlevel); // irmtfan use userlevel
+$xoopsTpl->assign('viewer_level', $topicRenderer->userlevel); // irmtfan use userlevel
 
 $pagetitle = sprintf(_MD_NEWBB_FORUMINDEX, htmlspecialchars((string)$GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES));
 $xoopsTpl->assign('forum_index_title', $pagetitle);

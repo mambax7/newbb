@@ -92,10 +92,10 @@ if (!$forumHandler->getPermission($forumObject)) {
 }
 newbbSetRead('forum', $forum_id, $forumObject->getVar('forum_last_post_id'));
 
-$xoops_pagetitle = $forumObject->getVar('forum_name') . ' [' . $xoopsModule->getVar('name') . ']';
+$xoopsPageTitle = $forumObject->getVar('forum_name') . ' [' . $xoopsModule->getVar('name') . ']';
 
 $xoopsOption['template_main']   = 'newbb_viewforum.tpl';
-$xoopsOption['xoops_pagetitle'] = $xoops_pagetitle;
+$xoopsOption['xoops_pagetitle'] = $xoopsPageTitle;
 
 require_once $GLOBALS['xoops']->path('header.php');
 require_once __DIR__ . '/include/functions.render.php';
@@ -242,6 +242,7 @@ $startdate = empty($since) ? 0 : (time() - newbbGetSinceTime($since));
 $start     = Request::getInt('start', 0, 'GET');
 
 $criteria_vars = ['startdate', 'start', 'sort', 'order', 'type', 'status', 'excerpt'];
+$criteria_topic = null;
 foreach ($criteria_vars as $var) {
     $criteria_topic[$var] = @${$var};
 }
@@ -372,7 +373,7 @@ require_once $GLOBALS['xoops']->path('footer.php');
 <script>
     //Added by BigKev73 to force the reloading of this page when the browser back button is used. Otherwise the unread envelope status wont update
     if (!!window.performance && window.performance.navigation.type === 2) {
-        console.log('Reloading');
+        //console.log('Reloading');
         window.location.reload();
     }
 </script>

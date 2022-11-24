@@ -15,7 +15,7 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
      * function for select from a text where it have some keywords
      *
      * @param string       $text
-     * @param array|string $queryarray
+     * @param mixed[]|string $queryarray
      * @param int          $selectstartlag
      * @param int          $selectlength
      * @param bool         $striptags
@@ -61,7 +61,7 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
             $select_text .= xoops_substr($sanitized_text, $start, $length + $lengthend_trimmarker + 1, ' ' . $end_trimmarker) . '</p>';
             $startpos    = $start + $length + 1; // start searching from next position.
         }
-        if (empty($select_text)) {
+        if (($select_text === '' || $select_text === '0')) {
             return '';
         } // if no text return empty string
 
@@ -69,10 +69,11 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
     }
 
     /**
-     * function for highlight a text when it have some keywords
+     *  function for highlight a text when it have some keywords
      *
-     * @param string|array       $text
-     * @param array|string $queryarray
+     * @param string|mixed[] $text
+     * @param mixed[]|string $queryarray
+     *
      * @return string
      */
     function newbb_highlightText($text, $queryarray): string
@@ -85,7 +86,7 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
         $highlight_text = $text;
         foreach ($queryarray as $key => $query) {
             // use preg_replace instead of str_replace to exclude all $queries inside html span tag
-            $highlight_text = preg_replace('/(?!(?:[^<]+>|[^>]+<\/a>))(' . preg_quote($query, '/') . ')/si', newbb_highlighter($query, $key), $highlight_text);
+            $highlight_text = preg_replace('/(?!(?:[^<]+>|[^>]+<\/a>))(' . preg_quote((string) $query, '/') . ')/si', newbb_highlighter($query, $key), $highlight_text);
         }
 
         return $highlight_text;
@@ -105,8 +106,7 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
 
     /**
      * function for convert string to array
-     *
-     * @param string|array $str
+     * @param string|mixed[] $str
      * @return array
      */
     function newbb_str2array($str): array
@@ -120,7 +120,7 @@ if (!defined('NEWBB_FUNCTIONS_TEXT')) {
         $temp_str = preg_split('/[\s,]+/', $str);
         $strarray = [];
         foreach ($temp_str as $s) {
-            $strarray[] = addslashes($s);
+            $strarray[] = addslashes((string) $s);
         }
 
         return $strarray;

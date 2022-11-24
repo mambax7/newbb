@@ -31,11 +31,14 @@ require_once $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
  * @param int                 $limit
  * @param int                 $offset
  * @param int                 $userid
- * @param int|string|array    $forums
+ * @param int|string|mixed[]  $forums
  * @param int|string          $sortby
  * @param string              $searchin
  * @param \CriteriaCompo|null $criteriaExtra
- * @return array
+ *
+ * @return (mixed|string)[][]
+ *
+ * @psalm-return array<0|positive-int, array{topic_id: mixed, link: string, title: mixed, time: mixed, forum_name: string, forum_link: string, post_text: mixed, uid: mixed, poster: mixed|string}>
  */
 function newbb_search(
     array $queryarray,
@@ -48,6 +51,7 @@ function newbb_search(
     string $searchin = 'both',
     \CriteriaCompo $criteriaExtra = null
 ): array {
+    $criteriaPermissions = null;
     global $myts, $xoopsDB;
     // irmtfan - in XOOPSCORE/search.php $GLOBALS['xoopsModuleConfig'] is not set
     if (!isset($GLOBALS['xoopsModuleConfig'])) {
@@ -66,7 +70,7 @@ function newbb_search(
     $criteriaPost->add(new \Criteria('p.approved', 1), 'AND'); // only active posts
 
     $forum_list = []; // get forum lists just for forum names
-    if (count($validForums) > 0) {
+    if ((is_countable($validForums) ? count($validForums) : 0) > 0) {
         $criteriaPermissions = new \CriteriaCompo();
         $criteriaPermissions->add(new \Criteria('p.forum_id', '(' . implode(',', $validForums) . ')', 'IN'), 'AND');
         $forum_list = $forumHandler->getAll(new \Criteria('forum_id', '(' . implode(', ', $validForums) . ')', 'IN'), ['forum_name'], false);

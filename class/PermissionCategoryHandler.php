@@ -21,7 +21,7 @@ use XoopsModules\Newbb\{
 /**
  * Class PermissionCategoryHandler
  */
-class PermissionCategoryHandler extends Newbb\PermissionHandler
+class PermissionCategoryHandler extends PermissionHandler
 {
     /**
      * @param \XoopsDatabase|null $db
@@ -69,11 +69,11 @@ class PermissionCategoryHandler extends Newbb\PermissionHandler
     }
 
     /**
-     * @param Category $category
+     * @param int $category
      * @param array  $groups
      * @return bool
      */
-    public function setCategoryPermission($category, array $groups = []): bool
+    public function setCategoryPermission(int $category, array $groups = []): bool
     {
         if (\is_object($GLOBALS['xoopsModule']) && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
             $mid = $GLOBALS['xoopsModule']->getVar('mid');

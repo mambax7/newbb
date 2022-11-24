@@ -69,18 +69,18 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
 
         $matches = $this->getAll($criteria);
 
-        if (0 === \count($matches)) {
+        if (0 === (is_countable($matches) ? \count($matches) : 0)) {
             return true; // no matches
         }
 
-        if ($uid > 0 && \count($matches) > 0) {
+        if ($uid > 0 && (is_countable($matches) ? \count($matches) : 0) > 0) {
             return false; // user is banned
         }
         // verify possible matches against IP address
         $ip = empty($ip) ? IPAddress::fromRequest()->asReadable() : $ip;
 
         foreach ($matches as $modMatch) {
-            $rawModIp = \trim($modMatch->getVar('ip', 'n'));
+            $rawModIp = \trim((string) $modMatch->getVar('ip', 'n'));
             if (empty($rawModIp)) {
                 return false; // banned without IP
             }
@@ -113,7 +113,7 @@ class ModerateHandler extends \XoopsPersistableObjectHandler
         if ($isUid) {
             $criteria = 'uid =' . (int)$item;
         } else {
-            $ip_segs = \explode('.', $item);
+            $ip_segs = \explode('.', (string) $item);
             $segs    = \min(\count($ip_segs), 4);
             for ($i = 1; $i <= $segs; ++$i) {
                 $ips[] = $this->db->quoteString(\implode('.', \array_slice($ip_segs, 0, $i)));

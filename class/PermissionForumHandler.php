@@ -67,7 +67,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param int $id
      * @return array
      */
-    public function getValidItems($mid, int $id = 0): array
+    public function getValidItems(int $mid, int $id = 0): array
     {
         static $suspension = [];
         $full_items = [];
@@ -111,10 +111,10 @@ class PermissionForumHandler extends PermissionHandler
     */
 
     /**
-     * @param int|array $id
-     * @return bool|array
+     * @param int|mixed[] $id
+     * @return array
      */
-    public function getPermissions($id = 0)
+    public function getPermissions($id = 0): array
     {
         $permissions = [];
         if (\is_object($GLOBALS['xoopsModule']) && 'newbb' === $GLOBALS['xoopsModule']->getVar('dirname')) {
@@ -130,8 +130,8 @@ class PermissionForumHandler extends PermissionHandler
         // Get user's groups
         $groups = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [XOOPS_GROUP_ANONYMOUS];
         // Create string of groupid's separated by commas, inserted in a set of brackets
-        if (\count($groups) < 1) {
-            return false;
+        if ((is_countable($groups) ? \count($groups) : 0) < 1) {
+            return [];
         }
         // Create criteria for getting only the permissions regarding this module and this user's groups
         $criteria = new \CriteriaCompo(new \Criteria('gperm_modid', $modid));
@@ -165,7 +165,7 @@ class PermissionForumHandler extends PermissionHandler
      * @param int|Forum  $forum
      * @param bool $topic_locked
      * @param bool $isAdmin
-     * @return mixed
+     * @return array
      */
     public function getPermissionTable($forum = 0, bool $topic_locked = false, bool $isAdmin = false): array
     {
@@ -176,7 +176,7 @@ class PermissionForumHandler extends PermissionHandler
             $forumId = $forum->getVar('forum_id');
         }
 
-        $permission_set = $this->getPermissions($forumId);
+        $permissionSet = $this->getPermissions($forumId);
 
         $permItems = $this->getValidPerms();
         foreach ($permItems as $item) {
@@ -184,12 +184,12 @@ class PermissionForumHandler extends PermissionHandler
                 continue;
             }
             if ($isAdmin
-                || (isset($permission_set[$forumId]['forum_' . $item])
-                    && (!$topic_locked
-                        || 'view' === $item))) {
-                $perm[] = \constant('_MD_NEWBB_CAN_' . \mb_strtoupper($item));
+                || ((is_countable($permissionSet) && isset($permissionSet[$forumId]['forum_' . $item])
+                     && (!$topic_locked
+                         || 'view' === $item)))) {
+                $perm[] = \constant('_MD_NEWBB_CAN_' . \mb_strtoupper((string) $item));
             } else {
-                $perm[] = \constant('_MD_NEWBB_CANNOT_' . \mb_strtoupper($item));
+                $perm[] = \constant('_MD_NEWBB_CANNOT_' . \mb_strtoupper((string) $item));
             }
         }
 
@@ -217,11 +217,11 @@ class PermissionForumHandler extends PermissionHandler
     }
 
     /**
-     * @param Forum|int $forum
-     * @param int       $mid
+     * @param int $forum
+     * @param int $mid
      * @return bool
      */
-    public function applyTemplate($forum, int $mid = 0): bool
+    public function applyTemplate(int $forum, int $mid = 0): bool
     {
         if (!$perm_template = $this->getTemplate()) {
             return false;
@@ -246,9 +246,9 @@ class PermissionForumHandler extends PermissionHandler
         foreach (\array_keys($glist) as $group) {
             foreach ($perms as $perm) {
                 if (!empty($perm_template[$group][$perm])) {
-                    $this->validateRight($perm, $forum, $group, $mid);
+                    $this->validateRight($perm, (int)$forum, $group, $mid);
                 } else {
-                    $this->deleteRight($perm, $forum, $group, $mid);
+                    $this->deleteRight($perm, (int)$forum, $group, $mid);
                 }
             }
         }
@@ -257,21 +257,23 @@ class PermissionForumHandler extends PermissionHandler
     }
 
     /**
-     * @return array|false
+     * @return array
      */
-    public function getTemplate()
+    public function getTemplate(): array
     {
         $perms = Yaml::readWrapped($this->templateFilename);
+
+        $perms = (false !== $perms) ? $perms : [];
 
         return $perms;
     }
 
     /**
      * @param array $perms
-     * @param int $groupid
+     * @param int   $groupid
      * @return bool|int
      */
-    public function setTemplate($perms, int $groupid = 0)
+    public function setTemplate(array $perms, int $groupid = 0)
     {
         return Yaml::saveWrapped($perms, $this->templateFilename);
     }

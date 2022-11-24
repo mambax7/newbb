@@ -40,7 +40,7 @@ $forums   = [];
 $category = Request::getInt('c', 0, 'GET');
 $forumSet = Request::getString('f', '', 'GET');
 if ('' !== $forumSet) {
-    $forums = array_map('\intval', array_map('\trim', explode('|', $forumSet)));
+    $forums = array_map('\intval', array_map('\trim', explode('|', (string) $forumSet)));
 }
 
 ///** @var Newbb\ForumHandler $forumHandler */
@@ -56,7 +56,7 @@ if ($forums && is_array($forums)) {
     $forums_top  = $forumHandler->getIds($crit_top);
     $validForums = array_intersect($forums_top, $validForums);
 }
-if (0 === count($validForums)) {
+if (0 === (is_countable($validForums) ? count($validForums) : 0)) {
     newbbTrackbackResponse(1, _NOPERM);
 }
 
@@ -76,6 +76,8 @@ if (!empty($GLOBALS['xoopsConfig']['rewrite'])) {
 //mod_loadFunctions('cache');
 $xoopsCachedTemplateId = "newbbb_rss_$forumSet";
 $compile_id            = null;
+$type_list = null;
+$users = null;
 if (!$tpl->is_cached('db:newbb_rss.tpl', $xoopsCachedTemplateId, $compile_id)) {
     require_once __DIR__ . '/include/functions.time.php';
 

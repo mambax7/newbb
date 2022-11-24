@@ -29,7 +29,7 @@ switch (Request::getString('type', '', 'GET')) {// @$_GET['type'])
     // irmtfan rewrite forum sync
     case 'forum':
         $result = newbbSynchronization('forum');
-        if (!empty($result)) {
+        if ($result !== false) {
             redirect_header('admin_synchronization.php', 2, _AM_NEWBB_SYNC_TYPE_FORUM . '<br>' . _AM_NEWBB_DATABASEUPDATED);
         }
         break;
@@ -54,7 +54,7 @@ switch (Request::getString('type', '', 'GET')) {// @$_GET['type'])
     // irmtfan rewrite post sync
     case 'post':
         $result = newbbSynchronization('post');
-        if (!empty($result)) {
+        if ($result !== false) {
             redirect_header('admin_synchronization.php', 2, _AM_NEWBB_SYNC_TYPE_POST . '<br>' . _AM_NEWBB_DATABASEUPDATED);
         }
         break;
@@ -105,7 +105,7 @@ switch (Request::getString('type', '', 'GET')) {// @$_GET['type'])
     // START irmtfan add read sync
     case 'read':
         $result = newbbSynchronization(['readtopic', 'readforum']);
-        if (!empty($result)) {
+        if ($result !== false) {
             redirect_header('admin_synchronization.php', 2, _AM_NEWBB_SYNC_TYPE_READ . '<br>' . _AM_NEWBB_DATABASEUPDATED);
         }
         exit();

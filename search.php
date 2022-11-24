@@ -63,7 +63,7 @@ $selectlength = Request::getInt('selectlength', 200);
 
 // irmtfan assign default values to variables
 $show_search     = 'post_text';
-$search_username = trim($uname);
+$search_username = trim((string) $uname);
 
 if ($GLOBALS['xoopsModuleConfig']['wol_enabled']) {
     //    $onlineHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Online');
@@ -73,6 +73,9 @@ if ($GLOBALS['xoopsModuleConfig']['wol_enabled']) {
 $xoopsTpl->assign('forumindex', sprintf(_MD_NEWBB_FORUMINDEX, htmlspecialchars((string)$GLOBALS['xoopsConfig']['sitename'], ENT_QUOTES)));
 //$xoopsTpl->assign("img_folder", newbbDisplayImage($forumImage['topic']));
 
+$paras = null;
+$search_url_next = null;
+$search_url_prev = null;
 if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
     // irmtfan filter positive numbers
     $selectlength = !empty($selectlength) ? abs($selectlength) : 200;
@@ -99,7 +102,7 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
 
     $addterms             = Request::getString('andor', 'AND');
     $next_search['andor'] = $addterms;
-    $andor                = \mb_strtoupper($addterms);
+    $andor                = \mb_strtoupper((string) $addterms);
     if (!in_array($addterms, ['OR', 'AND'], true)) {
         $andor = 'AND';
     }
@@ -124,8 +127,8 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
         $uid = 0;
     }
 
-    $next_search['term'] = htmlspecialchars($term, ENT_QUOTES);
-    $query               = trim($term);
+    $next_search['term'] = htmlspecialchars((string) $term, ENT_QUOTES);
+    $query               = trim((string) $term);
 
     if ('EXACT' !== $andor) {
         $ignored_queries = []; // holds keywords that are shorter than allowed minimum length
@@ -175,7 +178,7 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
         $results = newbb_search($queries, $andor, $limit, $start, $uid, $forum, $sortby, $searchin, $criteriaExtra);
     } // irmtfan $criteriaExtra
 
-    $search_info_keywords = Highlighter::apply(htmlspecialchars($term, ENT_QUOTES), implode(' ', $queries), '<mark>', '</mark>');
+    $search_info_keywords = Highlighter::apply(htmlspecialchars((string) $term, ENT_QUOTES), implode(' ', $queries), '<mark>', '</mark>');
     $num_results          = count($results);
     if ($num_results < 1) {
         $xoopsTpl->assign('lang_nomatch', _SR_NOMATCH);
@@ -208,10 +211,10 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
         }
         unset($results);
 
-        if (count($next_search) > 0) {
+        if ((is_countable($next_search) ? count($next_search) : 0) > 0) {
             $items = [];
             foreach ($next_search as $para => $val) {
-                $items[] = "{$para}=" . urlencode($val);
+                $items[] = "{$para}=" . urlencode((string) $val);
             }
             if (count($items) > 0) {
                 $paras = implode('&', $items);
@@ -245,7 +248,7 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
         // irmtfan if all results skipped then redirect to the next/previous page
         if ($num_results == $skipresults) {
             $direction           = Request::getString('direction', 'next');
-            $search_url_redirect = ('next' === \mb_strtolower($direction)) ? $search_url_next : $search_url_prev;
+            $search_url_redirect = ('next' === \mb_strtolower((string) $direction)) ? $search_url_next : $search_url_prev;
             redirect_header($search_url_redirect, 1, constant(mb_strtoupper("_SR_{$direction}")));
         }
     }
@@ -266,7 +269,7 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
 }
 // assign template vars for search
 /* term */
-$xoopsTpl->assign('search_term', htmlspecialchars($term, ENT_QUOTES));
+$xoopsTpl->assign('search_term', htmlspecialchars((string) $term, ENT_QUOTES));
 
 /* andor */
 $andor_select = '<select name="andor" id="andor" class="form-control">';
@@ -276,7 +279,7 @@ if ('OR' === $andor) {
 }
 $andor_select .= '>' . _SR_ANY . '</option>';
 $andor_select .= '<option value="AND"';
-if ('AND' === $andor || empty($andor)) {
+if ('AND' === $andor || ($andor === '' || $andor === '0')) {
     $andor_select .= ' selected="selected"';
 }
 $andor_select .= '>' . _SR_ALL . '</option>';
@@ -329,7 +332,7 @@ $xoopsTpl->assign('author_select', $search_username);
 /* sortby */
 $sortby_select = '<select name="sortby" id="sortby" class="form-control">';
 $sortby_select .= '<option value=\'p.post_time\'';
-if ('p.post_time' === $sortby || empty($sortby)) {
+if ('p.post_time' === $sortby || ($sortby === '' || $sortby === '0')) {
     $sortby_select .= ' selected=\'selected\'';
 }
 $sortby_select .= '>' . _MD_NEWBB_DATE . '</option>';

@@ -11,8 +11,9 @@ namespace XoopsModules\Newbb;
  * @since          4.00
  */
 
-use XoopsModules\Newbb;
-use XoopsModules\Xoopspoll;
+use XoopsModules\Xoopspoll\{
+    Poll
+};
 
 \defined('NEWBB_FUNCTIONS_INI') || require $GLOBALS['xoops']->path('modules/newbb/include/functions.ini.php');
 
@@ -76,10 +77,10 @@ class Topic extends \XoopsObject
 
     /**
      * Create full title of the topic
-     *
      * the title is composed of [type_name] if type_id is greater than 0 plus topic_title
+     * @return string
      */
-    public function getFullTitle()
+    public function getFullTitle(): string
     {
         $topic_title = $this->getVar('topic_title');
         if (!$this->getVar('type_id')) {
@@ -103,7 +104,7 @@ class Topic extends \XoopsObject
      * @param string|null $pollModule dirname of the poll module
      * @return string|false = the name of the old poll class eg: "XoopsPoll" | "Umfrage"
      */
-    public function loadOldPoll(string $pollModule = null)
+    public function loadOldPoll(?string $pollModule = null)
     {
         static $classPoll = false;
         if ($classPoll && null === $pollModule) {
@@ -132,7 +133,6 @@ class Topic extends \XoopsObject
 
     // END irmtfan loadOldPoll function
     // START irmtfan add deletePoll function
-
     /**
      * delete a poll in database
      *
@@ -167,7 +167,7 @@ class Topic extends \XoopsObject
             // old Xoopspoll or Umfrage or any clone from them
         } else {
             $classPoll = $this->loadOldPoll();
-            /** @var XoopsPoll\Poll $poll */
+            /** @var Poll $poll */
             $poll = new $classPoll($poll_id);
             if (false !== $poll->delete()) {
                 $classOption = $classPoll . 'Option';
@@ -182,9 +182,7 @@ class Topic extends \XoopsObject
     }
 
     // END irmtfan add deletePoll function
-
     // START irmtfan add getPoll function
-
     /**
      * get a poll object from a poll module.
      * note: can be used to find if a poll exist in a module

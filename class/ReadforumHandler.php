@@ -52,7 +52,7 @@ class ReadforumHandler extends Newbb\ReadHandler
      */
     public function cleanOrphan($table_link = '', $field_link = '', $field_object = ''): bool //cleanOrphan()
     {
-        parent::cleanOrphan($this->db->prefix('newbb_posts'), 'post_id');
+        parent::cleanOrphan($this->db->prefix('newbb_posts'), 'post_id'); //mb TODO check here
 
         return parent::cleanOrphan($this->db->prefix('newbb_forums'), 'forum_id', 'read_item');
     }

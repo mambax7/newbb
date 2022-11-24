@@ -34,7 +34,7 @@ class IpCheck
         // IPv6 is at least a little more complex.
         if (\filter_var($this->ipin, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
             // Look for embedded IPv4 in an embedded IPv6 address, where FFFF is appended.
-            if (0 === \strncmp($this->ipin, '::FFFF:', 7)) {
+            if (strncmp($this->ipin, '::FFFF:', strlen('::FFFF:')) === 0) {
                 $ipv4addr = mb_substr($this->ipin, 7);
                 if (\filter_var($ipv4addr, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
                     $this->ipver = 4;
@@ -55,13 +55,16 @@ class IpCheck
         }
     }
 
-    /** Check whether the given address is an IP address
+    /**
+     *  Check whether the given address is an IP address
      *
      * @param string $ip Given IP address
      *
-     * @return string|int A if IPv4, AAAA if IPv6 or 0 if invalid
+     * @return int|string A if IPv4, AAAA if IPv6 or 0 if invalid
+     *
+     * @psalm-return 'A'|'AAAA'|0
      */
-    public function isValidIpAddress(string $ip)
+    public function isValidIpAddress(string $ip) //mb TODO not used!
     {
         $value = 0;
         if (\filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {

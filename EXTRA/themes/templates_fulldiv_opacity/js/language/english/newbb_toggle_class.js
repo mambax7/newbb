@@ -1,7 +1,7 @@
 // START irmtfan - improve: add alt, title, id and innerHTML - recognize a IMG tag for src
 function ToggleBlockCategory(block, icon, src_expand, src_collapse, alt_expand, alt_collapse, class_expand, class_collapse) {
-    var Img_tag = 'IMG';
-    var el = document.getElementById(block);
+    const Img_tag = 'IMG';
+    let el = document.getElementById(block);
     if (el.className === class_expand) {
         el.className = class_collapse;
         if (icon.nodeName === Img_tag) {
@@ -28,16 +28,16 @@ function ToggleBlockCategory(block, icon, src_expand, src_collapse, alt_expand, 
 
 // source: http://stackoverflow.com/questions/1991608/find-base-name-in-url-in-javascript
 function findBaseName(url) {
-    var fileName = url.substring(url.lastIndexOf('/') + 1);
-    var dot = fileName.lastIndexOf('.');
+    let fileName = url.substring(url.lastIndexOf('/') + 1);
+    let dot = fileName.lastIndexOf('.');
     return dot == -1 ? fileName : fileName.substring(0, dot);
 }
 
 // END irmtfan - improve: add alt, title and innerHTML - recognize a IMG tag for src
 
 function SaveCollapsed(objid, addcollapsed) {
-    var collapsed = GetCookie(toggle_cookie);
-    var tmp = "";
+    let collapsed = GetCookie(toggle_cookie);
+    let tmp = "";
 
     if (collapsed !== null) {
         collapsed = collapsed.split(",");
@@ -73,7 +73,7 @@ function GetCookie(name) {
     while (cookie_begin < cookie_length) {
         value_begin = cookie_begin + cookie_name.length;
         if (document.cookie.substring(cookie_begin, value_begin) === cookie_name) {
-            var value_end = document.cookie.indexOf(";", value_begin);
+            let value_end = document.cookie.indexOf(";", value_begin);
             if (value_end === -1) {
                 value_end = cookie_length;
             }

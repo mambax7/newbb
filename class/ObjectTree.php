@@ -27,12 +27,18 @@ if (!\class_exists('ObjectTree')) {
     class ObjectTree extends \XoopsObjectTree
     {
         /**
-         * @param array     $objectArr
-         * @param string|int|null $rootId
+         * Constructor
+         *
+         * @param array       $objectArr Array of {@link XoopsObject}s
+         * @param string|null $myId      field name of object ID
+         * @param string|null $parentId  field name of parent object ID
+         * @param string|null $rootId    field name of root object ID
          */
-        public function __construct(array $objectArr, $rootId = null)
+        public function __construct(array $objectArr, $myId = null, $parentId = null, $rootId = null)
         {
-            parent::__construct($objectArr, 'forum_id', 'parent_forum', $rootId);
+            $myId     ??= 'forum_id';
+            $parentId ??= 'parent_forum';
+            parent::__construct($objectArr, $myId, $parentId, $rootId);
         }
 
         /**
@@ -51,7 +57,7 @@ if (!\class_exists('ObjectTree')) {
         private function makeTreeItems(int $key, array &$ret, string $prefix_orig, string $prefix_curr = '', array $tags = null): void
         {
             if ($key > 0) {
-                if (\count($tags) > 0) {
+                if (\count((array) $tags) > 0) {
                     foreach ($tags as $tag) {
                         $ret[$key][$tag] = $this->tree[$key]['obj']->getVar($tag);
                     }

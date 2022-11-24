@@ -15,7 +15,10 @@ namespace XoopsModules\Newbb;
 /**
  * @param int $RPG
  * @param int $RPGDIFF
- * @return array
+ *
+ * @return (float|string)[]
+ *
+ * @psalm-return array{level: float, exp: float, exp_width: string, hp: float, hp_max: float, hp_width: string, mp: float, mp_max: float, mp_width: string}
  */
 function newbb_calculateLevel(int $RPG, int $RPGDIFF): array
 {
@@ -29,7 +32,7 @@ function newbb_calculateLevel(int $RPG, int $RPGDIFF): array
         $exp = 1;
     }
     $ppd       = \round($RPG / $exp, 0);
-    $level     = \pow(\log10($RPG), 3);
+    $level     = \log10($RPG) ** 3;
     $ep        = \floor(100 * ($level - \floor($level)));
     $showlevel = \floor($level + 1);
     $hpmulti   = \round($ppd / 6, 1);
@@ -101,7 +104,9 @@ class User
     }
 
     /**
-     * @return array
+     * @return (mixed|string)[][]
+     *
+     * @psalm-return array{profile?: array{link: string, name: mixed}, pm?: array{link: string, name: mixed}, email?: array{link: string, name: mixed}, url?: array{link: string, name: mixed}, icq?: array{link: string, name: mixed}, aim?: array{link: string, name: mixed}, yim?: array{link: string, name: mixed}, msnm?: array{link: string, name: mixed}}
      */
     public function getUserbar(): array
     {
@@ -211,10 +216,14 @@ class User
 
     /**
      * @param \XoopsUser $user
-     * @return array
+     *
+     * @return (array|mixed|string)[]
+     *
+     * @psalm-return array{uid?: mixed, name: mixed|string, link: mixed|string, avatar?: mixed, rank?: array{image?: mixed, title?: mixed}, groups?: list<mixed>, from?: mixed, regdate?: string, last_login?: string, posts?: mixed, level?: string, userbar?: array, signature?: mixed}
      */
     public function getInfo(\XoopsUser $user): array
     {
+        $userinfo = [];
         global $myts;
         static $name_anonymous;
 

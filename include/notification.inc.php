@@ -21,10 +21,14 @@ if (!defined('NEWBB_NOTIFY_ITEMINFO')) {
     /**
      * @param string $category
      * @param int $item_id
-     * @return array
+     *
+     * @return (mixed|string)[]
+     *
+     * @psalm-return array{name?: ''|mixed, url?: string}
      */
     function newbb_notify_iteminfo(string $category, int $item_id): array
     {
+        $item = [];
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $module        = $moduleHandler->getByDirname('newbb');
@@ -84,5 +88,6 @@ if (!defined('NEWBB_NOTIFY_ITEMINFO')) {
 
             return $item;
         }
+        return $item;
     }
 }

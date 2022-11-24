@@ -31,7 +31,8 @@
 
 /**
  * @param XoopsModule $module
- * @return bool
+ *
+ * @return true
  */
 function xoops_module_update_newbb_v220(XoopsModule $module): bool
 {
@@ -62,7 +63,7 @@ function xoops_module_update_newbb_v220(XoopsModule $module): bool
         \trigger_error("Query Failed! SQL: $sql- Error: " . $GLOBALS['xoopsDB']->error(), E_USER_ERROR);
     }
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $mods       = explode(' ', $row['forum_moderator']);
+        $mods       = explode(' ', (string) $row['forum_moderator']);
         $mods       = is_array($mods) ? serialize($mods) : serialize([]);
         $sql_sub    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('bb_forums') . " SET forum_moderator='" . $mods . "' WHERE forum_id=" . $row['forum_id'];
         $result_sub = $GLOBALS['xoopsDB']->queryF($sql_sub);

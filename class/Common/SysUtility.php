@@ -171,12 +171,12 @@ class SysUtility
 
         if (\class_exists('XoopsFormEditor')) {
             if ($isAdmin) {
-                $descEditor = new \XoopsFormEditor(\ucfirst($options['name']), $helper->getConfig('editorAdmin'), $options, $nohtml = false, $onfailure = 'textarea');
+                $descEditor = new \XoopsFormEditor(\ucfirst((string) $options['name']), $helper->getConfig('editorAdmin'), $options, $nohtml = false, $onfailure = 'textarea');
             } else {
-                $descEditor = new \XoopsFormEditor(\ucfirst($options['name']), $helper->getConfig('editorUser'), $options, $nohtml = false, $onfailure = 'textarea');
+                $descEditor = new \XoopsFormEditor(\ucfirst((string) $options['name']), $helper->getConfig('editorUser'), $options, $nohtml = false, $onfailure = 'textarea');
             }
         } else {
-            $descEditor = new \XoopsFormDhtmlTextArea(\ucfirst($options['name']), $options['name'], $options['value'], '100%', '100%');
+            $descEditor = new \XoopsFormDhtmlTextArea(\ucfirst((string) $options['name']), $options['name'], $options['value'], '100%', '100%');
         }
 
         //        $form->addElement($descEditor);
@@ -225,11 +225,11 @@ class SysUtility
     }
 
     /**
-     * @param array|string $tableName
+     * @param mixed[]|string $tableName
      * @param string       $id_field
      * @param int          $id
      *
-     * @return int|string|false
+     * @return bool
      */
     public static function cloneRecord($tableName, string $id_field, int $id): bool
     {
@@ -261,14 +261,15 @@ class SysUtility
      *
      * @param string $field
      * @param string $table
-     * @return bool|\mysqli_result
      * @author        Hervé Thouzard (https://www.herve-thouzard.com)
      * @copyright (c) Hervé Thouzard
+     * @return bool|\mysqli_result
      */
-    public function addField(string $field, string $table)
+    public static function addField(string $field, string $table)
     {
         global $xoopsDB;
-        $result = $xoopsDB->queryF('ALTER TABLE ' . $table . " ADD $field");
+        $sql = 'ALTER TABLE ' . $table . " ADD $field";
+        $result = $xoopsDB->queryF($sql);
 
         return $result;
     }

@@ -45,7 +45,7 @@ class ReportHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param int|array $forums
+     * @param int|mixed[] $forums
      * @param string    $order
      * @param int       $perpage
      * @param int       $start
@@ -87,7 +87,7 @@ class ReportHandler extends \XoopsPersistableObjectHandler
             if ($this->db->isResultSet($result)) {
                 $row = $this->db->fetchArray($result);
             }
-            $position = isset($row['report_count']) ?$row['report_count'] : 0;
+            $position = $row['report_count'] ?? 0;
             $start    = (int)($position / $perpage) * $perpage;
         }
 

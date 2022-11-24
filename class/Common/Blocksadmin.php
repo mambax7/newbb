@@ -34,10 +34,6 @@ final class Blocksadmin
      */
     public $db;
     /**
-     * @var Helper
-     */
-    public Helper $helper;
-    /**
      * @var string
      */
     public string $moduleDirName;
@@ -45,6 +41,10 @@ final class Blocksadmin
      * @var string
      */
     public string $moduleDirNameUpper;
+    /**
+     * @var Helper
+     */
+    public Helper $helper;
 
     /**
      * Blocksadmin constructor.
@@ -53,12 +53,12 @@ final class Blocksadmin
      */
     public function __construct(?\XoopsMySQLDatabase $db, Helper $helper)
     {
+        $this->helper = $helper;
         if (null == $db) {
             $db = \XoopsDatabaseFactory::getDatabaseConnection();
         }
         $this->db                 = $db;
         assert($this->db instanceof \XoopsMySQLDatabase);
-        $this->helper             = $helper;
         $this->moduleDirName      = \basename(\dirname(__DIR__, 2));
         $this->moduleDirNameUpper = \mb_strtoupper($this->moduleDirName);
         \xoops_loadLanguage('admin', 'system');
@@ -106,7 +106,7 @@ final class Blocksadmin
         <th style='text-align:center;'>" . \constant('CO_' . $this->moduleDirNameUpper . '_' . 'ACTION') . '</th>
         </tr>';
         $blockArray = \XoopsBlock::getByModule($xoopsModule->mid());
-        $blockCount = \count($blockArray);
+        $blockCount = is_countable($blockArray) ? \count($blockArray) : 0;
         $class      = 'even';
         $cachetimes = [
             0       => \_NOCACHE,
@@ -119,7 +119,7 @@ final class Blocksadmin
             86400   => \_DAY,
             259200  => \sprintf(\_DAYS, 3),
             604800  => \_WEEK,
-            2592000 => \_MONTH,
+            2_592_000 => \_MONTH,
         ];
         foreach ($blockArray as $i) {
             $modules = [];
@@ -328,6 +328,7 @@ final class Blocksadmin
      */
     public function isBlockCloned(int $bid, string $bside, string $bweight, string $bvisible, string $bcachetime, ?array $bmodule, ?array $options, ?array $groups): void
     {
+        $newid = null;
         \xoops_loadLanguage('admin', 'system');
         \xoops_loadLanguage('admin/blocksadmin', 'system');
         \xoops_loadLanguage('admin/groups', 'system');
@@ -337,7 +338,7 @@ final class Blocksadmin
         $block = new \XoopsBlock($bid);
         $clone = $block->xoopsClone();
         assert($clone instanceof \XoopsObject);
-        if (empty($bmodule)) {
+        if (($bmodule === null || $bmodule === [])) {
             //            \xoops_cp_header();
             \xoops_error(\sprintf(_AM_NOTSELNG, _AM_VISIBLEIN));
             \xoops_cp_footer();
@@ -373,7 +374,7 @@ final class Blocksadmin
             /** @var \XoopsTplfileHandler $tplfileHandler */
             $tplfileHandler = \xoops_getHandler('tplfile');
             $btemplate      = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', (string)$bid);
-            if (\count($btemplate) > 0) {
+            if ((is_countable($btemplate) ? \count($btemplate) : 0) > 0) {
                 $tplclone = $btemplate[0]->xoopsClone();
                 $tplclone->setVar('tpl_id', 0);
                 $tplclone->setVar('tpl_refid', $newid);
@@ -502,7 +503,7 @@ final class Blocksadmin
         //        $blockHandler = \xoops_getHandler('block');
         //        $blockHandler->insert($myblock);
 
-        if (!empty($bmodule) && $bmodule !== []) {
+        if (($bmodule !== null && $bmodule !== []) && $bmodule !== []) {
             $sql = \sprintf('DELETE FROM `%s` WHERE block_id = %u', $this->db->prefix('block_module_link'), $bid);
             $this->db->query($sql);
             if (\in_array(0, $bmodule)) {
@@ -517,7 +518,7 @@ final class Blocksadmin
         }
         $sql = \sprintf('DELETE FROM `%s` WHERE gperm_itemid = %u', $this->db->prefix('group_permission'), $bid);
         $this->db->query($sql);
-        if (!empty($groups)) {
+        if (($groups !== null && $groups !== [])) {
             foreach ($groups as $grp) {
                 $sql = \sprintf("INSERT INTO `%s` (gperm_groupid, gperm_itemid, gperm_modid, gperm_name) VALUES (%u, %u, 1, 'block_read')", $this->db->prefix('group_permission'), $grp, $bid);
                 $this->db->query($sql);
@@ -558,7 +559,7 @@ final class Blocksadmin
                 || $oldbmodule[$i] !== $bmodule[$i]) {
                 $this->setOrder($bid[$i], $title[$i], $weight[$i], $visible[$i], $side[$i], $bcachetime[$i], $bmodule[$i]);
             }
-            if (!empty($bmodule[$i]) && \count($bmodule[$i]) > 0) {
+            if (!empty($bmodule[$i]) && (is_countable($bmodule[$i]) ? \count($bmodule[$i]) : 0) > 0) {
                 $sql = \sprintf('DELETE FROM `%s` WHERE block_id = %u', $this->db->prefix('block_module_link'), $bid[$i]);
                 $this->db->query($sql);
                 if (\in_array(0, $bmodule[$i], true)) {
@@ -586,8 +587,9 @@ final class Blocksadmin
 
     /**
      * @param array|null $block
+     * @return void
      */
-    public function render(?array $block = null)
+    public function render(?array $block = null): void
     {
         \xoops_load('XoopsFormLoader');
         \xoops_loadLanguage('common', $this->moduleDirNameUpper);
@@ -639,11 +641,11 @@ final class Blocksadmin
                 /** @var \XoopsTplfileHandler $tplfileHandler */
                 $tplfileHandler = \xoops_getHandler('tplfile');
                 $btemplate      = $tplfileHandler->find($GLOBALS['xoopsConfig']['template_set'], 'block', $block['bid']);
-                if (\count($btemplate) > 0) {
+                if ((is_countable($btemplate) ? \count($btemplate) : 0) > 0) {
                     $form->addElement(new \XoopsFormLabel(\_AM_SYSTEM_BLOCKS_CONTENT, '<a href="' . XOOPS_URL . '/modules/system/admin.php?fct=tplsets&amp;op=edittpl&amp;id=' . $btemplate[0]->getVar('tpl_id') . '">' . \_AM_SYSTEM_BLOCKS_EDITTPL . '</a>'));
                 } else {
                     $btemplate2 = $tplfileHandler->find('default', 'block', $block['bid']);
-                    if (\count($btemplate2) > 0) {
+                    if ((is_countable($btemplate2) ? \count($btemplate2) : 0) > 0) {
                         $form->addElement(new \XoopsFormLabel(\_AM_SYSTEM_BLOCKS_CONTENT, '<a href="' . XOOPS_URL . '/modules/system/admin.php?fct=tplsets&amp;op=edittpl&amp;id=' . $btemplate2[0]->getVar('tpl_id') . '" target="_blank">' . \_AM_SYSTEM_BLOCKS_EDITTPL . '</a>'));
                     }
                 }
@@ -664,7 +666,7 @@ final class Blocksadmin
                                           86400   => \_DAY,
                                           259200  => \sprintf(\_DAYS, 3),
                                           604800  => \_WEEK,
-                                          2592000 => \_MONTH,
+                                          2_592_000 => \_MONTH,
                                       ]);
         $form->addElement($cache_select);
 

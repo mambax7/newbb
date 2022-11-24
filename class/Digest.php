@@ -64,7 +64,7 @@ class Digest extends \XoopsObject
 
         $clean = \stripslashes($text);
         $clean = &$myts->displayTarea($clean, 1, 0, 1);
-        $clean = \strip_tags($clean);
+        $clean = \strip_tags((string) $clean);
         $clean = \htmlspecialchars($clean, \ENT_QUOTES);
 
         return $clean;

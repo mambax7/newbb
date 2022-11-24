@@ -49,10 +49,11 @@ function xoops_module_pre_install_newbb(\XoopsModule $module): bool
 }
 
 /**
- * Performs tasks required during installation of the module
+ *  Performs tasks required during installation of the module
+ *
  * @param \XoopsModule $module {@link XoopsModule}
  *
- * @return bool true if installation successful, false if not
+ * @return true true if installation successful, false if not
  */
 function xoops_module_install_newbb(\XoopsModule $module): bool
 {

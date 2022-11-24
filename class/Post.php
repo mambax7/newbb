@@ -99,7 +99,7 @@ class Post extends \XoopsObject
         if (empty($attachment)) {
             $this->attachmentArray = [];
         } else {
-            $this->attachmentArray = @\unserialize(\base64_decode($attachment, true));
+            $this->attachmentArray = @\unserialize(\base64_decode((string) $attachment, true));
         }
 
         return $this->attachmentArray;
@@ -228,7 +228,7 @@ class Post extends \XoopsObject
             $post_attachment  .= '<br><strong>' . \_MD_NEWBB_ATTACHMENT . '</strong>:';
             $post_attachment  .= '<br><hr size="1" noshade="noshade" ><br>';
             foreach ($attachments as $key => $att) {
-                $file_extension = \ltrim(mb_strrchr($att['name_saved'], '.'), '.');
+                $file_extension = \ltrim(mb_strrchr((string) $att['name_saved'], '.'), '.');
                 $filetype       = $file_extension;
                 if (\file_exists($GLOBALS['xoops']->path($mime_path . '/' . $filetype . '.gif'))) {
                     $icon_filetype = XOOPS_URL . '/' . $mime_path . '/' . $filetype . '.gif';
@@ -237,7 +237,7 @@ class Post extends \XoopsObject
                 }
                 $file_size = @\filesize($GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments'] . '/' . $att['name_saved']));
                 $file_size = \number_format($file_size / 1024, 2) . ' KB';
-                $att['nameDisplay'] = $att['nameDisplay']??'';
+                $att['nameDisplay'] ??= '';
                 if ($GLOBALS['xoopsModuleConfig']['media_allowed']
                     && \in_array(mb_strtolower($file_extension), $image_extensions, true)) {
                     $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '" ><strong>&nbsp; ' . $att['nameDisplay'] . '</strong> <small>(' . $file_size . ')</small>';
@@ -332,7 +332,7 @@ class Post extends \XoopsObject
 
         $post_edits = $this->getVar('post_edit');
         if (!empty($post_edits)) {
-            $post_edits = \unserialize(\base64_decode($post_edits, true));
+            $post_edits = \unserialize(\base64_decode((string) $post_edits, true));
         }
         if (!\is_array($post_edits)) {
             $post_edits = [];
@@ -359,7 +359,7 @@ class Post extends \XoopsObject
         $post_edit  = '';
         $post_edits = $this->getVar('post_edit');
         if (!empty($post_edits)) {
-            $post_edits = \unserialize(\base64_decode($post_edits, true));
+            $post_edits = \unserialize(\base64_decode((string) $post_edits, true));
         }
         if (!isset($post_edits) || !\is_array($post_edits)) {
             $post_edits = [];
@@ -519,7 +519,7 @@ class Post extends \XoopsObject
         $uid = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         ++$post_NO;
-        if ('desc' === \mb_strtolower($order)) {
+        if ('desc' === \mb_strtolower((string) $order)) {
             $post_no = $total_posts - ($start + $post_NO) + 1;
         } else {
             $post_no = $start + $post_NO;
@@ -656,7 +656,7 @@ class Post extends \XoopsObject
 
         if ($GLOBALS['xoopsModuleConfig']['show_sociallinks']) {
             $full_title  = $this->getVar('subject');
-            $clean_title = \preg_replace('/[^A-Za-z0-9-]+/', '+', $this->getVar('subject'));
+            $clean_title = \preg_replace('/[^A-Za-z0-9-]+/', '+', (string) $this->getVar('subject'));
             // BigKev73 - added to make page scroll to the last post
             $full_link = XOOPS_URL . '/modules/newbb/viewtopic.php?post_id=' . $post_id . '#forumpost=' . $post_id;
             //$full_link   = XOOPS_URL . '/modules/newbb/viewtopic.php?post_id=' . $post_id;

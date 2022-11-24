@@ -183,12 +183,12 @@ if (Request::hasVar('submit', 'POST')) {
     $days->addOptionArray(
         [
             604800   => _AM_NEWBB_PRUNE_WEEK,
-            1209600  => _AM_NEWBB_PRUNE_2WEEKS,
-            2592000  => _AM_NEWBB_PRUNE_MONTH,
-            5184000  => _AM_NEWBB_PRUNE_2MONTH,
-            10368000 => _AM_NEWBB_PRUNE_4MONTH,
-            31536000 => _AM_NEWBB_PRUNE_YEAR,
-            63072000 => _AM_NEWBB_PRUNE_2YEARS,
+            1_209_600  => _AM_NEWBB_PRUNE_2WEEKS,
+            2_592_000  => _AM_NEWBB_PRUNE_MONTH,
+            5_184_000  => _AM_NEWBB_PRUNE_2MONTH,
+            10_368_000 => _AM_NEWBB_PRUNE_4MONTH,
+            31_536_000 => _AM_NEWBB_PRUNE_YEAR,
+            63_072_000 => _AM_NEWBB_PRUNE_2YEARS,
         ]
     );
     $sform->addElement($days);

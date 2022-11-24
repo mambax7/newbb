@@ -25,6 +25,9 @@ use XoopsModules\Newbb;
  */
 class Migrate extends \Xmf\Database\Migrate
 {
+    /**
+     * @readonly
+     */
     private array $renameTables;
 
     /**
@@ -78,8 +81,8 @@ class Migrate extends \Xmf\Database\Migrate
     {
         if ($this->tableHandler->useTable($tableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
-            if (false !== mb_strpos($attributes, ' int(')) {
-                if (false === mb_strpos($attributes, 'unsigned')) {
+            if (false !== mb_strpos((string) $attributes, ' int(')) {
+                if (false === mb_strpos((string) $attributes, 'unsigned')) {
                     $this->tableHandler->alterColumn($tableName, $columnName, " bigint(16) NOT NULL  DEFAULT '0' ");
                     $this->tableHandler->update($tableName, [$columnName => "4294967296 + $columnName"], "WHERE $columnName < 0", false);
                 }

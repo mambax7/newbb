@@ -44,7 +44,7 @@ if (!defined('NEWBB_FUNCTIONS_TIME')) {
     {
         $newbbConfig = newbbLoadConfig();
         // irmtfan - new method to get user inputs
-        preg_match_all('/-?\d+/', $newbbConfig['since_options'], $match);
+        preg_match_all('/-?\d+/', (string) $newbbConfig['since_options'], $match);
         $select_array = array_unique($match[0]);
         //$select_array = explode(',', $newbbConfig['since_options']);
         //$select_array = array_map('trim', $select_array);
@@ -101,7 +101,10 @@ if (!defined('NEWBB_FUNCTIONS_TIME')) {
 
     /**
      * @param int $since
+     *
      * @return int
+     *
+     * @psalm-return 0|positive-int
      */
     function newbbGetSinceTime(int $since = 100)
     {

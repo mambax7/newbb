@@ -126,7 +126,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
         if (!is_array($list) || $refresh) {
             $list = newbbCreateSubForumList();
         }
-        if (0 == $pid) {
+        if (0 === $pid) {
             return $list;
         }
 
@@ -134,7 +134,9 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
     }
 
     /**
-     * @return array
+     * @return array[]
+     *
+     * @psalm-return array<non-empty-list<empty>>
      */
     function newbbCreateSubForumList(): array
     {
@@ -176,7 +178,7 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
         if (!is_array($list) || $refresh) {
             $list = newbbCreateParentForumList();
         }
-        if (0 == $forum_id) {
+        if (0 === $forum_id) {
             return $list;
         }
 
@@ -184,7 +186,9 @@ if (!defined('NEWBB_FUNCTIONS_FORUM')) {
     }
 
     /**
-     * @return array
+     * @return array[]
+     *
+     * @psalm-return array<array>
      */
     function newbbCreateParentForumList(): array
     {

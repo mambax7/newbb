@@ -52,7 +52,10 @@ require_once \dirname(__DIR__) . '/include/functions.user.php';
 
 /**
  * @param array $options
- * @return array
+ *
+ * @return (array|bool)[]
+ *
+ * @psalm-return array{headers: array, indexNav: bool}
  */
 function newbb_list_topic_show(array $options ): array
 {
@@ -71,8 +74,8 @@ function newbb_list_topic_show(array $options ): array
     $topicRenderer->config['topic_title_excerpt'] = (int)$options[10]; // topic title length 0 = dont excerpt
     $topicRenderer->config['post_excerpt']        = (int)$options[11]; // post text excerpt 0 = no post text
 
-    $optionsStatus = explode(',', $options[0]); // status in where claus
-    $optionsForum  = explode(',', $options[12]);
+    $optionsStatus = explode(',', (string) $options[0]); // status in where claus
+    $optionsForum  = explode(',', (string) $options[12]);
 
     // set and parse values:
     // forum: parse positive values to forum IDs and negative values to category IDs. value=0 => all valid forums
@@ -116,7 +119,7 @@ function newbb_list_topic_edit(array $options ): string
     $topicRenderer->userlevel = 2; // 2 - moderator or admin
 
     // status element
-    $optionsStatus = explode(',', $options[0]);
+    $optionsStatus = explode(',', (string) $options[0]);
     $statusEle     = new \XoopsFormSelect(_MB_NEWBB_CRITERIA, 'options[0]', $optionsStatus, 5, true);
     $status        = $topicRenderer->getStatus($topicRenderer->userlevel); // get all public status + admin status (admin mode, pending deleted)
     $statusEle->addOptionArray($status);
@@ -128,7 +131,7 @@ function newbb_list_topic_edit(array $options ): string
     $topicPosterRadioEle->addOption('-1', _MD_NEWBB_TOTALUSER);
     $topicPosterRadioEle->addOption((-1 !== $options[1]) ? $options[1] : 0, _SELECT); // if no user in selection box it select uid=0 anon users
     $topicPosterRadioEle->setExtra("onchange=\"var el=document.getElementById('options[1]'); el.disabled=(this.id == 'options[1]1'); if (!el.value) {el.value= this.value}\""); // if user dont select any option it select "all"
-    $topicPosterSelectEle = new \XoopsFormSelectUser(_MB_NEWBB_AUTHOR, 'options[1]', true, explode(',', $options[1]), 5, true); // show $limit = 200 users when no user is selected;
+    $topicPosterSelectEle = new \XoopsFormSelectUser(_MB_NEWBB_AUTHOR, 'options[1]', true, explode(',', (string) $options[1]), 5, true); // show $limit = 200 users when no user is selected;
     $topicPosterEle       = new \XoopsFormLabel(_MB_NEWBB_AUTHOR, $topicPosterRadioEle->render() . $topicPosterSelectEle->render());
 
     // lastposter element
@@ -136,7 +139,7 @@ function newbb_list_topic_edit(array $options ): string
     $lastPosterRadioEle->addOption('-1', _MD_NEWBB_TOTALUSER);
     $lastPosterRadioEle->addOption((-1 !== $options[2]) ? $options[2] : 0, _SELECT); // if no user in selection box it select uid=1
     $lastPosterRadioEle->setExtra("onchange=\"var el=document.getElementById('options[2]'); el.disabled=(this.id == 'options[2]1'); if (!el.value) {el.value= this.value}\""); // if user dont select any option it select "all"
-    $lastPosterSelectEle = new \XoopsFormSelectUser(_MD_NEWBB_POSTER, 'options[2]', true, explode(',', $options[2]), 5, true); // show $limit = 200 users when no user is selected;
+    $lastPosterSelectEle = new \XoopsFormSelectUser(_MD_NEWBB_POSTER, 'options[2]', true, explode(',', (string) $options[2]), 5, true); // show $limit = 200 users when no user is selected;
     $lastPosterEle       = new \XoopsFormLabel(_MD_NEWBB_POSTER, $lastPosterRadioEle->render() . $lastPosterSelectEle->render());
 
     // type element
@@ -167,7 +170,7 @@ function newbb_list_topic_edit(array $options ): string
     $timeEle->setDescription(_MB_NEWBB_TIME_DESC);
 
     // mode disp element
-    $options_headers = explode(',', $options[8]);
+    $options_headers = explode(',', (string) $options[8]);
     $modeEle         = new \XoopsFormCheckBox(_MB_NEWBB_DISPLAYMODE, 'options[8][]', $options_headers);
     $modeEle->setDescription(_MB_NEWBB_DISPLAYMODE_DESC);
     $modeEle->columns = 4;
@@ -186,7 +189,7 @@ function newbb_list_topic_edit(array $options ): string
     $postExcerptEle->setDescription(_MB_NEWBB_POST_EXCERPT_DESC);
 
     //  forum element
-    $optionsForum = explode(',', $options[12]);
+    $optionsForum = explode(',', (string) $options[12]);
     require_once \dirname(__DIR__) . '/include/functions.forum.php';
     $forumHandler = Helper::getInstance()->getHandler('Forum');
     assert($forumHandler instanceof ForumHandler);

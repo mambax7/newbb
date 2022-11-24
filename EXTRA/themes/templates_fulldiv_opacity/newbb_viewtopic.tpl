@@ -255,7 +255,7 @@
 <!-- Add scroll js function to scroll down to current post -->
 <script type="text/javascript">
     if (document.body.scrollIntoView && window.location.href.indexOf('#') == -1) {
-        var el = xoopsGetElementById('<{$forum_post_prefix}><{$post_id}>');
+        let el = xoopsGetElementById('<{$forum_post_prefix}><{$post_id}>');
         if (el) {
             el.scrollIntoView(true);
         }

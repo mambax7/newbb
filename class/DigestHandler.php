@@ -68,6 +68,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
      */
     public function notify(\XoopsObject $digest): bool
     {
+        $tags = [];
         //$content                = $digest->getVar('digest_content');
         /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler    = \xoops_getHandler('notification');
@@ -134,7 +135,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
     /**
      * @return int
      */
-    public function checkStatus()
+    public function checkStatus(): int
     {
         if (!isset($this->last_digest)) {
             $this->getLastDigest();

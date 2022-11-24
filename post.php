@@ -80,6 +80,7 @@ if ($GLOBALS['xoopsModuleConfig']['wol_enabled']) {
 
 $error_message = [];
 
+$isAdmin = null;
 if (Request::getString('contents_submit', '', 'POST')) {
     $token_valid = $GLOBALS['xoopsSecurity']->check();
 
@@ -99,7 +100,7 @@ if (Request::getString('contents_submit', '', 'POST')) {
                 $_SESSION['xoopsUserId']     = $user->getVar('uid');
                 $_SESSION['xoopsUserGroups'] = $user->getGroups();
                 if ($GLOBALS['xoopsConfig']['use_mysession'] && '' !== $GLOBALS['xoopsConfig']['session_name']) {
-                    setcookie($GLOBALS['xoopsConfig']['session_name'], session_id(), time() + (60 * $GLOBALS['xoopsConfig']['session_expire']), '/', '', 0);
+                    setcookie($GLOBALS['xoopsConfig']['session_name'], session_id(), ['expires' => time() + (60 * $GLOBALS['xoopsConfig']['session_expire']), 'path' => '/', 'domain' => '', 'secure' => 0]);
                 }
                 $user_theme = $user->getVar('theme');
                 if (in_array($user_theme, $GLOBALS['xoopsConfig']['theme_set_allowed'], true)) {
@@ -142,6 +143,8 @@ if (Request::getString('contents_submit', '', 'POST')) {
     }
 }
 
+$_tags = null;
+$attachments_tmp = null;
 if (Request::getString('contents_submit', '', 'POST')) {
     $message = Request::getText('message', '', 'POST');
     if (empty($message)) {
@@ -242,15 +245,15 @@ if (Request::getString('contents_submit', '', 'POST')) {
     //    $attachments_tmp = [];
     //    if (!empty($_POST["attachments_tmp"])) {
     if (Request::getString('attachments_tmp', '', 'POST')) {
-        $attachments_tmp = unserialize(base64_decode(Request::getString('attachments_tmp', '', 'POST'), true));
-        if (Request::getArray('delete_tmp', null, 'POST') && count(Request::getArray('delete_tmp', null, 'POST')) > 1) {
+        $attachments_tmp = unserialize(base64_decode((string) Request::getString('attachments_tmp', '', 'POST'), true));
+        if (Request::getArray('delete_tmp', null, 'POST') && (is_countable(Request::getArray('delete_tmp', null, 'POST')) ? count(Request::getArray('delete_tmp', null, 'POST')) : 0) > 1) {
             foreach (Request::getArray('delete_tmp', null, 'POST') as $key) {
                 unlink($GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments'] . '/' . $attachments_tmp[$key][0]));
                 unset($attachments_tmp[$key]);
             }
         }
     }
-    if (isset($attachments_tmp) && count($attachments_tmp)) {
+    if (isset($attachments_tmp) && (is_countable($attachments_tmp) ? count($attachments_tmp) : 0)) {
         foreach ($attachments_tmp as $key => $attach) {
             if (rename(XOOPS_CACHE_PATH . '/' . $attach[0], $GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments'] . '/' . $attach[0]))) {
                 $postObject->setAttachment($attach[0], $attach[1], $attach[2]);
@@ -438,8 +441,8 @@ if (Request::getString('contents_upload', null, 'POST')) {
     //  if (Request::getArray('attachments_tmp', null, 'POST')) {
     //      $attachments_tmp = unserialize(base64_decode(Request::getArray('attachments_tmp', [], 'POST'), true));
     if (Request::getString('attachments_tmp', '', 'POST')) {
-        $attachments_tmp = unserialize(base64_decode(Request::getString('attachments_tmp', [], 'POST'), true));
-        if (Request::getArray('delete_tmp', null, 'POST') && count(Request::getArray('delete_tmp', null, 'POST'))) {
+        $attachments_tmp = unserialize(base64_decode((string) Request::getString('attachments_tmp', [], 'POST'), true));
+        if (Request::getArray('delete_tmp', null, 'POST') && (is_countable(Request::getArray('delete_tmp', null, 'POST')) ? count(Request::getArray('delete_tmp', null, 'POST')) : 0)) {
             foreach (Request::getArray('delete_tmp', '', 'POST') as $key) {
                 unlink($uploaddir = $GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments'] . '/' . $attachments_tmp[$key][0]));
                 unset($attachments_tmp[$key]);
@@ -490,10 +493,10 @@ if (Request::getString('contents_upload', null, 'POST')) {
 
 if (Request::getString('contents_preview', Request::getString('contents_preview', '', 'POST'), 'GET')) {
     if (Request::getString('attachments_tmp', '', 'POST')) {
-        $attachments_tmp = unserialize(base64_decode(Request::getString('attachments_tmp', '', 'POST'), true));
+        $attachments_tmp = unserialize(base64_decode((string) Request::getString('attachments_tmp', '', 'POST'), true));
     }
 
-    $p_subject = htmlspecialchars(Request::getString('subject', '', 'POST'), ENT_QUOTES | ENT_HTML5);
+    $p_subject = htmlspecialchars((string) Request::getString('subject', '', 'POST'), ENT_QUOTES | ENT_HTML5);
     $dosmiley  = Request::getInt('dosmiley', 0, 'POST');
     $dohtml    = Request::getInt('dohtml', 0, 'POST');
     $doxcode   = Request::getInt('doxcode', 0, 'POST');
@@ -512,7 +515,7 @@ if (Request::getString('contents_preview', Request::getString('contents_preview'
         $p_name = newbbGetUnameFromId($postObject->getVar('uid'), $GLOBALS['xoopsModuleConfig']['show_realname']);
     }
     if (empty($p_name)) {
-        $p_name = Request::getString('poster_name', '', 'POST') ? htmlspecialchars(Request::getString('poster_name', '', 'POST'), ENT_QUOTES | ENT_HTML5) : htmlspecialchars((string)$GLOBALS['xoopsConfig']['anonymous'], ENT_QUOTES | ENT_HTML5);
+        $p_name = Request::getString('poster_name', '', 'POST') ? htmlspecialchars((string) Request::getString('poster_name', '', 'POST'), ENT_QUOTES | ENT_HTML5) : htmlspecialchars((string)$GLOBALS['xoopsConfig']['anonymous'], ENT_QUOTES | ENT_HTML5);
     }
 
     $post_preview = [

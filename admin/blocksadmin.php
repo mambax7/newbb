@@ -39,11 +39,19 @@ if (!is_object($GLOBALS['xoopsUser']) || !is_object($xoopsModule)
     || !$GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     exit(constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR403'));
 }
+$bcachetime = null;
+$bmodule = null;
+$bside = null;
+$btitle = null;
+$bvisible = null;
+$bweight = null;
+$groups = null;
+$options = null;
 if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
     $op = Request::getCmd('op', 'list');
-    if (!empty($_POST)) {
+    if ($_POST !== []) {
         $ok             = Request::getInt('ok', 0, 'POST');
         $confirm_submit = Request::getCmd('confirm_submit', '', 'POST');
         $submit         = Request::getString('submit', '', 'POST');

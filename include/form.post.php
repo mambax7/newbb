@@ -133,7 +133,7 @@ if ($editby) {
 $uid = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 if (newbbIsAdmin($forumObject)
     || ($topicHandler->getPermission($forumObject, $topic_status, 'type')
-        && (0 == $topic_id
+        && (0 === $topic_id
             || $uid == $topicHandler->get(@$topic_id, 'topic_poster')))) {
     $type_id     = $topicHandler->get(@$topic_id, 'type_id');
     $typeHandler = Helper::getInstance()->getHandler('Type');
@@ -158,7 +158,7 @@ $forum_form->addElement($subject_form, true);
 
 if (!is_object($GLOBALS['xoopsUser'])) {
     $required = !empty($GLOBALS['xoopsModuleConfig']['require_name']);
-    $forum_form->addElement(new \XoopsFormText(_MD_NEWBB_NAMEMAIL, 'poster_name', 60, 255, (!empty($isedit) && !empty($poster_name)) ? $poster_name : ''), $required);
+    $forum_form->addElement(new \XoopsFormText(_MD_NEWBB_NAMEMAIL, 'poster_name', 60, 255, ($isedit !== 0 && !empty($poster_name)) ? $poster_name : ''), $required);
 }
 
 $icons_radio   = new \XoopsFormRadio(_MD_NEWBB_MESSAGEICON, 'icon', $icon);
@@ -171,21 +171,21 @@ $forum_form->addElement($icons_radio);
 $nohtml = !$topicHandler->getPermission($forumObject, $topic_status, 'html');
 
 if (Request::getString('editor', '', 'POST')) {
-    $editor = trim(Request::getString('editor', '', 'POST'));
+    $editor = trim((string) Request::getString('editor', '', 'POST'));
     newbbSetCookie('editor', $editor);
 } elseif (!$editor = newbbGetCookie('editor')) {
     if (empty($editor)) {
         $editor = @$GLOBALS['xoopsModuleConfig']['editor_default'];
     }
 }
-if (count(@$GLOBALS['xoopsModuleConfig']['editor_allowed']) > 0) {
+if ((is_countable(@$GLOBALS['xoopsModuleConfig']['editor_allowed']) ? count(@$GLOBALS['xoopsModuleConfig']['editor_allowed']) : 0) > 0) {
     if (!in_array($editor, $GLOBALS['xoopsModuleConfig']['editor_allowed'], true)) {
         $editor = $GLOBALS['xoopsModuleConfig']['editor_allowed'][0];
         newbbSetCookie('editor', $editor);
     }
 }
 
-$forum_form->addElement(new \XoopsFormSelectEditor($forum_form, 'editor', $editor, $nohtml, @$GLOBALS['xoopsModuleConfig']['editor_allowed'][0]));
+$forum_form->addElement(new \XoopsFormSelectEditor($forum_form->getName(), 'editor', $editor, $nohtml, @$GLOBALS['xoopsModuleConfig']['editor_allowed'][0]));
 
 $editor_configs           = [];
 $editor_configs['name']   = 'message';
@@ -201,8 +201,8 @@ $forum_form->addElement($_editor, true);
 if (!empty($GLOBALS['xoopsModuleConfig']['do_tag']) && (empty($postObject) || $postObject->isTopic())) {
     $topic_tags = '';
     if (Request::getString('topic_tags', '', 'POST')) {
-        $topic_tags = htmlspecialchars(Request::getString('topic_tags', '', 'POST'), ENT_QUOTES | ENT_HTML5);
-    } elseif (!empty($topic_id)) {
+        $topic_tags = htmlspecialchars((string) Request::getString('topic_tags', '', 'POST'), ENT_QUOTES | ENT_HTML5);
+    } elseif ($topic_id !== 0) {
         $topic_tags = $topicHandler->get($topic_id, 'topic_tags');
     }
     if (!empty($newbbConfig['do_tag']) && \class_exists(\XoopsModules\Tag\FormTag::class)) {
@@ -212,7 +212,7 @@ if (!empty($GLOBALS['xoopsModuleConfig']['do_tag']) && (empty($postObject) || $p
 
 $options_tray = new \XoopsFormElementTray(_MD_NEWBB_OPTIONS, '<br>');
 if (is_object($GLOBALS['xoopsUser']) && 1 == $GLOBALS['xoopsModuleConfig']['allow_user_anonymous']) {
-    $noname          = (!empty($isedit) && is_object($postObject) && 0 == $postObject->getVar('uid')) ? 1 : 0;
+    $noname          = ($isedit !== 0 && is_object($postObject) && 0 == $postObject->getVar('uid')) ? 1 : 0;
     $noname_checkbox = new \XoopsFormCheckBox('', 'noname', $noname);
     $noname_checkbox->addOption(1, _MD_NEWBB_POSTANONLY);
     $options_tray->addElement($noname_checkbox);
@@ -249,14 +249,14 @@ if (is_object($GLOBALS['xoopsUser']) && $topicHandler->getPermission($forumObjec
 }
 $notify = 0;
 if (is_object($GLOBALS['xoopsUser']) && $GLOBALS['xoopsModuleConfig']['notification_enabled']) {
-    if (!empty($notify)) {
+    if ($notify !== 0) {
         // If 'notify' set, use that value (e.g. preview or upload)
         //$notify = 1;
     } else {
         // Otherwise, check previous subscribed status...
         /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
-        if (!empty($topic_id)
+        if ($topic_id !== 0
             && $notificationHandler->isSubscribed('thread', $topic_id, 'new_post', $xoopsModule->getVar('mid'), $GLOBALS['xoopsUser']->getVar('uid'))) {
             $notify = 1;
         }
@@ -273,7 +273,7 @@ if ($topicHandler->getPermission($forumObject, $topic_status, 'attach')) {
     $upload_tray->addElement(new \XoopsFormFile('', 'userfile', $forumObject->getVar('attach_maxkb') * 1024));
     $upload_tray->addElement(new \XoopsFormButton('', 'contents_upload', _MD_NEWBB_UPLOAD, 'submit'));
     $upload_tray->addElement(new \XoopsFormLabel('<br><br>' . _MD_NEWBB_MAX_FILESIZE . ':', $forumObject->getVar('attach_maxkb') . 'Kb; '));
-    $extensions = trim(str_replace('|', ' ', $forumObject->getVar('attach_ext')));
+    $extensions = trim(str_replace('|', ' ', (string) $forumObject->getVar('attach_ext')));
     $extensions = (empty($extensions) || '*' === $extensions) ? _ALL : $extensions;
     $upload_tray->addElement(new \XoopsFormLabel(_MD_NEWBB_ALLOWED_EXTENSIONS . ':', $extensions));
     $upload_tray->addElement(new \XoopsFormLabel('<br>' . sprintf(_MD_NEWBB_MAXPIC, $GLOBALS['xoopsModuleConfig']['max_img_height'], $GLOBALS['xoopsModuleConfig']['max_img_width'])));
@@ -292,7 +292,7 @@ if (!empty($attachments) && is_array($attachments) && count($attachments)) {
 
 if (!empty($attachments_tmp) && is_array($attachments_tmp) && count($attachments_tmp)) {
     $delete_attach_checkbox = new \XoopsFormCheckBox(_MD_NEWBB_REMOVE, 'delete_tmp[]');
-    $url_prefix             = str_replace(XOOPS_ROOT_PATH, XOOPS_URL, XOOPS_CACHE_PATH);
+    $url_prefix             = str_replace(XOOPS_ROOT_PATH, XOOPS_URL, (string) XOOPS_CACHE_PATH);
     foreach ($attachments_tmp as $key => $attachment) {
         $attach = ' <a href="' . $url_prefix . '/' . $attachment[0] . '" rel="external">' . $attachment[1] . '</a><br>';
         $delete_attach_checkbox->addOption($key, $attach);
@@ -303,6 +303,7 @@ if (!empty($attachments_tmp) && is_array($attachments_tmp) && count($attachments
     $forum_form->addElement(new \XoopsFormHidden('attachments_tmp', $attachments_tmp));
 }
 $radiobox = null;
+$karma_array = null;
 if ($GLOBALS['xoopsModuleConfig']['enable_karma'] || $GLOBALS['xoopsModuleConfig']['allow_require_reply']) {
     $view_require = $require_reply ? 'require_reply' : ($post_karma ? 'require_karma' : 'require_null');
     $radiobox     = new \XoopsFormRadio(_MD_NEWBB_VIEW_REQUIRE, 'view_require', $view_require);
@@ -310,7 +311,7 @@ if ($GLOBALS['xoopsModuleConfig']['enable_karma'] || $GLOBALS['xoopsModuleConfig
         $radiobox->addOption('require_reply', _MD_NEWBB_REQUIRE_REPLY);
     }
     if ($GLOBALS['xoopsModuleConfig']['enable_karma']) {
-        $karmas = array_map('\trim', explode(',', $GLOBALS['xoopsModuleConfig']['karma_options']));
+        $karmas = array_map('\trim', explode(',', (string) $GLOBALS['xoopsModuleConfig']['karma_options']));
         if (count($karmas) > 1) {
             foreach ($karmas as $karma) {
                 $karma_array[(string)$karma] = (int)$karma;
@@ -347,7 +348,7 @@ $submit_button = new \XoopsFormButton('', 'contents_submit', _SUBMIT, 'submit');
 $submit_button->setExtra("tabindex='3'");
 
 $cancel_button = new \XoopsFormButton('', 'cancel', _CANCEL, 'button');
-if (!empty($topic_id)) {
+if ($topic_id !== 0) {
     $extra = XOOPS_URL . '/modules/newbb/viewtopic.php?topic_id=' . (int)$topic_id;
 } else {
     $extra = XOOPS_URL . '/modules/newbb/viewforum.php?forum=' . $forumObject->getVar('forum_id');
@@ -356,7 +357,7 @@ $cancel_button->setExtra("onclick='location=\"" . $extra . "\"'");
 $cancel_button->setExtra("tabindex='6'");
 
 /** @var string $hidden */
-if (!empty($isreply) && null !== $hidden) {
+if ($isreply !== 0 && null !== $hidden) {
     $forum_form->addElement(new \XoopsFormHidden('hidden', $hidden));
 
     $quote_button = new \XoopsFormButton('', 'quote', _MD_NEWBB_QUOTE, 'button');
@@ -377,3 +378,4 @@ $forum_form->addElement($buttonTray);
 
 //$forum_form->display();
 $forum_form->assign($xoopsTpl);
+$karma_array = null;

@@ -31,7 +31,8 @@
 
 /**
  * @param \XoopsObject $module
- * @return bool
+ *
+ * @return true
  */
 function xoops_module_update_newbb_v100(XoopsObject $module): bool
 {

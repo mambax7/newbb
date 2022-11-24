@@ -96,7 +96,7 @@ class Uploader extends \XoopsMediaUploader
      */
     public function getExt(): string
     {
-        $this->ext = \mb_strtolower(\ltrim(mb_strrchr($this->getMediaName(), '.'), '.'));
+        $this->ext = \mb_strtolower(\ltrim(mb_strrchr((string) $this->getMediaName(), '.'), '.'));
 
         return $this->ext;
     }

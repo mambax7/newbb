@@ -40,7 +40,7 @@ $topic_id = Request::getArray('topic_id', [], 'POST');
 $op = Request::getString('op', '', 'POST');
 $op = in_array($op, ['approve', 'delete', 'restore', 'move'], true) ? $op : '';
 
-if ('' === $op || 0 === count($topic_id)) {
+if ('' === $op || 0 === (is_countable($topic_id) ? count($topic_id) : 0)) {
     // irmtfan - issue with javascript:history.go(-1)
     redirect_header(Request::getString('HTTP_REFERER', '', 'SERVER'), 2, \_MD_NEWBB_NO_SELECTION);
 }
@@ -161,7 +161,7 @@ switch ($op) {
             $forums     = $forumHandler->getForumsByCategory(array_keys($categories), 'post', false);
 
             $box = '<select name="newforum" size="1">';
-            if (count($categories) > 0 && count($forums) > 0) {
+            if ((is_countable($categories) ? count($categories) : 0) > 0 && count($forums) > 0) {
                 foreach (array_keys($forums) as $key) {
                     /** @var Category[] $categories */
                     $box .= "<option value='-1'>[" . $categories[$key]->getVar('cat_title') . ']</option>';

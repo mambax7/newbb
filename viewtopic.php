@@ -66,7 +66,7 @@ $read     = (Request::getString('read', '', 'GET')
              && 'new' === Request::getString('read', '', 'GET')) ? Request::getString('read', '', 'GET') : '';
 $topic_id = Request::getInt('topic_id', 0, 'GET'); // isset($_GET['topic_id']) ? (int)($_GET['topic_id']) : 0;
 $post_id  = Request::getInt('post_id', 0, 'GET'); // !empty($_GET['post_id']) ? (int)($_GET['post_id']) : 0;
-$move     = \mb_strtolower(Request::getString('move', '', 'GET')); // isset($_GET['move']) ? strtolower($_GET['move']) : '';
+$move     = \mb_strtolower((string) Request::getString('move', '', 'GET')); // isset($_GET['move']) ? strtolower($_GET['move']) : '';
 $start    = Request::getInt('start', 0, 'GET'); // !empty($_GET['start']) ? (int)($_GET['start']) : 0;
 $status   = (Request::getString('status', '', 'GET')
              && in_array(Request::getString('status', '', 'GET'), ['active', 'pending', 'deleted'], true)) ? Request::getString('status', '', 'GET') : '';
@@ -91,7 +91,7 @@ if (!$topic_id && !$post_id) {
 if (!empty($post_id)) {
     $topicObject = $topicHandler->getByPost($post_id);
     $topic_id    = $topicObject->getVar('topic_id');
-} elseif (!empty($move)) {
+} elseif (($move !== '' && $move !== '0')) {
     $topicObject = $topicHandler->getByMove($topic_id, ('prev' === $move) ? -1 : 1, $forum_id);
     $topic_id    = $topicObject->getVar('topic_id');
 } else {
@@ -204,7 +204,7 @@ if ($infobox['show'] > 0) {
         'expand'   => $iconHandler->getImageSource('less'),
         'collapse' => $iconHandler->getImageSource('more'),
     ];
-    if (1 == $infobox['show']) {
+    if (1 === $infobox['show']) {
         $infobox['style'] = 'none';        //irmtfan move semicolon
         $infobox['alt']   = _MD_NEWBB_SEEUSERDATA;
         $infobox['src']   = 'more';
@@ -369,11 +369,12 @@ if (empty($post_id)) {
     $post_id = !empty($first[0]) ? $first[0] : 0;
 }
 
+$xoopsOption = null;
 if (!empty($postsArray[$post_id])) {
-    $xoops_pagetitle = $postsArray[$post_id]->getVar('subject') . ' [' . $forumObject->getVar('forum_name') . ']';
-    $xoopsTpl->assign('xoops_pagetitle', $xoops_pagetitle);
-    $xoopsOption['xoops_pagetitle'] = $xoops_pagetitle;
-    $kw                             = array_unique(explode(' ', strip_tags($postsArray[$post_id]->getVar('post_text')), 150));
+    $xoopsPageTitle = $postsArray[$post_id]->getVar('subject') . ' [' . $forumObject->getVar('forum_name') . ']';
+    $xoopsTpl->assign('xoops_pagetitle', $xoopsPageTitle);
+    $xoopsOption['xoops_pagetitle'] = $xoopsPageTitle;
+    $kw                             = array_unique(explode(' ', strip_tags((string) $postsArray[$post_id]->getVar('post_text')), 150));
     asort($kw);
     $kwort = '';
     $z     = 0;
@@ -384,7 +385,7 @@ if (!empty($postsArray[$post_id])) {
         }
     }
     $xoTheme->addMeta('meta', 'keywords', $kwort);
-    $xoTheme->addMeta('meta', 'description', mb_substr(strip_tags($postsArray[$post_id]->getVar('post_text')), 0, 120));
+    $xoTheme->addMeta('meta', 'description', mb_substr(strip_tags((string) $postsArray[$post_id]->getVar('post_text')), 0, 120));
 }
 unset($postsArray);
 
@@ -499,6 +500,8 @@ if ($PollModule && $PollModule->getVar('isactive')) {
 */
 //irmtfan remove
 $pollModuleHandler = $moduleHandler->getByDirname($GLOBALS['xoopsModuleConfig']['poll_module']);
+$classPoll = null;
+$pollObject = null;
 if (is_object($pollModuleHandler) && $pollModuleHandler->getVar('isactive')) {
     $poll_id = $topicObject->getVar('poll_id');
     // can vote in poll
@@ -543,12 +546,12 @@ if (is_object($pollModuleHandler) && $pollModuleHandler->getVar('isactive')) {
                         'is_visible'      => $isVisible,
                         'visible_message' => $visibleMsg,
                         'disp_votes'      => $xp_config['disp_vote_nums'],
-                        'lang_vote'       => constant('_MD_' . \mb_strtoupper($GLOBALS['xoopsModuleConfig']['poll_module']) . '_VOTE'),
-                        'lang_results'    => constant('_MD_' . \mb_strtoupper($GLOBALS['xoopsModuleConfig']['poll_module']) . '_RESULTS'),
+                        'lang_vote'       => constant('_MD_' . \mb_strtoupper((string) $GLOBALS['xoopsModuleConfig']['poll_module']) . '_VOTE'),
+                        'lang_results'    => constant('_MD_' . \mb_strtoupper((string) $GLOBALS['xoopsModuleConfig']['poll_module']) . '_RESULTS'),
                         'back_link'       => '',
                     ]
                 );
-                $classRenderer = ucfirst($GLOBALS['xoopsModuleConfig']['poll_module']) . 'Renderer';
+                $classRenderer = ucfirst((string) $GLOBALS['xoopsModuleConfig']['poll_module']) . 'Renderer';
                 $renderer      = new Xoopspoll\Renderer($pollObject);
                 // check to see if user has voted, show form if not, otherwise get results for form
 
@@ -817,7 +820,7 @@ if (!empty($GLOBALS['xoopsModuleConfig']['quickreply_enabled'])
         'collapse' => $iconHandler->getImageSource($qr_collapse),
     ];
     $quickreply['show']   = 1; // = !empty($GLOBALS['xoopsModuleConfig']['quickreply_enabled']
-    $quickreply['expand'] = !(count($toggles) > 0) || !in_array('qr', $toggles, true);
+    $quickreply['expand'] = !((is_countable($toggles) ? count($toggles) : 0) > 0) || !in_array('qr', $toggles, true);
     if ($quickreply['expand']) {
         $quickreply['style']     = 'block';        //irmtfan move semicolon
         $quickreply_icon_display = $qr_expand;

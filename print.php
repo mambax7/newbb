@@ -40,8 +40,10 @@ require_once __DIR__ . '/header.php';
 error_reporting(0);
 $xoopsLogger->activated = false;
 
+$post_data = null;
+$topic_id = null;
 if (Request::getString('post_data', '', 'POST')) {
-    $post_data = unserialize(base64_decode(Request::getString('post_data', '', 'POST'), true));
+    $post_data = unserialize(base64_decode((string) Request::getString('post_data', '', 'POST'), true));
     $isPost    = 1;
 } else {
     $forum    = Request::getInt('forum', 0, 'GET');

@@ -59,7 +59,7 @@ if (!$GLOBALS['xoopsDB']->queryF(
 }
 
 //$typeHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Type');
-$subjectpres = array_filter(array_map('\trim', explode(',', $GLOBALS['xoopsModuleConfig']['subject_prefix'])));
+$subjectpres = array_filter(array_map('\trim', explode(',', (string) $GLOBALS['xoopsModuleConfig']['subject_prefix'])));
 $types       = [];
 $order       = 1;
 foreach ($subjectpres as $subjectpre) {
