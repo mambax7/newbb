@@ -265,7 +265,7 @@ class Post extends \XoopsObject
                                         . '; '
                                         . \_MD_NEWBB_HITS
                                         . ': '
-                                        . $att['numDownload'];
+                                        . (isset($att['numDownload']) ? $att['numDownload'] : '');
                 } elseif ($GLOBALS['xoopsUser'] && $GLOBALS['xoopsUser']->uid() > 0
                           && $GLOBALS['xoopsUser']->isactive()) {
                     $post_attachment .= '<a href="'
@@ -289,7 +289,7 @@ class Post extends \XoopsObject
                                         . '; '
                                         . \_MD_NEWBB_HITS
                                         . ': '
-                                        . $att['numDownload'];
+                                        . (isset($att['numDownload']) ? $att['numDownload'] : '');
                 } else {
                     $post_attachment .= \_MD_NEWBB_SEENOTGUEST;
                 }
