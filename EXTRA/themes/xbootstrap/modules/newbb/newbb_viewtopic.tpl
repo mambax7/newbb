@@ -183,7 +183,7 @@
         <{$smarty.const._MD_NEWBB_TOPICLOCK}>
     <{/if}>
 
-    <{foreach item=topic_post from=$topic_posts}>
+    <{foreach item=topic_post from=$topic_posts|default:null}>
         <{include file="db:newbb_thread.tpl" topic_post=$topic_post mode=$mode}>
     <{foreachelse}>
         <{$smarty.const._MD_NEWBB_ERRORPOST}>
