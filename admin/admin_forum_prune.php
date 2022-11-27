@@ -27,6 +27,10 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
+use XoopsModules\Newbb\{
+    Helper,
+    ForumHandler
+};
 
 /** @var Admin $adminObject */
 require_once __DIR__ . '/admin_header.php';
@@ -157,8 +161,8 @@ if (Request::hasVar('submit', 'POST')) {
                 return _MD_NEWBB_ERROR;
             }
             // SYNC FORUMS AFTER DELETE
-            // /** @var Newbb\ForumHandler $forumHandler */
-            //            $forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+            // /** @var ForumHandler $forumHandler */
+            //  $forumHandler = Helper::getInstance()->getHandler('Forum');
             $forumHandler->synchronization();
             // I THINK POSTS AND TOPICS HAVE BEEN DESTROYED :LOL:
         }

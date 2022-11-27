@@ -331,7 +331,7 @@ class TopicRenderer
     {
         switch ($var) {
             case 'forum':
-                /** @var Newbb\ForumHandler $forumHandler */ $forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+                /** @var ForumHandler $forumHandler */ $forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
                 // START irmtfan - get forum Ids by values. parse positive values to forum IDs and negative values to category IDs. value=0 => all valid forums
                 // Get accessible forums
                 $accessForums = $forumHandler->getIdsByValues(\array_map('\intval', @\explode('|', (string)$val)));
@@ -1065,7 +1065,7 @@ class TopicRenderer
         }
         */
         $type_list = $this->getTypes();
-        /** @var Newbb\ForumHandler $forumHandler */
+        /** @var ForumHandler $forumHandler */
         $forumHandler = Helper::getInstance()->getHandler('Forum');
 
         if (\count($forums) > 0) {

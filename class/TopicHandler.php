@@ -23,7 +23,7 @@ use XoopsModules\Tag\{
 /**
  * Class TopicHandler
  */
-class TopicHandler extends \XoopsPersistableObjectHandler
+final class TopicHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * @param \XoopsDatabase|null $db
@@ -34,9 +34,9 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param mixed $id
-     * @param null|array $fields
-     * @return mixed|null
+     * @param mixed $id ID
+     * @param null|array $fields  fields to fetch
+     * @return mixed|null XoopsObject
      */
     public function get($id = null, $fields = null) //get($id, $var = null)
     {
@@ -58,9 +58,11 @@ class TopicHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $object
-     * @param bool $force
-     * @return mixed
+     * insert an object into the database
+     *
+     * @param  \XoopsObject $object {@link \XoopsObject} reference to object
+     * @param  bool        $force  flag to force the query execution despite security settings
+     * @return mixed       object ID
      */
     public function insert(\XoopsObject $object, $force = true)
     {
@@ -201,7 +203,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param int $topic_id
-     * @return null|Newbb\Post
+     * @return null|Post
      */
     public function &getTopPost(int $topic_id): ?Post
     {
@@ -450,7 +452,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
         if ($topic_locked && 'view' !== $type) {
             $permission = false;
         } else {
-            /** var Newbb\PermissionHandler $permHandler */
+            /** var PermissionHandler $permHandler */
             $permHandler = Helper::getInstance()->getHandler('Permission');
             $permission  = $permHandler->getPermission('forum', $type, $forum_id);
         }
@@ -500,7 +502,7 @@ class TopicHandler extends \XoopsPersistableObjectHandler
 
     // START irmtfan - rewrite topic synchronization function. add pid sync and remove hard-code db access
     /**
-     * @param \XoopsObject|int|string|null $object
+     * @param mixed $object
      * @param bool                         $force
      * @return bool
      */

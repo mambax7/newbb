@@ -19,6 +19,11 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
+use XoopsModules\Newbb\{
+    ForumHandler,
+    Helper,
+    CategoryHandler
+};
 
 /** @var Admin $adminObject */
 require_once __DIR__ . '/admin_header.php';
@@ -27,8 +32,8 @@ require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 $adminObject->displayNavigation(basename(__FILE__));
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
 if (Request::getString('submit', '', 'POST')) {
     $fgroups = Request::getArray('group', '', 'POST'); // !empty($_POST['group']) ? $_POST['group'] : '';
     $fforum  = Request::getInt('forenid', 0, 'POST'); // (int)($_POST['forenid']);
@@ -63,8 +68,8 @@ if (Request::getString('submit', '', 'POST')) {
 echo _AM_NEWBB_GROUPMOD_TITLEDESC;
 echo "<br><br><table class='outer' style='border-collapse: separate; border-spacing: 1px; width: 100%;'>" . "<tr><td class='odd'>";
 echo "<form name='reorder' method='post'>";
-///** @var Newbb\CategoryHandler $categoryHandler */
-//$categoryHandler  = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Category');
+///** @var CategoryHandler $categoryHandler */
+//$categoryHandler  = Helper::getInstance()->getHandler('Category');
 $criteriaCategory = new \CriteriaCompo(new \Criteria('cat_id'));
 $criteriaCategory->setSort('cat_order');
 $categories = $categoryHandler->getAll($criteriaCategory, ['cat_id', 'cat_order', 'cat_title']);

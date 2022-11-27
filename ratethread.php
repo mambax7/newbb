@@ -39,8 +39,8 @@ foreach (['topic_id', 'rate', 'forum'] as $var) {
     ${$var} = Request::getInt($var, Request::getInt($var, 0, 'POST'), 'GET');
 }
 
-///** @var Newbb\TopicHandler $topicHandler */
-//$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
+///** @var TopicHandler $topicHandler */
+//$topicHandler = Helper::getInstance()->getHandler('Topic');
 $topicObject = $topicHandler->get($topic_id);
 if (!$topicHandler->getPermission($topicObject->getVar('forum_id'), $topicObject->getVar('topic_status'), 'post')
     && !$topicHandler->getPermission($topicObject->getVar('forum_id'), $topicObject->getVar('topic_status'), 'reply')) {
@@ -51,8 +51,8 @@ if (!$topicHandler->getPermission($topicObject->getVar('forum_id'), $topicObject
 if (empty($rate)) {
     redirect_header('viewtopic.php?topic_id=' . $topic_id . '&amp;forum=' . $forum . '', 4, _MD_NEWBB_NOVOTERATE);
 }
-///** @var Newbb\RateHandler $rateHandler */
-//$rateHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Rate');
+///** @var RateHandler $rateHandler */
+//$rateHandler = Helper::getInstance()->getHandler('Rate');
 if (0 !== $ratinguser) {
     // Check if Topic POSTER is voting (UNLESS Anonymous users allowed to post)
     $crit_post = new \CriteriaCompo(new \Criteria('topic_id', $topic_id));

@@ -12,8 +12,10 @@
 use Xmf\Request;
 use XoopsModules\Newbb\{
     Forum,
+    ForumHandler,
     Helper,
-    OnlineHandler
+    OnlineHandler,
+    TopicHandler
 };
 
 /** @var Helper $helper */
@@ -24,16 +26,16 @@ if (!$forum = Request::getString('forum', '', 'GET')) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_ERRORFORUM);
 }
 
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
 /** @var Forum $forumObject */
 $forumObject = $forumHandler->get($forum);
 if (!$forumHandler->getPermission($forumObject)) {
     redirect_header(XOOPS_URL . '/index.php', 2, _NOPERM);
 }
 
-///** @var Newbb\TopicHandler $topicHandler */
-//$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
+///** @var TopicHandler $topicHandler */
+//$topicHandler = Helper::getInstance()->getHandler('Topic');
 $topicObject = $topicHandler->create();
 $topicObject->setVar('forum_id', $forum);
 if (!$topicHandler->getPermission($forumObject, 0, 'post')) {

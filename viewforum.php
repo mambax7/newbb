@@ -13,8 +13,9 @@ use Xmf\Request;
 use XoopsModules\Newbb\{
     Forum,
     ForumHandler,
-    OnlineHandler
-
+    OnlineHandler,
+    TypeHandler,
+    PermissionHandler
 };
 /** @var OnlineHandler $onlineHandler */
 /** @var ForumHandler $forumHandler */
@@ -274,8 +275,8 @@ $query_type = $query_array;
 unset($query_type['type']);
 $page_query_type = implode('&amp;', array_values($query_type));
 unset($query_type);
-///** @var Newbb\TypeHandler $typeHandler */
-//$typeHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Type');
+///** @var TypeHandler $typeHandler */
+//$typeHandler = Helper::getInstance()->getHandler('Type');
 $typeOptions = null;
 $types       = [];
 $types       = $typeHandler->getByForum($forum_id);
@@ -355,8 +356,8 @@ if (!empty($GLOBALS['xoopsModuleConfig']['show_jump'])) {
 }
 
 if ($GLOBALS['xoopsModuleConfig']['show_permissiontable']) {
-    //    /** var Newbb\PermissionHandler $permHandler */
-    //    $permHandler      = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Permission');
+    //    /** var PermissionHandler $permHandler */
+    //    $permHandler      = Helper::getInstance()->getHandler('Permission');
     $permission_table = $permHandler->getPermissionTable($forum_id, false, $isAdmin);
     $xoopsTpl->assign_by_ref('permission_table', $permission_table);
     unset($permission_table);

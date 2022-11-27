@@ -16,8 +16,13 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Forum,
+    ForumHandler,
+    Helper,
+    KarmaHandler,
     UserHandler,
     Post,
+    PostHandler,
     OnlineHandler,
     ModerateHandler
 };
@@ -39,13 +44,14 @@ $status = (Request::getString('status', '', 'GET')
 $mode   = Request::getInt('mode', 0, 'GET');
 $mode   = (!empty($status) && in_array($status, ['active', 'pending', 'deleted'], true)) ? 2 : $mode;
 
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
-///** @var Newbb\PostHandler $postHandler */
-//$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
+///** @var PostHandler $postHandler */
+//$postHandler = Helper::getInstance()->getHandler('Post');
 
+/** @var Forum $forumObject */
 $forumObject = null;
-$forums = null;
+$forums      = null;
 if (empty($forum_id)) {
     $forums       = $forumHandler->getByPermission(0, 'view');
     $accessForums = array_keys($forums);
@@ -143,8 +149,8 @@ switch ($status) {
 //$criteria_count->add($criteria_status_count); // irmtfan commented and removed
 //$criteria_post->add($criteria_status_post); // irmtfan commented and removed
 // END irmtfan solve the status issues and specially status = new issue
-///** @var Newbb\KarmaHandler $karmaHandler */
-//$karmaHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Karma');
+///** @var KarmaHandler $karmaHandler */
+//$karmaHandler = Helper::getInstance()->getHandler('Karma');
 $user_karma = $karmaHandler->getUserKarma();
 
 $valid_modes     = ['flat', 'compact'];

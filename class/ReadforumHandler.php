@@ -85,7 +85,7 @@ class ReadforumHandler extends Newbb\ReadHandler
         $cookie_name = 'LF';
         $items       = [];
         if (!empty($status)) {
-            /** @var Newbb\ForumHandler $itemHandler */
+            /** @var ForumHandler $itemHandler */
             $itemHandler = Helper::getInstance()->getHandler('Forum');
             $items_id    = $itemHandler->getIds();
             foreach ($items_id as $key) {
@@ -117,7 +117,7 @@ class ReadforumHandler extends Newbb\ReadHandler
             return true;
         }
 
-        /** @var Newbb\ForumHandler $itemHandler */
+        /** @var ForumHandler $itemHandler */
         $itemHandler = Helper::getInstance()->getHandler('Forum');
         $itemsObject = $itemHandler->getAll(null, ['forum_last_post_id']);
         foreach (\array_keys($itemsObject) as $key) {

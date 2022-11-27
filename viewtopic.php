@@ -26,7 +26,8 @@ use XoopsModules\Newbb\{
     Post,
     PostHandler,
     TopicHandler,
-    UserHandler
+    UserHandler,
+    PermissionHandler
 };
 /** @var Helper $helper */
 /** @var KarmaHandler $karmaHandler */
@@ -475,8 +476,8 @@ $xoopsTpl->assign_by_ref('admin_actions', $admin_actions);
 $xoopsTpl->assign('viewer_level', (int)($isAdmin ? 2 : is_object($GLOBALS['xoopsUser'])));
 
 if ($GLOBALS['xoopsModuleConfig']['show_permissiontable']) {
-    //    /** var Newbb\PermissionHandler $permHandler */
-    //    $permHandler      = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Permission');
+    //    /** var PermissionHandler $permHandler */
+    //    $permHandler      = Helper::getInstance()->getHandler('Permission');
     $permission_table = $permHandler->getPermissionTable($forumObject, (bool)$topicObject->getVar('topic_status'), $isAdmin);
     $xoopsTpl->assign_by_ref('permission_table', $permission_table);
 }

@@ -43,8 +43,8 @@ xoops_cp_header();
 $op       = Request::getCmd('op', Request::getCmd('op', '', 'POST'), 'GET'); // !empty($_GET['op'])? $_GET['op'] : (!empty($_POST['op'])?$_POST['op']:"");
 $forum_id = Request::getInt('forum', Request::getInt('forum', 0, 'POST'), 'GET'); //(int)( !empty($_GET['forum'])? $_GET['forum'] : (!empty($_POST['forum'])?$_POST['forum']:0) );
 
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
 switch ($op) {
     case 'moveforum':
         //if (!$newXoopsModuleGui) loadModuleAdminMenu(2, "");
@@ -169,8 +169,8 @@ switch ($op) {
         if ($forumHandler->insert($forumObject)) {
             //$cacheHelper->delete('forum');
             if (Request::getInt('perm_template', 0, 'POST')) {
-                //                /** var Newbb\PermissionHandler $permHandler */
-                //                $permHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Permission');
+                //                /** var PermissionHandler $permHandler */
+                //                $permHandler = Helper::getInstance()->getHandler('Permission');
                 $perm_template = $permHandler->getTemplate();
                 /** @var \XoopsMemberHandler $memberHandler */
                 $memberHandler = xoops_getHandler('member');

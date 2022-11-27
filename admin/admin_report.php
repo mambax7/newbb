@@ -18,6 +18,10 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Newbb\{
+    Helper,
+    ReportHandler
+};
 
 require_once __DIR__ . '/admin_header.php';
 require_once $GLOBALS['xoops']->path('class/pagenav.php');
@@ -29,8 +33,8 @@ $start = Request::getInt('start', 0);
 $op = Request::hasVar('submit', 'POST') ? 'save' : $op;
 $op = Request::hasVar('delete', 'POST') ? 'delete' : $op;
 
-///** @var Newbb\ReportHandler $reportHandler */
-//$reportHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Report');
+///** @var ReportHandler $reportHandler */
+//$reportHandler = Helper::getInstance()->getHandler('Report');
 
 xoops_cp_header();
 

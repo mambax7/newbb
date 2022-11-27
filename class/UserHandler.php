@@ -68,7 +68,7 @@ class UserHandler
         $image_online  = \newbbDisplayImage('online', \_MD_NEWBB_ONLINE);
         $image_offline = \newbbDisplayImage('offline', \_MD_NEWBB_OFFLINE);
 
-        /** @var Newbb\OnlineHandler $onlineHandler */
+        /** @var OnlineHandler $onlineHandler */
         $onlineHandler = Helper::getInstance()->getHandler('Online');
         $onlines       = $onlineHandler->checkStatus(\array_keys($this->users));
 

@@ -96,7 +96,7 @@ $karmaHandler = $helper->getHandler('Karma');
 $moderateHandler = $helper->getHandler('Moderate');
 /** @var XoopsModules\Newbb\OnlineHandler $onlineHandler */
 $onlineHandler = $helper->getHandler('Online');
-/** var Newbb\PermissionHandler $permHandler */
+/** var XoopsModules\Newbb\PermissionHandler $permHandler */
 $permHandler = $helper->getHandler('Permission');
 /** @var XoopsModules\Newbb\PostHandler $postHandler */
 $postHandler = $helper->getHandler('Post');

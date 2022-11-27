@@ -15,7 +15,8 @@ use XoopsModules\Newbb\{
     Helper,
     ForumHandler,
     Post,
-    PostHandler
+    PostHandler,
+    ModerateHandler
 };
 
 /** @var Helper $helper */
@@ -35,8 +36,8 @@ if (!$isAdmin) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);
 }
 $is_administrator = $GLOBALS['xoopsUserIsAdmin'];
-///** @var Newbb\ModerateHandler $moderateHandler */
-//$moderateHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Moderate');
+///** @var ModerateHandler $moderateHandler */
+//$moderateHandler = Helper::getInstance()->getHandler('Moderate');
 
 if (Request::hasVar('submit', 'POST') && Request::getInt('expire', 0, 'POST')) {
     $ipWithMask = '';

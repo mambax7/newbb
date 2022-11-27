@@ -64,9 +64,9 @@ if (empty($topic_id)) {
     redirect_header($redirect, 2, _MD_NEWBB_ERRORTOPIC);
 }
 
-//$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+//$topicHandler = Helper::getInstance()->getHandler('Topic');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
 
 $topicObject = null;
 if (!$forum) {

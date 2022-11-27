@@ -138,8 +138,8 @@ $require_reply = $postObject->getVar('require_reply');
 $xoopsTpl->assign('error_message', _MD_NEWBB_EDITEDBY . ' ' . $GLOBALS['xoopsUser']->uname());
 require_once __DIR__ . '/include/form.post.php';
 
-///** @var Newbb\KarmaHandler $karmaHandler */
-//$karmaHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Karma');
+///** @var KarmaHandler $karmaHandler */
+//$karmaHandler = Helper::getInstance()->getHandler('Karma');
 $user_karma = $karmaHandler->getUserKarma();
 
 $posts_context       = [];

@@ -19,7 +19,8 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Newbb\{Helper,
+use XoopsModules\Newbb\{
+    Helper,
     CategoryHandler,
     ForumHandler
 };
@@ -74,8 +75,8 @@ if (Request::getString('submit', '', 'POST')) {
     echo '</tr>';
 
     //    $forumHandler     = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
-    // /** @var Newbb\CategoryHandler $categoryHandler */
-    //    $categoryHandler  = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Category');
+    // /** @var CategoryHandler $categoryHandler */
+    //    $categoryHandler  = Helper::getInstance()->getHandler('Category');
     $criteriaCategory = new \CriteriaCompo(new \Criteria('cat_id'));
     $criteriaCategory->setSort('cat_order');
     $categories = $categoryHandler->getAll($criteriaCategory, ['cat_id', 'cat_order', 'cat_title']);

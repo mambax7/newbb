@@ -11,7 +11,10 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Newbb\TopicHandler;
+use XoopsModules\Newbb\{
+    Helper,
+    TopicHandler
+};
 
 /** @var Admin $adminObject */
 /** @var TopicHandler $topicHandler */
@@ -36,8 +39,8 @@ switch (Request::getString('type', '', 'GET')) {// @$_GET['type'])
     // irmtfan rewrite topic sync
     case 'topic':
         $limit = Request::getInt('limit', 1000, 'POST'); //empty($_GET['limit']) ? 1000 : (int)($_GET['limit']);
-        // /** @var Newbb\TopicHandler $topicHandler */
-        //        $topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
+        // /** @var TopicHandler $topicHandler */
+        //        $topicHandler = Helper::getInstance()->getHandler('Topic');
         $criteria = new \Criteria('approved', '1');
         if ($start >= ($count = $topicHandler->getCount($criteria))) {
             break;

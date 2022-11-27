@@ -21,6 +21,7 @@ use Xmf\Module\Admin;
 use XoopsModules\Newbb\{
     Common\TestdataButtons,
     Helper,
+    ReportHandler,
     Utility
 };
 
@@ -102,8 +103,8 @@ xoops_cp_header();
 $imageLibs = newbb_getImageLibs();
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-///** @var Newbb\ReportHandler $reportHandler */
-//$reportHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Report');
+///** @var ReportHandler $reportHandler */
+//$reportHandler = Helper::getInstance()->getHandler('Report');
 
 $isOK = false;
 // START irmtfan add a poll_module config
@@ -118,7 +119,7 @@ $memlimit_iniphp    = return_bytes(@ini_get('memory_limit'));
 $postmaxsize_iniphp = return_bytes(@ini_get('post_max_size'));
 $uploadlimit        = _AM_NEWBB_MEMLIMITTOLARGE;
 if ($postmaxsize_iniphp < $memlimit_iniphp) {
-    $uploadlimit = sprintf(_AM_NEWBB_MEMLIMITOK, return_bytes($postmaxsize_iniphp, true));
+    $uploadlimit = sprintf(_AM_NEWBB_MEMLIMITOK, return_bytes((string)$postmaxsize_iniphp, true));
 }
 
 $adminObject->addInfoBox(_AM_NEWBB_PREFERENCES);
@@ -198,13 +199,13 @@ function return_bytes(string $sizeAsString, bool $b = false)
     switch (mb_substr($sizeAsString, -1)) {
         case 'M':
         case 'm':
-            return (int)$sizeAsString * 1_048_576;
+            return (int)$sizeAsString * 1048576;
         case 'K':
         case 'k':
             return (int)$sizeAsString * 1024;
         case 'G':
         case 'g':
-            return (int)$sizeAsString * 1_073_741_824;
+            return (int)$sizeAsString * 1073741824;
         default:
             return $sizeAsString;
     }

@@ -8,6 +8,14 @@
  * @author         Taiwen Jiang (phppp or D.J.) <phppp@users.sourceforge.net>
  * @since          4.00
  */
+
+use XoopsModules\Newbb\{
+    ForumHandler,
+    Helper,
+    TypeHandler
+};
+
+
 require_once __DIR__ . '/header.php';
 
 if (!is_object($GLOBALS['xoopsUser']) || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -58,7 +66,7 @@ if (!$GLOBALS['xoopsDB']->queryF(
     exit('Can not create tmp table for `bb_type_forum_tmp`');
 }
 
-//$typeHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Type');
+//$typeHandler = Helper::getInstance()->getHandler('Type');
 $subjectpres = array_filter(array_map('\trim', explode(',', (string) $GLOBALS['xoopsModuleConfig']['subject_prefix'])));
 $types       = [];
 $order       = 1;
@@ -84,8 +92,8 @@ if (0 === count($types)) {
     exit('No type item created');
 }
 
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
 $forums_type = $forumHandler->getIds(new \Criteria('allow_subject_prefix', '1'));
 if ($forums_type) {
     foreach ($forums_type as $forum_id) {

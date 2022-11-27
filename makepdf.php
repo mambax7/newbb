@@ -22,7 +22,10 @@ use XoopsModules\Xlanguage\Utility as XlanguageUtility;
 use XoopsModules\Newbb\{
     Forum,
     Helper,
-    Post
+    Post,
+    PostHandler,
+    TopicHandler,
+    ForumHandler
 };
 
 $moduleDirName      = basename(__DIR__);
@@ -49,8 +52,8 @@ if (is_file(XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.ph
 if (empty($post_id)) {
     exit(_MD_NEWBB_ERRORTOPIC);
 }
-///** @var Newbb\PostHandler $postHandler */
-//$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
+///** @var PostHandler $postHandler */
+//$postHandler = Helper::getInstance()->getHandler('Post');
 /** @var Post $post */
 $post = $postHandler->get($post_id);
 if (!$approved = $post->getVar('approved')) {
@@ -58,15 +61,15 @@ if (!$approved = $post->getVar('approved')) {
 }
 $post_data = $postHandler->getPostForPDF($post);
 //$post_edit = $post->displayPostEdit();  //reserve for future versions to display edit records
-///** @var Newbb\TopicHandler $topicHandler */
-//$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
+///** @var TopicHandler $topicHandler */
+//$topicHandler = Helper::getInstance()->getHandler('Topic');
 $forumtopic = $topicHandler->getByPost($post_id);
 $topic_id   = $forumtopic->getVar('topic_id');
 if (!$approved = $forumtopic->getVar('approved')) {
     exit(_MD_NEWBB_NORIGHTTOVIEW);
 }
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler    = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+///** @var ForumHandler $forumHandler */
+//$forumHandler    = Helper::getInstance()->getHandler('Forum');
 $forum           = $forum ?: $forumtopic->getVar('forum_id');
 /** @var Forum $viewtopic_forum */
 $viewtopic_forum = $forumHandler->get($forum);

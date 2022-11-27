@@ -46,10 +46,10 @@ if ('' === $op || 0 === (is_countable($topic_id) ? count($topic_id) : 0)) {
 }
 
 $topic_id = array_values($topic_id);
-///** @var Newbb\TopicHandler|\XoopsPersistableObjectHandler $topicHandler */
-//$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
-///** @var Newbb\ForumHandler|\XoopsPersistableObjectHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
+///** @var TopicHandler $topicHandler */
+//$topicHandler = Helper::getInstance()->getHandler('Topic');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
 
 $isAdmin = newbbIsAdmin($forum_id);
 
@@ -161,7 +161,7 @@ switch ($op) {
             $forums     = $forumHandler->getForumsByCategory(array_keys($categories), 'post', false);
 
             $box = '<select name="newforum" size="1">';
-            if ((is_countable($categories) ? count($categories) : 0) > 0 && count($forums) > 0) {
+            if (((is_countable($categories) ? count($categories) : 0) > 0) && count($forums) > 0) {
                 foreach (array_keys($forums) as $key) {
                     /** @var Category[] $categories */
                     $box .= "<option value='-1'>[" . $categories[$key]->getVar('cat_title') . ']</option>';
@@ -202,8 +202,8 @@ switch ($op) {
         }
         break;
 }
-///** @var Newbb\StatsHandler $statsHandler */
-//$statsHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Stats');
+///** @var StatsHandler $statsHandler */
+//$statsHandler = Helper::getInstance()->getHandler('Stats');
 $statsHandler->reset();
 if (empty($forum_id)) {
     redirect_header(XOOPS_URL . '/modules/newbb/list.topic.php', 2, _MD_NEWBB_DBUPDATED);

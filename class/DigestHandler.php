@@ -208,7 +208,7 @@ class DigestHandler extends \XoopsPersistableObjectHandler
             \define('SUMMARY_LENGTH', 100);
         }
 
-        /** @var Newbb\ForumHandler $forumHandler */
+        /** @var ForumHandler $forumHandler */
         $forumHandler         = Helper::getInstance()->getHandler('Forum');
         $thisUser             = $GLOBALS['xoopsUser'];
         $GLOBALS['xoopsUser'] = null; // To get posts accessible by anonymous

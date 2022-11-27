@@ -12,6 +12,10 @@
 
 use Xmf\Module\Helper\Cache;
 use Xmf\Request;
+use XoopsModules\Newbb\{
+    TypeHandler,
+    Helper
+};
 
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
@@ -48,8 +52,8 @@ if (!in_array($op, $validOps, true)) {
     $op = '';
 }
 
-///** @var Newbb\TypeHandler $typeHandler */
-//$typeHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Type');
+///** @var TypeHandler $typeHandler */
+//$typeHandler = Helper::getInstance()->getHandler('Type');
 $cacheHelper = new Cache('newbb');
 $fm_options = [];
 

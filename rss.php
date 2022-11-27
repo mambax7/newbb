@@ -20,7 +20,9 @@
 use Xmf\Request;
 use XoopsModules\Newbb\{
     TypeHandler,
-    XmlrssHandler
+    XmlrssHandler,
+    ForumHandler,
+    TopicHandler
 };
 /** @var TypeHandler $typeHandler */
 /** @var XmlrssHandler $xmlrssHandler */
@@ -43,9 +45,9 @@ if ('' !== $forumSet) {
     $forums = array_map('\intval', array_map('\trim', explode('|', (string) $forumSet)));
 }
 
-///** @var Newbb\ForumHandler $forumHandler */
-//$forumHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Forum');
-//$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
+///** @var ForumHandler $forumHandler */
+//$forumHandler = Helper::getInstance()->getHandler('Forum');
+//$topicHandler = Helper::getInstance()->getHandler('Topic');
 $validForums = $forumHandler->getIdsByPermission(); // get all accessible forums
 
 if ($forums && is_array($forums)) {

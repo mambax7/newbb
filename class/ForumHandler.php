@@ -66,7 +66,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
         // RMV-NOTIFY
         \xoops_notification_deletebyitem($xoopsModule->getVar('mid'), 'forum', $forum->getVar('forum_id'));
         // Get list of all topics in forum, to delete them too
-        /** @var Newbb\TopicHandler $topicHandler */
+        /** @var TopicHandler $topicHandler */
         $topicHandler = Helper::getInstance()->getHandler('Topic');
         $topicHandler->deleteAll(new \Criteria('forum_id', $forum->getVar('forum_id')), true, true);
         $this->updateAll('parent_forum', $forum->getVar('parent_forum'), new \Criteria('parent_forum', $forum->getVar('forum_id')));
@@ -299,7 +299,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
         $reads   = [];
         $types   = [];
 
-        /** @var Newbb\TypeHandler $typeHandler */
+        /** @var TypeHandler $typeHandler */
         $typeHandler = Helper::getInstance()->getHandler('Type');
         $typen       = $typeHandler->getByForum($forum->getVar('forum_id'));
         while (false !== ($myrow = $this->db->fetchArray($result))) {
@@ -618,7 +618,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
         }
 
         if (!empty($checkCategory)) {
-            /** @var Newbb\CategoryHandler $categoryHandler */
+            /** @var CategoryHandler $categoryHandler */
             $categoryHandler = Helper::getInstance()->getHandler('Category');
             $categoryPerm    = $categoryHandler->getPermission($forum->getVar('cat_id'));
             if (!$categoryPerm) {
@@ -633,7 +633,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
         //$permission = newbbIsModerator($forum);
         //} else {
         $forum_id = $forum->getVar('forum_id');
-        /** var Newbb\PermissionHandler $permHandler */
+        /** var PermissionHandler $permHandler */
         $permHandler = Helper::getInstance()->getHandler('Permission');
         $permission  = $permHandler->getPermission('forum', $type, $forum_id);
         //}
@@ -647,7 +647,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      */
     public function deletePermission($forum)
     {
-        /** var Newbb\PermissionHandler $permHandler */
+        /** var PermissionHandler $permHandler */
         $permHandler = Helper::getInstance()->getHandler('Permission');
 
         return $permHandler->deleteByForum($forum->getVar('forum_id'));
@@ -728,10 +728,10 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      * forum data synchronization
      *
      * @param mixed $object null for all forums; integer for forum_id; object for forum object
-     * @return bool
+     * @return bool|int
      * @internal param int $mode 1 for stats only; 2 for forum index data only; 0 for both
      */
-    public function synchronization($object = null): bool
+    public function synchronization($object = null)
     {
         if (empty($object)) {
             $forums = $this->getIds();

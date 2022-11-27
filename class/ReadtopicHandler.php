@@ -110,7 +110,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
         $cookie_name = 'LT';
         $cookie_vars = \newbbGetCookie($cookie_name, true);
 
-        /** @var Newbb\TopicHandler $itemHandler */
+        /** @var TopicHandler $itemHandler */
         $itemHandler = Helper::getInstance()->getHandler('Topic');
         $criteria    = new \CriteriaCompo(new \Criteria('forum_id', $forum_id));
         $criteria->setSort('topic_last_post_id');
@@ -148,7 +148,7 @@ class ReadtopicHandler extends Newbb\ReadHandler
             }
         }
 
-        /** @var Newbb\TopicHandler $itemHandler */
+        /** @var TopicHandler $itemHandler */
         $itemHandler    = Helper::getInstance()->getHandler('Topic');
         $criteria_topic = new \CriteriaCompo(new \Criteria('forum_id', $forum_id));
         $criteria_topic->setSort('topic_last_post_id');

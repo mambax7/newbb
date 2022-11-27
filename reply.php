@@ -21,7 +21,8 @@ use XoopsModules\Newbb\{
     ForumHandler,
     Post,
     PostHandler,
-    TopicHandler
+    TopicHandler,
+    KarmaHandler
 };
 /** @var Post $post_contextObject */
 /** @var PostHandler $post_contextObject */
@@ -166,8 +167,8 @@ $require_reply = 0;
 
 require_once __DIR__ . '/include/form.post.php';
 
-///** @var Newbb\KarmaHandler $karmaHandler */
-//$karmaHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Karma');
+///** @var KarmaHandler $karmaHandler */
+//$karmaHandler = Helper::getInstance()->getHandler('Karma');
 $user_karma = $karmaHandler->getUserKarma();
 
 $posts_context = [];
