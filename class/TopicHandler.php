@@ -432,12 +432,13 @@ final class TopicHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param int|Forum $forum
-     * @param int         $topic_locked
-     * @param string      $type
+     * @param int|null  $topic_locked
+     * @param string    $type
      * @return bool
      */
-    public function getPermission($forum, int $topic_locked = 0, string $type = 'view'): bool
+    public function getPermission($forum, ?int $topic_locked = null, string $type = 'view'): bool
     {
+        $topic_locked ??= 0;
         static $_cachedTopicPerms;
         require_once \dirname(__DIR__) . '/include/functions.user.php';
         if (\newbbIsAdmin($forum)) {
