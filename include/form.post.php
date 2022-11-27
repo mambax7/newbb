@@ -185,7 +185,7 @@ if ((is_countable(@$GLOBALS['xoopsModuleConfig']['editor_allowed']) ? count(@$GL
     }
 }
 
-$forum_form->addElement(new \XoopsFormSelectEditor($forum_form->getName(), 'editor', $editor, $nohtml, @$GLOBALS['xoopsModuleConfig']['editor_allowed'][0]));
+$forum_form->addElement(new \XoopsFormSelectEditor($forum_form, 'editor', $editor, $nohtml, @$GLOBALS['xoopsModuleConfig']['editor_allowed'][0]));
 
 $editor_configs           = [];
 $editor_configs['name']   = 'message';
