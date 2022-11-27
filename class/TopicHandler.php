@@ -130,7 +130,7 @@ final class TopicHandler extends \XoopsPersistableObjectHandler
      *                          <li> >0 : inside the forum </li>
      *                          <li> <= 0: global </li>
      *                          </ul>
-     * @return mixed|null|\XoopsObject
+     * @return \XoopsObject|null
      */
     public function &getByMove(int $topic_id, int $action, int $forum_id = 0)
     {

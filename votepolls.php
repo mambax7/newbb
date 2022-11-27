@@ -135,16 +135,16 @@ if ($pollModuleHandler->getVar('version') >= 201) {
             $pollObject->updateCount();
             $msg = _PL_THANKSFORVOTE;
         }
-        setcookie("newbb_polls[{$poll_id}]", 1);
+        setcookie("newbb_polls[{$poll_id}]", '1');
     } elseif ($classLog::hasVoted($poll_id, Request::getString('REMOTE_ADDR', '', 'SERVER'))) {
         $msg = _PL_ALREADYVOTED;
-        setcookie("newbb_polls[{$poll_id}]", 1);
+        setcookie("newbb_polls[{$poll_id}]", '1');
     } else {
         $voteTime = time();
         $pollObject->vote(Request::getInt('option_id', 0, 'POST'), Request::getString('REMOTE_ADDR', '', 'SERVER'), $voteTime);
         $pollObject->updateCount();
         $msg = _PL_THANKSFORVOTE;
-        setcookie("newbb_polls[{$poll_id}]", 1);
+        setcookie("newbb_polls[{$poll_id}]", '1');
     }
 }
 // irmtfan - simple url
