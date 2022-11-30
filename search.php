@@ -1,15 +1,5 @@
 <?php declare(strict_types=1);
 
-use Xmf\Highlighter;
-use Xmf\Metagen;
-use Xmf\Request;
-use XoopsModules\Newbb\{
-    Forum,
-    OnlineHandler
-};
-
-/** @var OnlineHandler $onlineHandler */
-
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -24,6 +14,16 @@ use XoopsModules\Newbb\{
 //  URL: https://xoops.org                                                    //
 //  Project: Article Project                                                 //
 //  ------------------------------------------------------------------------ //
+
+use Xmf\Highlighter;
+use Xmf\Metagen;
+use Xmf\Request;
+use XoopsModules\Newbb\{
+    Forum,
+    OnlineHandler
+};
+
+/** @var OnlineHandler $onlineHandler */
 
 require_once __DIR__ . '/header.php';
 xoops_loadLanguage('search');
@@ -54,10 +54,10 @@ $sortby               = 'p.post_time'; // irmtfan remove DESC
 $criteriaExtra        = new \CriteriaCompo(); // irmtfan new \Criteria
 $searchin             = 'both';
 $sort                 = '';
-$since                = Request::getInt('since', null);
+$since                = Request::getInt('since', 0);
 $next_search['since'] = $since;
-$term                 = Request::getString('term', null);
-$uname                = Request::getString('uname', null);
+$term                 = Request::getString('term', '');
+$uname                = Request::getString('uname', '');
 // irmtfan add select parameters
 $selectlength = Request::getInt('selectlength', 200);
 
@@ -92,7 +92,7 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
     }
     $next_search['forum'] = implode('|', $forum);
     // START irmtfan topic search
-    $topic                = Request::getString('topic', null);
+    $topic                = Request::getString('topic', '');
     $next_search['topic'] = $topic;
     // END irmtfan topic search
     // START irmtfan add show search
@@ -164,7 +164,7 @@ if (!empty($uname) || Request::getString('submit', '') || !empty($term)) {
     $next_search['searchin'] = $searchin;
     // START irmtfan use criteria - add since and topic search
     if (!empty($since)) {
-        $criteriaExtra->add(new \Criteria('p.post_time', time() - newbbGetSinceTime($since), '>='), 'OR');
+        $criteriaExtra->add(new \Criteria('p.post_time', (string)(time() - newbbGetSinceTime($since)), '>='), 'OR');
     }
     if (is_numeric($topic) && !empty($topic)) {
         $criteriaExtra->add(new \Criteria('p.topic_id', $topic), 'OR');

@@ -53,7 +53,7 @@ $validForums = $forumHandler->getIdsByPermission(); // get all accessible forums
 if ($forums && is_array($forums)) {
     $validForums = array_intersect($forums, $validForums);
 } elseif ($category > 0) {
-    $crit_top = new \CriteriaCompo(new \Criteria('cat_id', $category));
+    $crit_top = new \CriteriaCompo(new \Criteria('cat_id', (string)$category));
     $crit_top->add(new \Criteria('forum_id', '(' . implode(', ', $validForums) . ')', 'IN'));
     $forums_top  = $forumHandler->getIds($crit_top);
     $validForums = array_intersect($forums_top, $validForums);
@@ -68,6 +68,7 @@ $forumSet = implode(',', $validForums);
 $charset = 'UTF-8';
 header('Content-Type:text/xml; charset=' . $charset);
 
+/** @var \XoopsTpl $tpl */
 $tpl                 = new \XoopsTpl();
 $tpl->caching        = 2;
 $tpl->cache_lifetime = $GLOBALS['xoopsModuleConfig']['rss_cachetime'] * 60;
@@ -197,7 +198,7 @@ if (!$tpl->is_cached('db:newbb_rss.tpl', $xoopsCachedTemplateId, $compile_id)) {
             $link   = $newurl;
         }
         $title = $topic['subject'];
-        if (!$rss->addItem($title, $link, $description, $label, $time)) {
+        if (false === $rss->addItem($title, $link, $description, $label, $time)) {
             break;
         }
     }

@@ -59,6 +59,9 @@ if (empty($forum)) {
 //$topicHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Topic');
 //$postHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Post');
 
+/** @var Post $postObject */
+$postObject = null;
+
 if (!empty($isedit) && $post_id > 0) {
     $postObject = $postHandler->get($post_id);
     $topic_id   = $postObject->getVar('topic_id');
@@ -155,6 +158,7 @@ if (Request::getString('contents_submit', '', 'POST')) {
         $uid = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         $topic_status = $topicObject->getVar('topic_status');
+        /** @var Post $postObject */
         if ($topicHandler->getPermission($forumObject, $topic_status, 'edit')
             && ($isAdmin
                 || ($postObject->checkTimelimit('edit_timelimit')
@@ -309,6 +313,7 @@ if (Request::getString('contents_submit', '', 'POST')) {
         require_once $GLOBALS['xoops']->path('footer.php');
     }
     newbbSetSession('LP', time()); // Recording last post time
+    /** @var Topic $topicObject */
     $topicObject = $topicHandler->get($postObject->getVar('topic_id'));
     $uid         = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
     if (newbbIsAdmin($forumObject)
@@ -381,7 +386,7 @@ if (Request::getString('contents_submit', '', 'POST')) {
 
     if ($approved) {
         if (!empty($GLOBALS['xoopsModuleConfig']['cache_enabled'])) {
-            newbbSetSession('t' . $postObject->getVar('topic_id'), null);
+            newbbSetSession('t' . $postObject->getVar('topic_id'), '');
         }
         // Update user
         if ($uid > 0) {
@@ -431,18 +436,18 @@ $GLOBALS['xoopsConfig']['module_cache'][$xoopsModule->getVar('mid')] = 0;
 require_once $GLOBALS['xoops']->path('header.php');
 //$xoopsTpl->assign('xoops_module_header', $xoops_module_header);
 
-if (Request::getString('contents_upload', null, 'POST')) {
-    // BigKev73 > This line needs to be removed as it will cause any attachement already added in this editing session to be throw away. This is one of the reasons why multi-file attachment
+if (Request::getString('contents_upload', '', 'POST')) {
+    // BigKev73 > This line needs to be removed as it will cause any attachment already added in this editing session to be throw away. This is one of the reasons why multi-file attachment
     // was not working like it used to in CBB.
     //  $attachments_tmp = [];
 
-    // This shoue be Request::getString, not Request::getArray, otherwise this will always return a null value. This is one of the reasons why multi-file attachment
+    // This should be Request::getString, not Request::getArray, otherwise this will always return a null value. This is one of the reasons why multi-file attachment
     // was not working like it used to in CBB.
     //  if (Request::getArray('attachments_tmp', null, 'POST')) {
     //      $attachments_tmp = unserialize(base64_decode(Request::getArray('attachments_tmp', [], 'POST'), true));
     if (Request::getString('attachments_tmp', '', 'POST')) {
-        $attachments_tmp = unserialize(base64_decode((string) Request::getString('attachments_tmp', [], 'POST'), true));
-        if (Request::getArray('delete_tmp', null, 'POST') && (is_countable(Request::getArray('delete_tmp', null, 'POST')) ? count(Request::getArray('delete_tmp', null, 'POST')) : 0)) {
+        $attachments_tmp = unserialize(base64_decode((string) Request::getString('attachments_tmp', '', 'POST'), true));
+        if (Request::getArray('delete_tmp', [], 'POST') && (is_countable(Request::getArray('delete_tmp', [], 'POST')) ? count(Request::getArray('delete_tmp', [], 'POST')) : 0)) {
             foreach (Request::getArray('delete_tmp', '', 'POST') as $key) {
                 unlink($uploaddir = $GLOBALS['xoops']->path($GLOBALS['xoopsModuleConfig']['dir_attachments'] . '/' . $attachments_tmp[$key][0]));
                 unset($attachments_tmp[$key]);
@@ -526,8 +531,8 @@ if (Request::getString('contents_preview', Request::getString('contents_preview'
     $xoopsTpl->assign_by_ref('post_preview', $post_preview);
 }
 
-if (Request::getString('contents_upload', null, 'POST') || Request::getString('contents_preview', null, 'POST')
-    || Request::getString('contents_preview', null, 'GET')
+if (Request::getString('contents_upload', '', 'POST') || Request::getString('contents_preview', '', 'POST')
+    || Request::getString('contents_preview', '', 'GET')
     || Request::getString('editor', '', 'POST')) {
     $editor        = Request::getString('editor', '', 'POST');
     $dosmiley      = Request::getInt('dosmiley', 0, 'POST');

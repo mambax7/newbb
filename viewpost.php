@@ -80,8 +80,8 @@ $criteria_post->setSort('p.post_id');
 $criteria_post->setOrder($order);
 
 if (!empty($uid)) {
-    $criteria_count->add(new \Criteria('uid', $uid));
-    $criteria_post->add(new \Criteria('p.uid', $uid));
+    $criteria_count->add(new \Criteria('uid', (string)$uid));
+    $criteria_post->add(new \Criteria('p.uid', (string)$uid));
 }
 
 $join = null;

@@ -72,7 +72,7 @@ class Xmlrss
      * @param string     $label
      * @param int|string $pubdate
      *
-     * @return true
+     * @return bool
      */
     public function addItem(string $title, string $link, string $description = '', string $label = '', $pubdate = 0): bool
     {

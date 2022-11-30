@@ -71,6 +71,9 @@ switch ($op) {
 
 // XMF TableLoad for SAMPLE data
 
+/**
+ * @return void
+ */
 function loadSampleData(): void
 {
     global $xoopsConfig;
@@ -115,6 +118,9 @@ function loadSampleData(): void
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS'));
 }
 
+/**
+ * @return void
+ */
 function saveSampleData(): void
 {
     $skipColumns = [];
@@ -146,6 +152,9 @@ function saveSampleData(): void
     \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
+/**
+ * @return void
+ */
 function exportSchema(): void
 {
     $moduleDirName      = \basename(\dirname(__DIR__));
@@ -157,26 +166,26 @@ function exportSchema(): void
         //        $migrate->saveCurrentSchema();
         //
         //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
-    } catch (\Throwable $exception) {
-        exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
+    } catch (\Exception $e) {
+        exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR') . ' ' . $e->getMessage());
     }
 }
 
 /**
  *  loadTableFromArrayWithReplace
  *
- * @param string $table  value with should be used insead of original value of $search
+ * @param string $table  value which should be used instead of original value of $search
  * @param array  $data   array of rows to insert
  *                       Each element of the outer array represents a single table row.
  *                       Each row is an associative array in 'column' => 'value' format.
  * @param string $search name of column for which the value should be replaced
- * @param int $replace
+ * @param string $replace
  *
  * @return int number of rows inserted
  *
  * @psalm-return 0|positive-int
  */
-function loadTableFromArrayWithReplace(string $table, array $data, string $search, int $replace): int
+function loadTableFromArrayWithReplace(string $table, array $data, string $search, string $replace): int
 {
     /** @var \XoopsMySQLDatabase $db */
     $db = \XoopsDatabaseFactory::getDatabaseConnection();
@@ -219,6 +228,9 @@ function loadTableFromArrayWithReplace(string $table, array $data, string $searc
     return $count;
 }
 
+/**
+ * @return void
+ */
 function clearSampleData(): void
 {
     $moduleDirName      = \basename(\dirname(__DIR__));

@@ -256,8 +256,9 @@ function forum_seo_topic(int $_cat_id)
     $ret    = forum_seo_title($res['topic_title']);
 
     $moduleDirName = basename(__DIR__);
+    /** @var TopicHandler $topicsHandler */
     $topicsHandler = Helper::getInstance()->getHandler('Topic');
-    $criteria      = new \CriteriaCompo(new \Criteria('topic_id', $_cat_id, '='));
+    $criteria      = new \CriteriaCompo(new \Criteria('topic_id', (string)$_cat_id, '='));
     $fields        = ['topic_title'];
     $ret0          = $topicsHandler->getAll($criteria, $fields, false);
 

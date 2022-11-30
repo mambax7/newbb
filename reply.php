@@ -25,9 +25,6 @@ use XoopsModules\Newbb\{
     KarmaHandler
 };
 /** @var Post $post_contextObject */
-/** @var PostHandler $post_contextObject */
-/** @var ForumHandler $forumHandler */
-/** @var TopicHandler $topicHandler */
 
 require_once __DIR__ . '/header.php';
 
@@ -42,7 +39,9 @@ if (!$topic_id && !$post_id) {
     redirect_header($redirect, 2, _MD_NEWBB_ERRORTOPIC);
 }
 
+/** @var ForumHandler $forumHandler */
 $forumHandler = Helper::getInstance()->getHandler('Forum');
+/** @var TopicHandler $topicHandler */
 $topicHandler = Helper::getInstance()->getHandler('Topic');
 /** @var PostHandler $postHandler */
 $postHandler  = Helper::getInstance()->getHandler('Post');
@@ -176,7 +175,7 @@ $posts_context = [];
 
 /** @var array $posts_contextObjects */
 $posts_contextObjects = $postHandler->getByLimit(5, 0, null, null, true, $topic_id, 1);
-/** @var Post $posts_contextObject */
+/** @var Post $post_contextObject */
 foreach ($posts_contextObjects as $post_contextObject) {
     // Sorry, in order to save queries, we have to hide the non-open post_text even if you have replied or have adequate karma, even an admin.
     if ($GLOBALS['xoopsModuleConfig']['enable_karma'] && $post_contextObject->getVar('post_karma') > 0) {

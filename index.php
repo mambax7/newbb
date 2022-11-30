@@ -14,7 +14,6 @@ use XoopsModules\Newbb\{
     CategoryHandler,
     Helper,
     ForumHandler,
-    ObjectTree,
     OnlineHandler,
     PostHandler,
     ReportHandler,
@@ -47,7 +46,7 @@ if (Request::getInt('mark_read', 0)) {
 
 $viewcat = Request::getInt('cat', 0, 'GET'); //TODO mb check if this is GET or POST?
 /** @var CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Newbb\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 $categories = [];
 if ($viewcat) {

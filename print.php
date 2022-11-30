@@ -22,7 +22,6 @@ use XoopsModules\Newbb\{
     TopicHandler,
     ForumHandler
 };
-/** @var Post $post */
 /** @var TopicHandler $topicHandler */
 /** @var ForumHandler $forumHandler */
 /** @var PostHandler $postHandler */
@@ -61,6 +60,7 @@ if (Request::getString('post_data', '', 'POST')) {
             exit(_MD_NEWBB_NORIGHTTOVIEW);
         }
         $topic_id         = $post->getVar('topic_id');
+        /** @var Post $post_data */
         $post_data        = $postHandler->getPostForPrint($post);
         $isPost           = 1;
         $post_data['url'] = XOOPS_URL . '/modules/newbb/viewtopic.php?post_id=' . $post_id;

@@ -11,6 +11,8 @@
 
 use Xmf\Request;
 use XoopsModules\Newbb\{
+    Helper,
+    Topic,
     TopicHandler,
     Forum,
     ForumHandler,
@@ -22,6 +24,7 @@ use XoopsModules\Newbb\{
 /** @var ForumHandler $forumHandler */
 /** @var PostHandler $postHandler */
 /** @var Post $postObject */
+
 require_once __DIR__ . '/header.php';
 
 $topic_id = Request::getInt('topic_id', 0, 'POST');
@@ -40,7 +43,7 @@ $op   = Request::getCmd('op', Request::getCmd('op', '', 'POST'), 'GET');
 $op   = in_array($op, ['approve', 'delete', 'restore', 'split'], true) ? $op : '';
 $mode = Request::getInt('mode', 1, 'GET');
 
-if (0 === (is_countable($post_id) ? count($post_id) : 0) || '' === $op) {
+if (0 === (is_countable($post_id) ? count($post_id) : 0) || ('' === $op)) {
     // irmtfan - issue with javascript:history.go(-1)
     redirect_header(Request::getString('HTTP_REFERER', '', 'SERVER'), 2, \_MD_NEWBB_NO_SELECTION);
 }
@@ -53,12 +56,13 @@ if (0 === (is_countable($post_id) ? count($post_id) : 0) || '' === $op) {
 if (0 === $topic_id) {
     $forumObject = null;
 } else {
+    /** @var Topic $topicObject */
     $topicObject = $topicHandler->get($topic_id);
     $forum_id    = $topicObject->getVar('forum_id');
     $forumObject = $forumHandler->get($forum_id);
 }
 
-$isAdmin = null;
+$isAdmin = false;
 if (assert($forumObject instanceof Forum)) {
     $isAdmin = newbbIsAdmin($forumObject);
 }
@@ -66,6 +70,7 @@ if (assert($forumObject instanceof Forum)) {
 if (!$isAdmin) {
     redirect_header(XOOPS_URL . '/index.php', 2, _MD_NEWBB_NORIGHTTOACCESS);
 }
+
 
 $post_update2 = null;
 switch ($op) {
@@ -99,10 +104,10 @@ switch ($op) {
         $topics      = [];
         $forums      = [];
         $criteria    = new \Criteria('post_id', '(' . implode(',', $post_id) . ')', 'IN');
-        $postsObject = $postHandler->getObjects($criteria, true);
+        $postArray = $postHandler->getObjects($criteria, true);
         foreach ($post_id as $post) {
             /** @var Post $postObject */
-            $postObject = $postsObject[$post];
+            $postObject = $postArray[$post];
             assert($postObject instanceof Post);
             if (!empty($topic_id) && $topic_id !== $postObject->getVar('topic_id')) {
                 continue;
@@ -133,19 +138,19 @@ switch ($op) {
         $notificationHandler = xoops_getHandler('notification');
         foreach ($post_id as $post) {
             $tags = [];
-            /** @var Post[] $postsObject [$post] */
-            $tags['THREAD_NAME'] = $topic_list[$postsObject[$post]->getVar('topic_id')];
-            $tags['THREAD_URL']  = XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/viewtopic.php?topic_id=' . $postsObject[$post]->getVar('topic_id') . '&amp;forum=' . $postsObject[$post]->getVar('forum_id');
-            $tags['FORUM_NAME']  = $forum_list[$postsObject[$post]->getVar('forum_id')];
-            $tags['FORUM_URL']   = XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/viewforum.php?forum=' . $postsObject[$post]->getVar('forum_id');
-            $tags['POST_URL']    = $tags['THREAD_URL'] . '&topic_id=' . $postsObject[$post]->getVar('topic_id') . '#forumpost' . $post;
-            $notificationHandler->triggerEvent('thread', $postsObject[$post]->getVar('topic_id'), 'new_post', $tags);
-            $notificationHandler->triggerEvent('forum', $postsObject[$post]->getVar('forum_id'), 'new_post', $tags);
+            /** @var Post[] $postArray [$post] */
+            $tags['THREAD_NAME'] = $topic_list[$postArray[$post]->getVar('topic_id')];
+            $tags['THREAD_URL']  = XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/viewtopic.php?topic_id=' . $postArray[$post]->getVar('topic_id') . '&amp;forum=' . $postArray[$post]->getVar('forum_id');
+            $tags['FORUM_NAME']  = $forum_list[$postArray[$post]->getVar('forum_id')];
+            $tags['FORUM_URL']   = XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/viewforum.php?forum=' . $postArray[$post]->getVar('forum_id');
+            $tags['POST_URL']    = $tags['THREAD_URL'] . '&topic_id=' . $postArray[$post]->getVar('topic_id') . '#forumpost' . $post;
+            $notificationHandler->triggerEvent('thread', $postArray[$post]->getVar('topic_id'), 'new_post', $tags);
+            $notificationHandler->triggerEvent('forum', $postArray[$post]->getVar('forum_id'), 'new_post', $tags);
             $notificationHandler->triggerEvent('global', 0, 'new_post', $tags);
-            $tags['POST_CONTENT'] = $postsObject[$post]->getVar('post_text');
-            $tags['POST_NAME']    = $postsObject[$post]->getVar('subject');
+            $tags['POST_CONTENT'] = $postArray[$post]->getVar('post_text');
+            $tags['POST_NAME']    = $postArray[$post]->getVar('subject');
             $notificationHandler->triggerEvent('global', 0, 'new_fullpost', $tags);
-            $notificationHandler->triggerEvent('forum', $postsObject[$post]->getVar('forum_id'), 'new_fullpost', $tags);
+            $notificationHandler->triggerEvent('forum', $postArray[$post]->getVar('forum_id'), 'new_fullpost', $tags);
         }
         break;
     case 'delete':
@@ -177,7 +182,7 @@ switch ($op) {
         if ((is_array($post_id) && 0 === count($post_id)) || $postObject->isTopic()) {
             break;
         }
-        $topic_id = $postObject->getVar('topic_id');
+        $topic_id = (int)$postObject->getVar('topic_id');
 
         $newtopic = $topicHandler->create();
         $newtopic->setVar('topic_title', $postObject->getVar('subject'), true);
@@ -198,7 +203,7 @@ switch ($op) {
         /* split a single post */
         if (1 === $mode) {
             $criteria = new \CriteriaCompo(new \Criteria('topic_id', (string)$topic_id));
-            $criteria->add(new \Criteria('pid', (string)$post_id));
+            $criteria->add(new \Criteria('pid', $post_id));
             $postHandler->updateAll('pid', $pid, $criteria, true);
             /* split a post and its children posts */
         } elseif (2 === $mode) {
@@ -212,7 +217,7 @@ switch ($op) {
             /* split a post and all posts coming after */
         } elseif (3 === $mode) {
             $criteria = new \CriteriaCompo(new \Criteria('topic_id', (string)$topic_id));
-            $criteria->add(new \Criteria('post_id', (string)$post_id, '>'));
+            $criteria->add(new \Criteria('post_id', $post_id, '>'));
             $postHandler->updateAll('topic_id', $new_topic_id, $criteria, true);
 
             unset($criteria);

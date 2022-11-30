@@ -25,10 +25,10 @@ class KarmaHandler
 
     /**
      * Placeholder for calculating user karma
-     * @param \XoopsUser|null $user
+     * @param \XoopsUser|string|null $user
      * @return int
      */
-    public function calculateUserKarma(\XoopsUser $user = null): int
+    public function calculateUserKarma($user = null): int
     {
         if (\is_object($user)) {
             $user_karma = $user->getVar('posts') * 50;

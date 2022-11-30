@@ -45,7 +45,8 @@ class Utility extends Common\SysUtility
         }
 
         if ($GLOBALS['xoopsUser']) {
-            $newbbIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
+//            $newbbIsAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
+            $newbbIsAdmin = $helper->isUserAdmin();
         } else {
             $newbbIsAdmin = false;
         }

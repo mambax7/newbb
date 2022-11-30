@@ -194,9 +194,9 @@ class PostHandler extends \XoopsPersistableObjectHandler
     /**
      * @param \XoopsObject $object Post Object
      * @param bool $force
-     * @return bool
+     * @return bool|int
      */
-    public function insert(\XoopsObject $object, $force = true): bool //insert(&$object, $force = true)
+    public function insert(\XoopsObject $object, $force = true) //insert(&$object, $force = true)
     {
         /** @var Post $post */
         $post        = $object;

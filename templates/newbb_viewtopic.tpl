@@ -71,7 +71,7 @@
     <{if $quickreply.show}>
     <div class="modal fade bs-example-modal-sm container" id="replyquick" tabindex="-1" role="dialog" aria-labelledby="replyquick">
         <div class="modal-dialog btn-bottom" role="document">
-            <div class="modal-content modal-body"><button type="button" class="btn btn-default" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&amp;times;</span></button>
+            <div class="modal-content modal-body"><button type="button" class="btn btn-default" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <{$quickreply.form|default:''}>
             </div>
         </div>

@@ -33,7 +33,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function getIdsByPermission(?string $perm): array
     {
         $perm ??= 'access';
-        /** var Newbb\PermissionHandler $permHandler */
+        /** var PermissionHandler $permHandler */
         $permHandler = Helper::getInstance()
                              ->getHandler('Permission');
 
@@ -97,7 +97,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         if (!($category instanceof $className)) {
             return false;
         }
-        /** @var Newbb\ForumHandler $forumHandler */
+        /** @var ForumHandler $forumHandler */
         $forumHandler = Helper::getInstance()->getHandler('Forum');
         $forumHandler->deleteAll(new \Criteria('cat_id', $category->getVar('cat_id')), true, true);
         $result = parent::delete($category);
@@ -134,9 +134,9 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param Category $category
-     * @return mixed
+     * @return bool
      */
-    public function deletePermission(Category $category)
+    public function deletePermission(Category $category): bool
     {
         /** @var PermissionHandler $permHandler */
         $permHandler = Helper::getInstance()->getHandler('Permission');
