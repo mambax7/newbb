@@ -478,7 +478,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
         // LEFT JOIN
         $sql .= $join;
         // WHERE
-        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
+         if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
@@ -510,7 +510,7 @@ class PostHandler extends \XoopsPersistableObjectHandler
         if (!empty($join)) {
             $sql .= $join;
         }
-        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
+         if (\is_object($criteria) && \is_subclass_of($criteria, \CriteriaElement::class)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' !== $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
