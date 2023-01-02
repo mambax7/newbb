@@ -397,7 +397,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
 
                             //BigKev73 > Adding this code to support jumping to the next post after the LastReadPost, otherwise we could end up on the prior page
                             // if the lastread post is not on the last page and the next new post. Added getNextPostId to topichandler to support this
-                            $nextPostID = $topicHandler->getNextPostId($myrow['topic_id'], $lastRead);
+                            $nextPostID = $topicHandler->getNextPostId((int)$myrow['topic_id'], $lastRead);
                             if (!empty($nextPostID)) {
                                 $topicLink = 'viewtopic.php?topic_id=' . $myrow['topic_id'] . '&amp;post_id=' . $nextPostID . '#forumpost' . $nextPostID;
                                 print('LastRead=' . $lastRead . ', NextPostID= ' . $nextPostID);

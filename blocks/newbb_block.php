@@ -153,7 +153,7 @@ function b_newbb_show(array $options )
     }
 
     require_once \dirname(__DIR__) . '/include/functions.user.php';
-    $author_name = newbbGetUnameFromIds(array_keys($author), $newbbConfig['show_realname'], true);
+    $author_name = newbbGetUnameFromIds(array_keys($author), (bool)$newbbConfig['show_realname'], true);
 
     $type_list = null;
     if (count($types) > 0) {
@@ -182,7 +182,7 @@ function b_newbb_show(array $options )
         $topic['title']   = $topic['topic_subject'] . ' ' . $title;
         $topic['replies'] = $arr['topic_replies'];
         $topic['views']   = $arr['topic_views'];
-        $topic['time']    = newbbFormatTimestamp($arr['post_time']);
+        $topic['time']    = newbbFormatTimestamp((int)$arr['post_time']);
         if (!empty($author_name[$arr['uid']])) {
             $topic_poster = $author_name[$arr['uid']];
         } else {
@@ -416,7 +416,7 @@ function b_newbb_post_show(array $options ): array
     $extraCriteria = '';
     $time_criteria = null;
     if (!empty($options[2])) {
-        $time_criteria = time() - newbbGetSinceTime($options[2]);
+        $time_criteria = time() - newbbGetSinceTime((int)$options[2]);
         $extraCriteria = ' AND p.post_time>' . $time_criteria;
     }
 
