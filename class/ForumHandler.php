@@ -26,11 +26,16 @@ use XoopsModules\Newbb;
 class ForumHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     * @param null|\XoopsDatabase $db
+     * @param \XoopsDatabase $db
+     * @param \XoopsModule $module
+     * @param \MyTextSanitizer $myts
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db, \XoopsModule $module, \MyTextSanitizer $myts)
     {
         parent::__construct($db, 'newbb_forums', Forum::class, 'forum_id', 'forum_name');
+        $this->db = $db;
+        $this->module = $module;
+        $this->myts = $myts;
     }
 
     /**
@@ -61,10 +66,9 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $object, $force = false): bool //delete(&$object)
     {
-        global $xoopsModule;
         $forum = $object;
         // RMV-NOTIFY
-        \xoops_notification_deletebyitem($xoopsModule->getVar('mid'), 'forum', $forum->getVar('forum_id'));
+        \xoops_notification_deletebyitem($this->module->getVar('mid'), 'forum', $forum->getVar('forum_id'));
         // Get list of all topics in forum, to delete them too
         /** @var TopicHandler $topicHandler */
         $topicHandler = Helper::getInstance()->getHandler('Topic');
@@ -168,7 +172,6 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      */
     public function getAllTopics($forum, array $criteria = null): array
     {
-        global $myts, $viewAllForums, $xoopsUser;
         $startdate = 0;
         $type      = '';
         $status    = '';
@@ -303,6 +306,30 @@ class ForumHandler extends \XoopsPersistableObjectHandler
         $typeHandler = Helper::getInstance()->getHandler('Type');
         $typen       = $typeHandler->getByForum($forum->getVar('forum_id'));
         while (false !== ($myrow = $this->db->fetchArray($result))) {
+            $topics[] = $myrow;
+        }
+
+        return [$topics, $sticky];
+    }
+
+    /**
+     * @param array $topics
+     * @param array $viewAllForums
+     * @param object $forum
+     * @return array
+     */
+    public function renderTopics(array $topics, array $viewAllForums, $forum): array
+    {
+        $sticky = 0;
+        $posters = [];
+        $reads = [];
+        $types = [];
+
+        /** @var TypeHandler $typeHandler */
+        $typeHandler = Helper::getInstance()->getHandler('Type');
+        $typen = $typeHandler->getByForum($forum->getVar('forum_id'));
+
+        foreach ($topics as $myrow) {
             if ($myrow['topic_sticky']) {
                 ++$sticky;
             }
@@ -335,17 +362,17 @@ class ForumHandler extends \XoopsPersistableObjectHandler
             }
             // ------------------------------------------------------
             // topic_page_jump
-            $topic_page_jump      = '';
+            $topic_page_jump = '';
             $topic_page_jump_icon = '';
-            $totalpages           = \ceil(($myrow['topic_replies'] + 1) / $GLOBALS['xoopsModuleConfig']['posts_per_page']);
+            $totalpages = \ceil(($myrow['topic_replies'] + 1) / $GLOBALS['xoopsModuleConfig']['posts_per_page']);
             if ($totalpages > 1) {
                 $topic_page_jump .= '&nbsp;&nbsp;';
-                $append          = false;
+                $append = false;
                 for ($i = 1; $i <= $totalpages; ++$i) {
                     if ($i > 3 && $i < $totalpages) {
                         if (!$append) {
                             $topic_page_jump .= '...';
-                            $append          = true;
+                            $append = true;
                         }
                     } else {
                         //BigKev73 - Made change so link scroll directly to that post
@@ -380,7 +407,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
             } elseif (($myrow['post_karma'] > 0 || $myrow['require_reply'] > 0) && !\newbbIsAdmin($forum)) {
                 $topic_excerpt = '';
             } else {
-                $topic_excerpt = \xoops_substr(\newbbHtml2text($myts->displayTarea($myrow['post_text'])), 0, $excerpt);
+                $topic_excerpt = \xoops_substr(\newbbHtml2text($this->myts->displayTarea($myrow['post_text'])), 0, $excerpt);
                 $topic_excerpt = \str_replace('[', '&#91;', \htmlspecialchars((string) $topic_excerpt, \ENT_QUOTES | \ENT_HTML5));
             }
             // START irmtfan move here
@@ -388,7 +415,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
             //BigKev73 > Adding this code to support jumping directly to the last read post if that value exists for a user, block also would need to change to support same functionality
             $topicLink = 'viewtopic.php?topic_id=' . $myrow['topic_id'];
 
-            if ($xoopsUser) {
+            if ($GLOBALS['xoopsUser']) {
                 $lastRead = \newbbGetRead('topic', (int)$myrow['topic_id']);
                 if (isset($lastRead)) {
                     if (!empty($lastRead)) {
@@ -408,33 +435,33 @@ class ForumHandler extends \XoopsPersistableObjectHandler
             }
 
             $topics[$myrow['topic_id']] = [
-                'topic_id'             => $myrow['topic_id'],
-                'topic_icon'           => $topic_icon,
-                'type_id'              => $myrow['type_id'],
+                'topic_id' => $myrow['topic_id'],
+                'topic_icon' => $topic_icon,
+                'type_id' => $myrow['type_id'],
                 //'type_text'                 => $topic_prefix,/*irmtfan remove here and move to for loop*/
-                'topic_title'          => $topic_title,
+                'topic_title' => $topic_title,
                 //'topic_link'                => XOOPS_URL . '/modules/newbb/viewtopic.php?topic_id=' . $myrow['topic_id'],
                 //'topic_link'           => 'viewtopic.php?topic_id=' . $myrow['topic_id'],
-                'topic_link'           => $topicLink,
-                'rating_img'           => $rating_img,
-                'topic_page_jump'      => $topic_page_jump,
+                'topic_link' => $topicLink,
+                'rating_img' => $rating_img,
+                'topic_page_jump' => $topic_page_jump,
                 'topic_page_jump_icon' => $topic_page_jump_icon,
-                'topic_replies'        => $myrow['topic_replies'],
+                'topic_replies' => $myrow['topic_replies'],
 
                 'topic_digest' => $myrow['topic_digest'],
                 //mb
 
-                'topic_poster_uid'       => $myrow['topic_poster'],
-                'topic_poster_name'      => \htmlspecialchars((string) ((string)$myrow['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous']), \ENT_QUOTES | \ENT_HTML5),
-                'topic_views'            => $myrow['topic_views'],
-                'topic_time'             => \newbbFormatTimestamp((int)$myrow['topic_time']),
-                'topic_last_posttime'    => \newbbFormatTimestamp((int)$myrow['last_post_time']),
-                'topic_last_poster_uid'  => $myrow['uid'],
+                'topic_poster_uid' => $myrow['topic_poster'],
+                'topic_poster_name' => \htmlspecialchars((string) ((string)$myrow['poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous']), \ENT_QUOTES | \ENT_HTML5),
+                'topic_views' => $myrow['topic_views'],
+                'topic_time' => \newbbFormatTimestamp((int)$myrow['topic_time']),
+                'topic_last_posttime' => \newbbFormatTimestamp((int)$myrow['last_post_time']),
+                'topic_last_poster_uid' => $myrow['uid'],
                 'topic_last_poster_name' => \htmlspecialchars((string) ((string)$myrow['last_poster_name'] ?: $GLOBALS['xoopsConfig']['anonymous']), \ENT_QUOTES | \ENT_HTML5),
-                'topic_forum_link'       => $forum_link,
-                'topic_excerpt'          => $topic_excerpt,
-                'stick'                  => empty($myrow['topic_sticky']),
-                'stats'                  => [
+                'topic_forum_link' => $forum_link,
+                'topic_excerpt' => $topic_excerpt,
+                'stick' => empty($myrow['topic_sticky']),
+                'stats' => [
                     $myrow['topic_status'],
                     $myrow['topic_digest'],
                     $myrow['topic_replies'],
@@ -447,7 +474,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
             // END irmtfan move here
             /* users */
             $posters[$myrow['topic_poster']] = 1;
-            $posters[$myrow['uid']]          = 1;
+            $posters[$myrow['uid']] = 1;
             // reads
             if (!empty($GLOBALS['xoopsModuleConfig']['read_mode'])) {
                 $reads[$myrow['topic_id']] = (1 == $GLOBALS['xoopsModuleConfig']['read_mode']) ? $myrow['last_post_time'] : $myrow['topic_last_post_id'];
@@ -464,23 +491,23 @@ class ForumHandler extends \XoopsPersistableObjectHandler
                 $topics[$id]['topic_title'] = \getTopicTitle($topics[$id]['topic_title'], $typen[$topics[$id]['type_id']]['type_name'], $typen[$topics[$id]['type_id']]['type_color']);
             }
             //$topic_prefix =  (!empty($typen[$myrow['type_id']])) ? getTopicTitle("", $typen[$myrow['type_id']]["type_name"], $typen[$myrow['type_id']]["type_color"]) : "";
-            $topics[$id]['topic_poster']      = !empty($posters_name[$topics[$id]['topic_poster_uid']]) ? $posters_name[$topics[$id]['topic_poster_uid']] : $topics[$id]['topic_poster_name'];
+            $topics[$id]['topic_poster'] = !empty($posters_name[$topics[$id]['topic_poster_uid']]) ? $posters_name[$topics[$id]['topic_poster_uid']] : $topics[$id]['topic_poster_name'];
             $topics[$id]['topic_last_poster'] = !empty($posters_name[$topics[$id]['topic_last_poster_uid']]) ? $posters_name[$topics[$id]['topic_last_poster_uid']] : $topics[$id]['topic_last_poster_name'];
 
             // ------------------------------------------------------
             // topic_folder: priority: newhot -> hot/new -> regular
             [$topic_status, $topic_digest, $topic_replies] = $topics[$id]['stats'];
             if (1 == $topic_status) {
-                $topic_folder      = 'topic_locked';
+                $topic_folder = 'topic_locked';
                 $topic_folder_text = \_MD_NEWBB_TOPICLOCKED;
             } elseif ($topic_digest) {
-                $topic_folder      = 'topic_digest';
+                $topic_folder = 'topic_digest';
                 $topic_folder_text = \_MD_NEWBB_TOPICDIGEST;
             } elseif ($topic_replies >= $hot_threshold) {
-                $topic_folder      = empty($topic_isRead[$id]) ? 'topic_hot_new' : 'topic_hot';
+                $topic_folder = empty($topic_isRead[$id]) ? 'topic_hot_new' : 'topic_hot';
                 $topic_folder_text = empty($topic_isRead[$id]) ? \_MD_NEWBB_MORETHAN : \_MD_NEWBB_MORETHAN2;
             } else {
-                $topic_folder      = empty($topic_isRead[$id]) ? 'topic_new' : 'topic';
+                $topic_folder = empty($topic_isRead[$id]) ? 'topic_new' : 'topic';
                 $topic_folder_text = empty($topic_isRead[$id]) ? \_MD_NEWBB_NEWPOSTS : \_MD_NEWBB_NONEWPOSTS;
             }
             $topics[$id]['topic_folder'] = \newbbDisplayImage($topic_folder, $topic_folder_text);
@@ -488,7 +515,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
         } // irmtfan end for loop
         // END irmtfan move to a for loop
         if (\count($topics) > 0) {
-            $sql    = ' SELECT DISTINCT topic_id FROM ' . $this->db->prefix('newbb_posts') . " WHERE attachment != ''" . ' AND topic_id IN (' . \implode(',', \array_keys($topics)) . ')';
+            $sql = ' SELECT DISTINCT topic_id FROM ' . $this->db->prefix('newbb_posts') . " WHERE attachment != ''" . ' AND topic_id IN (' . \implode(',', \array_keys($topics)) . ')';
             $result = $this->db->query($sql);
             if ($this->db->isResultSet($result)) {
                 while ([$topic_id] = $this->db->fetchRow($result)) {
@@ -496,8 +523,7 @@ class ForumHandler extends \XoopsPersistableObjectHandler
                 }
             }
         }
-
-        return [$topics, $sticky];
+        return $topics;
     }
 
     /**
@@ -598,7 +624,6 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      */
     public function getPermission($forum, string $type = 'access', bool $checkCategory = true): bool
     {
-        global $xoopsModule;
         static $_cachedPerms;
 
         if ('all' === $type) {
@@ -750,9 +775,8 @@ class ForumHandler extends \XoopsPersistableObjectHandler
         if (!$object->getVar('forum_id')) {
             return false;
         }
-        $sql = 'SELECT MAX(post_id) AS last_post, COUNT(*) AS total FROM ' . $this->db->prefix('newbb_posts') . ' AS p LEFT JOIN  ' . $this->db->prefix('newbb_topics') . ' AS t ON p.topic_id=t.topic_id WHERE p.approved=1 AND t.approved=1 AND p.forum_id = ' . $object->getVar('forum_id');
-
-        $result = $this->db->query($sql);
+        $sql = 'SELECT MAX(post_id) AS last_post, COUNT(*) AS total FROM ' . $this->db->prefix('newbb_posts') . ' AS p LEFT JOIN  ' . $this->db->prefix('newbb_topics') . ' AS t ON p.topic_id=t.topic_id WHERE p.approved=1 AND t.approved=1 AND p.forum_id = ?';
+        $result = $this->db->query($sql, [$object->getVar('forum_id')]);
         if ($this->db->isResultSet($result)) {
             $last_post = 0;
             $posts     = 0;
@@ -769,8 +793,8 @@ class ForumHandler extends \XoopsPersistableObjectHandler
             }
         }
 
-        $sql    = 'SELECT COUNT(*) AS total FROM ' . $this->db->prefix('newbb_topics') . ' WHERE approved=1 AND forum_id = ' . $object->getVar('forum_id');
-        $result = $this->db->query($sql);
+        $sql    = 'SELECT COUNT(*) AS total FROM ' . $this->db->prefix('newbb_topics') . ' WHERE approved=1 AND forum_id = ?';
+        $result = $this->db->query($sql, [$object->getVar('forum_id')]);
         if ($this->db->isResultSet($result)) {
             $row = $this->db->fetchArray($result);
             if ($row) {
@@ -856,8 +880,6 @@ class ForumHandler extends \XoopsPersistableObjectHandler
      */
     public function &display(array $forums, int $length_title_index = 30, int $count_subforum = 1): array
     {
-        global $myts;
-
         $posts       = [];
         $postsObject = [];
         foreach (\array_keys($forums) as $id) {
